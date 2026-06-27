@@ -1,0 +1,53 @@
+# 03 - 表达 DNA 与口头禅 (Expression DNA)
+
+## 典型短指令样本
+- ## Official GSAP best practices
+- ## When to Use This Skill
+- [CODE BLOCK REMOVED]
+- # GSAP Core
+- ### When to recommend GSAP over other JavaScript animation libraries
+- # GSAP Core
+- Relative values work: `x: "+=20"`, `rotation: "-=30"`. Default units: x/y in px, rotation in deg.
+- Complex curve with any number of control points, described as normalized SVG path data:
+- ## 实用技巧
+- ## When to Use GSAP
+- ## Quick Reference
+- gsap.to(".item", {x: 100, ease: myEase, duration: 1}); ```
+- [CODE BLOCK REMOVED]
+- ## When to Apply
+- ## Easing
+- [CODE BLOCK REMOVED]
+- ### 冲突解决
+- ## Easing
+- ### Learn More
+- ## 参考资源
+- ### 3. Debugging (HIGH)
+- ## Defaults
+- [CODE BLOCK REMOVED]
+- 1. **目标用户是谁？**    - 企业用户 → 简洁、专业、高效    - 年轻消费者 → 活泼、大胆、有趣    - 高端客户 → 精致、留白、质感
+- ```javascript const myEase = CustomEase.create("my-ease", ".17,.67,.83,.67");
+- ## Quick Reference
+- [CODE BLOCK REMOVED]
+- ## Relative values
+- ## Returning and Controlling Tweens
+- Simple cubic-bezier values (as used in CSS `cubic-bezier()`):
+- ## Core Tween Methods
+- Budget: - Tokens used: 0 - Token budget: none - Tokens remaining: unbounded
+- ```bash # 使用合并工具 git mergetool
+- - 运行与修改范围匹配的测试、lint、类型检查或文档检查。 - 至少运行 `git diff --check`。 - 对照任务目标逐项确认验收证据。 - 说明未运行的测试及原因。
+- ## Returning and Controlling Tweens
+- [CODE BLOCK REMOVED]
+- - 设计任何用户界面时需要专业参考 - 选择配色方案（品牌色、功能色、中性色） - 挑选字体组合（标题+正文） - 设计数据可视化图表 - 需要 UX 最佳实践指导 - 寻找特定行业/风格的设计灵感
+- Set project-wide Tween defaults with **gsap.defaults()**:
+- ## 实用技巧
+- ## Full Compiled Document
+- ## Targets
+- https://gsap.com/resources/getting-started/Staggers
+- 除非用户明确要求只讨论方案，否则必须把任务推进到可验证、可交付的状态，再给出最终答复。
+- **Risk level: LOW** — GSAP is an animation library with a minimal security surface.
+- ## 专业提示
+- ## Do Not
+- ## Returning and Controlling Tweens
+- - `systematic-debugging` - Four-phase root cause investigation before fixes
+- **Transform aliases (prefer over translateX(), rotate(), etc.):**
+- Simple cubic-bezier values (as used in CSS `cubic-bezier()`):
