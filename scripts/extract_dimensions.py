@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import re
 from collections import Counter
@@ -18,7 +19,9 @@ def extract_prompts(antigravity_file, codex_file):
         with open(codex_file, 'r', encoding='utf-8') as f:
             # We assume codex prompts are separated by newlines or are just raw text.
             # Some might be huge. Let's read blocks separated by empty lines.
-            blocks = f.read().split('\n\n')
+            blocks = f.read().split('
+
+')
             for b in blocks:
                 b = b.strip()
                 if b and not b.startswith('{'):
@@ -64,32 +67,51 @@ def process_and_save():
     # Save 01-writings.md (sample top 20 longest)
     writings.sort(key=len, reverse=True)
     with open(os.path.join(base_dir, '01-writings.md'), 'w') as f:
-        f.write("# 01 - 系统性输出与架构设计 (Writings)\n\n")
+        f.write("# 01 - 系统性输出与架构设计 (Writings)
+
+")
         for i, w in enumerate(writings[:30]):
-            f.write(f"## 核心输出 {i+1}\n{w}\n\n")
+            f.write(f"## 核心输出 {i+1}
+{w}
+
+")
             
     # Save 02-conversations.md (sample random 30)
     import random
     random.seed(42)
     sample_convs = random.sample(conversations, min(40, len(conversations)))
     with open(os.path.join(base_dir, '02-conversations.md'), 'w') as f:
-        f.write("# 02 - 日常互动与调试 (Conversations)\n\n")
+        f.write("# 02 - 日常互动与调试 (Conversations)
+
+")
         for i, c in enumerate(sample_convs):
-            f.write(f"## 互动 {i+1}\n{c}\n\n")
+            f.write(f"## 互动 {i+1}
+{c}
+
+")
             
     # Save 03-expression-dna.md (extract top phrases and sample short commands)
     with open(os.path.join(base_dir, '03-expression-dna.md'), 'w') as f:
-        f.write("# 03 - 表达 DNA 与口头禅 (Expression DNA)\n\n")
-        f.write("## 典型短指令样本\n")
+        f.write("# 03 - 表达 DNA 与口头禅 (Expression DNA)
+
+")
+        f.write("## 典型短指令样本
+")
         sample_dna = random.sample(dna_candidates, min(50, len(dna_candidates)))
         for d in sample_dna:
-            f.write(f"- {d.replace(chr(10), ' ')}\n")
+            f.write(f"- {d.replace(chr(10), ' ')}
+")
             
     # Save 05-decisions.md (all identified decisions)
     with open(os.path.join(base_dir, '05-decisions.md'), 'w') as f:
-        f.write("# 05 - 关键技术与架构决策 (Decisions)\n\n")
+        f.write("# 05 - 关键技术与架构决策 (Decisions)
+
+")
         for i, d in enumerate(decisions[:30]):
-            f.write(f"## 决策/判定 {i+1}\n{d}\n\n")
+            f.write(f"## 决策/判定 {i+1}
+{d}
+
+")
 
     print("Extraction complete.")
 

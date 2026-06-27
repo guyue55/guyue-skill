@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import re
 from collections import defaultdict
@@ -12,7 +13,9 @@ def extract_prompts(antigravity_file, codex_file):
             
     if os.path.exists(codex_file):
         with open(codex_file, 'r', encoding='utf-8') as f:
-            blocks = f.read().split('\n\n')
+            blocks = f.read().split('
+
+')
             for b in blocks:
                 b = b.strip()
                 if b and not b.startswith('{'):
@@ -46,9 +49,15 @@ for cat, texts in samples.items():
     elif cat == "documentation": filename = "10-documentation.md"
     
     with open(os.path.join(base_dir, filename), 'w', encoding='utf-8') as f:
-        f.write(f"# {cat.upper()} Corpus\n\n")
+        f.write(f"# {cat.upper()} Corpus
+
+")
         # Keep longest 100 prompts to avoid huge files
         for t in sorted(texts, key=len, reverse=True)[:100]:
-            f.write(t + "\n\n---\n\n")
+            f.write(t + "
+
+---
+
+")
 
 print("Files generated successfully.")
