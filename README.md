@@ -29,6 +29,8 @@
 
 ## 快速开始
 
+![Demo](assets/demo.gif)
+
 ### 方式 1：一键安装 (推荐)
 
 如果你使用的是支持 Skills 体系的 Agent（如 Claude Code, OpenClaw）：

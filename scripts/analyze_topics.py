@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import re
 from collections import defaultdict
@@ -12,7 +13,9 @@ def extract_prompts(antigravity_file, codex_file):
             
     if os.path.exists(codex_file):
         with open(codex_file, 'r', encoding='utf-8') as f:
-            blocks = f.read().split('\n\n')
+            blocks = f.read().split('
+
+')
             for b in blocks:
                 b = b.strip()
                 if b and not b.startswith('{'):
@@ -41,7 +44,8 @@ for p in prompts:
             counts[cat] += 1
             if len(samples[cat]) < 3 and len(p) > 20:
                 clean_p = re.sub(r'```.*?```', '[CODE]', p, flags=re.DOTALL)
-                samples[cat].append(clean_p[:150].replace('\n', ' '))
+                samples[cat].append(clean_p[:150].replace('
+', ' '))
 
 print("=== Potential Skills Distribution ===")
 for cat, count in sorted(counts.items(), key=lambda x: x[1], reverse=True):

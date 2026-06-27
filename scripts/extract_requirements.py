@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import re
 
@@ -12,7 +13,9 @@ def extract_prompts(antigravity_file, codex_file):
             
     if os.path.exists(codex_file):
         with open(codex_file, 'r', encoding='utf-8') as f:
-            blocks = f.read().split('\n\n')
+            blocks = f.read().split('
+
+')
             for b in blocks:
                 b = b.strip()
                 if b and not b.startswith('{'):
@@ -55,9 +58,14 @@ def process_and_save():
     sample_reqs = requirements[:50]
     
     with open(os.path.join(base_dir, '07-requirements.md'), 'w') as f:
-        f.write("# 07 - 需求分析与梳理 (Requirements Analysis)\n\n")
+        f.write("# 07 - 需求分析与梳理 (Requirements Analysis)
+
+")
         for i, r in enumerate(sample_reqs):
-            f.write(f"## 需求场景记录 {i+1}\n{r}\n\n")
+            f.write(f"## 需求场景记录 {i+1}
+{r}
+
+")
 
     print(f"Extraction complete. Found {len(requirements)} relevant requirement prompts.")
 
