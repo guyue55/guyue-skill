@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Trigger Root Orchestrator (Implicit)",
+    "prompt": "我们要新加一个积分商城功能，你直接帮我把前后端代码写好。",
+    "expected_behavior": "Should trigger guyue-perspective root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis` and `research-and-sourcing` to prevent hallucination and clarify boundaries before any code generation."
+  },
+  {
+    "name": "Trigger Debugging Mindset",
+    "prompt": "线上接口挂了，报了500，是不是数据库超时了？帮我写一段重试代码包一下。",
+    "expected_behavior": "Should trigger `debugging-mindset`. Agent must refuse to write retry code based on guessing. It should ask for logs, build an RCA matrix (Symptom -> Hypothesis -> Validation Action), and instruct the user how to fetch the exact error stack."
+  },
+  {
+    "name": "Trigger System Design (HITL)",
+    "prompt": "需求调研完了，现在开始重构底层的权限鉴权模块吧，把代码给我。",
+    "expected_behavior": "Should trigger `system-design`. Agent must NOT write code immediately. It should output a high-level architecture plan (Plan-then-Execute) applying the DEPTH framework and halt with a `[等待用户确认]` prompt."
+  },
+  {
+    "name": "Trigger Documentation",
+    "prompt": "我们刚重构完订单模块，帮我写个文档。",
+    "expected_behavior": "Should trigger `documentation`. Agent should output an RTFD-aligned, structured markdown document utilizing GitHub alerts and concise bullet points. It should not produce a wall of unformatted text."
+  },
+  {
+    "name": "Trigger Research and Sourcing",
+    "prompt": "打算引入一个专门处理并发队列的开源库，有什么推荐的最新方案吗？",
+    "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library."
+  }
+]
