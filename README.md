@@ -2,6 +2,7 @@
 
 > 一句话钩子：不要再让 AI 像黑盒一样盲目瞎写代码了。给你的智能体装上这套“重工业级开发纪律套件”，让它学会停下来调研、懂得分层设计、并严格自证清白。
 
+[![skills.sh](https://skills.sh/b/guyue55/guyue-perspective)](https://skills.sh/guyue55/guyue-perspective)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue--perspective-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Router_%2B_5_Specialties-success)
 ![Status](https://img.shields.io/badge/Status-Production_Ready-success)
@@ -28,14 +29,22 @@
 
 ## 快速开始
 
-如果你的 AI Agent 支持技能注入（如 Claude Code, OpenClaw, Gemini 等），你只需将本仓库克隆到你的本地技能目录即可。
+### 方式 1：一键安装 (推荐)
+
+如果你使用的是支持 Skills 体系的 Agent（如 Claude Code, OpenClaw）：
+
+```bash
+npx skills add guyue55/guyue-perspective
+```
+
+### 方式 2：本地克隆
 
 ```bash
 # 1. 进入你的 agent 技能目录
 cd ~/.gemini/config/skills/  # (以你的实际 Agent 技能路径为准)
 
 # 2. 克隆本套件
-git clone https://github.com/your-username/guyue-perspective.git
+git clone https://github.com/guyue55/guyue-perspective.git
 
 # 3. 技能将自动生效，全局守护你的每一次代码生成！
 ```

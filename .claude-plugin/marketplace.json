@@ -1,0 +1,1 @@
+{ "name": "guyue-perspective", "version": "1.0.0", "description": "Agent persona and decision-making framework based on guyue.", "entrypoint": "SKILL.md", "tags": ["agent", "persona", "framework", "architecture"] }
