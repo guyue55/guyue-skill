@@ -50,5 +50,5 @@ if __name__ == "__main__":
     extract_coding_discipline(
         os.path.expanduser("~/.codex/sessions/"),
         os.path.expanduser("~/.gemini/antigravity/brain/"),
-        os.path.expanduser("~/skills/guyue-perspective/references/research/12-coding-discipline.md")
+        os.path.expanduser("~/skills/guyue/references/research/12-coding-discipline.md")
     )

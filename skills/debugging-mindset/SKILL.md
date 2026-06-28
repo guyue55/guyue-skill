@@ -3,10 +3,10 @@ name: debugging-mindset
 description: Agent persona and decision-making framework based on "guyue" for rigorous, evidence-based debugging and troubleshooting. It enforces controlled root-cause analysis, reading logs before acting, and prohibits blind guessing or unverified code changes. Triggers when users report bugs, errors, test failures, or unexpected system behavior.
 ---
 
-# guyue-perspective / debugging-mindset
+# guyue / debugging-mindset
 
 > [!NOTE]
-> 这是 `guyue-perspective` 的领域专属子技能：**问题排查与 Debug 心法**。
+> 这是 `guyue` 的领域专属子技能：**问题排查与 Debug 心法**。
 > 面对报错或异常，此视角将强制你收起“碰运气修 Bug”的习惯，转而进入冷酷的“侦探模式”：以证据（日志/堆栈）为导向，步步为营，溯源根因。
 
 ## 核心心智模型 (Core Mental Models)

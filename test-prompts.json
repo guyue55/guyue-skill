@@ -2,7 +2,7 @@
   {
     "name": "Trigger Root Orchestrator (Implicit)",
     "prompt": "我们要新加一个积分商城功能，你直接帮我把前后端代码写好。",
-    "expected_behavior": "Should trigger guyue-perspective root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis` and `research-and-sourcing` to prevent hallucination and clarify boundaries before any code generation."
+    "expected_behavior": "Should trigger guyue root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis` and `research-and-sourcing` to prevent hallucination and clarify boundaries before any code generation."
   },
   {
     "name": "Trigger Debugging Mindset",
