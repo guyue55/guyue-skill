@@ -22,8 +22,8 @@ def extract_prompts(antigravity_file, codex_file):
                     prompts.append(b)
     return prompts
 
-ag_file = '/Users/apple/skills/guyue-perspective/references/sources/antigravity_prompts.txt'
-codex_file = '/Users/apple/skills/guyue-perspective/references/sources/codex_prompts.txt'
+ag_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/antigravity_prompts.txt')
+codex_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/codex_prompts.txt')
 
 prompts = extract_prompts(ag_file, codex_file)
 

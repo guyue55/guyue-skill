@@ -16,7 +16,7 @@
 
 `guyue-perspective` 不是一个简单的“提示词”，它是一个**重工业级的防爆智能体开发套件 (Skill Suite)**。它将一位资深架构师的严苛纪律注入到了 AI 的血液中。
 
-## 核心矩阵：1 个路由中枢 + 5 大垂直专精
+## 核心矩阵：1 个路由中枢 + 6 大垂直专精
 
 本套件采用多智能体路由架构（Multi-Agent Orchestrator），主干会自动拦截你的意图，并派发给最专业的子心智：
 
@@ -24,6 +24,7 @@
 - 🔍 **前置调研 (research-and-sourcing)**：收到新需求时，**强制停手**，必须先去联网获取最新官方文档或对标高星开源项目。
 - 🤔 **需求反问 (requirement-analysis)**：采用 WISER 框架，拒绝单向接受需求，强制通过链式反问挖掘边界和异常流。
 - 🏛️ **系统设计 (system-design)**：采用 DEPTH 框架，强制执行 Human-in-the-Loop 审批，不看到高维度架构方案前，拒绝写一行代码。
+- 💻 **开发纪律 (coding-discipline)**：进入编码阶段时，强制执行高内聚低耦合的架构规范，并默认应用前端/UI最佳实践。
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
 - 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README 或架构决策记录。
 
@@ -83,11 +84,12 @@ guyue-perspective/
 ├── test-prompts.json        # 预设的干跑测试用例
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀
-└── skills/                  # 五大垂直专精子技能
+└── skills/                  # 六大垂直专精子技能
     ├── requirement-analysis/
     ├── system-design/
     ├── debugging-mindset/
     ├── documentation/
+    ├── coding-discipline/
     └── research-and-sourcing/
 ```
 
@@ -101,7 +103,7 @@ guyue-perspective/
 │  打磨前：杂乱的私有提示词集，缺少引导与传播属性 │
 │  打磨后：结构化、套件化的防爆工业级 AI 插件     │
 │  定位：重工业级 AI 开发纪律套件                 │
-│  绝活：Router + 5 大垂直防爆心智联合阵线        │
+│  绝活：Router + 6 大垂直防爆心智联合阵线        │
 │                                               │
 │  验收师傅：鲁班                                 │
 └───────────────────────────────────────────────┘

@@ -22,8 +22,8 @@ def extract_prompts(antigravity_file, codex_file):
                     prompts.append(b)
     return prompts
 
-ag_file = '/Users/apple/skills/guyue-perspective/references/sources/antigravity_prompts.txt'
-codex_file = '/Users/apple/skills/guyue-perspective/references/sources/codex_prompts.txt'
+ag_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/antigravity_prompts.txt')
+codex_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/codex_prompts.txt')
 prompts = extract_prompts(ag_file, codex_file)
 
 categories = {
@@ -42,7 +42,7 @@ for p in prompts:
                 samples[cat].append(clean_p)
 
 # Write output files
-base_dir = '/Users/apple/skills/guyue-perspective/references/research/'
+base_dir = os.path.expanduser('~/skills/guyue-perspective/references/research/')
 for cat, texts in samples.items():
     if cat == "system-design": filename = "08-system-design.md"
     elif cat == "debugging-mindset": filename = "09-debugging-mindset.md"

@@ -27,11 +27,11 @@ def clean_code_blocks(text):
     return re.sub(r'```.*?```', '[CODE BLOCK REMOVED]', text, flags=re.DOTALL)
 
 def process_and_save():
-    base_dir = '/Users/apple/skills/guyue-perspective/references/research/'
+    base_dir = os.path.expanduser('~/skills/guyue-perspective/references/research/')
     os.makedirs(base_dir, exist_ok=True)
     
-    ag_file = '/Users/apple/skills/guyue-perspective/references/sources/antigravity_prompts.txt'
-    codex_file = '/Users/apple/skills/guyue-perspective/references/sources/codex_prompts.txt'
+    ag_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/antigravity_prompts.txt')
+    codex_file = os.path.expanduser('~/skills/guyue-perspective/references/sources/codex_prompts.txt')
     
     prompts = extract_prompts(ag_file, codex_file)
     print(f"Total prompts extracted: {len(prompts)}")
