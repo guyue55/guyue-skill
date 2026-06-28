@@ -12,6 +12,12 @@ def print_status(msg, is_error=False):
 
 def check_dependencies():
     manifest_path = Path(__file__).parent.parent / "skills_manifest.json"
+    principles_path = Path(__file__).parent.parent / "GUYUE_PRINCIPLES.md"
+    
+    if not principles_path.exists():
+        print_status("GUYUE_PRINCIPLES.md not found. Architecture broken.", is_error=True)
+        sys.exit(1)
+        
     if not manifest_path.exists():
         print_status("skills_manifest.json not found", is_error=True)
         sys.exit(1)
