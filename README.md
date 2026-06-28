@@ -30,17 +30,35 @@
 
 ## 快速开始
 
-![Demo](assets/demo.gif)
+**作为 MCP 服务接入（推荐）**
 
-### 方式 1：一键安装 (推荐)
+如果你使用 Cursor、Claude Desktop 等支持 MCP 协议的工具，可以直接将古月作为原生插件挂载，让大模型直接拥有读写古月记忆库和调用古月生态的能力。
 
-如果你使用的是支持 Skills 体系的 Agent（如 Claude Code, OpenClaw）：
+在你的 MCP 配置文件中添加：
+```json
+{
+  "mcpServers": {
+    "guyue": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "mcp_server.py"
+      ],
+      "cwd": "/path/to/guyue/src"
+    }
+  }
+}
+```
+*注意：替换 `cwd` 为你实际克隆的目录路径。*
+
+**传统挂载方式**（如 Claude Code, OpenClaw）：
 
 ```bash
 npx skills add guyue55/guyue
 ```
 
-### 方式 2：本地克隆
 
 ```bash
 # 1. 进入你的 agent 技能目录
