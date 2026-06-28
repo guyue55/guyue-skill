@@ -32,6 +32,23 @@
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
 
+## 大盘心法与规范矩阵 (Master Principles & Uniform Matrix)
+
+经历多轮鲁班法则深度打磨后，所有子技能目前遵循 100% 统一的工业级结构：
+
+1. **三大核心纪律 (`GUYUE_PRINCIPLES.md`)**:
+   - **Trace-First**: 强制在每一次技能拦截前输出 `[Trace: Guyue/xxx]`，打破 AI 黑盒。
+   - **Anti-Bloat**: 拒绝全量抓取文件，拒绝为了技术而引入重型框架，崇尚极简。
+   - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
+
+2. **矩阵级结构大一统**: 11 个核心技能全面实施相同的指令骨架。
+   - **When to Use**: 明确何时该由什么子分身接管。
+   - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
+   - **Step-by-Step Execution**: 标准化作业流程。
+   - **Showcase (展台)**: 高密度的应用范例场景。
+   - **Guardrails (诚实边界)**: 明确不能越权的死线。
+   - **Cross-Skill Invocation**: 技能流转协议，使得 11 个专精能力可以组合形成智能闭环。
+
 ## 快速开始
 
 **作为 MCP 服务接入（推荐）**
@@ -112,6 +129,7 @@ git clone https://github.com/guyue55/guyue-skill.git
 guyue/
 ├── SKILL.md                 # 核心路由中枢
 ├── README.md                # 本文件
+├── GUYUE_PRINCIPLES.md      # 古月大盘心法原则
 ├── skills.json              # 技能注册表
 ├── skills_manifest.json     # 动态包清单与路由分发引擎
 ├── scripts/                 # 核心脚本库
