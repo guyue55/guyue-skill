@@ -1,0 +1,85 @@
+{
+    "name": "guyue-digital-twin",
+    "version": "2.0.0",
+    "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
+    "skills": [
+        {
+            "name": "research-and-sourcing",
+            "path": "skills/research-and-sourcing/SKILL.md",
+            "trigger_intent": [
+                "new feature",
+                "unknown technology",
+                "design request"
+            ],
+            "description": "Forced documentation research and referencing before action."
+        },
+        {
+            "name": "requirement-analysis",
+            "path": "skills/requirement-analysis/SKILL.md",
+            "trigger_intent": [
+                "vague request",
+                "ambiguous business logic"
+            ],
+            "description": "WISER framework to challenge and clarify boundaries."
+        },
+        {
+            "name": "system-design",
+            "path": "skills/system-design/SKILL.md",
+            "trigger_intent": [
+                "architecture",
+                "core module refactoring"
+            ],
+            "description": "DEPTH framework for Human-in-the-Loop architectural design."
+        },
+        {
+            "name": "coding-discipline",
+            "path": "skills/coding-discipline/SKILL.md",
+            "trigger_intent": [
+                "write code",
+                "implement UI",
+                "generate commit"
+            ],
+            "description": "Enforce high cohesion, loose coupling, Chinese comments, Git standards."
+        },
+        {
+            "name": "debugging-mindset",
+            "path": "skills/debugging-mindset/SKILL.md",
+            "trigger_intent": [
+                "test failure",
+                "production bug",
+                "error stack"
+            ],
+            "description": "RCA diagnostic matrix for controlled troubleshooting."
+        },
+        {
+            "name": "documentation",
+            "path": "skills/documentation/SKILL.md",
+            "trigger_intent": [
+                "write report",
+                "PRD",
+                "README"
+            ],
+            "description": "RTFD framework for structured, pyramid-logic documentation."
+        },
+        {
+            "name": "skill-crafting",
+            "path": "skills/skill-crafting/SKILL.md",
+            "trigger_intent": [
+                "create skill",
+                "distill ability",
+                "luban"
+            ],
+            "description": "SOP for distilling, auditing, and validating agent skills."
+        },
+        {
+            "name": "memory-bank",
+            "path": "skills/memory-bank/SKILL.md",
+            "trigger_intent": [
+                "remember this",
+                "recall issue",
+                "what did we learn"
+            ],
+            "description": "Persistent memory storage and retrieval for continuous growth."
+        }
+    ]
+}
