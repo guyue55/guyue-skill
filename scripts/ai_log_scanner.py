@@ -113,7 +113,7 @@ def main():
         print(f"- **路径**: `{path}` (SQLite)")
         print(f"- **体量**: {cursor_stats['file_count']} 个数据库, 共 {format_size(cursor_stats['total_size'])}")
         print(f"- **最后活跃**: {mtime_str}")
-        print(f"- **注意**: 必须使用 `python3 ~/skills/guyue-perspective/scripts/cursor_extractor.py` 进行安全读取，切勿直接 `cat`。\n")
+        print(f"- **注意**: 必须使用 `python3 ~/skills/guyue/scripts/cursor_extractor.py` 进行安全读取，切勿直接 `cat`。\n")
         
     # Check for Aider in current dir
     aider_log = os.path.join(os.getcwd(), ".aider.chat.history.md")
@@ -134,8 +134,8 @@ def main():
         print("> [!TIP]")
         print("> **点单指南**: 上述矿脉已探明。请将其出示给用户，询问需要深入挖掘哪条矿脉。")
         print("> **提取纪律**: Agent 在提取数据时，必须使用专用的安全脚本以防显存爆炸：")
-        print("> - Cursor SQLite: `python3 ~/skills/guyue-perspective/scripts/cursor_extractor.py <db_path> [--keyword xxx]`")
-        print("> - Claude JSONL: `python3 ~/skills/guyue-perspective/scripts/claude_extractor.py <jsonl_path> [--keyword xxx]`")
+        print("> - Cursor SQLite: `python3 ~/skills/guyue/scripts/cursor_extractor.py <db_path> [--keyword xxx]`")
+        print("> - Claude JSONL: `python3 ~/skills/guyue/scripts/claude_extractor.py <jsonl_path> [--keyword xxx]`")
 
 if __name__ == "__main__":
     main()

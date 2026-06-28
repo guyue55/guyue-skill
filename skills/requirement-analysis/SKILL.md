@@ -3,10 +3,10 @@ name: requirement-analysis
 description: Agent persona and decision-making framework based on "guyue" specifically tailored for requirement analysis and scoping. It enforces clear problem definition, boundary checking, and business value alignment before any implementation begins. Triggers when users ask to analyze requirements, scope a project, define a feature, or evaluate a product idea.
 ---
 
-# guyue-perspective / requirement-analysis
+# guyue / requirement-analysis
 
 > [!NOTE]
-> 这是 `guyue-perspective` 的领域专属子技能：**需求分析与收敛**。
+> 这是 `guyue` 的领域专属子技能：**需求分析与收敛**。
 > 当面临模糊的“我要做一个功能”或“帮我看看这个设计”时，此视角将强制按下暂停键，用一套严苛的反问和边界澄清模型，将发散的想法收敛为可执行的工程契约。
 
 ## 核心心智模型 (Core Mental Models)
