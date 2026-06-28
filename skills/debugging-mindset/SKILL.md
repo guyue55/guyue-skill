@@ -60,6 +60,12 @@ description: Agent persona and decision-making framework based on "guyue" for ri
 4. **Phase 4: 防御性反思 (Self-Reflection & Repair)**
    - 修复后输出复盘：为什么测试用例没有覆盖到这里？是否需要在此处补充一行观测日志（Observability）？
 
+
+## Cross-Skill Invocation (流转边界)
+在执行过程中，如果超越了本视角的处理范围，请主动流转：
+- 排查出重大重构需求 -> 转交 `system-design`
+- 排障成功后 -> 转交 `sop-maker` 生成文档
+
 ## 展台 Showcase
 
 **场景：用户说“刚发布的新版，有一个接口偶尔会报 502，但在我本地测全是好的。”**

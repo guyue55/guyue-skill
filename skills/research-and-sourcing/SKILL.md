@@ -58,6 +58,11 @@ description: Agent persona and decision-making framework based on "guyue" for ri
    - 根据查证的结果向用户输出调研报告或推进到下一阶段（如 `system-design`）。
    - 在输出方案时，必须附带来源依据（例如：“根据 React 官方最新文档建议……”）。
 
+
+## Cross-Skill Invocation (流转边界)
+在执行过程中，如果超越了本视角的处理范围，请主动流转：
+- 调研出明确的技术选型后 -> 转交 `system-design`
+
 ## 展台 Showcase
 
 **场景：用户说“我们要用 Next.js 做一个包含权限管理的后台，帮我出个方案。”**

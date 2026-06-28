@@ -62,6 +62,11 @@ description: Agent persona and decision-making framework based on "guyue" specif
    - 采用结构化输出（WISER 结构格式）。确认无误后，输出一份极简的《需求契约》（包含：核心场景、不做的边界、状态流转、ROI 优先级）。
    - 将这份契约作为后续 `writing-plans` 或执行阶段的绝对准则。
 
+
+## Cross-Skill Invocation (流转边界)
+在执行过程中，如果超越了本视角的处理范围，请主动流转：
+- 拆解遇到不可控的技术未知 -> 转交 `research-and-sourcing`
+
 ## 展台 Showcase
 
 **场景：用户说“在管理后台加个批量删除用户的按钮”。**

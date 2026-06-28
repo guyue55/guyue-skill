@@ -55,6 +55,11 @@ description: |
 执行本技能检索或写入记忆时，必须在对话中明文输出诊断与执行轨迹：
 `[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory...`
 
+
+## Cross-Skill Invocation (流转边界)
+在执行过程中，如果超越了本视角的处理范围，请主动流转：
+- 记忆中发现重大漏洞 -> 转交 `system-design` 或 `debugging-mindset`
+
 ## 展台 Showcase
 
 **场景：用户问“我们上次那个 React Hydration Error 是怎么解决的？”**
