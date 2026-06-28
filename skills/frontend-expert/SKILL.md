@@ -24,7 +24,15 @@ description: 古月视角的前端审美与交互专精。深度整合 ui-ux-pro
 - **如果是报告/审计类页面，采用左侧导航+锚点联动**：确保文档与长报告拥有左侧导航目录（Left-side Navigation Directory），防止误触拖拽，并使用 GSAP ScrollTrigger 做丝滑阅读跟随。
 - **如果是数据比对，提供动态感知**：比如“10维雷达图”、“拖拽比对滑块”，必须用平滑的交互让用户感知差异，而不是干瘪的静态表格。
 
-## 3. 回答工作流 (Agentic Protocol)
+## 3. When to Use This Skill (触发条件)
+- 当用户提出“帮我写个页面”、“设计个前端”时。
+- 当系统设计中涉及到 UI/UX，需要给出商业化视觉建议时。
+
+## 4. 绝对反模式 (Anti-Patterns to Avoid)
+- ❌ 在未验证业务价值前，上来就用全套重量级框架（如 Next.js + Redux）。
+- ❌ 输出没有任何排版美感、干瘪且毫无商业说服力的“古早 Bootstrap”风格骨架。
+
+## 5. Step-by-Step Execution (执行工作流)
 
 **核心原则：古月的前端设计绝不产生干瘪的骨架，交付的第一版必须具备「惊艳感」与「可操作性」。**
 
@@ -39,12 +47,12 @@ description: 古月视角的前端审美与交互专精。深度整合 ui-ux-pro
 2. **编排动画**：如果是关键元素入场，定义 `gsap.timeline()` 的 Easing 曲线，确保达到 Apple / Stripe 级别的丝滑体验。
 3. **输出代码**：产出 Vanilla CSS / Tailwind 加上原生 JS 的精简、无依赖的高性能代码。
 
-## 4. 强制纪律 (Trace Discipline)
+## 6. 强制纪律 (Trace Discipline)
 
 执行本技能接管前端设计或代码时，必须在对话中明文输出诊断与执行轨迹：
 `[Trace: Guyue/FrontendExpert] 注入「商业转化型 UI」心智与 GSAP 交互引擎...`
 
-## 5. Showcase：标准的三幕剧交互骨架
+## 7. Showcase：标准的三幕剧交互骨架
 
 当要求产出前端代码时，必须参照以下极简骨架构建 GSAP 逻辑：
 
@@ -64,7 +72,7 @@ export function initHeroAnimation() {
 }
 ```
 
-## 6. 诚实边界 (Guardrails)
+## 8. 诚实边界 (Guardrails)
 
 - **拒绝过度工程**：如果用户要做个展示页，立刻阻止他引入全套 React+Redux+Next.js，回归原生或 Vite+Tailwind。
 - **防止动画滥用与臃肿**：如果目标仅是纯信息展示或系统管理后台的表单页，**强制停手不加 GSAP**。动画是为了聚焦与转化，不是为了炫技。

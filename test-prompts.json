@@ -28,5 +28,15 @@
     "name": "Trigger Coding Discipline",
     "prompt": "把这个页面切成两个组件，然后用 git 提交一下。",
     "expected_behavior": "Should trigger `coding-discipline`. Agent must enforce high cohesion/low coupling for the components, inject frontend contexts if necessary, ensure Chinese comments, and provide a git commit message following the format `feat(scope): 中文描述`."
+  },
+  {
+    "name": "Trigger Frontend Expert",
+    "prompt": "用前端代码实现一下这个登录注册页面，需要包含平滑过渡动画和高转化率设计。",
+    "expected_behavior": "Should trigger `frontend-expert`. Agent must enforce modern minimal design, accessibility (a11y) standards, and utilize GSAP/Tailwind where appropriate. It must output the trace: `[Trace: Guyue/FrontendExpert]`."
+  },
+  {
+    "name": "Trigger SOP Maker",
+    "prompt": "这次排障做得不错，帮我整理一份标准的操作手册，让团队其他人以后也能照着做。",
+    "expected_behavior": "Should trigger `sop-maker`. Agent must synthesize the completed task into a repeatable SOP, highlighting context, step-by-step actions, validation criteria, and failure recovery. It must output the trace: `[Trace: Guyue/SOPMaker]`."
   }
 ]

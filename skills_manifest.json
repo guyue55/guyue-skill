@@ -4,6 +4,36 @@
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "skills": [
         {
+            "name": "sop-maker",
+            "path": "skills/sop-maker/SKILL.md",
+            "trigger_intent": [
+                "summarize",
+                "create tutorial",
+                "write sop"
+            ],
+            "description": "Extracts standard operating procedures from successful task execution."
+        },
+        {
+            "name": "frontend-expert",
+            "path": "skills/frontend-expert/SKILL.md",
+            "trigger_intent": [
+                "frontend",
+                "ui design",
+                "web interface"
+            ],
+            "description": "Enforces modern UI/UX aesthetics, a11y, and CSS best practices."
+        },
+        {
+            "name": "product-sense",
+            "path": "skills/product-sense/SKILL.md",
+            "trigger_intent": [
+                "new product",
+                "business requirement",
+                "vague idea"
+            ],
+            "description": "Value interrogation and ROI analysis before entering system design."
+        },
+        {
             "name": "research-and-sourcing",
             "path": "skills/research-and-sourcing/SKILL.md",
             "trigger_intent": [
@@ -100,6 +130,18 @@
             "description": "高级 Agent 工作流",
             "package_id": "obra/superpowers",
             "command": "npx skills add obra/superpowers"
+        },
+        {
+            "name": "ui-ux-pro-max",
+            "description": "极致的前端与交互美学设计规范",
+            "package_id": "nextlevelbuilder/ui-ux-pro-max-skill",
+            "command": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill"
+        },
+        {
+            "name": "gsap-core",
+            "description": "前端动画与交互核心库",
+            "package_id": "greensock/gsap-skills",
+            "command": "npx skills add greensock/gsap-skills"
         }
     ]
 }

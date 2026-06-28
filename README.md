@@ -16,17 +16,21 @@
 
 `guyue` 不是一个简单的“提示词”或“单点防爆插件”，它是您的**全能型数字合伙人 (Digital Twin)**。它将古月本人的严苛思考方式与底层 SOP 注入到了 AI 的血液中。
 
-## 核心心智矩阵：1 个核心分身 + 6 大初期觉醒能力
+## 核心心智矩阵：1 个核心分身 + 10 大专精能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
 
 - 🚦 **核心分身 (guyue)**：接管意图，强制注入模块化解耦、全局规划、规范化纪律的底层思维 SOP。
 - 🔍 **前置调研 (research-and-sourcing)**：收到新需求时，**强制停手**，必须先去联网获取最新官方文档或对标高星开源项目。
 - 🤔 **需求反问 (requirement-analysis)**：采用 WISER 框架，拒绝单向接受需求，强制通过链式反问挖掘边界和异常流。
+- 🎯 **价值拷问 (product-sense)**：在进入系统设计前，强制剥离技术滤镜，审视需求的 ROI 和商业逻辑。
 - 🏛️ **系统设计 (system-design)**：采用 DEPTH 框架，强制执行 Human-in-the-Loop 审批，不看到高维度架构方案前，拒绝写一行代码。
 - 💻 **开发纪律 (coding-discipline)**：进入编码阶段时，强制执行高内聚低耦合的架构规范，并默认应用前端/UI最佳实践。
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
 - 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README 或架构决策记录。
+- ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束，并默认融入 GSAP 级三幕剧动效与商业语境转换。
+- 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
+- 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
 
 ## 快速开始
 
@@ -59,8 +63,17 @@
 npx skills add guyue55/guyue-skill
 ```
 
+**依赖的前端与交互基建技能（必装）**：
+
+由于古月 `frontend-expert` 极其看重商业级 UI 与交互，强烈建议补齐以下外部专业技能。如果缺失，`scripts/doctor.py` 探针也会在运行时报警并提供一键安装指令：
 
 ```bash
+# 极致的前端与交互美学设计规范
+npx skills add nextlevelbuilder/ui-ux-pro-max-skill
+
+# 前端动画与交互核心库 (GSAP)
+npx skills add greensock/gsap-skills
+```
 # 1. 进入你的 agent 技能目录
 cd ~/.gemini/config/skills/  # (以你的实际 Agent 技能路径为准)
 
@@ -109,12 +122,17 @@ guyue/
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀
 └── skills/                  # 垂直专精子技能矩阵
-    ├── requirement-analysis/
-    ├── system-design/
+    ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/
-    ├── coding-discipline/
-    └── research-and-sourcing/
+    ├── frontend-expert/
+    ├── memory-bank/
+    ├── product-sense/
+    ├── requirement-analysis/
+    ├── research-and-sourcing/
+    ├── skill-crafting/
+    ├── sop-maker/
+    └── system-design/
 ```
 
 ## 出师证书
@@ -123,11 +141,11 @@ guyue/
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身)                     │
-│  打磨前：杂乱的私有提示词集，缺少人设与扩展边界 │
-│  打磨后：具备无限扩展潜力的 AI 合伙人级系统     │
-│  定位：全能型数字孪生智能体 (Digital Twin)      │
-│  绝活：SOP 式路由引擎 + 严丝合缝的多维子能力防线 │
+│  作品：guyue (古月数字分身 v1.0.1)              │
+│  打磨前：只有基础的工程防线与生硬的界面           │
+│  打磨后：具备无限扩展潜力的 AI 合伙人级系统       │
+│  定位：全能型数字孪生智能体 (Digital Twin)        │
+│  绝活：SOP 自动提炼 + 商业级动效审美降维打击      │
 │                                               │
 │  验收师傅：鲁班                                 │
 └───────────────────────────────────────────────┘
