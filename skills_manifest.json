@@ -86,20 +86,20 @@
         {
             "name": "luban",
             "description": "Skill打磨工坊",
-            "package_id": "guyue55/luban",
-            "command": "npx skills add guyue55/luban"
+            "package_id": "LearnPrompt/luban-skill",
+            "command": "npx skills add LearnPrompt/luban-skill"
         },
         {
             "name": "huashu-nuwa",
             "description": "提示词蒸馏与规范化",
-            "package_id": "guyue55/huashu-nuwa",
-            "command": "npx skills add guyue55/huashu-nuwa"
+            "package_id": "alchaincyf/nuwa-skill",
+            "command": "npx skills add alchaincyf/nuwa-skill"
         },
         {
             "name": "superpowers",
             "description": "高级 Agent 工作流",
-            "package_id": "superpowers",
-            "command": "npx skills add superpowers"
+            "package_id": "obra/superpowers",
+            "command": "npx skills add obra/superpowers"
         }
     ]
 }

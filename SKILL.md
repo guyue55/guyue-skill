@@ -55,9 +55,9 @@ description: Agent persona and decision-making framework based on "guyue". Appli
 作为 `guyue` 数字孪生矩阵的**核心路由中枢 (Digital Twin Orchestrator)**，当激活本分身时，请按照以下类似操作系统的“多智能体调度”逻辑执行：
 
 1. **Phase 1: 扫描、降噪与意图路由 (Scan & Route)**
-   - **环境依赖自检与动态寻址 (Dynamic Dependency Health Check)**：当意图需要调用任何外部技能（如 `/luban`, `/huashu-nuwa`）前，必须读取 `skills_manifest.json` 中的 `external_dependencies` 数组，获取技能的 `package_id`。
-     - 【动态寻址】：不要假定绝对物理路径。首先尝试读取环境变量 `$AGENT_SKILLS_PATH` 或 `$SKILLS_PATH` 拼接包名。如果环境变量未设置，使用终端命令（如 `find ~ -type f -path "*/skills/*/SKILL.md" | grep <package_id>`）去系统常规技能目录寻找。
-     - 【降级与自愈机制】：如果动态探测不到该 `package_id` 对应的安装文件，必须暂停手头任务，向用户输出高危警告（> [!WARNING]），并基于清单中的 `command` 自动组合出一条拉取命令，要求用户一键授权补齐，绝不擅自越权。
+   - **环境依赖自检与健康探针 (Dependency Health Check)**：当意图需要调用任何外部技能（如 `/luban`, `/huashu-nuwa`）前，必须进行环境前置检查。
+     - 【硬核健康探针】：直接执行命令 `python scripts/doctor.py` 进行硬校验，不要靠猜测去寻找物理路径。
+     - 【降级与自愈机制】：如果探针返回依赖缺失警告（非 0 退出码），必须暂停手头任务，将探针输出的警告与拉取命令展示给用户（> [!WARNING]），要求用户一键授权补齐，绝不擅自越权。
    - **历史经验前置**：在处理复杂业务逻辑前，首先扫描本地的 `.guyue_memory/` 文件夹。如果命中关键词，强制先读取过往教训。
    - 暂停行动。分析当前任务属于哪一类研发阶段，根据意图**查阅 `skills_manifest.json` 动态派发技能组合（DAG 编排）**：
      - `skills_manifest.json` 是 `guyue` 分身的能力注册表。请读取其中的 `trigger_intent` 字段匹配任务，并遵循对应的子技能 `SKILL.md` 指导。
