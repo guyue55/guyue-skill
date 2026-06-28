@@ -86,20 +86,20 @@
         {
             "name": "luban",
             "description": "Skill打磨工坊",
-            "command": "npx skills add guyue55/luban",
-            "expected_path": "~/.cc-switch/skills/luban/SKILL.md"
+            "package_id": "guyue55/luban",
+            "command": "npx skills add guyue55/luban"
         },
         {
             "name": "huashu-nuwa",
             "description": "提示词蒸馏与规范化",
-            "command": "npx skills add guyue55/huashu-nuwa",
-            "expected_path": "~/.cc-switch/skills/nuwa-skill/SKILL.md"
+            "package_id": "guyue55/huashu-nuwa",
+            "command": "npx skills add guyue55/huashu-nuwa"
         },
         {
             "name": "superpowers",
             "description": "高级 Agent 工作流",
-            "command": "npx skills add superpowers",
-            "expected_path": "~/.cc-switch/skills/superpowers/SKILL.md"
+            "package_id": "superpowers",
+            "command": "npx skills add superpowers"
         }
     ]
 }
