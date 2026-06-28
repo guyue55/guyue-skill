@@ -9,7 +9,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 > Root routing hub. Enforces strict modularity, anti-bloat, and context discipline.
 
 ## 核心法则 (Core Directives)
-> 强制性遵循 [GUYUE_PRINCIPLES.md](file:///Users/apple/skills/guyue/GUYUE_PRINCIPLES.md) 定义的三大核心纪律。
+> 强制性遵循 [GUYUE_PRINCIPLES.md](GUYUE_PRINCIPLES.md) 定义的三大核心纪律。
 
 1. **模块化与防臃肿**: 高内聚低耦合。系统上下文极简，知识库剥离至 `references/`。**严禁 `cat` 大文件，强制使用 `grep_search` 按需检索**。
 2. **纪律**: 跑 `scripts/doctor.py` 探环境，扫 `.guyue_memory/` 查历史。然后编码，最后自测闭环。
