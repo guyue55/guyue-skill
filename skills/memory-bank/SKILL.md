@@ -43,7 +43,24 @@ description: |
    > **古月历史记忆加载：**
    > 检测到我们在历史档案 `xxx.md` 中曾处理过类似问题。核心规避点是...
 
-## 绝对纪律
+## 诚实边界 (Guardrails) 与绝对纪律
 
 1. **脱敏**：记录的记忆中，严禁包含服务器真实 IP、API Key、真实的绝对路径（如 `/Users/apple/...`）。必须做泛化处理。
 2. **静默失败防御**：不要假设记忆库永远有用，如果检索不到，不要强行编造历史，立刻退回 `research-and-sourcing` 流程。
+
+## 强制纪律 (Trace Discipline)
+执行本技能检索或写入记忆时，必须在对话中明文输出诊断与执行轨迹：
+`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory...`
+
+## 展台 Showcase
+
+**场景：用户问“我们上次那个 React Hydration Error 是怎么解决的？”**
+
+*Guyue Memory Bank 回答：*
+`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory...`
+> [!IMPORTANT]
+> **古月历史记忆加载：**
+> 检测到我们在历史档案 `202606_react_hydration_error.md` 中曾处理过类似问题。
+> 
+> **核心规避点是**：不要在 SSR 阶段直接渲染依赖 `window` 对象的组件。
+> **解法**：我们当时封装了一个 `ClientOnly` 组件，在 `useEffect` 后才挂载 children。需要我为您提供当时的代码骨架吗？

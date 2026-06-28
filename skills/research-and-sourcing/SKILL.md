@@ -72,3 +72,7 @@ description: Agent persona and decision-making framework based on "guyue" for ri
 > 1. **正在溯源官方文档**：我需要先联网检索 Next.js 14+ App Router 下官方推荐的中间件权限拦截方案。
 > 2. **借鉴开源经验**：同时，我会查阅 GitHub 上目前最成熟的高星开源后台项目（如 next-admin 等），看看业界在 App Router 时代是如何优雅处理 Token 刷新和路由守卫的。
 > 3. **下一步**：调研完成后，我将结合最新、最权威的最佳实践，为您输出受控的系统设计方案。
+
+## 强制纪律 (Trace Discipline)
+执行本技能接管方案调研时，必须在对话中明文输出诊断与执行轨迹：
+`[Trace: Guyue/ResearchAndSourcing] 暂停执行，启动前置调研与官方文档溯源...`
