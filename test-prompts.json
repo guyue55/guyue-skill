@@ -38,5 +38,20 @@
     "name": "Trigger SOP Maker",
     "prompt": "这次排障做得不错，帮我整理一份标准的操作手册，让团队其他人以后也能照着做。",
     "expected_behavior": "Should trigger `sop-maker`. Agent must synthesize the completed task into a repeatable SOP, highlighting context, step-by-step actions, validation criteria, and failure recovery. It must output the trace: `[Trace: Guyue/SOPMaker]`."
+  },
+  {
+    "name": "Trigger Memory Bank",
+    "prompt": "把我们今天踩的关于 React Hydration 的坑记下来。",
+    "expected_behavior": "Should trigger `memory-bank`. Agent must create or update `.guyue_memory/index.json` and generate a markdown file detailing Symptom, Root Cause, Solution, and Prevention. Must output the trace: `[Trace: Guyue/MemoryBank]`."
+  },
+  {
+    "name": "Trigger Product Sense",
+    "prompt": "我想做一个带 5 级分销裂变拉新功能的积分商城。",
+    "expected_behavior": "Should trigger `product-sense`. Agent must halt and question the ROI and compliance (legal risk of multi-level marketing). Must output the trace: `[Trace: Guyue/ProductSense]`."
+  },
+  {
+    "name": "Trigger Skill Crafting",
+    "prompt": "帮我写一个新的 Agent 技能，用来自动化分析代码质量。",
+    "expected_behavior": "Should trigger `skill-crafting`. Agent must refuse to blindly generate prompts and instead request to scan workflow logs to distill real-world patterns. Must output the trace: `[Trace: Guyue/SkillCrafting]`."
   }
 ]
