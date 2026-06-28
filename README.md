@@ -2,7 +2,7 @@
 
 > 一句话钩子：不要再让 AI 像黑盒一样盲目瞎写代码了。植入“古月”这个全能数字孪生分身，让它用资深老兵的脑回路替你接管需求、架构、开发与排障，严密如同工业级 SOP。
 
-[![skills.sh](https://skills.sh/b/guyue55/guyue)](https://skills.sh/guyue55/guyue)
+[![skills.sh](https://skills.sh/b/guyue55/guyue-skill)](https://skills.sh/guyue55/guyue-skill)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
 ![Status](https://img.shields.io/badge/Status-Production_Ready-success)
@@ -56,7 +56,7 @@
 **传统挂载方式**（如 Claude Code, OpenClaw）：
 
 ```bash
-npx skills add guyue55/guyue
+npx skills add guyue55/guyue-skill
 ```
 
 
@@ -65,7 +65,7 @@ npx skills add guyue55/guyue
 cd ~/.gemini/config/skills/  # (以你的实际 Agent 技能路径为准)
 
 # 2. 克隆本套件
-git clone https://github.com/guyue55/guyue.git
+git clone https://github.com/guyue55/guyue-skill.git
 
 # 3. 技能将自动生效，全局守护你的每一次代码生成！
 ```
