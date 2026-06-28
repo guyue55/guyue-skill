@@ -22,9 +22,10 @@ description: |
 
 1. **寻址/创建存储区**：
    在当前项目的根目录下寻找 `.guyue_memory/` 文件夹。如果没有，立即创建它。
-2. **结构化提取**：
-   不要记流水账。将刚才的教训提取为标准的 Markdown 文件（例如：`.guyue_memory/202606_react_hydration_error.md`）。
-3. **内容必须包含**：
+2. **结构化提取与双轨写入**：
+   - **Markdown 详情**：将教训提取为标准的 Markdown 文件（如 `.guyue_memory/202606_react_hydration_error.md`）。
+   - **JSON 元数据索引 (核心)**：必须同时解析并更新 `.guyue_memory/index.json`。如果文件不存在则新建一个包含 `{"memories": []}` 的文件。向数组中 push 新对象，必须包含字段：`filename`, `tags` (关键词数组), `summary` (一句话核心根因), `timestamp`。
+3. **Markdown 详情内容必须包含**：
    - **症状 (Symptom)**：表面上报了什么错？
    - **根因 (Root Cause)**：最终发现到底是什么导致的？
    - **解法 (Solution)**：怎么修复的？（附带代码片段或命令）
@@ -34,9 +35,10 @@ description: |
 
 作为 `guyue` 体系的子技能，每次主路由接管复杂请求前，**应当优先唤醒此技能进行历史查阅**：
 
-1. 检查当前目录下是否存在 `.guyue_memory/`。
-2. 如果存在，使用搜索工具（如 grep）结合当前任务的关键字（如 "webpack", "auth"）检索记忆区。
-3. 如果命中历史教训，必须在给用户的最终答复前，强制声明：
+1. 检查当前目录下是否存在 `.guyue_memory/index.json`。
+2. 如果存在，**禁止暴力遍历整个文件夹**。必须优先读取 `index.json`，根据任务上下文（例如当前遇到 React 错误，则在 `index.json` 的 `tags` 或 `summary` 字段中查找匹配项）。
+3. 定位到高相关性的 `filename` 后，再精准读取对应的 Markdown 文件全文。
+4. 如果命中历史教训，必须在给用户的最终答复前，强制声明：
    > [!IMPORTANT]
    > **古月历史记忆加载：**
    > 检测到我们在历史档案 `xxx.md` 中曾处理过类似问题。核心规避点是...
