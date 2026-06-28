@@ -1,6 +1,6 @@
 {
     "name": "guyue-digital-twin",
-    "version": "2.0.0",
+    "version": "1.0.1",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "skills": [
         {
