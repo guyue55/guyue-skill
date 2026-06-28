@@ -85,6 +85,7 @@ git clone https://github.com/guyue55/guyue.git
 - **工业级防爆架构**：基于 DEPTH 模型和 RCA 矩阵的防御性编程。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
 - **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
+- **硬核健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部前沿技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前强制检测环境健康度，提供零摩擦降级提示。
 - **极简即插即用**：零硬编码绑定，SOP 工具包一键全环境泛化。
 
 ## 安全边界
@@ -99,11 +100,15 @@ guyue/
 ├── SKILL.md                 # 核心路由中枢
 ├── README.md                # 本文件
 ├── skills.json              # 技能注册表
+├── skills_manifest.json     # 动态包清单与路由分发引擎
+├── scripts/                 # 核心脚本库
+│   ├── doctor.py            # 环境依赖硬核健康探针
+│   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
 ├── test-prompts.json        # 预设的干跑测试用例
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀
-└── skills/                  # 六大垂直专精子技能
+└── skills/                  # 垂直专精子技能矩阵
     ├── requirement-analysis/
     ├── system-design/
     ├── debugging-mindset/
