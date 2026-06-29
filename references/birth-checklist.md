@@ -18,5 +18,10 @@
 - [x] `test-prompts.json` 中的断言是否与最新引入的心智相匹配？
 - [x] `README.md` 语法是否合法（没有未闭合的 Code Block 导致渲染破版）？
 
-## 4. 发版仪式
+## 4. 隐私与安全审查 (Zero-Leakage)
+- [x] 是否已确认不包含敏感密钥 (sk-, API Key) 与个人系统绝对路径？
+- [x] 是否已确保所有 `__pycache__` 与冗余 IDE 配置文件不会被提交？
+- [x] `scripts/security_scanner.py` 是否已在 CI 流程中执行并绿灯通过？
+
+## 5. 发版仪式
 - [x] 以上条件全部达成后，方可宣告发版成功并提交 Git 记录。

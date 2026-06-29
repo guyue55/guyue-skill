@@ -17,6 +17,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 4. **交付**: `feat(模块): 中文描述`。中文注释详尽。
 5. **可观测性 (Trace Logging)**: 强制推行 Trace-First 架构。每次决策、探针执行、状态切换前，必须以 `[Trace: Guyue/<Phase>] <信息>` 的格式明文输出日志，确保推理过程透明可审计。
 6. **绝对真实 (Exhaustive Truth)**: 拒绝口头欺骗，拒绝表面打磨。所有打磨、审查必须通过**物理执行、全量遍历、编写自动化探针脚本**来验证。绝对禁止使用伪代码、占位符 (`pass`, `...`) 或 "etc.", "placeholder" 等 AI 敷衍词汇。
+7. **Zero-Leakage (防泄密与洁癖)**: 任务完成后，清理所有产生的 `__pycache__`、临时文件，并在代码提交前主动运行 `security_scanner.py` 确保不泄漏敏感密钥和本机绝对路径。
 
 ## 路由执行流 (Routing Flow)
 1. **Scan & Health**: 
