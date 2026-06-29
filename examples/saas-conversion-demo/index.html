@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2B Site Auditor - 商业诊断舱</title>
+    <title>SaaS Conversion Analyzer - 诊断舱</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,8 +31,8 @@
     <!-- Header -->
     <header class="fixed top-0 w-full z-50 glass-header px-6 py-4 flex justify-between items-center border-b border-white/10">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded bg-eac-accent flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">B2B</div>
-            <span class="font-semibold text-white tracking-wide">Site Auditor</span>
+            <div class="w-8 h-8 rounded bg-eac-accent flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">SaaS</div>
+            <span class="font-semibold text-white tracking-wide">Conversion Analyzer</span>
         </div>
         <button class="px-4 py-2 rounded-full text-sm font-medium border border-white/20 hover:bg-white/5 transition-colors">历史报告</button>
     </header>
@@ -56,7 +56,7 @@
             </h1>
             
             <p class="text-lg md:text-xl text-slate-400 max-w-2xl mb-12 leading-relaxed hero-subtitle">
-                输入您的 B2B 独立站域名，Guyue 智能体将模拟采购商行为，从「内容信任度」、「表单安全性」、「性能流失」三个维度，直击您的商业代价。
+                输入您的 SaaS 落地页域名，Guyue 智能体将模拟采购商行为，从「内容信任度」、「表单安全性」、「性能流失」三个维度，直击您的商业代价。
             </p>
 
             <!-- Input Area -->
@@ -65,7 +65,7 @@
                 <div class="relative flex flex-col md:flex-row gap-4 p-2 rounded-2xl bg-slate-900/80 border border-white/10 backdrop-blur-md">
                     <div class="flex-1 flex items-center px-4">
                         <svg class="w-5 h-5 text-slate-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                        <input type="text" id="targetUrl" placeholder="https://your-b2b-site.com" class="w-full bg-transparent border-none outline-none text-white placeholder-slate-500 focus:ring-0 text-lg" value="https://demo.testfire.net/">
+                        <input type="text" id="targetUrl" placeholder="https://your-saas-site.com" class="w-full bg-transparent border-none outline-none text-white placeholder-slate-500 focus:ring-0 text-lg" value="https://example-saas.com/">
                     </div>
                     <button id="startAuditBtn" class="px-8 py-4 bg-eac-accent hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] flex items-center justify-center gap-2 whitespace-nowrap">
                         <span id="btnText">启动极限诊断</span>

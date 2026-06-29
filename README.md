@@ -116,7 +116,7 @@ git clone https://github.com/guyue55/guyue-skill.git
 - **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
 - **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
 - **硬核健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部前沿技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前强制检测环境健康度，提供零摩擦降级提示。
-- **高转化前端美学 (UI/UX Real-world Proving Ground)**：附带 `examples/b2b-site-auditor/` 实战 Demo，示范如何将枯燥的 500 报错翻译为“商业代价预估”，并运用 Vanilla JS + GSAP ScrollTrigger 实现三幕剧丝滑动画。
+- **高转化前端美学 (UI/UX Real-world Proving Ground)**：附带 `examples/saas-conversion-demo/` 实战 Demo，示范如何将枯燥的 500 报错翻译为“商业代价预估”，并运用 Vanilla JS + GSAP ScrollTrigger 实现三幕剧丝滑动画。
 - **极简即插即用**：零硬编码绑定，SOP 工具包一键全环境泛化。
 
 ## 安全边界
@@ -137,7 +137,7 @@ guyue/
 │   ├── doctor.py            # 环境依赖硬核健康探针
 │   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
-│   └── b2b-site-auditor/    # 🎯 交互式高转化 UI/UX Demo (GSAP + Tailwind 最佳实践)
+│   └── saas-conversion-demo/# 🎯 交互式高转化 UI/UX Demo (GSAP + Tailwind 最佳实践)
 ├── test-prompts.json        # 预设的干跑测试用例
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀
