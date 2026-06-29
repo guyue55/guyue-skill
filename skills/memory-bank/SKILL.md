@@ -10,17 +10,17 @@ description: |
 > 这是 `guyue` 的领域专属子技能：**自主记忆沉淀与检索**。
 > 真正的数字孪生必须拥有“昨日之痛，今日之师”的闭环能力。
 
-## 适用场景 (When to Use)
+## When to Use (何时使用)
 
 - 当你在排查完一个复杂的 Bug（如罕见的依赖冲突、框架暗坑）后。
 - 当用户要求：“把我们今天踩的坑记下来”。
 - 当开启一个新任务，你需要检查过去是否遇到过类似问题时。
 
-## 绝对反模式 (Anti-Patterns to Avoid)
+## Anti-Patterns (防相控反模式)
 - ❌ 检索失败时，向用户强行编造一个不存在的历史记录。
 - ❌ 在记忆文件中原封不动地贴出包含敏感 API Key 和真实服务器路径的日志。
 
-## Step-by-Step Execution (执行工作流)
+## Step-by-Step Execution (标准执行工作流)
 如果接收到记录记忆的指令，请遵循以下流程：
 
 1. **寻址/创建存储区**：
@@ -44,28 +44,28 @@ description: |
 4. 如果命中历史教训，必须在给用户的最终答复前，强制声明：
    > [!IMPORTANT]
    > **古月历史记忆加载：**
-   > 检测到我们在历史档案 `xxx.md` 中曾处理过类似问题。核心规避点是...
+   > 检测到我们在历史档案 `xxx.md` 中曾处理过类似问题。核心规避点是等相关核心内容
 
-## 诚实边界 (Guardrails) 与绝对纪律
+## Guardrails (诚实边界) 与绝对纪律
 
-1. **脱敏**：记录的记忆中，严禁包含服务器真实 IP、API Key、真实的绝对路径（如 `/Users/apple/...`）。必须做泛化处理。
+1. **脱敏**：记录的记忆中，严禁包含服务器真实 IP、API Key、真实的绝对路径（如 `/Users/apple/等相关核心内容`）。必须做泛化处理。
 2. **静默失败防御**：不要假设记忆库永远有用，如果检索不到，不要强行编造历史，立刻退回 `research-and-sourcing` 流程。
 
 ## 强制纪律 (Trace Discipline)
 执行本技能检索或写入记忆时，必须在对话中明文输出诊断与执行轨迹：
-`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory...`
+`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory核心规避点以及防范措施等`
 
 
 ## Cross-Skill Invocation (流转边界)
 在执行过程中，如果超越了本视角的处理范围，请主动流转：
 - 记忆中发现重大漏洞 -> 转交 `system-design` 或 `debugging-mindset`
 
-## 展台 Showcase
+## Showcase (展台)
 
 **场景：用户问“我们上次那个 React Hydration Error 是怎么解决的？”**
 
 *Guyue Memory Bank 回答：*
-`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory...`
+`[Trace: Guyue/MemoryBank] 触发数字孪生记忆库，检索 .guyue_memory核心规避点以及防范措施等`
 > [!IMPORTANT]
 > **古月历史记忆加载：**
 > 检测到我们在历史档案 `202606_react_hydration_error.md` 中曾处理过类似问题。

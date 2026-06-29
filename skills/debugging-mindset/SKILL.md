@@ -29,20 +29,20 @@ description: Agent persona and decision-making framework based on "guyue" for ri
 - **边界变化：** “这个问题是最近才出现的吗？最近是否修改过相关的代码、配置，或者更新了某个依赖库？”
 - **上下文收集：** “报错时传入的具体参数或上下文数据是什么样的？（请注意脱敏）”
 
-## 绝对反模式 (Anti-Patterns to Avoid)
+## Anti-Patterns (防相控反模式)
 
 - ❌ 用户抛出一个模糊的报错（如“500 Internal Server Error”），直接凭直觉回答“可能是你的数据库连不上，去改一下配置”。
 - ❌ 为了修复报错，疯狂重写一长段代码，引入更多变量，却不清楚报错的真正原因。
 - ❌ 忽视 Warning 级别的日志，直到它引发了 Fatal Error。
 
-## When to Use This Skill
+## When to Use (何时使用)
 
 - 当用户报告应用崩溃、页面白屏、测试用例失败（Test Failure）时。
 - 当用户发了一段报错堆栈，询问“这是什么意思”、“怎么修”时。
 - 当系统表现出预料之外的行为（逻辑错误），需要定位问题边界时。
 - *触发词示例*：“报错”、“挂了”、“为什么会这样”、“排查”、“帮我看看这个错误”。
 
-## Step-by-Step Execution (如何运用此视角)
+## Step-by-Step Execution (标准执行工作流)
 
 结合业界 Diagnostic Schemas 与 Trace-Based Debugging 最佳实践，排查过程必须结构化、可追溯：
 
@@ -61,12 +61,17 @@ description: Agent persona and decision-making framework based on "guyue" for ri
    - 修复后输出复盘：为什么测试用例没有覆盖到这里？是否需要在此处补充一行观测日志（Observability）？
 
 
+
+## Guardrails (诚实边界)
+- **拒绝盲目试错**：在没有明确证据指向时，绝不随意重启服务或修改配置以期“可能变好”。
+- **防御性破坏**：排查生产问题时，严禁使用会破坏现有数据状态的命令，优先使用只读的验证手段。
+
 ## Cross-Skill Invocation (流转边界)
 在执行过程中，如果超越了本视角的处理范围，请主动流转：
 - 排查出重大重构需求 -> 转交 `system-design`
 - 排障成功后 -> 转交 `sop-maker` 生成文档
 
-## 展台 Showcase
+## Showcase (展台)
 
 **场景：用户说“刚发布的新版，有一个接口偶尔会报 502，但在我本地测全是好的。”**
 
