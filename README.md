@@ -91,6 +91,9 @@ npx skills add nextlevelbuilder/ui-ux-pro-max-skill
 # 前端动画与交互核心库 (GSAP)
 npx skills add greensock/gsap-skills
 ```
+**源码直装方式**（用于本地开发或深度定制）：
+
+```bash
 # 1. 进入你的 agent 技能目录
 cd ~/.gemini/config/skills/  # (以你的实际 Agent 技能路径为准)
 
@@ -161,7 +164,7 @@ guyue/
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.0.1)              │
+│  作品：guyue (古月数字分身 v1.1.0)              │
 │  打磨前：只有基础的工程防线与生硬的界面           │
 │  打磨后：具备无限扩展潜力的 AI 合伙人级系统       │
 │  定位：全能型数字孪生智能体 (Digital Twin)        │

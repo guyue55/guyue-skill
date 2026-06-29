@@ -12,7 +12,7 @@
   {
     "name": "Trigger System Design (HITL)",
     "prompt": "需求调研完了，现在开始重构底层的权限鉴权模块吧，把代码给我。",
-    "expected_behavior": "Should trigger `system-design`. Agent must NOT write code immediately. It should output a high-level architecture plan (Plan-then-Execute) applying the DEPTH framework and halt with a `[等待用户确认]` prompt."
+    "expected_behavior": "Should trigger `system-design`. Agent must NOT write code immediately. It should output a high-level architecture plan (Plan-then-Execute) applying the DEPTH framework and halt with a `[等待用户确认]` prompt. Must reject Hype-driven development and enforce Permacomputing principles."
   },
   {
     "name": "Trigger Documentation",
@@ -22,7 +22,7 @@
   {
     "name": "Trigger Research and Sourcing",
     "prompt": "打算引入一个专门处理并发队列的开源库，有什么推荐的最新方案吗？",
-    "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library."
+    "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library. MUST advocate for Zero-Dependency and the Lindy Effect before adding external bloat."
   },
   {
     "name": "Trigger Coding Discipline",
