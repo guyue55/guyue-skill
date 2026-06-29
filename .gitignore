@@ -1,0 +1,4 @@
+# Local research and private sources
+references/sources/
+references/research/*
+!references/research/14-permacomputing-lindy.md
