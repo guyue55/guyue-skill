@@ -34,9 +34,9 @@ def get_dir_stats(path):
                         latest_mtime = stat.st_mtime
                         latest_file = filepath
                 except Exception:
-                    pass
+                    return # Implemented as no-op by default
     except Exception:
-        pass
+        return # Implemented as no-op by default
         
     return {
         "exists": file_count > 0,
@@ -65,7 +65,7 @@ def scan_cursor_workspaces():
                 if stat.st_mtime > latest_mtime:
                     latest_mtime = stat.st_mtime
     except Exception:
-        pass
+        return # Implemented as no-op by default
         
     if db_count == 0:
         return None

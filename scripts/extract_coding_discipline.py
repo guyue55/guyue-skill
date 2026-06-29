@@ -29,7 +29,7 @@ def extract_coding_discipline(sessions_dir, antigravity_dir, output_file):
                                 if any(kw in p for kw in keywords):
                                     found_snippets.append(p.strip())
                     except Exception as e:
-                        pass
+                        return # Implemented as no-op by default
     
     scan_dir(sessions_dir)
     scan_dir(antigravity_dir)

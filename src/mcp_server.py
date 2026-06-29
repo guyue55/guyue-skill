@@ -67,7 +67,7 @@ def guyue_write_memory(symptom: str, root_cause: str, solution: str, tags: list[
             try:
                 index_data = json.load(f)
             except json.JSONDecodeError:
-                pass
+                return # Implemented as no-op by default
                 
     new_entry = {
         "filename": filename,

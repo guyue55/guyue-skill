@@ -40,7 +40,7 @@ description: Agent persona and decision-making framework based on "guyue" for wr
 
 - 当用户要求“帮我写一份 README”。
 - 当用户提出“帮我总结一下我们今天的会话/工作，产出一份报告或周报”。
-- 当用户让你书写 PRD（产品需求文档）、ADR（架构决策记录）或其他技术规范时。
+- 当用户让你书写 PRD（产品需求文档）、ADR（架构决策记录）或相关辅助技术规范时。
 - *触发词示例*：“写文档”、“总结”、“周报”、“README”、“规范”、“沉淀”。
 
 ## Step-by-Step Execution (标准执行工作流)
