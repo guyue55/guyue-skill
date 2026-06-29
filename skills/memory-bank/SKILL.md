@@ -48,7 +48,7 @@ description: |
 
 ## Guardrails (诚实边界) 与绝对纪律
 
-1. **脱敏**：记录的记忆中，严禁包含服务器真实 IP、API Key、真实的绝对路径（如 `/Users/apple/等相关核心内容`）。必须做泛化处理。
+1. **脱敏**：记录的记忆中，严禁包含服务器真实 IP、API Key、真实的绝对路径（如 `/home/user/workspace/等相关核心内容`）。必须做泛化处理。
 2. **静默失败防御**：不要假设记忆库永远有用，如果检索不到，不要强行编造历史，立刻退回 `research-and-sourcing` 流程。
 
 ## 强制纪律 (Trace Discipline)
