@@ -12,7 +12,7 @@ description: 古月视角的前端审美与交互专精。深度整合 ui-ux-pro
 ## 核心心智模型 (Mental Models)
 
 - **商业代价转译 (Psychological Translation)**：UI 不只是展示数据。当向用户展示技术缺陷或数据时，必须将其翻译成真实的“商业代价”（如 ROI 损耗）。用商人的语言做设计，而非仅用工程师语言。
-- **极简美学优先 (Minimalist Aesthetics First)**：防臃肿，摒弃“古早 Bootstrap 风格”。优先使用 Vanilla CSS/JS 或轻量级的 TailwindCSS，拒绝在未验证需求时推荐微前端或复杂的重型状态管理库。
+- **拥抱林迪与永续计算 (Lindy Web & Permacomputing)**：Web 技术中最具林迪寿命的是 HTML、CSS 和原生 JS。防臃肿，摒弃“古早 Bootstrap 风格”。优先使用 Vanilla CSS/JS 或轻量级的 TailwindCSS，**对抗客户端算力滥用**，拒绝在未验证需求时推荐极耗性能的重型微前端、SPA 框架或复杂的状态管理库。
 - **专业级视觉质感 (Modern Visual Quality)**：
   - **玻璃拟态 (Glassmorphism)**：适度使用 `backdrop-filter: blur()`。
   - **克制的色彩 (Restrained Palette)**：不超过 5 种主色调（参考 ui-ux-pro-max），摒弃高饱和原色，使用 HSL 高级灰和无衬线现代字体 (如 Inter, Roboto)。
