@@ -56,6 +56,7 @@ def check_dependencies():
         name = dep.get("name")
         package_id = dep.get("package_id")
         command = dep.get("command")
+        url = dep.get("url", "No URL provided")
         
         # Determine the likely folder name (usually the repo name or the skill name)
         repo_name = package_id.split("/")[-1] if "/" in package_id else package_id
@@ -79,7 +80,7 @@ def check_dependencies():
         
         if not found:
             print_status(f"依赖缺失: {name} ({package_id})", is_error=True)
-            missing_deps.append((name, command))
+            missing_deps.append((name, url, command))
             all_good = False
 
     print("\n--- 探针诊断报告 ---")
@@ -90,8 +91,9 @@ def check_dependencies():
         print("> [!WARNING]")
         print("> ⚠️ 侦测到必要的外部技能缺失，无法继续受控执行。")
         print("> 请用户一键授权以下命令补齐依赖：\n")
-        for name, cmd in missing_deps:
-            print(f"```bash\n{cmd}\n```\n")
+        for name, url, cmd in missing_deps:
+            print(f"- **{name}** (官方仓库: {url})")
+            print(f"  安装命令: \n```bash\n{cmd}\n```\n")
         sys.exit(1)
 
 if __name__ == "__main__":

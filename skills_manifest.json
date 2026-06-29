@@ -117,31 +117,36 @@
             "name": "luban",
             "description": "Skill打磨工坊",
             "package_id": "LearnPrompt/luban-skill",
-            "command": "npx skills add LearnPrompt/luban-skill"
+            "command": "git clone https://github.com/LearnPrompt/luban-skill ~/.cc-switch/skills/luban",
+            "url": "https://github.com/LearnPrompt/luban-skill"
         },
         {
             "name": "huashu-nuwa",
             "description": "提示词蒸馏与规范化",
             "package_id": "alchaincyf/nuwa-skill",
-            "command": "npx skills add alchaincyf/nuwa-skill"
+            "command": "git clone https://github.com/alchaincyf/nuwa-skill ~/.cc-switch/skills/nuwa-skill",
+            "url": "https://github.com/alchaincyf/nuwa-skill"
         },
         {
             "name": "superpowers",
             "description": "高级 Agent 工作流",
             "package_id": "obra/superpowers",
-            "command": "npx skills add obra/superpowers"
+            "command": "git clone https://github.com/obra/superpowers ~/.cc-switch/skills/superpowers",
+            "url": "https://github.com/obra/superpowers"
         },
         {
             "name": "ui-ux-pro-max",
             "description": "极致的前端与交互美学设计规范",
             "package_id": "nextlevelbuilder/ui-ux-pro-max-skill",
-            "command": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill"
+            "command": "git clone https://github.com/nextlevelbuilder/ui-ux-pro-max-skill ~/.cc-switch/skills/ui-ux-pro-max",
+            "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
         },
         {
             "name": "gsap-core",
             "description": "前端动画与交互核心库",
             "package_id": "greensock/gsap-skills",
-            "command": "npx skills add greensock/gsap-skills"
+            "command": "git clone https://github.com/greensock/gsap-skills ~/.gemini/config/skills/gsap-core",
+            "url": "https://github.com/greensock/gsap-skills"
         }
     ]
 }
