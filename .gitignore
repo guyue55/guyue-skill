@@ -2,3 +2,8 @@
 references/sources/
 references/research/*
 !references/research/14-permacomputing-lindy.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
