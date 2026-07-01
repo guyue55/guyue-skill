@@ -19,11 +19,20 @@ Prompts were run with explicit "do not edit files" constraints. The goal was to 
 
 ## Runtime Notes
 
-- The local `AGENTS.md` points to `RTK.md`, but this repository does not currently contain `RTK.md`. The runtime reported the missing file and then continued by reading local skill files.
+- Earlier live replay reported that the local `AGENTS.md` pointed to `RTK.md` while the repository did not contain `RTK.md`.
+- 2026-07-01 follow-up work added `AGENTS.md` and `RTK.md` as lightweight coding-agent adapters. `SKILL.md` remains the public Skill entrypoint.
 - The global skill environment emitted unrelated third-party skill load errors.
 - The runtime also warned that the skills context budget was exceeded, so many external skill descriptions were omitted.
 
 These are productization findings, not failures of the replay itself. They show that the public install path should stay lightweight and that noisy global skill roots can reduce reliability.
+
+Runtime-entrypoint regression:
+
+- Date: 2026-07-01
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-runtime-entrypoint-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: Codex read `RTK.md`, then loaded `SKILL.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, and the relevant `requirement-analysis` child skill. The run did not report `RTK.md missing`.
+- Remaining environment noise: unrelated global skill load errors and skills context budget warnings still appeared.
 
 ## Replay 1: Points Mall, "Write All Code Now"
 

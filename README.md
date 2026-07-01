@@ -45,6 +45,8 @@ bash scripts/test_suite.sh
 
 想先看真实输出，可直接阅读 [examples/quickstart-output.md](examples/quickstart-output.md)。它记录了 2026-07-01 的 Codex read-only 活体回放，包括通过项、偏差和下一步修复边界。
 
+关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。
+
 ## 核心心智矩阵：1 个核心分身 + 12 个专精能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
@@ -163,6 +165,8 @@ git clone https://github.com/guyue55/guyue-skill.git
 
 ```text
 guyue/
+├── AGENTS.md                # coding-agent 项目指令适配入口
+├── RTK.md                   # 轻量运行时内核说明
 ├── SKILL.md                 # 核心路由中枢
 ├── README.md                # 本文件
 ├── GUYUE_PRINCIPLES.md      # 古月大盘心法原则

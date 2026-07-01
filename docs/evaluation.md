@@ -71,6 +71,8 @@ codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-replay-r
 
 Record both passes and deviations. For example, if the runtime follows Guyue's debugging trace but still emits concrete retry code before raw logs are available, mark it as `partial_pass` and convert it into a follow-up boundary fix.
 
+Runtime-entrypoint changes must also confirm that the agent no longer reports missing project instruction files such as `RTK.md`. Record that result in the live replay evidence.
+
 ## Release Evidence Template
 
 Use this template when preparing a release:

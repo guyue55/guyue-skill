@@ -11,6 +11,7 @@
 
 ### Added
 
+- Add `AGENTS.md` and `RTK.md` as lightweight coding-agent runtime entrypoints.
 - Add a structural evaluator for `test-prompts.json`.
 - Add `ecosystem-scout` as the lightweight intake path for external skills and tools.
 - Add Codex read-only live replay evidence under `examples/quickstart-output.md`.
