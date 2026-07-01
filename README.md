@@ -43,6 +43,8 @@ bash scripts/test_suite.sh
 
 更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
 
+想先看真实输出，可直接阅读 [examples/quickstart-output.md](examples/quickstart-output.md)。它记录了 2026-07-01 的 Codex read-only 活体回放，包括通过项、偏差和下一步修复边界。
+
 ## 核心心智矩阵：1 个核心分身 + 12 个专精能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
@@ -172,6 +174,7 @@ guyue/
 │   ├── run_eval.py          # 测试 prompt 结构体检
 │   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
+│   ├── quickstart-output.md # Codex read-only 活体回放证据
 │   └── saas-conversion-demo/# 🎯 交互式高转化 UI/UX Demo (GSAP + Tailwind 最佳实践)
 ├── test-prompts.json        # 预设的干跑测试用例
 ├── references/              #

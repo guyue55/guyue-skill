@@ -59,6 +59,18 @@ A release candidate passes evaluation when:
 
 Live evaluation means replaying the prompts in a real agent session and saving the observed outputs under `examples/` or a release report. Mark structural checks as `dry_run`; mark real agent replay results as `live_run`.
 
+## Live Replay Evidence
+
+Current quickstart replay evidence lives in [../examples/quickstart-output.md](../examples/quickstart-output.md).
+
+Use a read-only runtime when collecting replay output:
+
+```bash
+codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-replay-root.md "<prompt>"
+```
+
+Record both passes and deviations. For example, if the runtime follows Guyue's debugging trace but still emits concrete retry code before raw logs are available, mark it as `partial_pass` and convert it into a follow-up boundary fix.
+
 ## Release Evidence Template
 
 Use this template when preparing a release:

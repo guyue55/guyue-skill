@@ -12,7 +12,9 @@
 
 - Add a structural evaluator for `test-prompts.json`.
 - Add `ecosystem-scout` as the lightweight intake path for external skills and tools.
+- Add Codex read-only live replay evidence under `examples/quickstart-output.md`.
 
 ### Verification
 
 - Run `bash scripts/test_suite.sh` before release or commit.
+- Replay three quickstart prompts in Codex read-only mode and record one `partial_pass` debugging boundary deviation.
