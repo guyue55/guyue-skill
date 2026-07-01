@@ -11,6 +11,7 @@
 
 ### Added
 
+- Add `docs/release-candidate.md` to freeze the current productization baseline, evidence gate, blockers, and next work plan.
 - Add `AGENTS.md` and `RTK.md` as lightweight coding-agent runtime entrypoints.
 - Add `docs/runtime-adapters.md` to define cross-runtime adapter policy without enabling extra tool-specific entrypoints.
 - Add a structural evaluator for `test-prompts.json`.

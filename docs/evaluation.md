@@ -82,6 +82,8 @@ Runtime adapter changes must follow [runtime-adapters.md](runtime-adapters.md):
 
 ## Release Evidence Template
 
+Release-candidate evidence and current blockers are tracked in [release-candidate.md](release-candidate.md). Update that file before a release tag or marketplace submission.
+
 Use this template when preparing a release:
 
 ```markdown

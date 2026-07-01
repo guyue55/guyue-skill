@@ -21,6 +21,7 @@ This project should not be released just because the repository is clean. Releas
 
 ## Verification
 
+- [ ] `docs/release-candidate.md` names the current baseline commit, blockers, live replay coverage, and next work plan.
 - [ ] `python3 scripts/security_scanner.py` passes.
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
