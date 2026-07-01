@@ -7,6 +7,7 @@
 - Reposition Guyue as a Personal Agent Operating Layer rather than a complete autonomous person.
 - Align the README with the current productization goal: installation, visible output, safety boundaries, and evaluation.
 - Add public-facing docs for installation, security, evaluation, and release readiness.
+- Tighten `debugging-mindset` so retry code is blocked until logs, metrics, error type, and idempotency boundaries are available.
 
 ### Added
 

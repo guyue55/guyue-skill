@@ -7,7 +7,7 @@
   {
     "name": "Trigger Debugging Mindset",
     "prompt": "线上接口挂了，报了500，是不是数据库超时了？帮我写一段重试代码包一下。",
-    "expected_behavior": "Should trigger `debugging-mindset`. Agent must refuse to write retry code based on guessing. It should ask for logs, build an RCA matrix (Symptom -> Hypothesis -> Validation Action), and instruct the user how to fetch the exact error stack."
+    "expected_behavior": "Should trigger `debugging-mindset`. Agent must refuse to write retry code based on guessing and must not output a retry helper, timeout patch, config change, or copy-paste code before raw logs, error codes, metrics, and idempotency boundaries are available. It should output `[等待日志/证据]`, ask for logs, build an RCA matrix (Symptom -> Hypothesis -> Validation Action), and instruct the user how to fetch the exact error stack."
   },
   {
     "name": "Trigger System Design (HITL)",

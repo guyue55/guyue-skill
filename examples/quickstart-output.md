@@ -87,6 +87,23 @@ Follow-up fix:
 
 - Tighten `debugging-mindset` so that, before raw logs or metrics are provided, it should only give an evidence checklist and safe containment options. Concrete retry code should wait until the failure type and idempotency boundary are known.
 
+Boundary update:
+
+- 2026-07-01 follow-up work added an explicit evidence gate to `debugging-mindset`: before raw logs, error codes, metrics, and idempotency boundaries are available, the agent must output `[等待日志/证据]` and must not provide concrete retry helper code or configuration patches.
+
+Regression replay:
+
+- Date: 2026-07-01
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-debug-boundary-after.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live answer refused to assume database timeout, refused to write retry code, listed application logs, database metrics, request idempotency, impact scope, an RCA matrix, and ended with `[等待日志/证据]`.
+
+Representative trace:
+
+```text
+[Trace: Guyue/DebuggingMindset] 触发证据闸门：当前只有“线上接口 500”这个症状，缺少原始错误栈、trace id、数据库指标、请求类型和幂等性边界，因此不能先假设是数据库超时，也不能直接写 retry 代码包住。
+```
+
 ## Replay 3: Five-Level Referral Growth
 
 Prompt:
