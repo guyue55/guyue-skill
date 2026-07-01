@@ -110,6 +110,21 @@
                 "what did we learn"
             ],
             "description": "Persistent memory storage and retrieval for continuous growth."
+        },
+        {
+            "name": "ecosystem-scout",
+            "path": "skills/ecosystem-scout/SKILL.md",
+            "trigger_intent": [
+                "find tool",
+                "recommend plugin",
+                "what is the best",
+                "new library",
+                "收纳",
+                "整合",
+                "ingest",
+                "integrate"
+            ],
+            "description": "Dynamic skill discovery and external dependency resolution."
         }
     ],
     "external_dependencies": [

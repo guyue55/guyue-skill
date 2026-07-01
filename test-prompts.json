@@ -53,5 +53,10 @@
     "name": "Trigger Skill Crafting",
     "prompt": "帮我写一个新的 Agent 技能，用来自动化分析代码质量。",
     "expected_behavior": "Should trigger `skill-crafting`. Agent must refuse to blindly generate prompts and instead request to scan workflow logs to distill real-world patterns. Must output the trace: `[Trace: Guyue/SkillCrafting]`."
+  },
+  {
+    "name": "Trigger Ecosystem Scout",
+    "prompt": "帮我找一个适合接入古月的图表渲染 Agent 技能，先评估同类方案，不要直接安装。",
+    "expected_behavior": "Should trigger `ecosystem-scout`. Agent must search current sources, compare at least one alternative, produce a visible evaluation artifact, and stop for approval before writing to `skills_manifest.json` or running install commands. Must preserve Two-Phase Loading and refuse to vendor full third-party README or source content into `skills/`."
   }
 ]

@@ -11,7 +11,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 ## 核心法则 (Core Directives)
 > 强制性遵循 [GUYUE_PRINCIPLES.md](GUYUE_PRINCIPLES.md) 定义的三大核心纪律。
 
-1. **模块化与防臃肿**: 高内聚低耦合。系统上下文极简，知识库剥离至 `references/`。**严禁 `cat` 大文件，强制使用 `grep_search` 按需检索**。
+1. **模块化与防臃肿**: 高内聚低耦合。系统上下文极简，知识库剥离至 `references/`。**严禁 `cat` 大文件，强制使用 `grep_search` 按需检索**。对于外部生态库和技能的引入，坚决执行 Two-Phase Loading 策略，拒绝全文拷贝，统一由 `ecosystem-scout` 提炼为轻量指针写入 `skills_manifest.json` 的 `external_dependencies`。
 2. **纪律**: 跑 `scripts/doctor.py` 探环境，扫 `.guyue_memory/` 查历史。然后编码，最后自测闭环。
 3. **务实**: 选型求稳。优先核心干线。环境保护/相对路径代替硬编码。
 4. **交付**: `feat(模块): 中文描述`。中文注释详尽。
@@ -27,5 +27,6 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
    - 若记忆臃肿，提示用户运行 `python scripts/memory_gc.py` 归档。
 3. **Dispatch**:
    - 查阅 `skills_manifest.json` 匹配意图 (如 `system-design`, `debugging-mindset`)，按对应子技能行事。
+   - **[新增] 生态寻猎拦截 (Ecosystem Routing)**: 若用户提供未知 GitHub/工具链接，或提出模糊的技能需求（如“推荐个做图表的工具”），必须路由至 `ecosystem-scout` 进行联网调研、防臃肿评估与轻量化依赖注册。
 4. **Verify**:
    - 遵循 `superpowers` 验证交付。

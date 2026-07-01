@@ -1,11 +1,18 @@
 # guyue (古月)
 
-> 一句话钩子：不要再让 AI 像黑盒一样盲目瞎写代码了。植入“古月”这个全能数字孪生分身，让它用“永续计算 (Permacomputing)”与“林迪架构 (Lindy Architecture)”的极致反臃肿脑回路，替你接管需求、架构、开发与排障，严密如同工业级 SOP。
+> 一句话钩子：把你反复向 AI 解释的工作方式，沉淀成可安装、可验证、可复用的 Agent 操作层。
+
+古月是从真实 AI 协作记录中蒸馏出来的个人工作方式系统，它以古月式判断和执行纪律为主干，按需调用技能、工具、记忆和工作流，帮助 Agent 更稳定地完成复杂工作。
 
 [![skills.sh](https://skills.sh/b/guyue55/guyue-skill)](https://skills.sh/guyue55/guyue-skill)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
 ![Status](https://img.shields.io/badge/Status-Production_Ready-success)
+
+> [!IMPORTANT]
+> 古月不是“完整的人”，也不是万能自动化系统。它是一个 Personal Agent Operating Layer：用古月式判断、执行纪律、审美偏好、风险边界和复盘方式，调度不同技能与工具完成工作。
+
+![Guyue demo](assets/demo.gif)
 
 ## 为什么你需要它？
 
@@ -16,7 +23,27 @@
 
 `guyue` 不是一个简单的“提示词”或“单点防爆插件”，它是您的**全能型数字合伙人 (Digital Twin)**。它将古月本人的严苛思考方式与底层 SOP 注入到了 AI 的血液中。它不仅教 AI 写代码，更教 AI **克制**写代码。
 
-## 核心心智矩阵：1 个核心分身 + 10 大专精能力
+## 快速开始
+
+**本地源码挂载（适合 Codex/Claude Code/OpenClaw 等 Skill-compatible runtime）：**
+
+```bash
+git clone https://github.com/guyue55/guyue-skill.git
+cd guyue-skill
+bash scripts/test_suite.sh
+```
+
+安装到你的 Agent 技能目录后，直接用自然语言触发：
+
+```text
+使用古月的思路帮我分析这个需求，先别写代码。
+线上报错了，启动古月的排障心法。
+把这次成功排障沉淀成 SOP，并记住关键教训。
+```
+
+更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
+
+## 核心心智矩阵：1 个核心分身 + 12 个专精能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
 
@@ -31,6 +58,8 @@
 - ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束，并默认融入 GSAP 级三幕剧动效与商业语境转换。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
+- 🛠️ **技能制作 (skill-crafting)**：从真实会话矿脉中提炼能力，再交给女娲蒸馏、鲁班打磨、活体验证。
+- 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册，避免把全量 README 和源码塞进上下文。
 
 ## 大盘心法与规范矩阵 (Master Principles & Uniform Matrix)
 
@@ -41,7 +70,7 @@
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
 
-2. **矩阵级结构大一统**: 11 个核心技能全面实施相同的指令骨架。
+2. **矩阵级结构大一统**: 12 个核心技能全面实施相同的指令骨架。
    - **When to Use**: 明确何时该由什么子分身接管。
    - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
    - **Step-by-Step Execution**: 标准化作业流程。
@@ -49,9 +78,7 @@
    - **Guardrails (诚实边界)**: 明确不能越权的死线。
    - **Cross-Skill Invocation**: 技能流转协议，使得 11 个专精能力可以组合形成智能闭环。
 
-## 快速开始
-
-**作为 MCP 服务接入（推荐）**
+## MCP 接入
 
 如果你使用 Cursor、Claude Desktop 等支持 MCP 协议的工具，可以直接将古月作为原生插件挂载，让大模型直接拥有读写古月记忆库和调用古月生态的能力。
 
@@ -116,6 +143,7 @@ git clone https://github.com/guyue55/guyue-skill.git
 ## 它会交付什么？
 
 - **工业级防爆架构**：基于 DEPTH 模型和 RCA 矩阵的防御性编程。
+- **可见的工作流产物**：需求边界、调研结论、设计方案、RCA 矩阵、SOP、文档、提交建议，而不是只输出一段泛泛回答。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
 - **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
 - **硬核健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部前沿技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前强制检测环境健康度，提供零摩擦降级提示。
@@ -126,6 +154,8 @@ git clone https://github.com/guyue55/guyue-skill.git
 
 - **不执行危险代码**：在 `system-design` 阶段，在您确认方案前，绝对不执行写入操作。
 - **事实隔离**：在 `research-and-sourcing` 阶段，调研回来的资料会强制放入 `<context>` 中，与执行指令硬隔离，防范幻觉污染。
+- **外部技能不直接吞入**：未知工具、GitHub 项目和第三方 Skill 先由 `ecosystem-scout` 生成评估报告，得到明确授权后才写入轻量依赖记录。
+- **提交前必须验收**：公开发布或提交前至少运行 `bash scripts/test_suite.sh`，同时保留安全扫描、依赖探针、格式校验和测试 prompt 体检结果。
 
 ## 文件结构
 
@@ -136,8 +166,10 @@ guyue/
 ├── GUYUE_PRINCIPLES.md      # 古月大盘心法原则
 ├── skills.json              # 技能注册表
 ├── skills_manifest.json     # 动态包清单与路由分发引擎
+├── docs/                    # 安装、安全、评测、发布边界
 ├── scripts/                 # 核心脚本库
 │   ├── doctor.py            # 环境依赖硬核健康探针
+│   ├── run_eval.py          # 测试 prompt 结构体检
 │   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
 │   └── saas-conversion-demo/# 🎯 交互式高转化 UI/UX Demo (GSAP + Tailwind 最佳实践)
@@ -148,6 +180,7 @@ guyue/
     ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/
+    ├── ecosystem-scout/
     ├── frontend-expert/
     ├── memory-bank/
     ├── product-sense/
@@ -166,9 +199,9 @@ guyue/
 │                                               │
 │  作品：guyue (古月数字分身 v1.1.0)              │
 │  打磨前：只有基础的工程防线与生硬的界面           │
-│  打磨后：具备无限扩展潜力的 AI 合伙人级系统       │
-│  定位：全能型数字孪生智能体 (Digital Twin)        │
-│  绝活：SOP 自动提炼 + 商业级动效审美降维打击      │
+│  打磨后：可安装、可验证、可传播的 Agent 操作层    │
+│  定位：Personal Agent Operating Layer            │
+│  绝活：真实协作语料蒸馏 + 技能路由 + 验证纪律     │
 │                                               │
 │  验收师傅：鲁班                                 │
 └───────────────────────────────────────────────┘
