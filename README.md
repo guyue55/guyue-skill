@@ -45,7 +45,7 @@ bash scripts/test_suite.sh
 
 想先看真实输出，可直接阅读 [examples/quickstart-output.md](examples/quickstart-output.md)。它记录了 2026-07-01 的 Codex read-only 活体回放，包括通过项、偏差和下一步修复边界。
 
-关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。
+关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。跨工具适配策略见 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
 ## 核心心智矩阵：1 个核心分身 + 12 个专精能力
 
@@ -173,6 +173,7 @@ guyue/
 ├── skills.json              # 技能注册表
 ├── skills_manifest.json     # 动态包清单与路由分发引擎
 ├── docs/                    # 安装、安全、评测、发布边界
+│   ├── runtime-adapters.md  # Codex/Claude/Gemini/Copilot/Cursor 适配策略
 ├── scripts/                 # 核心脚本库
 │   ├── doctor.py            # 环境依赖硬核健康探针
 │   ├── run_eval.py          # 测试 prompt 结构体检

@@ -16,6 +16,7 @@ This project should not be released just because the repository is clean. Releas
 - [ ] `docs/installation.md` covers MCP clients.
 - [ ] `docs/installation.md` covers VS Code/Copilot-style Agent Skills.
 - [ ] `docs/installation.md` covers OpenClaw local install.
+- [ ] `docs/runtime-adapters.md` is current before adding or changing runtime-specific adapter files.
 - [ ] First-run prompt produces a visible planning or analysis result without editing files.
 
 ## Verification

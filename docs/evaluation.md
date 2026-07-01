@@ -73,6 +73,13 @@ Record both passes and deviations. For example, if the runtime follows Guyue's d
 
 Runtime-entrypoint changes must also confirm that the agent no longer reports missing project instruction files such as `RTK.md`. Record that result in the live replay evidence.
 
+Runtime adapter changes must follow [runtime-adapters.md](runtime-adapters.md):
+
+- keep adapters thin and point them back to `RTK.md`;
+- run the local validation suite;
+- run a read-only live replay in the target runtime when feasible;
+- remove the adapter before commit if the runtime does not load it or if it creates duplicated/conflicting instructions.
+
 ## Release Evidence Template
 
 Use this template when preparing a release:

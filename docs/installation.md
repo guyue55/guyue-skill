@@ -35,6 +35,8 @@ This repository also includes a minimal `AGENTS.md` and `RTK.md` for coding-agen
 - `AGENTS.md` tells compatible coding agents to read `RTK.md`.
 - `RTK.md` defines the local source-of-truth order, verification gates, and safety boundaries.
 
+Cross-runtime adapter policy lives in [runtime-adapters.md](runtime-adapters.md). Do not add active `CLAUDE.md`, `GEMINI.md`, Copilot, or Cursor adapter files until that runtime has a real user path and a read-only live replay.
+
 For a quick runtime check:
 
 ```bash
@@ -56,6 +58,8 @@ Then start a new Claude Code session and trigger it with:
 ```
 
 Claude Code has its own project memory conventions. If you need persistent Claude-specific guidance, mirror the small runtime-entrypoint summary into `CLAUDE.md` instead of assuming Claude will load `AGENTS.md` or `RTK.md`.
+
+When adding `CLAUDE.md`, keep it as a thin adapter to `RTK.md`; do not copy the full runtime rules.
 
 ## MCP Clients
 
@@ -82,6 +86,8 @@ Agent Skills are directory-based. The skill directory must contain `SKILL.md`, a
 After installation, review `SKILL.md` before enabling script execution. Keep terminal auto-approval narrow and avoid broad shell allow-lists.
 
 GitHub Copilot and Cursor have their own repository instruction mechanisms. Keep `SKILL.md` as the canonical Skill asset and only copy the runtime-entrypoint summary into those tool-specific instruction files when needed.
+
+If a Copilot or Cursor adapter is added, it must pass the adapter admission gate in [runtime-adapters.md](runtime-adapters.md).
 
 ## OpenClaw
 
