@@ -173,6 +173,7 @@ Additional issues found during a deeper release audit:
 - `skills_manifest.json` paths and child `SKILL.md` frontmatter were only checked by ad hoc probes, so a future manifest entry could point to a missing or mismatched skill without failing CI.
 - `scripts/ai_log_scanner.py` printed helper commands under one fixed home-relative install root, which contradicted the documented `/path/to/guyue` portable install model.
 - Cross-file release configuration was only checked manually, so manifest version, marketplace metadata, `skills.json`, CI workflow commands, optional dependency status, and fixed install-root strings could drift without failing validation.
+- `assets/demo.tape` still outputs `assets/demo.gif`, but that generated media path was not ignored after the placeholder GIF was removed from the public release path.
 
 Fix applied:
 
@@ -191,6 +192,7 @@ Fix applied:
 - Added `skills_manifest.json` skill-path validation to `scripts/ci_validate_skills.py`, covering path existence, repository containment, `SKILL.md` target, directory/name alignment, frontmatter name alignment, and manifest coverage for every `skills/*/SKILL.md`.
 - Replaced the hardcoded home-relative helper-command examples in `scripts/ai_log_scanner.py` with repository-root-relative `python3 scripts/...` commands.
 - Added project configuration validation to `scripts/ci_validate_skills.py`, covering marketplace/manifest version alignment, marketplace entrypoint, `skills.json`, required CI commands, optional external dependency status, and fixed install-root command strings.
+- Added `assets/demo.gif` to `.gitignore` so regenerated demo media cannot be accidentally staged as release evidence.
 
 Fresh install verification after fix:
 
@@ -204,6 +206,7 @@ Fresh install verification after fix:
 - `python3 scripts/ci_validate_skills.py` now reports `skills_manifest.json skill paths valid.`
 - Fixed-install-root string scan over tracked files returns no matches.
 - `python3 scripts/ci_validate_skills.py` now reports `project configuration files valid.` and `no fixed install-root commands detected.`
+- `git check-ignore -v assets/demo.gif` confirms generated demo media is ignored.
 
 ## Next Work Plan
 

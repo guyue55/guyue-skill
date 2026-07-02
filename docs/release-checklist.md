@@ -29,6 +29,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Manifest skill paths, directories, and child `SKILL.md` frontmatter names are validated by `scripts/ci_validate_skills.py`.
 - [x] Diagnostic helper commands do not assume a fixed home-relative install root.
 - [x] Project configuration alignment is validated across manifest, marketplace metadata, `skills.json`, GitHub CI, and optional dependency flags.
+- [x] Generated demo media from `assets/demo.tape` is ignored and cannot re-enter the release path accidentally.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
