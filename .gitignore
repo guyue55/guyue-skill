@@ -8,3 +8,6 @@ references/research/*
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Local runtime indexes can contain machine-specific paths.
+.guyue_memory/local_skills_index.json

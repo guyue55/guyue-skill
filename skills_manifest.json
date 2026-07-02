@@ -162,6 +162,19 @@
             "package_id": "greensock/gsap-skills",
             "command": "git clone https://github.com/greensock/gsap-skills ~/.gemini/config/skills/gsap-core",
             "url": "https://github.com/greensock/gsap-skills"
+        },
+        {
+            "name": "find-skills",
+            "description": "Agent技能生态扫描与探索引擎",
+            "package_id": "vercel-labs/skills@find-skills",
+            "trigger_intent": [
+                "找技能",
+                "找工具",
+                "how do I do",
+                "find a skill"
+            ],
+            "command": "npx skills add vercel-labs/skills@find-skills",
+            "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills"
         }
     ]
 }
