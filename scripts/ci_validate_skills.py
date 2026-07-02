@@ -46,6 +46,110 @@ def check_memory_index(file_path):
     return True
 
 
+def load_json_file(file_path, label):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f), True
+    except Exception as e:
+        print(f"❌ [{label} ERROR] {file_path}: {e}", file=sys.stderr)
+        return None, False
+
+
+def check_project_config(repo_root):
+    passed = True
+    manifest_path = os.path.join(repo_root, 'skills_manifest.json')
+    marketplace_path = os.path.join(repo_root, '.claude-plugin', 'marketplace.json')
+    skills_json_path = os.path.join(repo_root, 'skills.json')
+    workflow_path = os.path.join(repo_root, '.github', 'workflows', 'ci.yml')
+    root_skill_path = os.path.join(repo_root, 'SKILL.md')
+
+    manifest, ok = load_json_file(manifest_path, 'CONFIG')
+    passed = passed and ok
+    marketplace, ok = load_json_file(marketplace_path, 'CONFIG')
+    passed = passed and ok
+    skills_json, ok = load_json_file(skills_json_path, 'CONFIG')
+    passed = passed and ok
+
+    if not passed:
+        return False
+
+    if marketplace.get('name') != 'guyue':
+        print(f"❌ [CONFIG ERROR] marketplace name must be guyue, got {marketplace.get('name')}", file=sys.stderr)
+        passed = False
+
+    if marketplace.get('entrypoint') != 'SKILL.md':
+        print(f"❌ [CONFIG ERROR] marketplace entrypoint must be SKILL.md, got {marketplace.get('entrypoint')}", file=sys.stderr)
+        passed = False
+
+    if not os.path.exists(root_skill_path):
+        print("❌ [CONFIG ERROR] SKILL.md entrypoint does not exist", file=sys.stderr)
+        passed = False
+
+    if manifest.get('version') != marketplace.get('version'):
+        print(
+            f"❌ [CONFIG ERROR] version mismatch: skills_manifest.json={manifest.get('version')} "
+            f"marketplace.json={marketplace.get('version')}",
+            file=sys.stderr,
+        )
+        passed = False
+
+    if skills_json.get('entries') != [{'path': 'skills'}]:
+        print(f"❌ [CONFIG ERROR] skills.json entries must be [{{'path': 'skills'}}], got {skills_json.get('entries')}", file=sys.stderr)
+        passed = False
+
+    for dep in manifest.get('external_dependencies', []):
+        if dep.get('required', False):
+            print(f"❌ [CONFIG ERROR] external dependency must be optional in this release: {dep.get('name')}", file=sys.stderr)
+            passed = False
+
+    try:
+        with open(workflow_path, 'r', encoding='utf-8') as f:
+            workflow = yaml.safe_load(f) or {}
+    except Exception as e:
+        print(f"❌ [CONFIG ERROR] {workflow_path}: {e}", file=sys.stderr)
+        return False
+
+    workflow_text = json.dumps(workflow, ensure_ascii=False)
+    required_ci_commands = [
+        'pip install -r requirements.txt',
+        'python scripts/security_scanner.py',
+        'python scripts/ci_validate_skills.py',
+        'python scripts/run_eval.py',
+    ]
+    for command in required_ci_commands:
+        if command not in workflow_text:
+            print(f"❌ [CONFIG ERROR] GitHub CI missing command: {command}", file=sys.stderr)
+            passed = False
+
+    return passed
+
+
+def check_fixed_install_roots(repo_root):
+    forbidden_patterns = [
+        '~/skills/' + 'guyue',
+    ]
+    passed = True
+
+    for file_path in list_release_files(repo_root):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except UnicodeDecodeError:
+            continue
+        except OSError as e:
+            print(f"❌ [CONFIG ERROR] Failed to read {file_path}: {e}", file=sys.stderr)
+            passed = False
+            continue
+
+        rel_path = os.path.relpath(file_path, repo_root)
+        for pattern in forbidden_patterns:
+            if pattern in content:
+                print(f"❌ [CONFIG ERROR] Fixed install root `{pattern}` found in {rel_path}", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_manifest_skill_paths(repo_root):
     manifest_path = os.path.join(repo_root, 'skills_manifest.json')
     try:
@@ -141,6 +245,23 @@ def check_manifest_skill_paths(repo_root):
         passed = False
 
     return passed
+
+
+def list_release_files(repo_root):
+    try:
+        output = subprocess.check_output(
+            ['git', '-C', repo_root, 'ls-files'],
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+        return [os.path.join(repo_root, line) for line in output.splitlines() if line.strip()]
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        release_files = []
+        for root, dirs, files in os.walk(repo_root):
+            dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
+            for file in files:
+                release_files.append(os.path.join(root, file))
+        return release_files
 
 
 def check_skill_markdown(file_path):
@@ -248,21 +369,7 @@ def check_mcp_server_paths(repo_root):
 
 
 def list_markdown_files(repo_root):
-    try:
-        output = subprocess.check_output(
-            ['git', '-C', repo_root, 'ls-files', '*.md'],
-            text=True,
-            stderr=subprocess.STDOUT,
-        )
-        return [os.path.join(repo_root, line) for line in output.splitlines() if line.strip()]
-    except (FileNotFoundError, subprocess.CalledProcessError):
-        markdown_files = []
-        for root, dirs, files in os.walk(repo_root):
-            dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
-            for file in files:
-                if file.endswith('.md'):
-                    markdown_files.append(os.path.join(root, file))
-        return markdown_files
+    return [path for path in list_release_files(repo_root) if path.endswith('.md')]
 
 
 def check_markdown_internal_links(repo_root):
@@ -317,6 +424,16 @@ def main():
             all_passed = False
         else:
             print("✅ .guyue_memory/index.json valid.")
+
+    if check_project_config(repo_root):
+        print("✅ project configuration files valid.")
+    else:
+        all_passed = False
+
+    if check_fixed_install_roots(repo_root):
+        print("✅ no fixed install-root commands detected.")
+    else:
+        all_passed = False
 
     if check_manifest_skill_paths(repo_root):
         print("✅ skills_manifest.json skill paths valid.")
