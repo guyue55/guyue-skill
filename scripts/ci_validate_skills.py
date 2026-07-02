@@ -46,6 +46,103 @@ def check_memory_index(file_path):
     return True
 
 
+def check_manifest_skill_paths(repo_root):
+    manifest_path = os.path.join(repo_root, 'skills_manifest.json')
+    try:
+        with open(manifest_path, 'r', encoding='utf-8') as f:
+            manifest = json.load(f)
+    except Exception as e:
+        print(f"❌ [MANIFEST ERROR] {manifest_path}: {e}", file=sys.stderr)
+        return False
+
+    skills = manifest.get('skills')
+    if not isinstance(skills, list):
+        print(f"❌ [MANIFEST ERROR] {manifest_path}: skills must be a list", file=sys.stderr)
+        return False
+
+    passed = True
+    manifest_names = set()
+    repo_real = os.path.realpath(repo_root)
+
+    for idx, skill in enumerate(skills):
+        if not isinstance(skill, dict):
+            print(f"❌ [MANIFEST ERROR] skills[{idx}] must be an object", file=sys.stderr)
+            passed = False
+            continue
+
+        name = str(skill.get('name', '')).strip()
+        rel_path = str(skill.get('path', '')).strip()
+        if not name:
+            print(f"❌ [MANIFEST ERROR] skills[{idx}] missing name", file=sys.stderr)
+            passed = False
+            continue
+        if name in manifest_names:
+            print(f"❌ [MANIFEST ERROR] duplicate skill name: {name}", file=sys.stderr)
+            passed = False
+        manifest_names.add(name)
+
+        if not rel_path:
+            print(f"❌ [MANIFEST ERROR] {name}: missing path", file=sys.stderr)
+            passed = False
+            continue
+
+        abs_path = os.path.realpath(os.path.join(repo_root, rel_path))
+        if not (abs_path == repo_real or abs_path.startswith(repo_real + os.sep)):
+            print(f"❌ [MANIFEST ERROR] {name}: path escapes repository: {rel_path}", file=sys.stderr)
+            passed = False
+            continue
+        if not os.path.exists(abs_path):
+            print(f"❌ [MANIFEST ERROR] {name}: path not found: {rel_path}", file=sys.stderr)
+            passed = False
+            continue
+        if os.path.basename(abs_path) != 'SKILL.md':
+            print(f"❌ [MANIFEST ERROR] {name}: path must point to SKILL.md: {rel_path}", file=sys.stderr)
+            passed = False
+        if os.path.basename(os.path.dirname(abs_path)) != name:
+            print(f"❌ [MANIFEST ERROR] {name}: directory name does not match manifest path {rel_path}", file=sys.stderr)
+            passed = False
+
+        try:
+            with open(abs_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            if not content.startswith('---'):
+                print(f"❌ [MANIFEST ERROR] {name}: missing frontmatter in {rel_path}", file=sys.stderr)
+                passed = False
+                continue
+            end_idx = content.find('---', 3)
+            if end_idx == -1:
+                print(f"❌ [MANIFEST ERROR] {name}: unclosed frontmatter in {rel_path}", file=sys.stderr)
+                passed = False
+                continue
+            frontmatter = yaml.safe_load(content[3:end_idx]) or {}
+            frontmatter_name = frontmatter.get('name')
+            if frontmatter_name != name:
+                print(f"❌ [MANIFEST ERROR] {name}: frontmatter name is {frontmatter_name}", file=sys.stderr)
+                passed = False
+        except Exception as e:
+            print(f"❌ [MANIFEST ERROR] {name}: failed to inspect {rel_path}: {e}", file=sys.stderr)
+            passed = False
+
+    skills_dir = os.path.join(repo_root, 'skills')
+    actual_names = set()
+    if os.path.isdir(skills_dir):
+        for entry in os.listdir(skills_dir):
+            skill_path = os.path.join(skills_dir, entry, 'SKILL.md')
+            if os.path.isfile(skill_path):
+                actual_names.add(entry)
+
+    missing_from_manifest = sorted(actual_names - manifest_names)
+    missing_from_disk = sorted(manifest_names - actual_names)
+    if missing_from_manifest:
+        print(f"❌ [MANIFEST ERROR] skill directories missing from manifest: {missing_from_manifest}", file=sys.stderr)
+        passed = False
+    if missing_from_disk:
+        print(f"❌ [MANIFEST ERROR] manifest skills missing from skills/: {missing_from_disk}", file=sys.stderr)
+        passed = False
+
+    return passed
+
+
 def check_skill_markdown(file_path):
     """
     Check if the SKILL.md has valid YAML frontmatter containing 'name' and 'description'
@@ -220,6 +317,11 @@ def main():
             all_passed = False
         else:
             print("✅ .guyue_memory/index.json valid.")
+
+    if check_manifest_skill_paths(repo_root):
+        print("✅ skills_manifest.json skill paths valid.")
+    else:
+        all_passed = False
 
     if check_mcp_server_paths(repo_root):
         print("✅ src/mcp_server.py repository paths valid.")

@@ -26,6 +26,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] MCP server resolves manifest and memory paths from the repository root even when launched from `src/`.
 - [x] `SKILL.md` distinguishes required dependency blockers from optional ecosystem enhancement warnings.
 - [x] Public/tracked Markdown internal links are validated by `scripts/ci_validate_skills.py`.
+- [x] Manifest skill paths, directories, and child `SKILL.md` frontmatter names are validated by `scripts/ci_validate_skills.py`.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
