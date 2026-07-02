@@ -27,6 +27,6 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
    - 若记忆臃肿，提示用户运行 `python scripts/memory_gc.py` 归档。
 3. **Dispatch**:
    - 查阅 `skills_manifest.json` 匹配意图 (如 `system-design`, `debugging-mindset`)，按对应子技能行事。
-   - **[新增] 生态寻猎拦截 (Ecosystem Routing)**: 若用户提供未知 GitHub/工具链接，或提出模糊的技能需求（如“推荐个做图表的工具”），必须路由至 `ecosystem-scout` 进行联网调研、防臃肿评估与轻量化依赖注册。
-4. **Verify**:
-   - 遵循 `superpowers` 验证交付。
+   - **[新增] 泛生态受控调度 (Controlled Ecosystem Invocation)**: 对于记录在 `.guyue_memory/local_skills_index.json` 或 `skills_manifest.json` 中的外部技能，只能视作“可发现的候选能力”。一旦用户意图匹配，先读取其公开说明和本地 `SKILL.md`（如存在）掌握边界，再按 `security-gate` 做安全预检；涉及 CLI、网络请求、安装、写入或下载时，必须展示将执行的动作并等待用户明确授权。
+   - **生态安检 (Security Gate)**: 若涉及第三方技能包的执行、收纳或代码读取，必须首先调用 `skills/security-gate`，运行 `python3 scripts/run_security_scan.py` 进行本地启发式预检；预检不是完整供应链审计，见红旗即拦截，见黄旗则等待人工确认。
+   - **生态寻猎拦截 (Ecosystem Routing)**: 若用户提供未知 GitHub/工具链接，或提出模糊的技能需求（如“推荐个做图表的工具”、“收纳 xxx”），必须路由至 `ecosystem-scout` 进行联网调研、防臃肿评估与轻量化依赖注册。

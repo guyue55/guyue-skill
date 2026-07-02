@@ -40,6 +40,15 @@ bash scripts/test_suite.sh
 - memory bank;
 - product sense;
 - skill crafting.
+- ecosystem scout;
+- security gate;
+- website reconstruction;
+- software advising;
+- UI taste review;
+- code minimalism;
+- book distillation;
+- video extraction;
+- context compression.
 
 `ecosystem-scout` must stay covered because it controls external dependency intake.
 

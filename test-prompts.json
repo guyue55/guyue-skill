@@ -58,5 +58,45 @@
     "name": "Trigger Ecosystem Scout",
     "prompt": "帮我找一个适合接入古月的图表渲染 Agent 技能，先评估同类方案，不要直接安装。",
     "expected_behavior": "Should trigger `ecosystem-scout`. Agent must search current sources, compare at least one alternative, produce a visible evaluation artifact, and stop for approval before writing to `skills_manifest.json` or running install commands. Must preserve Two-Phase Loading and refuse to vendor full third-party README or source content into `skills/`."
+  },
+  {
+    "name": "Trigger AI Website Cloner",
+    "prompt": "用 ai-website-cloner 帮我重建这个我自己公司的落地页，先不要抓取任何登录后内容。",
+    "expected_behavior": "Should trigger `ai-website-cloner`. Agent must confirm the page is owned, authorized, or publicly allowed for analysis; refuse to bypass login, paywalls, DRM, or anti-abuse controls; collect desktop/mobile evidence; and produce a reconstruction plan before writing code."
+  },
+  {
+    "name": "Trigger Software Advisor",
+    "prompt": "推荐一个开源 CRM，优先查古月本地精选库。",
+    "expected_behavior": "Should trigger `software-advisor`. Agent must search `skills/software-advisor/software_catalog.json` first using a targeted read or `rg`; if no match exists, clearly label the response as outside the local curated database before giving web or general-experience recommendations."
+  },
+  {
+    "name": "Trigger Taste Aesthetics",
+    "prompt": "这个 SaaS 后台页面太 AI 味了，用 taste-aesthetics 审一下。",
+    "expected_behavior": "Should trigger `taste-aesthetics`. Agent must output a design read with dial settings, identify concrete generic-UI issues, and suggest targeted changes without adding decorative gradients, oversized heroes, or unrelated marketing copy."
+  },
+  {
+    "name": "Trigger Code Minimalism",
+    "prompt": "用 code-minimalism 看看这个功能是不是过度设计了，能砍就砍。",
+    "expected_behavior": "Should trigger `code-minimalism`. Agent must output a `[Ponytail Check]`, stop at the earliest YAGNI or reuse layer that applies, and preserve security, error handling, and accessibility requirements while reducing unnecessary abstraction."
+  },
+  {
+    "name": "Trigger Book Distiller",
+    "prompt": "把这篇方法论文档用 book-distiller 提炼成可复用技能，不要写普通读后感。",
+    "expected_behavior": "Should trigger `book-distiller`. Agent must reject narrative-only summaries, extract method-specific decision rules, preserve short source excerpts within copyright limits, and output a skill-shaped workflow with boundaries and test prompts."
+  },
+  {
+    "name": "Trigger Video Extractor",
+    "prompt": "帮我分析这个公开视频链接，先只提取元数据和字幕规划，不要下载视频文件。",
+    "expected_behavior": "Should trigger `video-extractor`. Agent must verify authorization and platform limits, default to metadata-only mode, refuse to bypass DRM/paywalls/private groups, and ask before downloading large media or running ASR."
+  },
+  {
+    "name": "Trigger Context Compressor",
+    "prompt": "这个日志太长了，用 context-compressor 先压缩出关键错误路径。",
+    "expected_behavior": "Should trigger `context-compressor`. Agent must avoid full-file dumps, use `rg`, `jq`, AST extraction, or slicing first, preserve source traceability with safe relative paths, and avoid leaking local account or machine paths in public output."
+  },
+  {
+    "name": "Trigger Security Gate",
+    "prompt": "收纳这个第三方技能前，先用 security-gate 扫描一下有没有注入和越权风险。",
+    "expected_behavior": "Should trigger `security-gate`. Agent must run or propose `python3 scripts/run_security_scan.py <target>`, explain that this is a local heuristic preflight rather than a complete supply-chain audit, block on red findings, and ask for explicit approval on yellow findings."
   }
 ]

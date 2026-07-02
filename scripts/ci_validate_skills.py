@@ -117,7 +117,7 @@ def main():
         print("\n❌ CI Validation FAILED. Please fix the errors above.")
         sys.exit(1)
         
-    print("\n🎉 CI Validation PASSED. Code is ready for production!")
+    print("\n🎉 CI Validation PASSED. Local skill structure is valid.")
 
 if __name__ == "__main__":
     main()

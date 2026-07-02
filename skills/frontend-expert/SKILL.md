@@ -1,6 +1,13 @@
 ---
 name: frontend-expert
-description: 古月视角的前端审美与交互专精。深度整合 ui-ux-pro-max 设计规范与 gsap-core 动画能力。接管涉及 UI/UX 的系统设计和代码实现，强制贯彻“商业代价转译”心智、Vanilla/Tailwind 优先、现代排版、GSAP微交互与无障碍 (a11y) 约束。
+description: Frontend UI/UX expert focusing on commercial translation, GSAP animations, and Tailwind minimalism.
+trigger_includes:
+  - "写个页面"
+  - "设计个前端"
+  - "前端交互"
+  - "UI/UX"
+  - "动画效"
+  - "商业化界面"
 ---
 
 # 古月 / 前端与交互专精 (Frontend & UX Expert)
@@ -17,6 +24,7 @@ description: 古月视角的前端审美与交互专精。深度整合 ui-ux-pro
   - **玻璃拟态 (Glassmorphism)**：适度使用 `backdrop-filter: blur()`。
   - **克制的色彩 (Restrained Palette)**：不超过 5 种主色调（参考 ui-ux-pro-max），摒弃高饱和原色，使用 HSL 高级灰和无衬线现代字体 (如 Inter, Roboto)。
   - **排版呼吸感 (Typography & Whitespace)**：留白即设计。使用清晰的间距系统（4px/8px 体系）。
+  - **反 AI 廉价感 (Anti AI-Slop & Taste)**：吸收 `taste-skill` 的顶级审美约束。坚决抵制呆板的十二栅格填充和对称排版。强制引入高级字重对比、非对称布局，并通过极简主义与大面积留白创造“贵气”的视觉体验。
 
 ## 决策启发式 (Decision Heuristics)
 
@@ -84,3 +92,9 @@ export function initHeroAnimation() {
 ## Cross-Skill Invocation (流转边界)
 在执行过程中，如果超越了本视角的处理范围，请主动流转：
 - 遇到复杂的后端数据聚合要求 -> 剥离，转交 `system-design`
+
+
+## Anti-Slop 强制纪律 (Aesthetic Anti-Slop)
+- **抵制十二栅格对称**：除非明确要求，否则绝对禁止生成死板的、两边完全对称的 12-col 布局。必须采用大面积留白与非对称设计打破 AI 廉价感。
+- **禁止框架依赖堆砌**：对于单页面或弱状态页面，严禁引入 Redux/Zustand 或庞大的 React 框架。优先交付仅依赖 Tailwind + Vanilla JS (GSAP) 的干净代码。
+- **硬性无障碍约束**：所有按钮与可点击组件，必须强制在代码中带上 `aria-label` 与悬停 (focus/hover) 态反馈，缺失视为 P0 级违规。

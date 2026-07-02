@@ -9,9 +9,13 @@
 - Add public-facing docs for installation, security, evaluation, and release readiness.
 - Tighten `debugging-mindset` so retry code is blocked until logs, metrics, error type, and idempotency boundaries are available.
 - Tighten `ecosystem-scout` so external skills are vetted through official sources and public manifests never store machine-local paths.
+- Mark newly indexed ecosystem skills as optional dependencies so local validation does not fail when optional tools are absent.
+- Replace unsafe "direct external skill execution" wording with controlled invocation, safety preflight, and explicit approval gates.
 
 ### Added
 
+- Add eight routed extension skills: `security-gate`, `ai-website-cloner`, `software-advisor`, `taste-aesthetics`, `code-minimalism`, `book-distiller`, `video-extractor`, and `context-compressor`.
+- Add release evaluation prompts covering every new routed extension skill.
 - Add `docs/release-candidate.md` to freeze the current productization baseline, evidence gate, blockers, and next work plan.
 - Add `AGENTS.md` and `RTK.md` as lightweight coding-agent runtime entrypoints.
 - Add `docs/runtime-adapters.md` to define cross-runtime adapter policy without enabling extra tool-specific entrypoints.

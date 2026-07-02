@@ -50,6 +50,7 @@ def check_dependencies():
 
     all_good = True
     missing_deps = []
+    optional_missing = []
 
     print("🩺 正在执行依赖健康探针 (Doctor)...")
     for dep in deps:
@@ -57,6 +58,7 @@ def check_dependencies():
         package_id = dep.get("package_id")
         command = dep.get("command")
         url = dep.get("url", "No URL provided")
+        required = dep.get("required", True)
         
         # Determine the likely folder name (usually the repo name or the skill name)
         repo_name = package_id.split("/")[-1] if "/" in package_id else package_id
@@ -79,13 +81,23 @@ def check_dependencies():
                 break
         
         if not found:
-            print_status(f"依赖缺失: {name} ({package_id})", is_error=True)
-            missing_deps.append((name, url, command))
-            all_good = False
+            if required:
+                print_status(f"依赖缺失: {name} ({package_id})", is_error=True)
+                missing_deps.append((name, url, command))
+                all_good = False
+            else:
+                print(f"⚠️ 可选依赖未安装: {name} ({package_id})")
+                optional_missing.append((name, url, command))
 
     print("\n--- 探针诊断报告 ---")
     if all_good:
-        print("🎉 所有依赖均已就绪，环境健康！")
+        print("🎉 必需依赖均已就绪，环境健康！")
+        if optional_missing:
+            print("\n--- 可选增强依赖（不阻塞本地验证）---")
+            for name, url, cmd in optional_missing:
+                print(f"- **{name}** (来源: {url})")
+                if cmd:
+                    print(f"  可选安装命令: `{cmd}`")
         sys.exit(0)
     else:
         print("> [!WARNING]")

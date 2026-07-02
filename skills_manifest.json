@@ -1,6 +1,6 @@
 {
     "name": "guyue-digital-twin",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "skills": [
         {
@@ -125,6 +125,95 @@
                 "integrate"
             ],
             "description": "Dynamic skill discovery and external dependency resolution."
+        },
+        {
+            "name": "ai-website-cloner",
+            "path": "skills/ai-website-cloner/SKILL.md",
+            "trigger_intent": [
+                "clone website",
+                "克隆网页",
+                "copy site",
+                "rebuild this page"
+            ],
+            "description": "Reverse-engineer and clone one or more websites in one shot."
+        },
+        {
+            "name": "software-advisor",
+            "path": "skills/software-advisor/SKILL.md",
+            "trigger_intent": [
+                "recommend tool",
+                "推荐软件",
+                "开源工具推荐",
+                "what is a good tool for"
+            ],
+            "description": "Knowledge-base advisor for software selection and open source tools."
+        },
+        {
+            "name": "taste-aesthetics",
+            "path": "skills/taste-aesthetics/SKILL.md",
+            "trigger_intent": [
+                "前端审美",
+                "高级UI",
+                "taste",
+                "vibe coding",
+                "anti-slop"
+            ],
+            "description": "Aesthetic UI/UX constraints. Prevents AI generic output. Applies 3-Dials and enforces design system matching."
+        },
+        {
+            "name": "code-minimalism",
+            "path": "skills/code-minimalism/SKILL.md",
+            "trigger_intent": [
+                "极简代码",
+                "YAGNI",
+                "减少冗余代码",
+                "ponytail"
+            ],
+            "description": "Lazy senior developer mode. YAGNI principle enforcement. Writes the minimum effective code."
+        },
+        {
+            "name": "book-distiller",
+            "path": "skills/book-distiller/SKILL.md",
+            "trigger_intent": [
+                "知识蒸馏",
+                "仓颉",
+                "沉淀书本知识",
+                "turn book into skill"
+            ],
+            "description": "Distill methodologies, decision frameworks, and principles from books and long-form content into atomic, reusable agent skills."
+        },
+        {
+            "name": "video-extractor",
+            "path": "skills/video-extractor/SKILL.md",
+            "trigger_intent": [
+                "下载视频",
+                "视频抓取",
+                "提取视频脚本",
+                "video downloader"
+            ],
+            "description": "Methodologies for extracting normalized metadata, post captions, transcripts, and source media from video platforms."
+        },
+        {
+            "name": "context-compressor",
+            "path": "skills/context-compressor/SKILL.md",
+            "trigger_intent": [
+                "压缩上下文",
+                "节省token",
+                "headroom"
+            ],
+            "description": "Methodology for dynamically compressing Agent context, Prompts, JSON, and ASTs to save tokens and reduce latency."
+        },
+        {
+            "name": "security-gate",
+            "path": "skills/security-gate/SKILL.md",
+            "trigger_intent": [
+                "扫描漏洞",
+                "技能安全",
+                "防注入",
+                "审核技能",
+                "security scan"
+            ],
+            "description": "Local safety preflight for third-party skills, scripts, and external code before use or intake."
         }
     ],
     "external_dependencies": [
@@ -175,6 +264,90 @@
             ],
             "command": "npx skills add vercel-labs/skills@find-skills",
             "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills"
+        },
+        {
+            "name": "taste-skill",
+            "description": "防止AI生成同质化UI的顶级审美约束技能",
+            "package_id": "Leonxlnx/taste-skill",
+            "trigger_intent": [
+                "提升审美",
+                "拒绝AI感",
+                "高级UI",
+                "taste",
+                "vibe coding"
+            ],
+            "command": "npx skills add Leonxlnx/taste-skill",
+            "url": "https://github.com/Leonxlnx/taste-skill",
+            "required": false
+        },
+        {
+            "name": "headroom",
+            "description": "LLM上下文压缩与Token节省中间件",
+            "package_id": "chopratejas/headroom",
+            "trigger_intent": [
+                "压缩上下文",
+                "节省token",
+                "headroom",
+                "上下文过长"
+            ],
+            "command": "npx skills add chopratejas/headroom",
+            "url": "https://github.com/chopratejas/headroom",
+            "required": false
+        },
+        {
+            "name": "ponytail",
+            "description": "强制极简、YAGNI原则的AI编程约束纪律",
+            "package_id": "DietrichGebert/ponytail",
+            "trigger_intent": [
+                "极简代码",
+                "YAGNI",
+                "减少冗余代码",
+                "ponytail"
+            ],
+            "command": "npx skills add DietrichGebert/ponytail",
+            "url": "https://github.com/DietrichGebert/ponytail",
+            "required": false
+        },
+        {
+            "name": "cangjie-skill",
+            "description": "将书籍、视频知识蒸馏为Agent原子技能",
+            "package_id": "kangarooking/cangjie-skill",
+            "trigger_intent": [
+                "知识蒸馏",
+                "仓颉",
+                "沉淀书本知识",
+                "沉淀视频技能"
+            ],
+            "command": "npx skills add kangarooking/cangjie-skill",
+            "url": "https://github.com/kangarooking/cangjie-skill",
+            "required": false
+        },
+        {
+            "name": "video-downloader",
+            "description": "视频下载与自动化处理技能",
+            "package_id": "kangarooking/kangarooking-skills/video-downloader",
+            "trigger_intent": [
+                "下载视频",
+                "视频抓取",
+                "video downloader"
+            ],
+            "command": "npx skills add kangarooking/kangarooking-skills",
+            "url": "https://github.com/kangarooking/kangarooking-skills/tree/main/video-downloader",
+            "required": false
+        },
+        {
+            "name": "skillspector",
+            "description": "NVIDIA开源的AI Agent技能安全扫描引擎",
+            "package_id": "NVIDIA/SkillSpector",
+            "trigger_intent": [
+                "扫描漏洞",
+                "技能安全",
+                "防注入",
+                "审核技能"
+            ],
+            "command": "git clone https://github.com/NVIDIA/SkillSpector ~/.cc-switch/skills/skillspector",
+            "url": "https://github.com/NVIDIA/SkillSpector",
+            "required": false
         }
     ]
 }

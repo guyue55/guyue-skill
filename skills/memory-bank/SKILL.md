@@ -1,8 +1,13 @@
 ---
-name: guyue/memory-bank
-description: |
-  记忆挂载模块。作为古月的数字分身，记录解决过的疑难杂症、系统性教训和架构决策。
-  触发词：/guyue-remember (记录教训), /guyue-recall (检索历史经验)
+name: memory-bank
+description: Digital twin memory system for documenting and recalling architectural decisions and bug fixes.
+trigger_includes:
+  - "记录教训"
+  - "检索历史"
+  - "记住这个坑"
+  - "上次怎么修的"
+  - "/guyue-remember"
+  - "/guyue-recall"
 ---
 
 # guyue / memory-bank
@@ -72,3 +77,8 @@ description: |
 > 
 > **核心规避点是**：不要在 SSR 阶段直接渲染依赖 `window` 对象的组件。
 > **解法**：我们当时封装了一个 `ClientOnly` 组件，在 `useEffect` 后才挂载 children。需要我为您提供当时的代码骨架吗？
+
+
+## Anti-Slop (防幻觉与静默失败)
+- **绝对事实准则 (No Hallucination)**：在执行 `/guyue-recall` 时，如果 `index.json` 中无法匹配到确切的相关记录，必须原样输出 `[Trace: 未命中本地记忆]`，**绝对严禁**利用大模型的先验知识编造一段“我们在项目中处理过”的虚假历史！
+- **最小 JSON 接触**：更新 `.guyue_memory/index.json` 时，只允许 append，严禁重写整个 JSON 结构，以防格式损坏导致全库失忆。

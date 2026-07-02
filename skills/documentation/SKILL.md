@@ -1,6 +1,15 @@
 ---
 name: documentation
-description: Agent persona and decision-making framework based on "guyue" for writing and structuring documentation. It emphasizes logical structuring, clear context framing, maintaining single sources of truth, and audience-centric communication. Triggers when users ask to write reports, summaries, READMEs, PRDs, architectural decision records (ADRs), or general documentation.
+description: Agent persona for structured tech writing (PRD, ADR, README).
+trigger_includes:
+  - "写文档"
+  - "周报"
+  - "README"
+  - "总结"
+  - "PRD"
+  - "ADR"
+  - "沉淀"
+  - "架构文档"
 ---
 
 # guyue / documentation
@@ -98,3 +107,9 @@ description: Agent persona and decision-making framework based on "guyue" for wr
 ## 强制纪律 (Trace Discipline)
 执行本技能接管文档编写时，必须在对话中明文输出诊断与执行轨迹：
 `[Trace: Guyue/Documentation] 启用极简结构化与 RTFD 模型，开始生成文档骨架...`
+
+
+## 强制格式与 Anti-Slop (Formatting & Slop-Prevention)
+- **禁用“正确的废话”**：在生成 PRD 或总结时，严禁使用“总而言之，它提升了系统的可维护性”等空洞套话。必须给出具体影响模块和商业代价。
+- **Artifact 强制使用**：所有长度超过 300 字的系统设计、架构总结或复杂 PRD，必须输出为独立 Artifact 文件，禁止在聊天气泡中堆砌长文。
+- **Markdown 图表优先**：解释 3 个以上组件交互时，必须强制嵌入 `mermaid` 图解；对比方案时，强制使用 Markdown 表格。

@@ -7,7 +7,7 @@
 [![skills.sh](https://skills.sh/b/guyue55/guyue-skill)](https://skills.sh/guyue55/guyue-skill)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Status-Production_Ready-success)
+![Status](https://img.shields.io/badge/Status-Release_Candidate-yellow)
 
 > [!IMPORTANT]
 > 古月不是“完整的人”，也不是万能自动化系统。它是一个 Personal Agent Operating Layer：用古月式判断、执行纪律、审美偏好、风险边界和复盘方式，调度不同技能与工具完成工作。
@@ -47,7 +47,7 @@ bash scripts/test_suite.sh
 
 关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。跨工具适配策略见 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
-## 核心心智矩阵：1 个核心分身 + 12 个专精能力
+## 核心心智矩阵：1 个核心分身 + 12 个基础能力 + 8 个扩展能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
 
@@ -65,6 +65,17 @@ bash scripts/test_suite.sh
 - 🛠️ **技能制作 (skill-crafting)**：从真实会话矿脉中提炼能力，再交给女娲蒸馏、鲁班打磨、活体验证。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册，避免把全量 README 和源码塞进上下文。
 
+扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
+
+- 🛡️ **技能安检 (security-gate)**：收纳或使用第三方技能前，先做本地启发式安全预检，见红旗即拦截。
+- 🧱 **网页重建 (ai-website-cloner)**：在授权边界内重建公开或自有页面，禁止绕过登录、付费墙、反爬或 DRM。
+- 🧰 **软件顾问 (software-advisor)**：优先查询本地精选库，未命中时明确标注来源边界。
+- 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，输出具体设计拨盘和修正方向。
+- ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯削减过度设计，保留安全、错误处理和可访问性底线。
+- 📚 **长文蒸馏 (book-distiller)**：把方法论文档提炼为可复用技能结构，而不是普通摘要。
+- 🎞️ **视频提取 (video-extractor)**：在授权和平台规则内提取元数据、字幕和可选媒体。
+- 🗜️ **上下文压缩 (context-compressor)**：先提取骨架和关键路径，避免全量读取撑爆上下文。
+
 ## 大盘心法与规范矩阵 (Master Principles & Uniform Matrix)
 
 经历多轮鲁班法则深度打磨后，所有子技能目前遵循 100% 统一的工业级结构：
@@ -74,13 +85,13 @@ bash scripts/test_suite.sh
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
 
-2. **矩阵级结构大一统**: 12 个核心技能全面实施相同的指令骨架。
+2. **矩阵级结构大一统**: 20 个路由技能全面实施相同的指令骨架。
    - **When to Use**: 明确何时该由什么子分身接管。
    - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
    - **Step-by-Step Execution**: 标准化作业流程。
    - **Showcase (展台)**: 高密度的应用范例场景。
    - **Guardrails (诚实边界)**: 明确不能越权的死线。
-   - **Cross-Skill Invocation**: 技能流转协议，使得 11 个专精能力可以组合形成智能闭环。
+   - **Cross-Skill Invocation**: 技能流转协议，使得基础能力与扩展能力可以组合形成智能闭环。
 
 ## MCP 接入
 
@@ -205,7 +216,7 @@ guyue/
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.1.0)              │
+│  作品：guyue (古月数字分身 v1.2.0-rc)           │
 │  打磨前：只有基础的工程防线与生硬的界面           │
 │  打磨后：可安装、可验证、可传播的 Agent 操作层    │
 │  定位：Personal Agent Operating Layer            │
