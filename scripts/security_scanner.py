@@ -10,21 +10,30 @@ def print_status(msg, is_error=False):
     else:
         print(f"✅ {msg}")
 
+
+def list_release_files():
+    try:
+        tracked_files_output = subprocess.check_output(
+            ["git", "ls-files"], text=True, stderr=subprocess.STDOUT
+        )
+        return [Path(f) for f in tracked_files_output.splitlines() if f.strip()]
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        files = []
+        for path in Path(".").rglob("*"):
+            if not path.is_file():
+                continue
+            if ".git" in path.parts:
+                continue
+            files.append(path)
+        return files
+
+
 def run_security_scan():
     print("==========================================")
     print("🔒 Running Zero-Leakage Security Scanner...")
     print("==========================================")
 
-    # 1. Get all tracked files
-    try:
-        tracked_files_output = subprocess.check_output(
-            ["git", "ls-files"], text=True, stderr=subprocess.STDOUT
-        )
-    except subprocess.CalledProcessError as e:
-        print_status(f"Failed to run git ls-files: {e.output}", is_error=True)
-        sys.exit(1)
-
-    tracked_files = [f for f in tracked_files_output.splitlines() if f.strip()]
+    tracked_files = list_release_files()
 
     # 2. Define bloated/cache files rules (Anti-Bloat)
     bloat_patterns = [
@@ -52,19 +61,21 @@ def run_security_scan():
     has_error = False
 
     print("[1/2] Scanning for bloat and cache files...")
-    for f_path in tracked_files:
+    for path_obj in tracked_files:
+        f_path = path_obj.as_posix()
         for p in bloat_patterns:
             if p.search(f_path):
-                print_status(f"Bloat file tracked in Git: {f_path}", is_error=True)
+                print_status(f"Bloat or cache file present: {f_path}", is_error=True)
                 has_error = True
+                break
 
     if not has_error:
         print_status("No bloat files detected.")
 
     print("\n[2/2] Scanning file contents for secrets and personal paths...")
     secret_errors = 0
-    for f_path in tracked_files:
-        path_obj = Path(f_path)
+    for path_obj in tracked_files:
+        f_path = path_obj.as_posix()
         if not path_obj.is_file():
             continue
             

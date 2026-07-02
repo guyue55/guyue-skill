@@ -165,6 +165,8 @@ Additional issues found during a deeper release audit:
 - The published `.guyue_memory/index.json` used a legacy list shape, while `src/mcp_server.py` and `skills/memory-bank/SKILL.md` require `{"memories": [...]}`. This would crash memory reads and writes through the MCP server.
 - Fresh virtualenv verification failed because `ci_validate_skills.py` imports `yaml`, while `requirements.txt` only declared `mcp`.
 - Fresh `HOME` verification failed because `doctor.py` treated external ecosystem skills as mandatory, making `bash scripts/test_suite.sh` fail for a new user who had only cloned Guyue and installed Python dependencies.
+- `git archive` verification failed because `scripts/security_scanner.py` depended on `git ls-files`; GitHub source tarballs and marketplace bundles do not include `.git`.
+- `bash scripts/test_suite.sh` left `__pycache__` and `.pyc` files behind because the Python validator used `py_compile.compile()` for syntax checks.
 
 Fix applied:
 
@@ -174,12 +176,17 @@ Fix applied:
 - Converted the published memory index to the documented object shape and made the MCP server tolerate legacy list-shaped indexes during upgrades.
 - Added `PyYAML` to `requirements.txt`, changed GitHub CI to install from `requirements.txt`, and updated install docs to install dependencies before running `scripts/test_suite.sh`.
 - Marked external ecosystem skills as optional enhancements in `skills_manifest.json` and updated README wording so missing third-party skills warn without blocking fresh local validation.
+- Added a filesystem fallback to `scripts/security_scanner.py` so release bundles without `.git` can still run `scripts/test_suite.sh`; the fallback scans the bundle tree itself and only skips `.git` internals.
+- Replaced write-producing Python bytecode compilation in `scripts/ci_validate_skills.py` with AST syntax parsing so validation does not leave cache artifacts.
+- Do not create release bundles by zipping the working directory. Use `git archive` or the target marketplace/source-package mechanism so ignored private research files and local indexes are not included accidentally.
 
 Fresh install verification after fix:
 
 - `python3 -m venv /tmp/guyue-fresh-venv`
 - `/tmp/guyue-fresh-venv/bin/python -m pip install -r requirements.txt`
 - `HOME=/tmp/guyue-empty-home PATH=/tmp/guyue-fresh-venv/bin:$PATH bash scripts/test_suite.sh`
+- `git archive --format=tar HEAD | tar -xf - -C /tmp/guyue-archive-check`
+- `HOME=/tmp/guyue-archive-home PATH=/tmp/guyue-archive-venv/bin:$PATH bash scripts/test_suite.sh`
 
 ## Next Work Plan
 

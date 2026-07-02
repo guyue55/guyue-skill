@@ -20,6 +20,9 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Published memory index matches the documented `{"memories": [...]}` schema and the MCP server accepts legacy list-shaped indexes.
 - [x] Fresh install path declares `PyYAML` in `requirements.txt`; README, installation docs, and GitHub CI all install from the same dependency file.
 - [x] Fresh `HOME` validation path passes without preinstalled external ecosystem skills; external skills are optional enhancements, not release-gate blockers.
+- [x] `git archive` release bundle can run `scripts/test_suite.sh` without a `.git` directory.
+- [x] Release bundle must be created from `git archive` or the target source-package mechanism, not by zipping the working directory with ignored private files.
+- [x] Validation scripts do not leave `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.

@@ -3,7 +3,7 @@ import os
 import sys
 import json
 import yaml
-import py_compile
+import ast
 
 def check_json(file_path):
     try:
@@ -101,9 +101,9 @@ def check_python_scripts(file_path):
                     passed = False
 
         try:
-            py_compile.compile(file_path, doraise=True)
-        except py_compile.PyCompileError as e:
-            print(f"❌ [PYTHON COMPILE ERROR] {file_path}: {e}", file=sys.stderr)
+            ast.parse(content, filename=file_path)
+        except SyntaxError as e:
+            print(f"❌ [PYTHON SYNTAX ERROR] {file_path}: {e}", file=sys.stderr)
             passed = False
             
         return passed
