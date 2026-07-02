@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- No unreleased changes yet.
+
+## v1.2.0 - 2026-07-02
+
 ### Changed
 
 - Reposition Guyue as a Personal Agent Operating Layer rather than a complete autonomous person.
