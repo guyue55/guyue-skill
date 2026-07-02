@@ -4,6 +4,7 @@ import sys
 import json
 import yaml
 import ast
+import importlib.util
 
 def check_json(file_path):
     try:
@@ -111,6 +112,41 @@ def check_python_scripts(file_path):
         print(f"❌ [FILE ERROR] Failed to read {file_path}: {e}", file=sys.stderr)
         return False
 
+
+def check_mcp_server_paths(repo_root):
+    server_path = os.path.join(repo_root, 'src', 'mcp_server.py')
+    if not os.path.exists(server_path):
+        print(f"❌ [MCP ERROR] {server_path} not found", file=sys.stderr)
+        return False
+
+    try:
+        spec = importlib.util.spec_from_file_location('guyue_mcp_server_check', server_path)
+        module = importlib.util.module_from_spec(spec)
+        previous_dont_write_bytecode = sys.dont_write_bytecode
+        sys.dont_write_bytecode = True
+        try:
+            spec.loader.exec_module(module)
+        finally:
+            sys.dont_write_bytecode = previous_dont_write_bytecode
+    except Exception as e:
+        print(f"❌ [MCP ERROR] Failed to import {server_path}: {e}", file=sys.stderr)
+        return False
+
+    expected_manifest = os.path.join(repo_root, 'skills_manifest.json')
+    expected_memory = os.path.join(repo_root, '.guyue_memory')
+    actual_manifest = os.fspath(module.MANIFEST_FILE)
+    actual_memory = os.fspath(module.MEMORY_DIR)
+
+    if actual_manifest != expected_manifest:
+        print(f"❌ [MCP ERROR] MANIFEST_FILE points to {actual_manifest}, expected {expected_manifest}", file=sys.stderr)
+        return False
+
+    if actual_memory != expected_memory:
+        print(f"❌ [MCP ERROR] MEMORY_DIR points to {actual_memory}, expected {expected_memory}", file=sys.stderr)
+        return False
+
+    return True
+
 def main():
     print("🚀 Starting Guyue Perspective CI Validation...")
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -132,6 +168,11 @@ def main():
             all_passed = False
         else:
             print("✅ .guyue_memory/index.json valid.")
+
+    if check_mcp_server_paths(repo_root):
+        print("✅ src/mcp_server.py repository paths valid.")
+    else:
+        all_passed = False
                 
     # 2. Check all SKILL.md files
     for root, dirs, files in os.walk(repo_root):

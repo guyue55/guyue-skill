@@ -1,4 +1,3 @@
-import os
 import json
 import datetime
 from pathlib import Path
@@ -7,10 +6,10 @@ from mcp.server.fastmcp import FastMCP
 # Initialize FastMCP server
 mcp = FastMCP("guyue")
 
-WORKSPACE_ROOT = os.getcwd() 
-MEMORY_DIR = Path(WORKSPACE_ROOT) / ".guyue_memory"
+WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
+MEMORY_DIR = WORKSPACE_ROOT / ".guyue_memory"
 INDEX_FILE = MEMORY_DIR / "index.json"
-MANIFEST_FILE = Path(WORKSPACE_ROOT) / "skills_manifest.json"
+MANIFEST_FILE = WORKSPACE_ROOT / "skills_manifest.json"
 
 
 def load_memory_index() -> dict:

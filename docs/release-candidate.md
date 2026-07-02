@@ -167,6 +167,8 @@ Additional issues found during a deeper release audit:
 - Fresh `HOME` verification failed because `doctor.py` treated external ecosystem skills as mandatory, making `bash scripts/test_suite.sh` fail for a new user who had only cloned Guyue and installed Python dependencies.
 - `git archive` verification failed because `scripts/security_scanner.py` depended on `git ls-files`; GitHub source tarballs and marketplace bundles do not include `.git`.
 - `bash scripts/test_suite.sh` left `__pycache__` and `.pyc` files behind because the Python validator used `py_compile.compile()` for syntax checks.
+- MCP import verification passed, but runtime data lookup was wrong when following the documented `cwd=/path/to/guyue/src` setup because `src/mcp_server.py` treated the process cwd as the repository root.
+- `SKILL.md` still said missing doctor dependencies should always stop execution, which contradicted the v1.2.0 optional-enhancement boundary.
 
 Fix applied:
 
@@ -179,6 +181,8 @@ Fix applied:
 - Added a filesystem fallback to `scripts/security_scanner.py` so release bundles without `.git` can still run `scripts/test_suite.sh`; the fallback scans the bundle tree itself and only skips `.git` internals.
 - Replaced write-producing Python bytecode compilation in `scripts/ci_validate_skills.py` with AST syntax parsing so validation does not leave cache artifacts.
 - Do not create release bundles by zipping the working directory. Use `git archive` or the target marketplace/source-package mechanism so ignored private research files and local indexes are not included accidentally.
+- Changed `src/mcp_server.py` to resolve the repository root from `__file__` instead of the launch directory and added a CI validator assertion for MCP manifest and memory paths.
+- Updated `SKILL.md` so doctor only blocks on required dependencies; optional ecosystem skills remain non-blocking enhancement warnings.
 
 Fresh install verification after fix:
 
@@ -187,6 +191,7 @@ Fresh install verification after fix:
 - `HOME=/tmp/guyue-empty-home PATH=/tmp/guyue-fresh-venv/bin:$PATH bash scripts/test_suite.sh`
 - `git archive --format=tar HEAD | tar -xf - -C /tmp/guyue-archive-check`
 - `HOME=/tmp/guyue-archive-home PATH=/tmp/guyue-archive-venv/bin:$PATH bash scripts/test_suite.sh`
+- `cd src && python3 - <<'PY' ... import mcp_server ... assert MANIFEST_FILE and MEMORY_DIR point to the repository root ... PY`
 
 ## Next Work Plan
 

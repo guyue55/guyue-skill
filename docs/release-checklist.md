@@ -23,6 +23,8 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] `git archive` release bundle can run `scripts/test_suite.sh` without a `.git` directory.
 - [x] Release bundle must be created from `git archive` or the target source-package mechanism, not by zipping the working directory with ignored private files.
 - [x] Validation scripts do not leave `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
+- [x] MCP server resolves manifest and memory paths from the repository root even when launched from `src/`.
+- [x] `SKILL.md` distinguishes required dependency blockers from optional ecosystem enhancement warnings.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.

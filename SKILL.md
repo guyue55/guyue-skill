@@ -21,7 +21,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 
 ## 路由执行流 (Routing Flow)
 1. **Scan & Health**: 
-   - 必跑 `python scripts/doctor.py`。缺失依赖则停止并求助用户。
+   - 必跑 `python3 scripts/doctor.py`。必需依赖缺失时停止并求助用户；可选生态增强缺失时只记录降级，不阻塞本地验证。
 2. **Context Load**:
    - 检索 `.guyue_memory/active/`。
    - 若记忆臃肿，提示用户运行 `python scripts/memory_gc.py` 归档。
