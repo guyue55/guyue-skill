@@ -12,6 +12,35 @@ MEMORY_DIR = Path(WORKSPACE_ROOT) / ".guyue_memory"
 INDEX_FILE = MEMORY_DIR / "index.json"
 MANIFEST_FILE = Path(WORKSPACE_ROOT) / "skills_manifest.json"
 
+
+def load_memory_index() -> dict:
+    """Load memory index and normalize legacy list-shaped indexes."""
+    if not INDEX_FILE.exists():
+        return {"memories": []}
+
+    with open(INDEX_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if isinstance(data, dict):
+        memories = data.get("memories", [])
+        return {"memories": memories if isinstance(memories, list) else []}
+
+    if isinstance(data, list):
+        normalized = []
+        for item in data:
+            if not isinstance(item, dict):
+                continue
+            normalized.append({
+                "filename": item.get("filename") or item.get("file", ""),
+                "tags": item.get("tags", []),
+                "summary": item.get("summary", ""),
+                "timestamp": item.get("timestamp", ""),
+            })
+        return {"memories": normalized}
+
+    return {"memories": []}
+
+
 @mcp.tool()
 def guyue_list_skills() -> str:
     """Read skills_manifest.json to report available skills."""
@@ -25,13 +54,11 @@ def guyue_read_memory(query: str) -> str:
     """Read the memory index and return relevant past lessons based on a keyword query."""
     if not INDEX_FILE.exists():
         return "No memory bank index found."
-    
-    with open(INDEX_FILE, "r", encoding="utf-8") as f:
-        try:
-            data = json.load(f)
-            memories = data.get("memories", [])
-        except json.JSONDecodeError:
-            return "Failed to parse memory index."
+
+    try:
+        memories = load_memory_index().get("memories", [])
+    except json.JSONDecodeError:
+        return "Failed to parse memory index."
             
     results = []
     for mem in memories:
@@ -49,7 +76,7 @@ def guyue_read_memory(query: str) -> str:
 @mcp.tool()
 def guyue_write_memory(symptom: str, root_cause: str, solution: str, tags: list[str]) -> str:
     """Write a new lesson into the double-track memory bank."""
-    MEMORY_DIR.mkdir(exist_ok=True)
+    MEMORY_DIR.mkdir(parents=True, exist_ok=True)
     
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"memory_{timestamp}.md"
@@ -60,14 +87,10 @@ def guyue_write_memory(symptom: str, root_cause: str, solution: str, tags: list[
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(md_content)
         
-    # Update JSON index
-    index_data = {"memories": []}
-    if INDEX_FILE.exists():
-        with open(INDEX_FILE, "r", encoding="utf-8") as f:
-            try:
-                index_data = json.load(f)
-            except json.JSONDecodeError:
-                index_data = {"memories": []}
+    try:
+        index_data = load_memory_index()
+    except json.JSONDecodeError:
+        index_data = {"memories": []}
                 
     new_entry = {
         "filename": filename,

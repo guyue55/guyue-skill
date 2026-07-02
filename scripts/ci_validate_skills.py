@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import yaml
+import py_compile
 
 def check_json(file_path):
     try:
@@ -12,6 +13,35 @@ def check_json(file_path):
     except Exception as e:
         print(f"❌ [JSON LINT ERROR] {file_path}: {e}", file=sys.stderr)
         return False
+
+
+def check_memory_index(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+    except Exception as e:
+        print(f"❌ [MEMORY INDEX ERROR] {file_path}: {e}", file=sys.stderr)
+        return False
+
+    if not isinstance(data, dict) or not isinstance(data.get('memories'), list):
+        print(f"❌ [MEMORY INDEX ERROR] {file_path}: expected object with a memories list", file=sys.stderr)
+        return False
+
+    required_fields = {'filename', 'tags', 'summary', 'timestamp'}
+    for idx, item in enumerate(data['memories']):
+        if not isinstance(item, dict):
+            print(f"❌ [MEMORY INDEX ERROR] {file_path}: memories[{idx}] must be an object", file=sys.stderr)
+            return False
+        missing = required_fields - set(item)
+        if missing:
+            print(f"❌ [MEMORY INDEX ERROR] {file_path}: memories[{idx}] missing {sorted(missing)}", file=sys.stderr)
+            return False
+        if not isinstance(item.get('tags'), list):
+            print(f"❌ [MEMORY INDEX ERROR] {file_path}: memories[{idx}].tags must be a list", file=sys.stderr)
+            return False
+
+    return True
+
 
 def check_skill_markdown(file_path):
     """
@@ -69,6 +99,12 @@ def check_python_scripts(file_path):
                 if '`/Users/apple/...`' not in line and '`/Users/xxx`' not in line:
                     print(f"❌ [SECURITY ERROR] Hardcoded local path found in {file_path}:{i+1}", file=sys.stderr)
                     passed = False
+
+        try:
+            py_compile.compile(file_path, doraise=True)
+        except py_compile.PyCompileError as e:
+            print(f"❌ [PYTHON COMPILE ERROR] {file_path}: {e}", file=sys.stderr)
+            passed = False
             
         return passed
     except Exception as e:
@@ -89,9 +125,17 @@ def main():
                 all_passed = False
             else:
                 print(f"✅ {jf} valid.")
+
+    memory_index = os.path.join(repo_root, '.guyue_memory', 'index.json')
+    if os.path.exists(memory_index):
+        if not check_memory_index(memory_index):
+            all_passed = False
+        else:
+            print("✅ .guyue_memory/index.json valid.")
                 
     # 2. Check all SKILL.md files
     for root, dirs, files in os.walk(repo_root):
+        dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
         if 'references' in root:
             continue
         for file in files:
@@ -103,7 +147,7 @@ def main():
                 else:
                     print(f"✅ {rel_path} valid.")
                     
-            if file.endswith('.py') and root.endswith('scripts'):
+            if file.endswith('.py'):
                 if file == 'ci_validate_skills.py':
                     continue
                 path = os.path.join(root, file)
