@@ -222,35 +222,40 @@
             "description": "Skill打磨工坊",
             "package_id": "LearnPrompt/luban-skill",
             "command": "git clone https://github.com/LearnPrompt/luban-skill ~/.cc-switch/skills/luban",
-            "url": "https://github.com/LearnPrompt/luban-skill"
+            "url": "https://github.com/LearnPrompt/luban-skill",
+            "required": false
         },
         {
             "name": "huashu-nuwa",
             "description": "提示词蒸馏与规范化",
             "package_id": "alchaincyf/nuwa-skill",
             "command": "git clone https://github.com/alchaincyf/nuwa-skill ~/.cc-switch/skills/nuwa-skill",
-            "url": "https://github.com/alchaincyf/nuwa-skill"
+            "url": "https://github.com/alchaincyf/nuwa-skill",
+            "required": false
         },
         {
             "name": "superpowers",
             "description": "高级 Agent 工作流",
             "package_id": "obra/superpowers",
             "command": "git clone https://github.com/obra/superpowers ~/.cc-switch/skills/superpowers",
-            "url": "https://github.com/obra/superpowers"
+            "url": "https://github.com/obra/superpowers",
+            "required": false
         },
         {
             "name": "ui-ux-pro-max",
             "description": "极致的前端与交互美学设计规范",
             "package_id": "nextlevelbuilder/ui-ux-pro-max-skill",
             "command": "git clone https://github.com/nextlevelbuilder/ui-ux-pro-max-skill ~/.cc-switch/skills/ui-ux-pro-max",
-            "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
+            "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+            "required": false
         },
         {
             "name": "gsap-core",
             "description": "前端动画与交互核心库",
             "package_id": "greensock/gsap-skills",
             "command": "git clone https://github.com/greensock/gsap-skills ~/.gemini/config/skills/gsap-core",
-            "url": "https://github.com/greensock/gsap-skills"
+            "url": "https://github.com/greensock/gsap-skills",
+            "required": false
         },
         {
             "name": "find-skills",
@@ -263,7 +268,8 @@
                 "find a skill"
             ],
             "command": "npx skills add vercel-labs/skills@find-skills",
-            "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills"
+            "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills",
+            "required": false
         },
         {
             "name": "taste-skill",

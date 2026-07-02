@@ -164,6 +164,7 @@ Additional issues found during a deeper release audit:
 - GitHub CI only ran `scripts/ci_validate_skills.py`, so a remote green check would not prove zero-leakage or prompt-evaluation coverage.
 - The published `.guyue_memory/index.json` used a legacy list shape, while `src/mcp_server.py` and `skills/memory-bank/SKILL.md` require `{"memories": [...]}`. This would crash memory reads and writes through the MCP server.
 - Fresh virtualenv verification failed because `ci_validate_skills.py` imports `yaml`, while `requirements.txt` only declared `mcp`.
+- Fresh `HOME` verification failed because `doctor.py` treated external ecosystem skills as mandatory, making `bash scripts/test_suite.sh` fail for a new user who had only cloned Guyue and installed Python dependencies.
 
 Fix applied:
 
@@ -172,6 +173,13 @@ Fix applied:
 - Kept `scripts/doctor.py` as a local-only release gate because it validates machine-installed external skills and would be unstable on a clean GitHub runner.
 - Converted the published memory index to the documented object shape and made the MCP server tolerate legacy list-shaped indexes during upgrades.
 - Added `PyYAML` to `requirements.txt`, changed GitHub CI to install from `requirements.txt`, and updated install docs to install dependencies before running `scripts/test_suite.sh`.
+- Marked external ecosystem skills as optional enhancements in `skills_manifest.json` and updated README wording so missing third-party skills warn without blocking fresh local validation.
+
+Fresh install verification after fix:
+
+- `python3 -m venv /tmp/guyue-fresh-venv`
+- `/tmp/guyue-fresh-venv/bin/python -m pip install -r requirements.txt`
+- `HOME=/tmp/guyue-empty-home PATH=/tmp/guyue-fresh-venv/bin:$PATH bash scripts/test_suite.sh`
 
 ## Next Work Plan
 

@@ -123,9 +123,9 @@ bash scripts/test_suite.sh
 npx skills add guyue55/guyue-skill
 ```
 
-**依赖的前端与交互基建技能（必装）**：
+**推荐的前端与交互基建技能（可选增强）**：
 
-由于古月 `frontend-expert` 极其看重商业级 UI 与交互，强烈建议补齐以下外部专业技能。如果缺失，`scripts/doctor.py` 探针也会在运行时报警并提供一键安装指令：
+由于古月 `frontend-expert` 极其看重商业级 UI 与交互，建议在需要深度前端审美和动效工作时补齐以下外部专业技能。它们是增强依赖，不阻塞 `bash scripts/test_suite.sh` 的本地验证；如果缺失，`scripts/doctor.py` 会给出可选安装提示：
 
 ```bash
 # 极致的前端与交互美学设计规范
