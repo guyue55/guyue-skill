@@ -6,13 +6,13 @@ Scope: release-preparation evidence and boundary fixes. This document does not c
 
 ## Baseline
 
-Current candidate baseline at v1.2.0 release-evidence refresh:
+Current candidate baseline at v1.2.0 deep release-audit intake:
 
-- commit: `47378d0 fix(release): 收紧安检目标边界`
-- branch state at intake: `main` ahead of `origin/main` by 9 commits
+- commit: `77b7cd5 docs(release): 刷新发版证据`
+- branch state at intake: `main` ahead of `origin/main` by 10 commits
 - local files observed at intake:
   - `SKILL.md`
-  - 13 existing child `skills/*/SKILL.md` files
+  - 12 existing base child `skills/*/SKILL.md` files
   - 8 new child skill directories
   - `skills_manifest.json`
   - `scripts/extract_software_box.py`
@@ -53,6 +53,7 @@ A release candidate is eligible only when every item below is true:
 | Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
 | Skill registry | `skills_manifest.json` records 20 routed skills; `test-prompts.json` contains 20 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
 | Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
+| GitHub CI gate | `.github/workflows/ci.yml` runs zero-leakage scanning, skill structure validation, and prompt evaluation. | pass | `doctor.py` remains a local release gate because it checks machine-installed external skills. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
 | Optional ecosystem dependencies | Newly referenced ecosystem projects are marked `required: false`; `scripts/doctor.py` reports them as optional and does not fail local validation. | pass | Optional dependencies are recommendations, not release blockers. |
 | Security-gate target boundary | Live replay found that a missing target caused the runtime to infer a local skill directory. `security-gate`, root dispatch, evaluation docs, and test prompts now require an explicit target before scanning; regression replay now stops for clarification. | pass | Keep this case covered before external-intake wording changes. |
@@ -154,6 +155,19 @@ Verification after refresh:
 - `git diff --check`
 - `find . \( -name '__pycache__' -o -name '*.pyc' -o -name '.DS_Store' \) -print`
 - `python3 scripts/security_scanner.py`
+
+## 2026-07-02 Deep Release Audit
+
+Additional issues found during a deeper release audit:
+
+- The baseline file inventory still said 13 existing child skills plus 8 new child skills, which contradicted the current manifest and README count of 20 routed child skills.
+- GitHub CI only ran `scripts/ci_validate_skills.py`, so a remote green check would not prove zero-leakage or prompt-evaluation coverage.
+
+Fix applied:
+
+- Corrected the baseline inventory to 12 existing base child skills plus 8 extension child skills.
+- Expanded GitHub CI to run `scripts/security_scanner.py`, `scripts/ci_validate_skills.py`, and `scripts/run_eval.py`.
+- Kept `scripts/doctor.py` as a local-only release gate because it validates machine-installed external skills and would be unstable on a clean GitHub runner.
 
 ## Next Work Plan
 

@@ -5,7 +5,7 @@ This project should not be released just because the repository is clean. Releas
 ## Current v1.2.0 Candidate Snapshot
 
 Date: 2026-07-02
-Baseline commit before this evidence refresh: `47378d0 fix(release): 收紧安检目标边界`
+Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新发版证据`
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
@@ -16,6 +16,7 @@ Baseline commit before this evidence refresh: `47378d0 fix(release): 收紧安�
 - [x] Placeholder demo GIF is removed from the public README path; current visible evidence is text replay and showcase examples.
 - [x] Marketplace metadata is aligned to v1.2.0 candidate positioning.
 - [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
+- [x] GitHub CI covers zero-leakage, SKILL structure validation, and prompt evaluation; local `doctor.py` remains part of the manual release gate.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
