@@ -6,10 +6,10 @@ Scope: release-preparation evidence and boundary fixes. This document does not c
 
 ## Baseline
 
-Current candidate baseline at v1.2.0 release-prep intake:
+Current candidate baseline at v1.2.0 release-evidence refresh:
 
-- commit: `a676f0a feat(release): 准备古月一二版候选`
-- branch state at intake: `main` ahead of `origin/main` by 8 commits
+- commit: `47378d0 fix(release): 收紧安检目标边界`
+- branch state at intake: `main` ahead of `origin/main` by 9 commits
 - local files observed at intake:
   - `SKILL.md`
   - 13 existing child `skills/*/SKILL.md` files
@@ -50,8 +50,9 @@ A release candidate is eligible only when every item below is true:
 | Runtime entrypoint | `AGENTS.md` points to `RTK.md`; `examples/quickstart-output.md` records Codex read-only replay without the earlier missing-`RTK.md` issue. | pass | Codex path is the current verified runtime path. |
 | Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates. | pass | Needs current full-suite run before any release action. |
 | Runtime adapters | `docs/runtime-adapters.md` keeps tool-specific files as thin adapters and blocks unverified adapter files. | pass | Do not pre-add `CLAUDE.md` or `GEMINI.md`. |
-| Showcase | `examples/showcase.md` contains before/after scenarios. | partial | Needs evidence-style examples with prompts, routing, result, and deviation notes. |
+| Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
 | Skill registry | `skills_manifest.json` records 20 routed skills; `test-prompts.json` contains 20 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
+| Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
 | Optional ecosystem dependencies | Newly referenced ecosystem projects are marked `required: false`; `scripts/doctor.py` reports them as optional and does not fail local validation. | pass | Optional dependencies are recommendations, not release blockers. |
 | Security-gate target boundary | Live replay found that a missing target caused the runtime to infer a local skill directory. `security-gate`, root dispatch, evaluation docs, and test prompts now require an explicit target before scanning; regression replay now stops for clarification. | pass | Keep this case covered before external-intake wording changes. |
@@ -131,6 +132,28 @@ Release judgement:
 - Initial run marked as `partial_pass`, not a release pass.
 - Fixed by adding an explicit target-confirmation gate to `skills/security-gate/SKILL.md`, root ecosystem dispatch in `SKILL.md`, `test-prompts.json`, `docs/evaluation.md`, and live replay evidence.
 - Regression replay passed: the runtime stopped because no concrete third-party target was provided, did not infer a local directory, and did not run `run_security_scan.py`.
+
+## 2026-07-02 Release Evidence Refresh
+
+Additional blockers found during release-readiness review:
+
+- README still used the phrase "all-purpose digital partner", which conflicted with the public boundary that Guyue is not a complete autonomous person or universal automation system.
+- README referenced `assets/demo.gif`, but that file was only a 1x1 placeholder and therefore not acceptable as public showcase evidence.
+- `.claude-plugin/marketplace.json` still declared version `1.0.0` while the current manifest candidate is `1.2.0`.
+
+Fix applied:
+
+- Replaced the over-broad README positioning with Personal Agent Operating Layer wording.
+- Replaced the placeholder GIF reference with links to real live replay and showcase evidence.
+- Removed the placeholder GIF asset from the tracked release path.
+- Updated marketplace metadata to version `1.2.0`.
+
+Verification after refresh:
+
+- `bash scripts/test_suite.sh`
+- `git diff --check`
+- `find . \( -name '__pycache__' -o -name '*.pyc' -o -name '.DS_Store' \) -print`
+- `python3 scripts/security_scanner.py`
 
 ## Next Work Plan
 

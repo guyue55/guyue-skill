@@ -1,1 +1,1 @@
-{ "name": "guyue", "version": "1.0.0", "description": "Agent persona and decision-making framework based on guyue.", "entrypoint": "SKILL.md", "tags": ["agent", "persona", "framework", "architecture"] }
+{ "name": "guyue", "version": "1.2.0", "description": "Personal Agent Operating Layer for bounded planning, debugging, documentation, skill routing, and release-ready workflow discipline.", "entrypoint": "SKILL.md", "tags": ["agent", "skill", "workflow", "architecture", "safety"] }

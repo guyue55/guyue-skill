@@ -2,6 +2,24 @@
 
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
+## Current v1.2.0 Candidate Snapshot
+
+Date: 2026-07-02
+Baseline commit before this evidence refresh: `47378d0 fix(release): 收紧安检目标边界`
+
+- [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
+- [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
+- [x] Skill count is consistent across README, manifest, and structural tests: 20 routed skills.
+- [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
+- [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
+- [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
+- [x] Placeholder demo GIF is removed from the public README path; current visible evidence is text replay and showcase examples.
+- [x] Marketplace metadata is aligned to v1.2.0 candidate positioning.
+- [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
+- [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
+
+The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
+
 ## Positioning
 
 - [ ] README says Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
