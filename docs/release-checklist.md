@@ -18,6 +18,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
 - [x] GitHub CI covers zero-leakage, SKILL structure validation, and prompt evaluation; local `doctor.py` remains part of the manual release gate.
 - [x] Published memory index matches the documented `{"memories": [...]}` schema and the MCP server accepts legacy list-shaped indexes.
+- [x] Fresh install path declares `PyYAML` in `requirements.txt`; README, installation docs, and GitHub CI all install from the same dependency file.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.

@@ -163,6 +163,7 @@ Additional issues found during a deeper release audit:
 - The baseline file inventory still said 13 existing child skills plus 8 new child skills, which contradicted the current manifest and README count of 20 routed child skills.
 - GitHub CI only ran `scripts/ci_validate_skills.py`, so a remote green check would not prove zero-leakage or prompt-evaluation coverage.
 - The published `.guyue_memory/index.json` used a legacy list shape, while `src/mcp_server.py` and `skills/memory-bank/SKILL.md` require `{"memories": [...]}`. This would crash memory reads and writes through the MCP server.
+- Fresh virtualenv verification failed because `ci_validate_skills.py` imports `yaml`, while `requirements.txt` only declared `mcp`.
 
 Fix applied:
 
@@ -170,6 +171,7 @@ Fix applied:
 - Expanded GitHub CI to run `scripts/security_scanner.py`, `scripts/ci_validate_skills.py`, and `scripts/run_eval.py`.
 - Kept `scripts/doctor.py` as a local-only release gate because it validates machine-installed external skills and would be unstable on a clean GitHub runner.
 - Converted the published memory index to the documented object shape and made the MCP server tolerate legacy list-shaped indexes during upgrades.
+- Added `PyYAML` to `requirements.txt`, changed GitHub CI to install from `requirements.txt`, and updated install docs to install dependencies before running `scripts/test_suite.sh`.
 
 ## Next Work Plan
 

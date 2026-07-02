@@ -7,10 +7,11 @@ This document keeps installation paths explicit. Use the path that matches your 
 From the repository root:
 
 ```bash
+python3 -m pip install -r requirements.txt
 bash scripts/test_suite.sh
 ```
 
-This runs the zero-leakage scanner, dependency doctor, SKILL.md validator, and test prompt evaluator.
+This installs the small validation/runtime dependency set, then runs the zero-leakage scanner, dependency doctor, SKILL.md validator, and test prompt evaluator.
 
 ## Codex
 

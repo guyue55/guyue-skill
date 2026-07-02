@@ -30,6 +30,7 @@
 ```bash
 git clone https://github.com/guyue55/guyue-skill.git
 cd guyue-skill
+python3 -m pip install -r requirements.txt
 bash scripts/test_suite.sh
 ```
 
