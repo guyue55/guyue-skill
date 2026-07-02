@@ -171,6 +171,7 @@ Additional issues found during a deeper release audit:
 - `SKILL.md` still said missing doctor dependencies should always stop execution, which contradicted the v1.2.0 optional-enhancement boundary.
 - Public Markdown internal links were only checked manually, so README, docs, examples, and tracked skill docs could regress with broken relative links after release.
 - `skills_manifest.json` paths and child `SKILL.md` frontmatter were only checked by ad hoc probes, so a future manifest entry could point to a missing or mismatched skill without failing CI.
+- `scripts/ai_log_scanner.py` printed helper commands under one fixed home-relative install root, which contradicted the documented `/path/to/guyue` portable install model.
 
 Fix applied:
 
@@ -187,6 +188,7 @@ Fix applied:
 - Updated `SKILL.md` so doctor only blocks on required dependencies; optional ecosystem skills remain non-blocking enhancement warnings.
 - Added tracked/public Markdown internal-link validation to `scripts/ci_validate_skills.py`; ignored local research drafts remain outside the public release gate.
 - Added `skills_manifest.json` skill-path validation to `scripts/ci_validate_skills.py`, covering path existence, repository containment, `SKILL.md` target, directory/name alignment, frontmatter name alignment, and manifest coverage for every `skills/*/SKILL.md`.
+- Replaced the hardcoded home-relative helper-command examples in `scripts/ai_log_scanner.py` with repository-root-relative `python3 scripts/...` commands.
 
 Fresh install verification after fix:
 
@@ -198,6 +200,7 @@ Fresh install verification after fix:
 - `cd src && python3 - <<'PY' ... import mcp_server ... assert MANIFEST_FILE and MEMORY_DIR point to the repository root ... PY`
 - `python3 scripts/ci_validate_skills.py` now reports `tracked markdown internal links valid.`
 - `python3 scripts/ci_validate_skills.py` now reports `skills_manifest.json skill paths valid.`
+- Fixed-install-root string scan over tracked files returns no matches.
 
 ## Next Work Plan
 
