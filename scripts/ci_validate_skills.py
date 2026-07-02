@@ -5,6 +5,8 @@ import json
 import yaml
 import ast
 import importlib.util
+import re
+import subprocess
 
 def check_json(file_path):
     try:
@@ -147,6 +149,56 @@ def check_mcp_server_paths(repo_root):
 
     return True
 
+
+def list_markdown_files(repo_root):
+    try:
+        output = subprocess.check_output(
+            ['git', '-C', repo_root, 'ls-files', '*.md'],
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+        return [os.path.join(repo_root, line) for line in output.splitlines() if line.strip()]
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        markdown_files = []
+        for root, dirs, files in os.walk(repo_root):
+            dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
+            for file in files:
+                if file.endswith('.md'):
+                    markdown_files.append(os.path.join(root, file))
+        return markdown_files
+
+
+def check_markdown_internal_links(repo_root):
+    passed = True
+    link_pattern = re.compile(r'(?<!!)\[[^\]]+\]\(([^)]+)\)')
+
+    for file_path in list_markdown_files(repo_root):
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            print(f"❌ [MARKDOWN LINK ERROR] Failed to read {file_path}: {e}", file=sys.stderr)
+            passed = False
+            continue
+
+        base_dir = os.path.dirname(file_path)
+        rel_file = os.path.relpath(file_path, repo_root)
+        for match in link_pattern.finditer(content):
+            target = match.group(1).split('#', 1)[0].strip()
+            if not target:
+                continue
+            if re.match(r'^[a-z][a-z0-9+.-]*:', target):
+                continue
+            if target.startswith('/') or target.startswith('~'):
+                continue
+
+            target_path = os.path.normpath(os.path.join(base_dir, target))
+            if not os.path.exists(target_path):
+                print(f"❌ [MARKDOWN LINK ERROR] Broken link in {rel_file}: {match.group(1)}", file=sys.stderr)
+                passed = False
+
+    return passed
+
 def main():
     print("🚀 Starting Guyue Perspective CI Validation...")
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,6 +223,11 @@ def main():
 
     if check_mcp_server_paths(repo_root):
         print("✅ src/mcp_server.py repository paths valid.")
+    else:
+        all_passed = False
+
+    if check_markdown_internal_links(repo_root):
+        print("✅ tracked markdown internal links valid.")
     else:
         all_passed = False
                 

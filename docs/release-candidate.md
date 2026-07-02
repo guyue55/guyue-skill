@@ -169,6 +169,7 @@ Additional issues found during a deeper release audit:
 - `bash scripts/test_suite.sh` left `__pycache__` and `.pyc` files behind because the Python validator used `py_compile.compile()` for syntax checks.
 - MCP import verification passed, but runtime data lookup was wrong when following the documented `cwd=/path/to/guyue/src` setup because `src/mcp_server.py` treated the process cwd as the repository root.
 - `SKILL.md` still said missing doctor dependencies should always stop execution, which contradicted the v1.2.0 optional-enhancement boundary.
+- Public Markdown internal links were only checked manually, so README, docs, examples, and tracked skill docs could regress with broken relative links after release.
 
 Fix applied:
 
@@ -183,6 +184,7 @@ Fix applied:
 - Do not create release bundles by zipping the working directory. Use `git archive` or the target marketplace/source-package mechanism so ignored private research files and local indexes are not included accidentally.
 - Changed `src/mcp_server.py` to resolve the repository root from `__file__` instead of the launch directory and added a CI validator assertion for MCP manifest and memory paths.
 - Updated `SKILL.md` so doctor only blocks on required dependencies; optional ecosystem skills remain non-blocking enhancement warnings.
+- Added tracked/public Markdown internal-link validation to `scripts/ci_validate_skills.py`; ignored local research drafts remain outside the public release gate.
 
 Fresh install verification after fix:
 
@@ -192,6 +194,7 @@ Fresh install verification after fix:
 - `git archive --format=tar HEAD | tar -xf - -C /tmp/guyue-archive-check`
 - `HOME=/tmp/guyue-archive-home PATH=/tmp/guyue-archive-venv/bin:$PATH bash scripts/test_suite.sh`
 - `cd src && python3 - <<'PY' ... import mcp_server ... assert MANIFEST_FILE and MEMORY_DIR point to the repository root ... PY`
+- `python3 scripts/ci_validate_skills.py` now reports `tracked markdown internal links valid.`
 
 ## Next Work Plan
 
