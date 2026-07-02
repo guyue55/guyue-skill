@@ -11,6 +11,7 @@
 - Tighten `ecosystem-scout` so external skills are vetted through official sources and public manifests never store machine-local paths.
 - Mark newly indexed ecosystem skills as optional dependencies so local validation does not fail when optional tools are absent.
 - Replace unsafe "direct external skill execution" wording with controlled invocation, safety preflight, and explicit approval gates.
+- Tighten `security-gate` so missing targets stop for clarification instead of inferring or scanning a local skill directory.
 
 ### Added
 
@@ -27,4 +28,4 @@
 ### Verification
 
 - Run `bash scripts/test_suite.sh` before release or commit.
-- Replay three quickstart prompts in Codex read-only mode and record one `partial_pass` debugging boundary deviation.
+- Replay quickstart prompts in Codex read-only mode and record both fixed deviations and current security-gate target-boundary evidence.

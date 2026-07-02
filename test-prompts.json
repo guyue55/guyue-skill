@@ -97,6 +97,6 @@
   {
     "name": "Trigger Security Gate",
     "prompt": "收纳这个第三方技能前，先用 security-gate 扫描一下有没有注入和越权风险。",
-    "expected_behavior": "Should trigger `security-gate`. Agent must run or propose `python3 scripts/run_security_scan.py <target>`, explain that this is a local heuristic preflight rather than a complete supply-chain audit, block on red findings, and ask for explicit approval on yellow findings."
+    "expected_behavior": "Should trigger `security-gate`. Because the prompt does not provide a concrete target path, URL, package name, or archive path, the agent must stop and ask the user to provide the target. It must not infer or auto-select a local skill directory, and must not run `python3 scripts/run_security_scan.py` until a target is explicit. Once a target exists, it should explain that this is a local heuristic preflight rather than a complete supply-chain audit, block on red findings, and ask for explicit approval on yellow findings."
   }
 ]

@@ -188,6 +188,8 @@ guyue/
 ├── scripts/                 # 核心脚本库
 │   ├── doctor.py            # 环境依赖硬核健康探针
 │   ├── run_eval.py          # 测试 prompt 结构体检
+│   ├── run_security_scan.py # 第三方技能本地启发式安检
+│   ├── extract_software_box.py # 软件精选库提取工具
 │   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
 │   ├── quickstart-output.md # Codex read-only 活体回放证据
@@ -196,6 +198,10 @@ guyue/
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀
 └── skills/                  # 垂直专精子技能矩阵
+    ├── ai-website-cloner/
+    ├── book-distiller/
+    ├── code-minimalism/
+    ├── context-compressor/
     ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/
@@ -205,9 +211,13 @@ guyue/
     ├── product-sense/
     ├── requirement-analysis/
     ├── research-and-sourcing/
+    ├── security-gate/
     ├── skill-crafting/
+    ├── software-advisor/
     ├── sop-maker/
-    └── system-design/
+    ├── system-design/
+    ├── taste-aesthetics/
+    └── video-extractor/
 ```
 
 ## 出师证书

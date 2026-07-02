@@ -80,6 +80,8 @@ codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-replay-r
 
 Record both passes and deviations. For example, if the runtime follows Guyue's debugging trace but still emits concrete retry code before raw logs are available, mark it as `partial_pass` and convert it into a follow-up boundary fix.
 
+Security-gate live runs must be strict about target admission: if the prompt says only "this third-party skill" but provides no path, URL, package name, or archive path, the correct result is to ask for the target and stop. Inferring a local skill directory is a replay deviation and must be fixed before release.
+
 Runtime-entrypoint changes must also confirm that the agent no longer reports missing project instruction files such as `RTK.md`. Record that result in the live replay evidence.
 
 Runtime adapter changes must follow [runtime-adapters.md](runtime-adapters.md):
