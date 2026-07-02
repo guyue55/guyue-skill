@@ -192,9 +192,62 @@ Representative trace:
 [Trace: Guyue/SecurityGate] 已按安全门规则停止：当前请求没有提供明确的第三方技能目标路径、文件路径或压缩包路径。
 ```
 
+## Replay 5: Aesthetic Diagnosis, "Do Not Implement"
+
+Prompt:
+
+```text
+使用古月处理这个请求：这个后台页面太 AI 味了，先做审美诊断和设计拨盘，不要写代码实现。请只输出你会选择的子技能、选择理由、不会选择的相邻技能。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `taste-aesthetics` for review-only aesthetic diagnosis and design dial setting.
+- Explicitly did not choose `frontend-expert` because the user asked not to write implementation code.
+- Excluded unrelated adjacent skills including product, requirements, system design, reality audit, debugging, minimalism, ecosystem intake, and security gate.
+
+Representative trace:
+
+```text
+[Trace: Guyue/taste-aesthetics] 本次只做路由判断：后台页面“AI 味”+“审美诊断”+“设计拨盘”命中 `taste-aesthetics`，不进入代码实现。
+```
+
+Regression replay:
+
+- Date: 2026-07-02
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-runtime-replay-routing.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read the new `SKILL.md` routing-arbitration section, checked `skills_manifest.json`, loaded `skills/taste-aesthetics/SKILL.md`, and returned the intended route without editing files.
+
+## Replay 6: Video Creation Routing
+
+Prompt:
+
+```text
+请只做只读路由判断：用户说『把这篇产品文章规划成 60 秒 AI 短视频，先做分镜、脚本和工具选择；如果当前 agent 本身能生成图片或视频就优先用原生能力，没有再告诉我要配置什么。』应该由古月哪个能力接管？请说明与 video-extractor 的边界，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `video-creation-sop` for product-article-to-short-video planning, storyboard, script, and tool selection.
+- Confirmed the workflow must probe native media capabilities before requiring external providers.
+- Kept `video-extractor` scoped to video-link metadata, captions, transcripts, and authorized source-material extraction.
+
+Regression replay:
+
+- Date: 2026-07-02
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-runtime-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `RTK.md`, `SKILL.md`, `skills_manifest.json`, `skills/video-creation-sop/SKILL.md`, `skills/video-creation-sop/references/tool-routing.md`, and `skills/video-extractor/SKILL.md`; it returned the intended route without editing files.
+
 ## Productization Follow-Ups
 
 1. Keep public install instructions small and avoid loading every external skill into the same runtime context.
 2. Keep security-gate target admission covered whenever external skill intake wording changes.
-3. Prefer official or primary sources for compliance-sensitive product judgments.
-4. Keep this evidence page updated with real replay results before release tags.
+3. Keep ambiguous route-boundary prompts in `test-prompts.json` whenever adjacent skills are added or renamed.
+4. Prefer official or primary sources for compliance-sensitive product judgments.
+5. Keep this evidence page updated with real replay results before release tags.

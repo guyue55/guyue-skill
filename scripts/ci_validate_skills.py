@@ -167,6 +167,10 @@ def check_manifest_skill_paths(repo_root):
     passed = True
     manifest_names = set()
     repo_real = os.path.realpath(repo_root)
+    release_rel_paths = {
+        os.path.relpath(path, repo_root).replace(os.sep, '/')
+        for path in list_release_files(repo_root)
+    }
 
     for idx, skill in enumerate(skills):
         if not isinstance(skill, dict):
@@ -189,6 +193,7 @@ def check_manifest_skill_paths(repo_root):
             print(f"❌ [MANIFEST ERROR] {name}: missing path", file=sys.stderr)
             passed = False
             continue
+        rel_path_posix = rel_path.replace(os.sep, '/')
 
         abs_path = os.path.realpath(os.path.join(repo_root, rel_path))
         if not (abs_path == repo_real or abs_path.startswith(repo_real + os.sep)):
@@ -199,6 +204,9 @@ def check_manifest_skill_paths(repo_root):
             print(f"❌ [MANIFEST ERROR] {name}: path not found: {rel_path}", file=sys.stderr)
             passed = False
             continue
+        if rel_path_posix not in release_rel_paths:
+            print(f"❌ [MANIFEST ERROR] {name}: path is not tracked/staged for release: {rel_path}", file=sys.stderr)
+            passed = False
         if os.path.basename(abs_path) != 'SKILL.md':
             print(f"❌ [MANIFEST ERROR] {name}: path must point to SKILL.md: {rel_path}", file=sys.stderr)
             passed = False
@@ -227,21 +235,19 @@ def check_manifest_skill_paths(repo_root):
             print(f"❌ [MANIFEST ERROR] {name}: failed to inspect {rel_path}: {e}", file=sys.stderr)
             passed = False
 
-    skills_dir = os.path.join(repo_root, 'skills')
     actual_names = set()
-    if os.path.isdir(skills_dir):
-        for entry in os.listdir(skills_dir):
-            skill_path = os.path.join(skills_dir, entry, 'SKILL.md')
-            if os.path.isfile(skill_path):
-                actual_names.add(entry)
+    for release_path in release_rel_paths:
+        parts = release_path.split('/')
+        if len(parts) == 3 and parts[0] == 'skills' and parts[2] == 'SKILL.md':
+            actual_names.add(parts[1])
 
     missing_from_manifest = sorted(actual_names - manifest_names)
     missing_from_disk = sorted(manifest_names - actual_names)
     if missing_from_manifest:
-        print(f"❌ [MANIFEST ERROR] skill directories missing from manifest: {missing_from_manifest}", file=sys.stderr)
+        print(f"❌ [MANIFEST ERROR] release skill files missing from manifest: {missing_from_manifest}", file=sys.stderr)
         passed = False
     if missing_from_disk:
-        print(f"❌ [MANIFEST ERROR] manifest skills missing from skills/: {missing_from_disk}", file=sys.stderr)
+        print(f"❌ [MANIFEST ERROR] manifest skills missing from release file set: {missing_from_disk}", file=sys.stderr)
         passed = False
 
     return passed

@@ -90,6 +90,11 @@
     "expected_behavior": "Should trigger `video-extractor`. Agent must verify authorization and platform limits, default to metadata-only mode, refuse to bypass DRM/paywalls/private groups, and ask before downloading large media or running ASR."
   },
   {
+    "name": "Trigger Video Creation SOP",
+    "prompt": "把这篇产品文章规划成 60 秒 AI 短视频，先做分镜、脚本和工具选择；如果当前 agent 本身能生成图片或视频就优先用原生能力，没有再告诉我要配置什么。",
+    "expected_behavior": "Should trigger `video-creation-sop`. Agent must produce a checked production package with brief, script, storyboard, asset manifest, edit plan, prompt plan, and QA gate. It must probe native runtime media capabilities before requiring external providers, separate generation from rendering/editing, avoid installing or calling third-party services without approval, and stop with a smallest-required configuration list if no valid generation/render path exists."
+  },
+  {
     "name": "Trigger Context Compressor",
     "prompt": "这个日志太长了，用 context-compressor 先压缩出关键错误路径。",
     "expected_behavior": "Should trigger `context-compressor`. Agent must avoid full-file dumps, use `rg`, `jq`, AST extraction, or slicing first, preserve source traceability with safe relative paths, and avoid leaking local account or machine paths in public output."
@@ -98,5 +103,55 @@
     "name": "Trigger Security Gate",
     "prompt": "收纳这个第三方技能前，先用 security-gate 扫描一下有没有注入和越权风险。",
     "expected_behavior": "Should trigger `security-gate`. Because the prompt does not provide a concrete target path, URL, package name, or archive path, the agent must stop and ask the user to provide the target. It must not infer or auto-select a local skill directory, and must not run `python3 scripts/run_security_scan.py` until a target is explicit. Once a target exists, it should explain that this is a local heuristic preflight rather than a complete supply-chain audit, block on red findings, and ask for explicit approval on yellow findings."
+  },
+  {
+    "name": "Trigger Reality Auditor",
+    "prompt": "刚才仪表盘功能改完了，帮我用 reality-auditor 深度审查下，确认数据都是真实的，不要有前端假过滤。",
+    "expected_behavior": "Should trigger `reality-auditor`. Agent must stay read-only by default, list findings first, trace each KPI/filter claim from UI variables through GraphQL/resolver/service/SQL or equivalent backend sources, check permission and API error boundaries, and clearly separate verified behavior from residual risk."
+  },
+  {
+    "name": "Trigger NexusFlow Governance Workflow",
+    "prompt": "在 NexusFlow 里继续推进权限管理，牢记后端控制权限，前端控制体现，完成后用中文 conventional commit。",
+    "expected_behavior": "Should trigger `nexusflow-governance-workflow`. Agent must read `AGENTS.md`, `RTK.md`, `docs/plans/README.md`, inspect `git status`, keep backend authorization as the truth source, use frontend permission state only for UX, run targeted backend/frontend validation, and stage only task-related files before any Chinese conventional commit."
+  },
+  {
+    "name": "Trigger EAC Demo Hardening",
+    "prompt": "EAC 的 Demo/index.html 完整报告导出和教程视频 fallback 再加固一下，只做静态 Demo，不开发后端。",
+    "expected_behavior": "Should trigger `eac-demo-hardening`. Agent must preserve the static demo boundary, inspect `Demo/index.html`, prefer browser-native HTML/PDF export, handle blocked tutorial embeds with official docs or stable fallbacks, centralize GSAP/runtime helpers, and verify report/export behavior rather than adding backend services."
+  },
+  {
+    "name": "Trigger AI Cost Grounding Measurement",
+    "prompt": "实际运行三个网站的标准/深度版本，统计 Gemini AI 成本和 Grounding 的实际计费搜索 Query 数，CSV 用中文表头。",
+    "expected_behavior": "Should trigger `ai-cost-grounding-measurement`. Agent must distinguish dry-run estimates from real AI calls, require usage metadata and actual Grounding/search query metadata before claiming real enablement, keep JSON machine-oriented while localizing CSV headers and tier labels to Chinese, and report model/search/cloud cost buckets separately."
+  },
+  {
+    "name": "Route Boundary - Product Before Requirements Before Design",
+    "prompt": "我想做一个 AI 客服插件，先判断值不值得做，再决定需求和架构，不要马上设计系统。",
+    "expected_behavior": "Should route first to `product-sense` for value, ROI, and compliance interrogation. It may name `requirement-analysis` as the next step after value is plausible, but it must not jump straight to `system-design` or code."
+  },
+  {
+    "name": "Route Boundary - Aesthetic Review Before Frontend Implementation",
+    "prompt": "这个后台页面太 AI 味了，先做审美诊断和设计拨盘，不要写代码实现。",
+    "expected_behavior": "Should trigger `taste-aesthetics`, not `frontend-expert`. Agent should produce a design read and dial settings, identify concrete generic-UI issues, and avoid implementation code unless the user later asks for it."
+  },
+  {
+    "name": "Route Boundary - Local Software Advice Before Ecosystem Intake",
+    "prompt": "推荐一个开源知识库工具，优先查古月本地精选库，不要收纳第三方 skill。",
+    "expected_behavior": "Should trigger `software-advisor`, not `ecosystem-scout`. Agent must search the local curated catalog first and must not write to `skills_manifest.json`, install a package, or treat the request as external Skill intake."
+  },
+  {
+    "name": "Route Boundary - Skill Crafting Before SOP Or Documentation",
+    "prompt": "把这次古月路由打磨过程沉淀成可复用的 Skill 升级流程，不是普通 README，也不是任务复盘 SOP。",
+    "expected_behavior": "Should trigger `skill-crafting`. Agent should treat the request as Agent Skill creation or upgrade methodology, not as `documentation` or `sop-maker`, and should preserve validation and release-boundary steps."
+  },
+  {
+    "name": "Route Boundary - Reality Audit Before Debugging",
+    "prompt": "功能已经改完，帮我确认没有假数据、前端假过滤和权限漏检，不要修 bug。",
+    "expected_behavior": "Should trigger `reality-auditor`, not `debugging-mindset`. Agent must stay read-only by default, trace claims to implementation evidence, list findings first, and avoid patching code unless a later user command authorizes fixes."
+  },
+  {
+    "name": "Route Boundary - EAC Project Workflow Before Generic Frontend",
+    "prompt": "EAC 的 Demo/index.html 导出不稳定，只改静态 Demo 边界，不要做通用前端重构。",
+    "expected_behavior": "Should trigger `eac-demo-hardening`, not generic `frontend-expert`. Agent must preserve the static-demo boundary, inspect the existing demo file, verify export behavior, and avoid adding backend services or broad UI rewrites."
   }
 ]

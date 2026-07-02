@@ -1,6 +1,6 @@
 ---
 name: documentation
-description: Agent persona for structured tech writing (PRD, ADR, README).
+description: Agent persona for structured tech writing, project orientation reports, PRD, ADR, README, release notes, and code-backed summaries. Use when the user asks for "项目摸底", "了解项目", architecture/module/function overview, README, 周报, 总结, PRD, ADR, 沉淀, or a report that must be grounded in current repository files rather than generic prose.
 trigger_includes:
   - "写文档"
   - "周报"
@@ -67,6 +67,32 @@ trigger_includes:
 4. **Phase 4: 肌肉填充与极简剃刀 (Formatting & The Razor of Simplicity)**
    - 扩写节点，严格遵守中英文空格、重点加粗和 GitHub Alerts 的运用。晦涩文字转化为 Markdown 表格或 Mermaid 图。
    - 审查写好的文档，删掉所有“正确的废话”。如果一段话删掉不影响读者理解，就坚决删掉。
+
+## Project Orientation Mode (项目摸底模式)
+
+当用户要求“项目摸底”“先了解项目”“涵盖背景、需求、架构、模块、功能、代码”等内容时，优先执行代码背书的摸底报告，而不是泛泛介绍。
+
+1. **读取入口**：先读仓库指令文件（如 `AGENTS.md`、`RTK.md`、`README.md`、`docs/` 索引），再读当前 `git status --short --branch`。
+2. **定位主路径**：找后端入口、前端入口、路由表、核心模型、测试目录、部署脚本和重要 Demo。
+3. **输出地图**：覆盖背景、需求、架构、模块、功能、关键路由、权限边界、数据流、验证方式和当前工作区风险。
+4. **证据纪律**：每个重要判断都要能指向文件、命令输出或当前仓库事实；不知道就标注“未在当前材料中确认”。
+5. **边界纪律**：如果用户说“不开发，仅查看”，只做只读摸底和进度判断，不改文件。
+
+推荐输出骨架：
+
+```markdown
+# 项目摸底
+
+## 结论摘要
+## 背景与目标
+## 架构与技术栈
+## 模块/路由地图
+## 数据与权限边界
+## 重要 Demo / 运行路径
+## 测试与验证现状
+## 工作区风险
+## 下一步建议
+```
 
 
 

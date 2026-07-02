@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Creation SOP"
+  short_description: "Plan auditable AI video workflows"
+  default_prompt: "Use video-creation-sop to turn this brief into a checked video production package."

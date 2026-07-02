@@ -48,7 +48,7 @@ bash scripts/test_suite.sh
 
 关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。跨工具适配策略见 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
-## 核心心智矩阵：1 个核心分身 + 12 个基础能力 + 8 个扩展能力
+## 核心心智矩阵：1 个核心分身 + 12 个基础能力 + 13 个扩展能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
 
@@ -74,8 +74,31 @@ bash scripts/test_suite.sh
 - 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，输出具体设计拨盘和修正方向。
 - ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯削减过度设计，保留安全、错误处理和可访问性底线。
 - 📚 **长文蒸馏 (book-distiller)**：把方法论文档提炼为可复用技能结构，而不是普通摘要。
+- 🎬 **视频创作 SOP (video-creation-sop)**：把文章、产品、口播或创意拆成可审核的视频生产包，优先使用当前 Agent 原生媒体能力，缺能力时再要求配置 provider。
 - 🎞️ **视频提取 (video-extractor)**：在授权和平台规则内提取元数据、字幕和可选媒体。
 - 🗜️ **上下文压缩 (context-compressor)**：先提取骨架和关键路径，避免全量读取撑爆上下文。
+- 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界和验证盲点。
+- 🏢 **NexusFlow 治理流 (nexusflow-governance-workflow)**：沉淀 NexusFlow 权限/治理/平台/仪表盘/GCP 导入工作的固定入口、验证门和中文提交纪律。
+- 🧾 **EAC Demo 加固 (eac-demo-hardening)**：约束 `Demo/index.html` 静态演示、报告导出、教程 fallback 和 GSAP 运行时加固。
+- 💸 **AI 成本实测 (ai-cost-grounding-measurement)**：用真实 token、Grounding 元数据、计费搜索 Query 和中文 CSV 输出证明成本口径。
+
+## 能力路由：相邻能力怎么选
+
+古月保留相邻能力，不是为了堆数量，而是为了让 Agent 在不同阶段有明确刹车点。选择规则是：**先选最窄技能，再按工作流串联下一跳**。
+
+| 容易混淆的能力 | 路由边界 |
+|---|---|
+| `product-sense` / `requirement-analysis` / `system-design` | 先判断值不值得做，再拆需求边界，最后才做架构方案。 |
+| `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
+| `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
+| `coding-discipline` / `code-minimalism` | 写代码、拆模块、提交走开发纪律；削减过度设计和依赖走极简代码。 |
+| `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限和后端接线走真实性审查。 |
+| `documentation` / `sop-maker` / `skill-crafting` / `book-distiller` | 普通文档走 documentation；成功流程沉淀走 SOP；制作/升级 Skill 走 skill-crafting；长文方法论提炼走 book-distiller。 |
+| `video-creation-sop` / `video-extractor` | 视频创作、分镜、生成/渲染/剪辑路由走 video-creation-sop；已有视频链接的元数据、字幕、授权边界提取走 video-extractor。 |
+| `nexusflow-governance-workflow` / 通用工程技能 | NexusFlow 权限、治理、平台可见性、仪表盘和 GCP 导入优先走项目技能，再按需调用通用技能。 |
+| `ai-cost-grounding-measurement` / `research-and-sourcing` / `reality-auditor` | 真跑 token、Grounding 和计费 Query 统计走成本实测；查资料走调研；复核声明真实性走审查。 |
+
+合并纪律：只有当真实回放或 `test-prompts.json` 证明两个技能反复误触发，且执行步骤高度重复时，才合并或删除。否则优先打磨 description、触发词和边界表，避免把专业技能揉成一个含糊的大技能。
 
 ## 大盘心法与规范矩阵 (Master Principles & Uniform Matrix)
 
@@ -86,7 +109,7 @@ bash scripts/test_suite.sh
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
 
-2. **矩阵级结构大一统**: 20 个路由技能全面实施相同的指令骨架。
+2. **矩阵级结构大一统**: 25 个路由技能全面实施相同的指令骨架。
    - **When to Use**: 明确何时该由什么子分身接管。
    - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
    - **Step-by-Step Execution**: 标准化作业流程。
@@ -200,16 +223,20 @@ guyue/
 │   └── research/            # 萃取的训练语料沉淀
 └── skills/                  # 垂直专精子技能矩阵
     ├── ai-website-cloner/
+    ├── ai-cost-grounding-measurement/
     ├── book-distiller/
     ├── code-minimalism/
     ├── context-compressor/
     ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/
+    ├── eac-demo-hardening/
     ├── ecosystem-scout/
     ├── frontend-expert/
     ├── memory-bank/
+    ├── nexusflow-governance-workflow/
     ├── product-sense/
+    ├── reality-auditor/
     ├── requirement-analysis/
     ├── research-and-sourcing/
     ├── security-gate/
@@ -218,6 +245,7 @@ guyue/
     ├── sop-maker/
     ├── system-design/
     ├── taste-aesthetics/
+    ├── video-creation-sop/
     └── video-extractor/
 ```
 

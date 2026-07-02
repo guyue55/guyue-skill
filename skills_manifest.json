@@ -11,7 +11,7 @@
                 "create tutorial",
                 "write sop"
             ],
-            "description": "Extracts standard operating procedures from successful task execution."
+            "description": "Post-success SOP extraction for repeatable operations; not for general documentation or skill creation."
         },
         {
             "name": "frontend-expert",
@@ -21,7 +21,7 @@
                 "ui design",
                 "web interface"
             ],
-            "description": "Enforces modern UI/UX aesthetics, a11y, and CSS best practices."
+            "description": "Front-end implementation skill for UI, interaction, a11y, and motion; use taste-aesthetics for review-only anti-slop critique."
         },
         {
             "name": "product-sense",
@@ -31,7 +31,7 @@
                 "business requirement",
                 "vague idea"
             ],
-            "description": "Value interrogation and ROI analysis before entering system design."
+            "description": "Value, ROI, and compliance interrogation before requirement analysis or system design."
         },
         {
             "name": "research-and-sourcing",
@@ -41,7 +41,7 @@
                 "unknown technology",
                 "design request"
             ],
-            "description": "Forced documentation research and referencing before action."
+            "description": "Latest-source research for docs, APIs, libraries, and references; use ecosystem-scout for external skill/tool intake."
         },
         {
             "name": "requirement-analysis",
@@ -50,7 +50,7 @@
                 "vague request",
                 "ambiguous business logic"
             ],
-            "description": "WISER framework to challenge and clarify boundaries."
+            "description": "WISER framework for scope, acceptance criteria, edge cases, and business-rule boundaries before design."
         },
         {
             "name": "system-design",
@@ -59,7 +59,7 @@
                 "architecture",
                 "core module refactoring"
             ],
-            "description": "DEPTH framework for Human-in-the-Loop architectural design."
+            "description": "DEPTH framework for architecture and refactoring plans after value and requirement boundaries are clear."
         },
         {
             "name": "coding-discipline",
@@ -69,7 +69,7 @@
                 "implement UI",
                 "generate commit"
             ],
-            "description": "Enforce high cohesion, loose coupling, Chinese comments, Git standards."
+            "description": "Implementation and commit discipline for code changes; use code-minimalism when the primary job is reducing overdesign."
         },
         {
             "name": "debugging-mindset",
@@ -79,7 +79,7 @@
                 "production bug",
                 "error stack"
             ],
-            "description": "RCA diagnostic matrix for controlled troubleshooting."
+            "description": "RCA diagnostic matrix for active bugs, failures, and error stacks; use reality-auditor for post-implementation truth review."
         },
         {
             "name": "documentation",
@@ -89,7 +89,7 @@
                 "PRD",
                 "README"
             ],
-            "description": "RTFD framework for structured, pyramid-logic documentation."
+            "description": "RTFD framework for reports, README, ADR, and project orientation; not post-success SOP or skill creation."
         },
         {
             "name": "skill-crafting",
@@ -99,7 +99,7 @@
                 "distill ability",
                 "luban"
             ],
-            "description": "SOP for distilling, auditing, and validating agent skills."
+            "description": "Workflow for creating, upgrading, auditing, and validating Agent Skills; not ordinary docs or task SOPs."
         },
         {
             "name": "memory-bank",
@@ -124,7 +124,7 @@
                 "ingest",
                 "integrate"
             ],
-            "description": "Dynamic skill discovery and external dependency resolution."
+            "description": "External skill, plugin, and tool discovery or intake with safety and anti-bloat checks; not local catalog software advice."
         },
         {
             "name": "ai-website-cloner",
@@ -146,7 +146,7 @@
                 "开源工具推荐",
                 "what is a good tool for"
             ],
-            "description": "Knowledge-base advisor for software selection and open source tools."
+            "description": "Local curated software and open-source tool advisor; if the task is external Skill intake, route to ecosystem-scout."
         },
         {
             "name": "taste-aesthetics",
@@ -158,7 +158,7 @@
                 "vibe coding",
                 "anti-slop"
             ],
-            "description": "Aesthetic UI/UX constraints. Prevents AI generic output. Applies 3-Dials and enforces design system matching."
+            "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique; use frontend-expert to write the UI."
         },
         {
             "name": "code-minimalism",
@@ -169,7 +169,7 @@
                 "减少冗余代码",
                 "ponytail"
             ],
-            "description": "Lazy senior developer mode. YAGNI principle enforcement. Writes the minimum effective code."
+            "description": "YAGNI and dependency-reduction critique for code and designs; not a full implementation or commit workflow."
         },
         {
             "name": "book-distiller",
@@ -180,7 +180,7 @@
                 "沉淀书本知识",
                 "turn book into skill"
             ],
-            "description": "Distill methodologies, decision frameworks, and principles from books and long-form content into atomic, reusable agent skills."
+            "description": "Distill books and long-form methodologies into skill-shaped workflows; not a normal summary or project document."
         },
         {
             "name": "video-extractor",
@@ -192,6 +192,22 @@
                 "video downloader"
             ],
             "description": "Methodologies for extracting normalized metadata, post captions, transcripts, and source media from video platforms."
+        },
+        {
+            "name": "video-creation-sop",
+            "path": "skills/video-creation-sop/SKILL.md",
+            "trigger_intent": [
+                "视频创作",
+                "生成视频",
+                "视频 SOP",
+                "AI 视频",
+                "短视频制作",
+                "分镜脚本",
+                "HyperFrames",
+                "Remotion",
+                "Seedance"
+            ],
+            "description": "Auditable AI video creation workflow for briefs, scripts, storyboards, capability resolution, native media tools, provider configuration gates, render/edit routing, asset manifests, and QA reports."
         },
         {
             "name": "context-compressor",
@@ -214,6 +230,62 @@
                 "security scan"
             ],
             "description": "Local safety preflight for third-party skills, scripts, and external code before use or intake."
+        },
+        {
+            "name": "reality-auditor",
+            "path": "skills/reality-auditor/SKILL.md",
+            "trigger_intent": [
+                "reality audit",
+                "真实审查",
+                "确认真实",
+                "深度审查",
+                "避免异常",
+                "是不是假数据",
+                "review implementation claims"
+            ],
+            "description": "Read-only post-implementation truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, and unproven claims."
+        },
+        {
+            "name": "nexusflow-governance-workflow",
+            "path": "skills/nexusflow-governance-workflow/SKILL.md",
+            "trigger_intent": [
+                "NexusFlow",
+                "权限管理",
+                "后端控制权限",
+                "permissionSnapshot",
+                "平台治理",
+                "tenant governance",
+                "GCP import"
+            ],
+            "description": "Project-specific NexusFlow workflow for permission, tenant governance, platform visibility, dashboard, GCP import, audit-log, and Chinese commit work."
+        },
+        {
+            "name": "eac-demo-hardening",
+            "path": "skills/eac-demo-hardening/SKILL.md",
+            "trigger_intent": [
+                "EAC Demo",
+                "Demo/index.html",
+                "报告导出",
+                "PDF 下载",
+                "教程视频",
+                "GSAP report",
+                "static demo"
+            ],
+            "description": "Project-specific EAC static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, and demo-only boundaries."
+        },
+        {
+            "name": "ai-cost-grounding-measurement",
+            "path": "skills/ai-cost-grounding-measurement/SKILL.md",
+            "trigger_intent": [
+                "AI 成本",
+                "Grounding",
+                "实际运行统计",
+                "billable search queries",
+                "Gemini cost",
+                "CSV 中文",
+                "标准 深度"
+            ],
+            "description": "Evidence-first real AI report-cost measurement for model tokens, Grounding/search metadata, billable query counts, CSV localization, and estimate-vs-real separation."
         }
     ],
     "external_dependencies": [

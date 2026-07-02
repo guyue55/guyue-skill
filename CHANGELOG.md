@@ -2,7 +2,18 @@
 
 ## Unreleased
 
-- No unreleased changes yet.
+### Added
+
+- Add five evidence-heavy workflow skills: `video-creation-sop`, `reality-auditor`, `nexusflow-governance-workflow`, `eac-demo-hardening`, and `ai-cost-grounding-measurement`.
+- Add evaluation prompts covering the new workflow skills.
+- Add route-boundary evaluation prompts for overlapping skills.
+
+### Changed
+
+- Expand `documentation` with a code-backed project-orientation mode.
+- Expand `skill-crafting` with local Skill intake verification and release-candidate / zero-leakage lanes.
+- Update the README skill matrix from 20 to 25 routed skills.
+- Add public routing-arbitration rules and clarify adjacent-skill boundaries across `SKILL.md`, `README.md`, and `skills_manifest.json`.
 
 ## v1.2.0 - 2026-07-02
 
