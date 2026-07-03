@@ -13,6 +13,38 @@ bash scripts/test_suite.sh
 
 This installs the small validation/runtime dependency set, then runs the zero-leakage scanner, dependency doctor, SKILL.md validator, and test prompt evaluator.
 
+## Optional Enhancement Skills
+
+Guyue can discover optional third-party skills listed in `skills_manifest.json`, but optional dependencies are not required for the core skill to run.
+
+Use the installer planner before changing your local skill directories:
+
+```bash
+python3 scripts/install_optional_dependencies.py
+```
+
+The default mode is a dry run. It scans local skill roots first, reports already installed skills, and prints the actions it would take without cloning or linking anything.
+
+To install missing optional skills after reviewing the plan:
+
+```bash
+python3 scripts/install_optional_dependencies.py --install
+```
+
+Some optional skills contain shell helpers, command execution examples, or project layouts that are not a single `SKILL.md` directory. Those are intentionally stopped or adapter-mounted until you explicitly choose to proceed:
+
+```bash
+python3 scripts/install_optional_dependencies.py --install --force
+```
+
+The installer keeps third-party source checkouts under:
+
+```text
+~/.cc-switch/skills/_sources
+```
+
+Then it creates links from `~/.cc-switch/skills/<skill-name>` and `~/.codex/skills/<skill-name>` back to the single source location. This avoids multiple editable copies drifting apart.
+
 ## Codex
 
 Codex discovers local skills from configured skill roots. Use your local checkout path as the source:
