@@ -413,6 +413,30 @@ Regression replay:
 - Result: pass
 - Observed behavior: the live run read `skills/human-voice/SKILL.md` and current memory evidence; it asked the user to paste the source draft, stated the rewrite boundaries, and exited without modifying files. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
 
+## Replay 14: Human Voice Language Default And Mixed Labels
+
+Prompt:
+
+```text
+把这段说明改成人话：点击一键诊断 (Analyze) 后会生成报告 (Generate Report)。如果我没指定语言，正常沟通默认简体中文；不要中英文混排，除非英文是产品、品牌、接口、命令、文件名、指标或模型名。只输出改写后和删改说明，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Rewrote the ordinary mixed labels into Chinese: "一键诊断" and "生成报告".
+- Kept the language default explicit: normal communication uses Simplified Chinese unless the user specifies otherwise.
+- Preserved the exception boundary for required English identifiers such as product names, brand names, interface names, commands, filenames, metrics, and model names.
+- Did not edit files, stage changes, call external APIs, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-human-voice-language-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run returned a concise "改写后 / 删改说明" answer, removed unnecessary English glosses, kept the required-identifier boundary, and completed in read-only mode. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing.
+
 ## Productization Follow-Ups
 
 1. Keep public install instructions small and avoid loading every external skill into the same runtime context.

@@ -108,10 +108,13 @@
                 "少点套话",
                 "改得像人能看懂",
                 "改自然一点",
+                "中英文混排",
+                "简体中文",
+                "默认中文",
                 "plain language",
                 "human voice"
             ],
-            "description": "Plain-language and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, and risk boundaries."
+            "description": "Plain-language and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, language intent, and risk boundaries while avoiding unnecessary Chinese-English mixing."
         },
         {
             "name": "skill-crafting",

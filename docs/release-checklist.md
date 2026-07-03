@@ -9,7 +9,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 40 structural prompts.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 41 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
@@ -30,6 +30,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Manifest skill paths, directories, and child `SKILL.md` frontmatter names are validated by `scripts/ci_validate_skills.py`.
 - [x] Diagnostic helper commands do not assume a fixed home-relative install root.
 - [x] Project configuration alignment is validated across manifest, marketplace metadata, `skills.json`, GitHub CI, and optional dependency flags.
+- [x] `human-voice` language defaults, mixed-label cleanup, manifest triggers, and live replay evidence are validated by `scripts/ci_validate_skills.py`.
 - [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as tracked or staged release files; ignored or untracked showcase assets fail CI.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 

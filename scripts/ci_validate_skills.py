@@ -582,6 +582,116 @@ def check_video_creation_sop_contract(repo_root):
     return passed
 
 
+def check_human_voice_language_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'human_voice': os.path.join(repo_root, 'skills', 'human-voice', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'readme': os.path.join(repo_root, 'README.md'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [HUMAN VOICE ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '默认使用简体中文',
+            '不写成“一键诊断 (Analyze)”',
+            '语言先一致',
+            '英文只保留必要项',
+        ],
+        'root_skill': [
+            '默认简体中文',
+            '不必要的中英文混排',
+            '产品、品牌、接口、命令、文件、指标、模型和协议名',
+        ],
+        'human_voice': [
+            '### 3. Choose Language And Terminology',
+            'Simplified Chinese',
+            '一键诊断 (Analyze)',
+            'unnecessary bilingual labels',
+            'required for recognition or exact execution',
+            'product names',
+            'API names',
+            'commands',
+            'file paths',
+            'metrics',
+            'model names',
+            'protocols',
+        ],
+        'readme': [
+            '默认正常沟通用简体中文',
+            '避免不必要中英文混排',
+        ],
+        'replay': [
+            'Replay 14: Human Voice Language Default And Mixed Labels',
+            '一键诊断',
+            '生成报告',
+            'required English identifiers',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [HUMAN VOICE ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [HUMAN VOICE ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    human_voice = next((skill for skill in manifest.get('skills', []) if skill.get('name') == 'human-voice'), None)
+    if not human_voice:
+        print("❌ [HUMAN VOICE ERROR] human-voice missing from skills_manifest.json", file=sys.stderr)
+        passed = False
+    else:
+        triggers = set(human_voice.get('trigger_intent', []))
+        for trigger in {'中英文混排', '简体中文', '默认中文'}:
+            if trigger not in triggers:
+                print(f"❌ [HUMAN VOICE ERROR] Missing human-voice trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(human_voice.get('description', ''))
+        for needle in {'language intent', 'Chinese-English mixing'}:
+            if needle not in description:
+                print(f"❌ [HUMAN VOICE ERROR] human-voice manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [HUMAN VOICE ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Human Voice Boundary - Simplified Chinese And Mixed Labels'), None)
+    if not prompt:
+        print("❌ [HUMAN VOICE ERROR] Missing Simplified Chinese mixed-label prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['Simplified Chinese', '一键诊断 (Analyze)', 'required identifier']:
+            if needle not in prompt_text:
+                print(f"❌ [HUMAN VOICE ERROR] Mixed-label prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_showcase_assets(repo_root):
     demo_gif = os.path.join(repo_root, 'assets', 'demo.gif')
     demo_tape = os.path.join(repo_root, 'assets', 'demo.tape')
@@ -703,6 +813,11 @@ def main():
 
     if check_video_creation_sop_contract(repo_root):
         print("✅ video-creation-sop contract valid.")
+    else:
+        all_passed = False
+
+    if check_human_voice_language_contract(repo_root):
+        print("✅ human-voice language contract valid.")
     else:
         all_passed = False
 

@@ -9,6 +9,7 @@
 - Add evaluation prompts covering the new workflow skills.
 - Add route-boundary evaluation prompts for overlapping skills.
 - Add a CI guard for `video-creation-sop` short-drama contract completeness.
+- Add a CI guard for the `human-voice` language contract across principles, routing, manifest, tests, README, and live replay evidence.
 
 ### Changed
 
@@ -24,6 +25,8 @@
 - Update the README skill matrix from 25 to 26 routed skills with a dedicated human-voice boundary.
 - Add public routing-arbitration rules and clarify adjacent-skill boundaries across `SKILL.md`, `README.md`, and `skills_manifest.json`.
 - Strengthen Guyue's human-voice persona contract so plain-language output must preserve facts, sources, authorship, authorization, and risk boundaries without marketing exaggeration.
+- Strengthen Guyue's language contract so normal communication defaults to Simplified Chinese when unspecified and removes unnecessary Chinese-English mixed labels while preserving required identifiers.
+- Strengthen `scripts/ci_validate_skills.py` so the human-voice language contract cannot drift silently across public docs and release evidence.
 - Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
 
 ## v1.2.0 - 2026-07-02

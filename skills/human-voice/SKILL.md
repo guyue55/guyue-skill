@@ -1,6 +1,6 @@
 ---
 name: human-voice
-description: Plain-language editing skill for making Guyue outputs sound direct, specific, and human-readable without changing facts, sources, authorship, or risk boundaries. Use when the user asks to "说人话", "去 AI 味", "别写官话", "少点套话", "改得像人能看懂", "像人说话", simplify a response, tighten prose, or remove generic AI phrasing from reports, replies, product copy, release notes, or technical explanations.
+description: Plain-language editing skill for making Guyue outputs sound direct, specific, and human-readable without changing facts, sources, authorship, language intent, or risk boundaries. Use when the user asks to "说人话", "去 AI 味", "别写官话", "少点套话", "改得像人能看懂", "像人说话", avoid unnecessary Chinese-English mixing, default to Simplified Chinese, simplify a response, tighten prose, or remove generic AI phrasing from reports, replies, product copy, release notes, or technical explanations.
 ---
 
 # human-voice
@@ -28,6 +28,7 @@ Every rewrite must pass these checks:
 3. **Act**: the reader knows the next action, owner, command, file, approval, or blocker when one exists.
 4. **Stay true**: facts, numbers, citations, file paths, source type, and authorship claims do not change.
 5. **Stay honest**: the rewrite does not market, exaggerate, hide AI assistance, or pretend a human source exists.
+6. **Stay consistent**: use the user's language when it is clear; when it is not clear, default normal communication to Simplified Chinese and keep only necessary English identifiers.
 
 ## When to Use
 
@@ -45,6 +46,9 @@ Use this skill when the user asks for any of these:
 - "让读者能听懂、能判断、能行动"
 - "别营销夸张"
 - "不要伪装人工来源"
+- "不要中英文混排"
+- "默认用简体中文"
+- "不需要一键诊断 (Analyze) 这种写法"
 
 Also use it as a final editing gate for public-facing Guyue outputs when the draft is correct but sounds generic, inflated, or hard to act on.
 
@@ -57,6 +61,7 @@ Also use it as a final editing gate for public-facing Guyue outputs when the dra
 - Do not use it for long-form technical documentation from scratch; route first to `documentation`, then use `human-voice` as the final language pass.
 - Do not flatten expert content into simplistic language when precision matters. Explain the term, but keep the term.
 - Do not edit files, change facts, add sources, or delete risk language when the user only asked for an expression pass.
+- Do not append English glosses to ordinary Chinese labels for style, such as changing "一键诊断" into "一键诊断 (Analyze)".
 
 ## Workflow
 
@@ -71,6 +76,7 @@ Before rewriting, extract the facts that must survive:
 - decisions, constraints, dates, versions, commands, file paths, metrics, risks, citations;
 - confirmed vs unconfirmed claims;
 - source type and authorship claims, including whether text is generated, user-supplied, quoted, inferred, or externally sourced;
+- language intent and identifiers that must stay exact, such as product names, brand names, API names, commands, file paths, code symbols, metrics, model names, protocols, and user-provided proper nouns;
 - user-provided wording that must be preserved;
 - required legal, safety, or technical caveats.
 
@@ -85,7 +91,17 @@ Classify the reader in one line:
 
 The rewrite must serve that job, not just sound polished.
 
-### 3. Remove AI-Slop Markers
+### 3. Choose Language And Terminology
+
+Apply these rules before rewriting:
+
+- Use the user's chosen language when the prompt or surrounding context makes it clear.
+- If the language is not specified or cannot be inferred, use Simplified Chinese for normal communication.
+- Avoid Chinese-English mixed labels when the Chinese phrase is already clear. Write "一键诊断", not "一键诊断 (Analyze)".
+- Keep English only when it is required for recognition or exact execution: product names, brand names, API names, CLI commands, file paths, code symbols, metrics, model names, protocols, quoted source text, or user-provided proper nouns.
+- When an English term is necessary but unfamiliar to the reader, explain it once in Chinese instead of repeating bilingual labels everywhere.
+
+### 4. Remove AI-Slop Markers
 
 Rewrite or delete these patterns:
 
@@ -98,8 +114,9 @@ Rewrite or delete these patterns:
 - disclaimer fog that hides the actual answer;
 - over-formatted lists where a short paragraph would be clearer.
 - false source cues: "用户调研证明", "客户都认为", "人工撰写", when no such source is present.
+- unnecessary bilingual labels: "一键诊断 (Analyze)", "开始分析 (Start Analysis)", "生成报告 (Generate Report)" when the English is not a product, command, metric, or required UI identifier.
 
-### 4. Rewrite In Plain Working Language
+### 5. Rewrite In Plain Working Language
 
 Use these rules:
 
@@ -111,9 +128,10 @@ Use these rules:
 - Keep uncertainty visible: "未验证", "当前证据只证明", "还需要".
 - Say "我推断", "当前材料显示", or "这部分未验证" when the source is not direct.
 - Keep AI authorship or assistance transparent when it matters; never claim the text came from a human when it did not.
+- Keep necessary English identifiers exact; translate the surrounding explanation into Chinese when the reader is Chinese.
 - End with the next action only when a real next action exists.
 
-### 5. Compare Before And After
+### 6. Compare Before And After
 
 For rewrite requests, output this structure unless the user asks for a different format:
 
@@ -145,6 +163,7 @@ Before sending the final text, check:
 - Is the next action concrete, or absent when no action is needed?
 - Does the text avoid claiming human authorship or detector evasion?
 - Did the rewrite avoid destructive edits, scope creep, and unsourced source claims?
+- Is the output language consistent, with unnecessary bilingual labels removed and required English identifiers preserved?
 
 ## Anti-Patterns
 
@@ -154,6 +173,8 @@ Before sending the final text, check:
   - Better: "该方案减少客服手动查单次数。是否能带来增长，还需要看工单量和转化数据。"
 - "从多维度来看，这是一个兼具效率与体验的优秀方案。"
   - Better: "如果目标是两周内上线，选方案 A。它少改数据库，但牺牲了后续扩展空间。"
+- "点击一键诊断 (Analyze) 后生成报告 (Generate Report)。"
+  - Better: "点击一键诊断后生成报告。"
 
 ## Cross-Skill Invocation
 
@@ -165,6 +186,8 @@ Before sending the final text, check:
 ## Guardrails
 
 - Preserve truth over tone.
+- Default normal communication to Simplified Chinese when language is unspecified or unclear.
+- Avoid unnecessary Chinese-English mixing; keep English only when it is a required identifier or exact user/source term.
 - Never hide uncertainty to make text sound confident.
 - Never remove safety, legal, cost, permission, or verification boundaries for readability.
 - Never present generated text as human-written.

@@ -40,6 +40,11 @@
     "expected_behavior": "Should trigger `human-voice` as a language-only pass. Agent must preserve facts, caveats, source status, and uncertainty; it should explain technical terms only as needed for the reader to understand, judge, and act. It must not edit files, fabricate user research or customer evidence, add unsupported sources, remove unverified risks, or expand the task into documentation, marketing copy, or UI critique."
   },
   {
+    "name": "Human Voice Boundary - Simplified Chinese And Mixed Labels",
+    "prompt": "把这段说明改成人话：点击一键诊断 (Analyze) 后会生成报告 (Generate Report)。如果我没指定语言，正常沟通默认简体中文；不要中英文混排，除非英文是产品、品牌、接口、命令、文件名、指标或模型名。",
+    "expected_behavior": "Should trigger `human-voice`. Agent must default normal communication to Simplified Chinese when no other language is specified, rewrite ordinary Chinese-English mixed labels such as `一键诊断 (Analyze)` and `生成报告 (Generate Report)` into clear Chinese, and preserve English only when it is a required identifier such as a product name, brand name, API/interface name, command, file path, metric, model, protocol, quoted source, or user-provided proper noun. It must not remove facts, risks, source status, or authorization boundaries while cleaning up the language."
+  },
+  {
     "name": "Trigger Research and Sourcing",
     "prompt": "打算引入一个专门处理并发队列的开源库，有什么推荐的最新方案吗？",
     "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library. MUST advocate for Zero-Dependency and the Lindy Effect before adding external bloat."

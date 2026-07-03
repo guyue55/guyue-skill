@@ -61,7 +61,7 @@ bash scripts/test_suite.sh
 - 💻 **开发纪律 (coding-discipline)**：进入编码阶段时，强制执行高内聚低耦合的架构规范，并默认应用前端/UI最佳实践。
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
 - 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README、架构决策记录和代码背书的项目摸底地图。
-- 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
+- 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；默认正常沟通用简体中文，避免不必要中英文混排；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
 - ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束，并默认融入 GSAP 级三幕剧动效与商业语境转换。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
@@ -95,7 +95,7 @@ bash scripts/test_suite.sh
 | `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
 | `coding-discipline` / `code-minimalism` | 写代码、拆模块、提交走开发纪律；削减过度设计和依赖走极简代码。 |
 | `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限、后端接线和部署生效证据走真实性审查。 |
-| `human-voice` / `documentation` / `taste-aesthetics` | 改回答和解释的表达走 human-voice；写 README、PRD、ADR 或项目摸底走 documentation；审查 UI 视觉 AI 味走 taste-aesthetics。 |
+| `human-voice` / `documentation` / `taste-aesthetics` | 改回答、解释、语言默认值和中英文混排走 human-voice；写 README、PRD、ADR 或项目摸底走 documentation；审查 UI 视觉 AI 味走 taste-aesthetics。 |
 | `documentation` / `sop-maker` / `skill-crafting` / `book-distiller` | 普通文档和项目摸底走 documentation；成功流程沉淀走 SOP；制作/升级 Skill 走 skill-crafting；长文方法论提炼走 book-distiller。 |
 | `video-creation-sop` / `video-extractor` | 视频创作、分镜、生成/渲染/剪辑路由走 video-creation-sop；已有视频链接的元数据、字幕、授权边界提取走 video-extractor。 |
 | `nexusflow-governance-workflow` / 通用工程技能 | NexusFlow 权限、治理、平台可见性、仪表盘和 GCP 导入优先走项目技能，再按需调用通用技能。 |
