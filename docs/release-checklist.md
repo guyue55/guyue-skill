@@ -2,19 +2,19 @@
 
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
-## Current v1.2.0 Candidate Snapshot
+## Current Candidate Snapshot
 
-Date: 2026-07-02
+Date: 2026-07-03
 Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新发版证据`
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 20 routed skills.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 40 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
-- [x] Placeholder demo GIF is removed from the public README path; current visible evidence is text replay and showcase examples.
-- [x] Marketplace metadata is aligned to v1.2.0 candidate positioning.
+- [x] Placeholder demo GIF is removed; current visible evidence is text replay plus a reproducible showcase GIF referenced from `examples/showcase.md`.
+- [x] Marketplace metadata is aligned to the current candidate positioning.
 - [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
 - [x] GitHub CI covers zero-leakage, SKILL structure validation, and prompt evaluation; local `doctor.py` remains part of the manual release gate.
 - [x] Published memory index matches the documented `{"memories": [...]}` schema and the MCP server accepts legacy list-shaped indexes.
@@ -26,10 +26,11 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] MCP server resolves manifest and memory paths from the repository root even when launched from `src/`.
 - [x] `SKILL.md` distinguishes required dependency blockers from optional ecosystem enhancement warnings.
 - [x] Public/tracked Markdown internal links are validated by `scripts/ci_validate_skills.py`.
+- [x] Code-spanned Skill resource references such as `references/...` and `scripts/...` resolve to tracked or staged release files.
 - [x] Manifest skill paths, directories, and child `SKILL.md` frontmatter names are validated by `scripts/ci_validate_skills.py`.
 - [x] Diagnostic helper commands do not assume a fixed home-relative install root.
 - [x] Project configuration alignment is validated across manifest, marketplace metadata, `skills.json`, GitHub CI, and optional dependency flags.
-- [x] Generated demo media from `assets/demo.tape` is ignored and cannot re-enter the release path accidentally.
+- [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as tracked or staged release files; ignored or untracked showcase assets fail CI.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
@@ -59,6 +60,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
 - [ ] `python3 scripts/run_eval.py` passes.
 - [ ] `bash scripts/test_suite.sh` passes.
+- [ ] Any new `references/`, `scripts/`, `assets/`, or `examples/` file mentioned from a `SKILL.md` is tracked or staged before release packaging.
 
 ## Security
 

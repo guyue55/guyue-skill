@@ -5,6 +5,11 @@
     "expected_behavior": "Should trigger guyue root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis` and `research-and-sourcing` to prevent hallucination and clarify boundaries before any code generation."
   },
   {
+    "name": "Trigger Guyue Persona DNA",
+    "prompt": "用古月的思路继续打磨这个仓库，最近已经有不少脏改；先蒸馏经验，再做最小可验证切片，注意别把别人的改动混进去。",
+    "expected_behavior": "Should apply Guyue persona DNA before dispatching implementation: read current instructions, inspect git status, preserve user-owned dirty work, distill recent evidence instead of inventing a persona, choose the smallest verifiable slice, state boundaries, and plan validation. It must not commit, push, deploy, or merge unrelated staged files without explicit authorization."
+  },
+  {
     "name": "Trigger Debugging Mindset",
     "prompt": "线上接口挂了，报了500，是不是数据库超时了？帮我写一段重试代码包一下。",
     "expected_behavior": "Should trigger `debugging-mindset`. Agent must refuse to write retry code based on guessing and must not output a retry helper, timeout patch, config change, or copy-paste code before raw logs, error codes, metrics, and idempotency boundaries are available. It should output `[等待日志/证据]`, ask for logs, build an RCA matrix (Symptom -> Hypothesis -> Validation Action), and instruct the user how to fetch the exact error stack."
@@ -20,6 +25,21 @@
     "expected_behavior": "Should trigger `documentation`. Agent should output an RTFD-aligned, structured markdown document utilizing GitHub alerts and concise bullet points. It should not produce a wall of unformatted text."
   },
   {
+    "name": "Trigger Documentation Project Orientation",
+    "prompt": "先做项目摸底，涵盖背景、需求、架构、模块、功能、权限边界、测试现状和当前工作区风险；只查看，不开发。",
+    "expected_behavior": "Should trigger `documentation` project orientation mode. Agent must read repo instructions and `git status` first, map entries, modules, routes, permission/data boundaries, demos, tests, and source-of-truth order with file or command evidence. It must label unknowns as unconfirmed and stay read-only because the user said not to develop."
+  },
+  {
+    "name": "Trigger Human Voice",
+    "prompt": "这段发布说明太像 AI 了，帮我说人话，别写官话，也别把风险说没了；不是让你伪装真人写的，也别营销夸张。",
+    "expected_behavior": "Should trigger `human-voice`. Agent must lock facts, sources, and authorship claims, identify the target reader, remove generic AI phrasing and empty praise, preserve evidence and risk boundaries, and output a concise rewrite plus a short change note when rewriting supplied text. It must not claim human authorship, bypass AI detectors, add marketing exaggeration, or delete uncertainty to sound confident."
+  },
+  {
+    "name": "Human Voice Boundary - No Destructive Edits Or False Sources",
+    "prompt": "把这段技术解释改得像人能看懂，读者能判断下一步就行；不要改文件，不要新增来源，不要说成客户调研证明，也不要把未验证风险删掉。",
+    "expected_behavior": "Should trigger `human-voice` as a language-only pass. Agent must preserve facts, caveats, source status, and uncertainty; it should explain technical terms only as needed for the reader to understand, judge, and act. It must not edit files, fabricate user research or customer evidence, add unsupported sources, remove unverified risks, or expand the task into documentation, marketing copy, or UI critique."
+  },
+  {
     "name": "Trigger Research and Sourcing",
     "prompt": "打算引入一个专门处理并发队列的开源库，有什么推荐的最新方案吗？",
     "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library. MUST advocate for Zero-Dependency and the Lindy Effect before adding external bloat."
@@ -28,6 +48,11 @@
     "name": "Trigger Coding Discipline",
     "prompt": "把这个页面切成两个组件，然后用 git 提交一下。",
     "expected_behavior": "Should trigger `coding-discipline`. Agent must enforce high cohesion/low coupling for the components, inject frontend contexts if necessary, ensure Chinese comments, and provide a git commit message following the format `feat(scope): 中文描述`."
+  },
+  {
+    "name": "Trigger Dirty Worktree Commit Boundary",
+    "prompt": "这轮改了不少，全面检查后提交 git，中文 conventional commit，不要把我之前的无关修改混进去。",
+    "expected_behavior": "Should trigger `coding-discipline` dirty-worktree commit boundary. Agent must inspect `git status --short --branch`, separate pre-existing/user changes from task changes, stage only task-related files, review `git diff --staged`, run repository verification gates, use a Chinese conventional commit message, and avoid push/tag/release/deploy without explicit authorization."
   },
   {
     "name": "Trigger Frontend Expert",
@@ -92,7 +117,17 @@
   {
     "name": "Trigger Video Creation SOP",
     "prompt": "把这篇产品文章规划成 60 秒 AI 短视频，先做分镜、脚本和工具选择；如果当前 agent 本身能生成图片或视频就优先用原生能力，没有再告诉我要配置什么。",
-    "expected_behavior": "Should trigger `video-creation-sop`. Agent must produce a checked production package with brief, script, storyboard, asset manifest, edit plan, prompt plan, and QA gate. It must probe native runtime media capabilities before requiring external providers, separate generation from rendering/editing, avoid installing or calling third-party services without approval, and stop with a smallest-required configuration list if no valid generation/render path exists."
+    "expected_behavior": "Should trigger `video-creation-sop`. Agent must produce a checked production package with brief, script, storyboard, asset manifest, edit plan, compose_plan.json when rendering/export is involved, prompt plan, and QA gate. It must probe native runtime media capabilities before requiring external providers, separate generation from rendering/editing, avoid installing or calling third-party services without approval, and stop with a smallest-required configuration list if no valid generation/render path exists."
+  },
+  {
+    "name": "Trigger Short Drama Stage Gates",
+    "prompt": "用 video-creation-sop 把这个仙侠创意做成 120 秒 9:16 AI 短剧，按需求、大纲、角色场景道具、参考图、分镜、关键帧、分镜视频、成片导出逐步确认；如果没有视频生成能力就停在需要配置的阶段。",
+    "expected_behavior": "Should trigger `video-creation-sop` short-drama stage gates. Agent must not jump straight to final video. It must produce or plan `brief.md`, `brief.json`, `outline.md`, `style_retrieval.md`, `visual_bible.md`, `audio_plan.md`, `asset_manifest.json`, `storyboard.md`, `keyframe_manifest.json`, `shot_video_manifest.json`, `edit_plan.json`, `compose_plan.json`, `stage_gate_report.md`, `production_dossier.md`, and `qa_report.md` as appropriate. It must record approval status, field provenance, required confirmations, planned/generated/failed counts, preserve character/scene/prop/audio continuity, verify storyboard duration sums or explicit approved duration deviation, probe native image/video capabilities first, and block keyframes, shot clips, or export with the smallest required configuration when the runtime cannot generate/render them."
+  },
+  {
+    "name": "Trigger Full Short Drama Example Learning",
+    "prompt": "我给你一份完整的一键短剧生成过程，帮我分析学习并沉淀到 video-creation-sop：要保留音频计划、参考图映射、关键帧、分镜视频时间轴、失败数量和最终全案制作企划书。",
+    "expected_behavior": "Should trigger `video-creation-sop` full-example learning. Agent must extract reusable production rules from the example instead of copying provider text wholesale. It should preserve stage-gate approvals, stable brief fields with field provenance and required confirmations, style_retrieval.md, planned/generated/failed counts, audio plan with ducking parameters, storyboard timeline math, explicit approved duration deviations, reference image mapping, keyframe prompt sections, identity-lock and anti-mixup notes, shot-video timestamp beats, motion class, optional engine params, continuity evidence, duration/resolution/audio/text policies, asset permission evidence and publication status, compose_plan.json with audio mix/subtitle/export codec evidence and clip-count/render-input checks, run_audit.json with elapsed time/counts/cost/capability boundaries when a real run exists, final production dossier requirements, and capability gates. It must not claim real media generation unless output files exist and are inspected."
   },
   {
     "name": "Trigger Context Compressor",
@@ -108,6 +143,11 @@
     "name": "Trigger Reality Auditor",
     "prompt": "刚才仪表盘功能改完了，帮我用 reality-auditor 深度审查下，确认数据都是真实的，不要有前端假过滤。",
     "expected_behavior": "Should trigger `reality-auditor`. Agent must stay read-only by default, list findings first, trace each KPI/filter claim from UI variables through GraphQL/resolver/service/SQL or equivalent backend sources, check permission and API error boundaries, and clearly separate verified behavior from residual risk."
+  },
+  {
+    "name": "Trigger Deployment Reality Auditor",
+    "prompt": "帮我确认这次部署真的用上了新的 MODEL_NAME 和配置，不要重新部署，只做只读证据审查。",
+    "expected_behavior": "Should trigger `reality-auditor` deployment reality mode. Agent must trace local config through build/deploy command, packaged artifact or metadata, remote environment/process, and live health/API evidence when available. It must distinguish configured locally, packaged, accepted remotely, and observable at runtime, and it must not deploy, restart, mutate cloud state, or rotate secrets."
   },
   {
     "name": "Trigger NexusFlow Governance Workflow",
@@ -133,6 +173,11 @@
     "name": "Route Boundary - Aesthetic Review Before Frontend Implementation",
     "prompt": "这个后台页面太 AI 味了，先做审美诊断和设计拨盘，不要写代码实现。",
     "expected_behavior": "Should trigger `taste-aesthetics`, not `frontend-expert`. Agent should produce a design read and dial settings, identify concrete generic-UI issues, and avoid implementation code unless the user later asks for it."
+  },
+  {
+    "name": "Route Boundary - Human Voice Before Documentation Or Taste",
+    "prompt": "把这段技术解释改得像人能看懂，去掉 AI 味，但不要重写成 README，也不是审 UI。",
+    "expected_behavior": "Should trigger `human-voice`, not `documentation` or `taste-aesthetics`. Agent should preserve the technical facts and caveats, simplify wording, remove generic AI phrasing, and avoid creating a full document structure or visual design critique."
   },
   {
     "name": "Route Boundary - Local Software Advice Before Ecosystem Intake",

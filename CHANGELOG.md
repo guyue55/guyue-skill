@@ -5,15 +5,26 @@
 ### Added
 
 - Add five evidence-heavy workflow skills: `video-creation-sop`, `reality-auditor`, `nexusflow-governance-workflow`, `eac-demo-hardening`, and `ai-cost-grounding-measurement`.
+- Add `human-voice` as a plain-language gate for "说人话" and anti-AI-slop expression rewrites.
 - Add evaluation prompts covering the new workflow skills.
 - Add route-boundary evaluation prompts for overlapping skills.
+- Add a CI guard for `video-creation-sop` short-drama contract completeness.
 
 ### Changed
 
 - Expand `documentation` with a code-backed project-orientation mode.
+- Expand `documentation` project orientation with repo-cartographer evidence, source-of-truth, and worktree-risk checks.
+- Expand `reality-auditor` with deployment/release reality verification.
+- Expand `coding-discipline` with dirty-worktree commit-boundary rules.
 - Expand `skill-crafting` with local Skill intake verification and release-candidate / zero-leakage lanes.
+- Expand `video-creation-sop` with short-drama stage gates, structured brief JSON, style retrieval, visual-bible, audio-plan, storyboard timeline math, keyframe, shot-video, continuity evidence, compose/export, run-audit, and production-dossier contracts.
+- Distill recent release-readiness, live replay, human-voice, and dirty-worktree lessons into Guyue's shared persona DNA.
+- Strengthen `scripts/ci_validate_skills.py` so public Markdown links and code-spanned Skill resource references must resolve to tracked or staged release files.
 - Update the README skill matrix from 20 to 25 routed skills.
+- Update the README skill matrix from 25 to 26 routed skills with a dedicated human-voice boundary.
 - Add public routing-arbitration rules and clarify adjacent-skill boundaries across `SKILL.md`, `README.md`, and `skills_manifest.json`.
+- Strengthen Guyue's human-voice persona contract so plain-language output must preserve facts, sources, authorship, authorization, and risk boundaries without marketing exaggeration.
+- Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
 
 ## v1.2.0 - 2026-07-02
 

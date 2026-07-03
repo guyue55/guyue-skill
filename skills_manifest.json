@@ -67,9 +67,11 @@
             "trigger_intent": [
                 "write code",
                 "implement UI",
-                "generate commit"
+                "generate commit",
+                "中文 conventional commit",
+                "脏工作区"
             ],
-            "description": "Implementation and commit discipline for code changes; use code-minimalism when the primary job is reducing overdesign."
+            "description": "Implementation and commit discipline for code changes, including dirty-worktree commit slicing; use code-minimalism when the primary job is reducing overdesign."
         },
         {
             "name": "debugging-mindset",
@@ -87,9 +89,29 @@
             "trigger_intent": [
                 "write report",
                 "PRD",
-                "README"
+                "README",
+                "项目摸底",
+                "了解项目",
+                "repo orientation",
+                "architecture overview"
             ],
-            "description": "RTFD framework for reports, README, ADR, and project orientation; not post-success SOP or skill creation."
+            "description": "RTFD framework for reports, README, ADR, and code-backed project orientation maps; not post-success SOP or skill creation."
+        },
+        {
+            "name": "human-voice",
+            "path": "skills/human-voice/SKILL.md",
+            "trigger_intent": [
+                "说人话",
+                "去 AI 味",
+                "AI 味",
+                "别写官话",
+                "少点套话",
+                "改得像人能看懂",
+                "改自然一点",
+                "plain language",
+                "human voice"
+            ],
+            "description": "Plain-language and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, and risk boundaries."
         },
         {
             "name": "skill-crafting",
@@ -202,12 +224,26 @@
                 "视频 SOP",
                 "AI 视频",
                 "短视频制作",
+                "视频生成",
+                "一键生成视频",
                 "分镜脚本",
+                "短剧",
+                "短剧复刻",
+                "关键帧",
+                "分镜视频",
+                "音频计划",
+                "字段来源",
+                "授权证据",
+                "发布状态",
+                "复刻",
+                "成片导出",
+                "全案制作企划书",
                 "HyperFrames",
                 "Remotion",
-                "Seedance"
+                "Seedance",
+                "FFmpeg"
             ],
-            "description": "Auditable AI video creation workflow for briefs, scripts, storyboards, capability resolution, native media tools, provider configuration gates, render/edit routing, asset manifests, and QA reports."
+            "description": "Auditable AI video creation workflow for briefs, scripts, storyboards, short-drama stage gates, structured brief JSON with field provenance and required confirmations, style retrieval, audio plans, keyframe and shot-video manifests, continuity evidence, compose/export plans, run audits, production dossiers, capability resolution, native media tools, provider configuration gates, render/edit routing, asset manifests with permission evidence and publication status, and QA reports."
         },
         {
             "name": "context-compressor",
@@ -241,9 +277,13 @@
                 "深度审查",
                 "避免异常",
                 "是不是假数据",
-                "review implementation claims"
+                "review implementation claims",
+                "部署是否生效",
+                "配置是否生效",
+                "release readiness",
+                "deployment reality"
             ],
-            "description": "Read-only post-implementation truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, and unproven claims."
+            "description": "Read-only truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, deployment/release reality, and unproven claims."
         },
         {
             "name": "nexusflow-governance-workflow",

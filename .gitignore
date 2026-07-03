@@ -9,8 +9,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Generated demo media
-assets/demo.gif
-
 # Local runtime indexes can contain machine-specific paths.
 .guyue_memory/local_skills_index.json

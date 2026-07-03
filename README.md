@@ -11,6 +11,7 @@
 
 > [!IMPORTANT]
 > 古月不是“完整的人”，也不是万能自动化系统。它是一个 Personal Agent Operating Layer：用古月式判断、执行纪律、审美偏好、风险边界和复盘方式，调度不同技能与工具完成工作。
+> 古月会把话说清楚，但不会把 AI 参与伪装成人工来源，也不会为了好听删除事实、证据、授权缺口或风险。
 
 活体输出证据见 [examples/quickstart-output.md](examples/quickstart-output.md)，展示场景见 [examples/showcase.md](examples/showcase.md)。当前发布候选不使用不可复现的装饰性截图占位。
 
@@ -48,7 +49,7 @@ bash scripts/test_suite.sh
 
 关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。跨工具适配策略见 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
-## 核心心智矩阵：1 个核心分身 + 12 个基础能力 + 13 个扩展能力
+## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
 
 本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
 
@@ -59,7 +60,8 @@ bash scripts/test_suite.sh
 - 🏛️ **系统设计 (system-design)**：采用 DEPTH 框架，强制执行 Human-in-the-Loop 审批，不看到高维度架构方案前，拒绝写一行代码。
 - 💻 **开发纪律 (coding-discipline)**：进入编码阶段时，强制执行高内聚低耦合的架构规范，并默认应用前端/UI最佳实践。
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
-- 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README 或架构决策记录。
+- 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README、架构决策记录和代码背书的项目摸底地图。
+- 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
 - ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束，并默认融入 GSAP 级三幕剧动效与商业语境转换。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
@@ -74,10 +76,10 @@ bash scripts/test_suite.sh
 - 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，输出具体设计拨盘和修正方向。
 - ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯削减过度设计，保留安全、错误处理和可访问性底线。
 - 📚 **长文蒸馏 (book-distiller)**：把方法论文档提炼为可复用技能结构，而不是普通摘要。
-- 🎬 **视频创作 SOP (video-creation-sop)**：把文章、产品、口播或创意拆成可审核的视频生产包，优先使用当前 Agent 原生媒体能力，缺能力时再要求配置 provider。
+- 🎬 **视频创作 SOP (video-creation-sop)**：把文章、产品、口播、短剧或创意拆成可审核的视频生产包；短剧走需求、大纲、风格锁定、视觉/音频资产、分镜、关键帧、分镜视频、成片合成导出和全案沉淀阶段门，保留复刻所需的字段来源、待确认项、授权证据、发布状态、时间线、参考图、连续性指标、音频混音、字幕、耗时成本和导出证据，优先使用当前 Agent 原生媒体能力，缺能力时再要求配置 provider。
 - 🎞️ **视频提取 (video-extractor)**：在授权和平台规则内提取元数据、字幕和可选媒体。
 - 🗜️ **上下文压缩 (context-compressor)**：先提取骨架和关键路径，避免全量读取撑爆上下文。
-- 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界和验证盲点。
+- 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界、部署配置是否真实生效和验证盲点。
 - 🏢 **NexusFlow 治理流 (nexusflow-governance-workflow)**：沉淀 NexusFlow 权限/治理/平台/仪表盘/GCP 导入工作的固定入口、验证门和中文提交纪律。
 - 🧾 **EAC Demo 加固 (eac-demo-hardening)**：约束 `Demo/index.html` 静态演示、报告导出、教程 fallback 和 GSAP 运行时加固。
 - 💸 **AI 成本实测 (ai-cost-grounding-measurement)**：用真实 token、Grounding 元数据、计费搜索 Query 和中文 CSV 输出证明成本口径。
@@ -92,8 +94,9 @@ bash scripts/test_suite.sh
 | `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
 | `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
 | `coding-discipline` / `code-minimalism` | 写代码、拆模块、提交走开发纪律；削减过度设计和依赖走极简代码。 |
-| `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限和后端接线走真实性审查。 |
-| `documentation` / `sop-maker` / `skill-crafting` / `book-distiller` | 普通文档走 documentation；成功流程沉淀走 SOP；制作/升级 Skill 走 skill-crafting；长文方法论提炼走 book-distiller。 |
+| `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限、后端接线和部署生效证据走真实性审查。 |
+| `human-voice` / `documentation` / `taste-aesthetics` | 改回答和解释的表达走 human-voice；写 README、PRD、ADR 或项目摸底走 documentation；审查 UI 视觉 AI 味走 taste-aesthetics。 |
+| `documentation` / `sop-maker` / `skill-crafting` / `book-distiller` | 普通文档和项目摸底走 documentation；成功流程沉淀走 SOP；制作/升级 Skill 走 skill-crafting；长文方法论提炼走 book-distiller。 |
 | `video-creation-sop` / `video-extractor` | 视频创作、分镜、生成/渲染/剪辑路由走 video-creation-sop；已有视频链接的元数据、字幕、授权边界提取走 video-extractor。 |
 | `nexusflow-governance-workflow` / 通用工程技能 | NexusFlow 权限、治理、平台可见性、仪表盘和 GCP 导入优先走项目技能，再按需调用通用技能。 |
 | `ai-cost-grounding-measurement` / `research-and-sourcing` / `reality-auditor` | 真跑 token、Grounding 和计费 Query 统计走成本实测；查资料走调研；复核声明真实性走审查。 |
@@ -104,12 +107,13 @@ bash scripts/test_suite.sh
 
 经历多轮鲁班法则深度打磨后，所有子技能目前遵循 100% 统一的工业级结构：
 
-1. **三大核心纪律 (`GUYUE_PRINCIPLES.md`)**:
+1. **核心纪律与人格 DNA (`GUYUE_PRINCIPLES.md`)**:
+   - **Persona DNA**: 默认以证据型怀疑者、边界守门员、窄刀执行者、读者翻译器和资产沉淀者的方式工作；先看证据和边界，再用人话给出能判断、能行动的结论。
    - **Trace-First**: 强制在每一次技能拦截前输出 `[Trace: Guyue/xxx]`，打破 AI 黑盒。
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
 
-2. **矩阵级结构大一统**: 25 个路由技能全面实施相同的指令骨架。
+2. **矩阵级结构大一统**: 26 个路由技能全面实施相同的指令骨架。
    - **When to Use**: 明确何时该由什么子分身接管。
    - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
    - **Step-by-Step Execution**: 标准化作业流程。
@@ -151,7 +155,7 @@ npx skills add guyue55/guyue-skill
 由于古月 `frontend-expert` 极其看重商业级 UI 与交互，建议在需要深度前端审美和动效工作时补齐以下外部专业技能。它们是增强依赖，不阻塞 `bash scripts/test_suite.sh` 的本地验证；如果缺失，`scripts/doctor.py` 会给出可选安装提示：
 
 ```bash
-# 极致的前端与交互美学设计规范
+# 前端与交互美学设计规范
 npx skills add nextlevelbuilder/ui-ux-pro-max-skill
 
 # 前端动画与交互核心库 (GSAP)
@@ -183,16 +187,19 @@ git clone https://github.com/guyue55/guyue-skill.git
 
 - **工业级防爆架构**：基于 DEPTH 模型和 RCA 矩阵的防御性编程。
 - **可见的工作流产物**：需求边界、调研结论、设计方案、RCA 矩阵、SOP、文档、提交建议，而不是只输出一段泛泛回答。
+- **人格化执行纪律**：先读现场和历史证据，保护脏工作区和授权边界，用最小切片交付可验证结果。
+- **人话版表达产物**：把正确但像 AI 的输出改成结论先行、事实不走样、风险不软化、来源不伪装的可读文本。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
 - **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
-- **硬核健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部前沿技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前强制检测环境健康度，提供零摩擦降级提示。
-- **高转化前端美学 (UI/UX Real-world Proving Ground)**：附带 `examples/saas-conversion-demo/` 实战 Demo，示范如何将枯燥的 500 报错翻译为“商业代价预估”，并运用 Vanilla JS + GSAP ScrollTrigger 实现三幕剧丝滑动画。
-- **极简即插即用**：零硬编码绑定，SOP 工具包一键全环境泛化。
+- **依赖健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前检查环境，并把可选依赖缺口标成不阻塞项。
+- **前端演示样例 (UI/UX Real-world Proving Ground)**：附带 `examples/saas-conversion-demo/` Demo，示范如何把 500 报错改写成业务方能理解的“商业代价预估”，并用 Vanilla JS + GSAP ScrollTrigger 做滚动动画。
+- **可复用本地工具**：避免硬编码绑定，SOP 工具包按当前运行环境做显式检查和降级。
 
 ## 安全边界
 
 - **不执行危险代码**：在 `system-design` 阶段，在您确认方案前，绝对不执行写入操作。
 - **事实隔离**：在 `research-and-sourcing` 阶段，调研回来的资料会强制放入 `<context>` 中，与执行指令硬隔离，防范幻觉污染。
+- **表达边界**：`human-voice` 只负责让表达清楚自然，不负责隐藏 AI 参与、制造客户证据、夸大收益或删除未验证风险。
 - **外部技能不直接吞入**：未知工具、GitHub 项目和第三方 Skill 先由 `ecosystem-scout` 生成评估报告，得到明确授权后才写入轻量依赖记录。
 - **提交前必须验收**：公开发布或提交前至少运行 `bash scripts/test_suite.sh`，同时保留安全扫描、依赖探针、格式校验和测试 prompt 体检结果。
 
@@ -210,14 +217,14 @@ guyue/
 ├── docs/                    # 安装、安全、评测、发布边界
 │   ├── runtime-adapters.md  # Codex/Claude/Gemini/Copilot/Cursor 适配策略
 ├── scripts/                 # 核心脚本库
-│   ├── doctor.py            # 环境依赖硬核健康探针
+│   ├── doctor.py            # 环境依赖健康探针
 │   ├── run_eval.py          # 测试 prompt 结构体检
 │   ├── run_security_scan.py # 第三方技能本地启发式安检
 │   ├── extract_software_box.py # 软件精选库提取工具
 │   └── ci_validate_skills.py# CI 检测流水线
 ├── examples/                # 实战对比展示案例
 │   ├── quickstart-output.md # Codex read-only 活体回放证据
-│   └── saas-conversion-demo/# 🎯 交互式高转化 UI/UX Demo (GSAP + Tailwind 最佳实践)
+│   └── saas-conversion-demo/# 交互式 UI/UX Demo (GSAP + Tailwind 示例)
 ├── test-prompts.json        # 预设的干跑测试用例
 ├── references/              #
 │   └── research/            # 萃取的训练语料沉淀

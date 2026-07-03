@@ -244,6 +244,175 @@ Regression replay:
 - Result: pass
 - Observed behavior: the live run read `RTK.md`, `SKILL.md`, `skills_manifest.json`, `skills/video-creation-sop/SKILL.md`, `skills/video-creation-sop/references/tool-routing.md`, and `skills/video-extractor/SKILL.md`; it returned the intended route without editing files.
 
+## Replay 7: Project Orientation Routing
+
+Prompt:
+
+```text
+使用古月做一次只读路由判断：用户说‘先做项目摸底，涵盖背景、需求、架构、模块、权限边界、测试现状和当前工作区风险；只查看，不开发。’应该触发哪个子技能？请只输出路由结论和依据，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `documentation` and its `Project Orientation Mode` for code-backed project mapping.
+- Confirmed `skills_manifest.json` contains the `项目摸底` / `了解项目` / `repo orientation` triggers.
+- Confirmed read-only wording keeps the workflow out of `coding-discipline`.
+- Excluded `requirement-analysis`, `system-design`, `reality-auditor`, and `coding-discipline` because the user's primary action is orientation, not requirements, design, audit, or implementation.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-runtime-replay-routing.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `RTK.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, and `skills/documentation/SKILL.md`; it returned the intended route without editing files.
+
+## Replay 8: Short Drama Stage Gates Routing
+
+Prompt:
+
+```text
+使用古月做只读路由判断：用户说‘用 video-creation-sop 把这个仙侠创意做成 120 秒 9:16 AI 短剧，按需求、大纲、角色场景道具、参考图、分镜、关键帧、分镜视频、成片导出逐步确认；如果没有视频生成能力就停在需要配置的阶段。’应该触发哪个子技能？必须列出应产生的阶段门和关键产物；不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `video-creation-sop` and its `Short Drama Stage Gates` branch.
+- Explicitly rejected `video-extractor` because the request is not metadata or transcript extraction from an existing video.
+- Listed the 8 gates from requirements through final export, including `audio_plan.md`, `keyframe_manifest.json`, `shot_video_manifest.json`, `stage_gate_report.md`, and `production_dossier.md`.
+- Preserved the capability boundary: no image/video capability means planning artifacts only and a blocked keyframe or shot-clip stage with the smallest required configuration.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-short-drama-routing-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `RTK.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, `skills/video-creation-sop/SKILL.md`, `skills/video-creation-sop/references/production-contract.md`, and `skills/video-creation-sop/references/short-drama-example-learnings.md`; it returned the intended route and did not edit files.
+
+## Replay 9: Video SOP Reproducibility And Rights Boundary
+
+Prompt:
+
+```text
+使用古月做只读路由判断：用户说‘用 video-creation-sop 把一个短剧创意做成可复刻的视频生产包，要求其他 AI 能复刻，且要避免把平台生成素材误当成可发布授权。’应该触发哪个子技能？必须说明 brief.json、asset_manifest.json 和 QA 边界里要保留哪些关键证据；不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `video-creation-sop` and its `Short Drama Stage Gates` branch.
+- Confirmed `video-extractor` is not appropriate because the request is not metadata, subtitle, transcript, or authorized source extraction from an existing video.
+- Required `brief.json` to preserve stable requirements plus `field_sources`, `required_confirmation_fields`, `accepted_defaults`, and `open_questions`.
+- Required `asset_manifest.json` to preserve `permission_evidence` and `publication_status`; it rejected vague labels such as `platform generated` or `provider owned` as publication evidence.
+- Required QA to verify stage-gate status, keyframe and shot-video traceability, duration math or approved deviation, generated/failed/skipped counts, real output inspection, and asset publication status.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-video-sop-boundary-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `RTK.md`, `SKILL.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, `skills/video-creation-sop/SKILL.md`, and `skills/video-creation-sop/references/short-drama-example-learnings.md`; it returned the intended route and did not edit files. Startup saw transient `chatgpt.com` websocket/TLS warnings before completing through HTTP fallback.
+
+## Replay 10: Human Voice Routing
+
+Prompt:
+
+```text
+使用古月处理这个请求：这段发布说明太像 AI 了，帮我说人话，别写官话，也别把风险说没了。请只输出你会选择的子技能、选择理由、不会选择的相邻技能。
+```
+
+Result: pass
+
+Why it passes:
+
+- Selected `human-voice` because the request is expression editing for a release note: "像 AI", "说人话", "别写官话", and "别把风险说没了".
+- Confirmed `skills_manifest.json` contains `human-voice` triggers for "说人话", "去 AI 味", "别写官话", plain language, and human voice.
+- Preserved the explicit boundary that readability must keep facts, risk, and uncertainty visible.
+- Excluded `documentation`, `taste-aesthetics`, `product-sense`, and `reality-auditor` because the request is not a full document, UI critique, value judgment, or truth audit.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-human-voice-runtime-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `RTK.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, and `skills/human-voice/SKILL.md`; it returned the intended route and did not edit files.
+
+## Replay 11: Persona DNA Boundary
+
+Prompt:
+
+```text
+使用古月处理这个请求：继续打磨古月人格，最近已经有不少脏改；请只输出你会遵守的古月人格 DNA、边界和下一步验证方式，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Read `SKILL.md`, `RTK.md`, `GUYUE_PRINCIPLES.md`, `MEMORY.md`, `skills/skill-crafting/SKILL.md`, and current git status before answering.
+- Repeated the five persona defaults: evidence skeptic, boundary keeper, narrow-slice executor, reader translator, and asset distiller.
+- Preserved the dirty-worktree boundary and explicitly refused to write, stage, commit, push, tag, deploy, add adapters, or merge unrelated changes in a read-only prompt.
+- Kept the verification plan concrete: `git status --short`, `git diff --stat`, relevant file checks, local gates, and read-only live replay.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-persona-dna-runtime-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run returned `[Trace: Guyue/SkillCrafting]`, named the persona DNA, preserved the dirty-worktree boundary, and did not edit files.
+
+## Replay 12: Human Voice Source And Boundary Contract
+
+Prompt:
+
+```text
+使用古月处理这个请求：把这段技术说明改成让业务读者能听懂、能判断、能行动的版本；必须保留事实、证据和风险边界，不要营销夸张，不要伪装人工来源，也不要修改文件。请只输出会遵守的表达与边界原则。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/HumanVoice]` and used the updated human-voice gate.
+- Preserved facts, evidence, source status, risk boundaries, technical terms, and actionability.
+- Explicitly rejected marketing exaggeration, false provenance such as artificial human authorship or fake user research, and file modification.
+- Kept the response to expression and boundary principles instead of expanding into documentation, marketing copy, or implementation.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-human-voice-boundary-runtime-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `skills/human-voice/SKILL.md`, current memory evidence, and ran `python3 scripts/doctor.py`; it returned the intended boundary principles and did not edit files. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 13: Human Voice Missing Draft Boundary
+
+Prompt:
+
+```text
+这段发布说明太像 AI 了，帮我说人话，别写官话，也别把风险说没了；不是让你伪装真人写的，也别营销夸张。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/HumanVoice]` and read `skills/human-voice/SKILL.md` in a read-only runtime.
+- Detected that the user had not supplied the release-note draft, so it asked for the original text instead of fabricating a rewrite.
+- Preserved the editing boundary: keep facts, risks, and unverified items; remove empty phrases such as "全面提升" and "赋能"; do not turn the result into marketing copy or pretend human authorship.
+- Did not edit files, stage changes, call external APIs, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-03
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-human-voice-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `skills/human-voice/SKILL.md` and current memory evidence; it asked the user to paste the source draft, stated the rewrite boundaries, and exited without modifying files. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
 ## Productization Follow-Ups
 
 1. Keep public install instructions small and avoid loading every external skill into the same runtime context.

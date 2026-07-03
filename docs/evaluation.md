@@ -39,7 +39,7 @@ bash scripts/test_suite.sh
 - SOP generation;
 - memory bank;
 - product sense;
-- skill crafting.
+- skill crafting;
 - ecosystem scout;
 - security gate;
 - website reconstruction;
@@ -48,7 +48,12 @@ bash scripts/test_suite.sh
 - code minimalism;
 - book distillation;
 - video extraction;
-- context compression.
+- video creation and short-drama stage gates;
+- context compression;
+- reality auditing;
+- NexusFlow governance workflow;
+- EAC demo hardening;
+- AI cost and Grounding measurement.
 
 `ecosystem-scout` must stay covered because it controls external dependency intake.
 

@@ -29,3 +29,14 @@ description: |
 2. **前端阵线对齐**：如果是 Web 前端任务，自动搜索并套用当前工作区的 UI 最佳实践（如 Next.js/React 原则）。
 3. **外科手术式修改**：如非必要绝不全量覆写现有文件，尽量使用最小化 diff/sed 等替换操作。
 4. **交付与 Git**：完成后，提供标准的 `type(scope): 中文核心描述` 的 Git Commit 信息。
+
+## Dirty Worktree Commit Boundary (脏工作区提交边界)
+
+当用户要求“检查后提交 git”“中文 conventional commit”“不要混入无关修改”时，必须把提交当成一个可审计切片处理：
+
+1. **先看状态**：运行 `git status --short --branch`，区分本轮改动、用户已有改动、生成产物和无关噪音。
+2. **确认归属**：如果文件在本轮开始前已经 dirty，只能在理解并保留其意图的前提下继续工作；不得用 `git reset --hard`、`git checkout --` 或覆盖式改写清理它。
+3. **只暂存任务切片**：使用路径级 `git add <file>` 或 `git add -p` 的非破坏性等价方式，只纳入和当前任务相关的文件。
+4. **提交前复核**：检查 `git diff --staged --stat` 和必要的 `git diff --staged` 摘要，确认没有凭据、绝对本机路径、缓存文件或无关格式化。
+5. **验证后提交**：按仓库要求运行测试、`git diff --check`、缓存检查和安全扫描；提交信息使用 `type(scope): 中文描述`。
+6. **禁止越权**：没有用户明确要求时，不推送、不打 tag、不发布、不部署。

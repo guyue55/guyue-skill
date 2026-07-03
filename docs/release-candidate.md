@@ -1,7 +1,7 @@
 # Release Candidate Evidence
 
-Date: 2026-07-02
-Status: v1.2.0 local release gates passed; public release action pending explicit authorization
+Date: 2026-07-03
+Status: Unreleased capability-fusion local gates passed; public release action pending explicit authorization
 Scope: release-preparation evidence and boundary fixes. This document does not create a tag, push commits, submit to a marketplace, deploy, or change the public runtime adapter policy.
 
 ## Baseline
@@ -51,7 +51,7 @@ A release candidate is eligible only when every item below is true:
 | Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates. | pass | Needs current full-suite run before any release action. |
 | Runtime adapters | `docs/runtime-adapters.md` keeps tool-specific files as thin adapters and blocks unverified adapter files. | pass | Do not pre-add `CLAUDE.md` or `GEMINI.md`. |
 | Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
-| Skill registry | `skills_manifest.json` records 20 routed skills; `test-prompts.json` contains 20 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
+| Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 40 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
 | Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
 | GitHub CI gate | `.github/workflows/ci.yml` runs zero-leakage scanning, skill structure validation, and prompt evaluation. | pass | `doctor.py` remains a local release gate because it checks machine-installed external skills. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
@@ -173,7 +173,7 @@ Additional issues found during a deeper release audit:
 - `skills_manifest.json` paths and child `SKILL.md` frontmatter were only checked by ad hoc probes, so a future manifest entry could point to a missing or mismatched skill without failing CI.
 - `scripts/ai_log_scanner.py` printed helper commands under one fixed home-relative install root, which contradicted the documented `/path/to/guyue` portable install model.
 - Cross-file release configuration was only checked manually, so manifest version, marketplace metadata, `skills.json`, CI workflow commands, optional dependency status, and fixed install-root strings could drift without failing validation.
-- `assets/demo.tape` still outputs `assets/demo.gif`, but that generated media path was not ignored after the placeholder GIF was removed from the public release path.
+- `assets/demo.tape` outputs `assets/demo.gif`, but showcase validation did not require the GIF and fallback renderer to be release files. A local green check could still depend on untracked files that would be missing from a packaged release.
 
 Fix applied:
 
@@ -192,7 +192,7 @@ Fix applied:
 - Added `skills_manifest.json` skill-path validation to `scripts/ci_validate_skills.py`, covering path existence, repository containment, `SKILL.md` target, directory/name alignment, frontmatter name alignment, and manifest coverage for every `skills/*/SKILL.md`.
 - Replaced the hardcoded home-relative helper-command examples in `scripts/ai_log_scanner.py` with repository-root-relative `python3 scripts/...` commands.
 - Added project configuration validation to `scripts/ci_validate_skills.py`, covering marketplace/manifest version alignment, marketplace entrypoint, `skills.json`, required CI commands, optional external dependency status, and fixed install-root command strings.
-- Added `assets/demo.gif` to `.gitignore` so regenerated demo media cannot be accidentally staged as release evidence.
+- Removed the old `assets/demo.gif` ignore rule and made `scripts/ci_validate_skills.py` require the showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` to be tracked or staged release files.
 
 Fresh install verification after fix:
 
@@ -206,7 +206,35 @@ Fresh install verification after fix:
 - `python3 scripts/ci_validate_skills.py` now reports `skills_manifest.json skill paths valid.`
 - Fixed-install-root string scan over tracked files returns no matches.
 - `python3 scripts/ci_validate_skills.py` now reports `project configuration files valid.` and `no fixed install-root commands detected.`
-- `git check-ignore -v assets/demo.gif` confirms generated demo media is ignored.
+- `python3 scripts/render_demo_gif.py --check` validates the GIF header and decodability; `scripts/ci_validate_skills.py` blocks ignored or untracked showcase assets.
+
+## 2026-07-03 Capability Fusion Audit
+
+Additional issues found during Luban deep polishing:
+
+- A tracked `SKILL.md` referenced `references/short-drama-example-learnings.md`, but that new reference file was not in the release file set.
+- `scripts/ci_validate_skills.py` only checked Markdown links, so code-spanned Skill resources such as `references/...` could exist locally but be omitted from the package.
+- Release checklist and evaluation docs still described the older 20-skill baseline after the manifest and README expanded to 25 routed skills.
+- Later human-voice integration expanded the manifest to 26 routed skills and `test-prompts.json` to 40 structural prompts, but release evidence still carried the earlier 25/36 count.
+
+Fix applied:
+
+- Added `skills/video-creation-sop/references/short-drama-example-learnings.md` to the release slice.
+- Added Skill resource reference validation to `scripts/ci_validate_skills.py`, with child-skill-relative resolution first and repository-root fallback for shared scripts.
+- Tightened Markdown link validation so relative link targets must be tracked or staged for release, not merely present in the local working tree.
+- Updated release and evaluation docs to reflect 25 routed skills and 36 structural prompts.
+- Updated release evidence and checklist counts again to reflect the current 26 routed skills and 40 structural prompts after the human-voice gate was integrated.
+
+Current local checks passed:
+
+- `python3 scripts/ci_validate_skills.py`
+- `python3 scripts/run_eval.py`
+- `bash scripts/test_suite.sh`
+- `git diff --check`
+- `git diff --cached --check`
+- `find . \( -name '__pycache__' -o -name '*.pyc' -o -name '.DS_Store' \) -print`
+- `python3 scripts/security_scanner.py`
+- Short-drama route live replay in Codex read-only mode passed and is recorded in `examples/quickstart-output.md`.
 
 ## Next Work Plan
 
@@ -234,7 +262,7 @@ Fresh install verification after fix:
 
 ## Explicit Non-Goals
 
-- Do not add more skills beyond the reviewed v1.2.0 extension set without a new manifest/test/release-evidence cycle.
+- Do not add more skills beyond the reviewed extension and workflow set without a new manifest/test/release-evidence cycle.
 - Do not add `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, or Cursor rules without the adapter admission gate.
 - Do not publish to a marketplace, create a release tag, push commits, merge branches, or deploy without explicit user authorization.
 - Do not hide local generated indexes or machine-path findings behind a release-ready label.
@@ -250,7 +278,7 @@ python3 scripts/security_scanner.py
 bash scripts/test_suite.sh
 ```
 
-The local release gates pass on the intended v1.2.0 candidate tree. Public release action remains blocked until explicit user authorization for push, tag, marketplace submission, or deployment.
+The local release gates pass on the intended current candidate tree. Public release action remains blocked until explicit user authorization for push, tag, marketplace submission, or deployment.
 
 ## Result Card
 
@@ -258,7 +286,7 @@ The local release gates pass on the intended v1.2.0 candidate tree. Public relea
 ┌─────────────────────────────────────┐
 │  Release Candidate · Guyue          │
 │                                     │
-│  Status: v1.2.0 local gates passed  │
+│  Status: current local gates passed │
 │  Focus: skill expansion boundaries  │
 │  Verified runtime: Codex path       │
 │  Current blocker: release auth      │

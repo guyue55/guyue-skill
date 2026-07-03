@@ -76,12 +76,24 @@ Default stance: read-only unless the user explicitly asks you to fix confirmed d
 - Verify usage metadata, search query metadata, token counts, generated files, and estimated-vs-real call flags.
 - Separate model cost, search/Grounding cost, cloud/runtime estimates, and wall-clock time.
 
+### Deployment And Release Reality
+
+Use this mode when the claim is "deployment succeeded", "the remote uses this config/model", "release is ready", or "production behavior matches local changes".
+
+- Treat local `.env`, README examples, and green build logs as weak evidence until traced into the deployed artifact or live service behavior.
+- Trace the chain: local config -> build/deploy command -> packaged artifact or serialized metadata -> remote process/environment -> health endpoint or authenticated smoke check.
+- Distinguish four states explicitly: configured locally, packaged into artifact, accepted by remote platform, observable in runtime behavior.
+- Prefer read-only checks first: deployment manifests, CI logs, artifact metadata, remote health probes, version endpoints, logs, or API responses.
+- Do not push, deploy, restart, mutate cloud state, delete resources, or rotate secrets while auditing unless the user explicitly asks for that action.
+- When artifact inspection is impossible, label the gap as "unproven" and propose the smallest proof step instead of claiming success.
+
 ## Anti-Patterns
 
 - Do not implement while auditing unless asked.
 - Do not treat green tests as enough evidence.
 - Do not accept screenshots as data-source proof.
 - Do not infer backend authorization from frontend labels.
+- Do not infer deployed behavior from local `.env` or unchecked build arguments.
 - Do not say "looks good" without listing what was traced.
 
 ## Output Shape

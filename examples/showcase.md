@@ -1,5 +1,9 @@
 # Guyue Perspective Showcase
 
+可复现视觉产物：`assets/demo.gif` 由 `assets/demo.tape` 对应的演示流程沉淀而来；本地无 VHS 时，可用 `python3 scripts/render_demo_gif.py` 重新生成同名 GIF。
+
+![Guyue showcase replay](../assets/demo.gif)
+
 ## 场景 1：面对含糊不清的新需求
 
 **🚫 普通 Agent 的做法：盲目堆砌代码**
