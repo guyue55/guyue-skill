@@ -30,9 +30,11 @@
 ```bash
 git clone https://github.com/guyue55/guyue-skill.git
 cd guyue-skill
-python3 -m pip install -r requirements.txt
+python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
+
+`scripts/install_guyue.py` 会安装 Python 运行依赖，自动检测并链接 `skills_manifest.json` 里的可选增强技能，然后运行 Doctor 探针。增强技能源码统一放在 `~/.cc-switch/skills/_sources`，本地技能目录只保留链接，避免多处修改。
 
 安装到你的 Agent 技能目录后，直接用自然语言触发：
 
