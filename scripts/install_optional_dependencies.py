@@ -7,6 +7,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = REPO_ROOT / "skills_manifest.json"
 
@@ -49,14 +51,14 @@ KNOWN_DEPENDENCIES = {
     "ui-ux-pro-max": {
         "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
         "source_name": "ui-ux-pro-max",
-        "skill_subpath": ".",
+        "skill_subpath": ".claude/skills/ui-ux-pro-max",
         "risk": "yellow",
         "risk_note": "contains external links in documentation",
     },
     "gsap-core": {
         "repo": "https://github.com/greensock/gsap-skills",
         "source_name": "gsap-core",
-        "skill_subpath": ".",
+        "skill_subpath": "skills/gsap-core",
         "risk": "yellow",
         "risk_note": "contains external links in documentation",
     },
@@ -160,6 +162,42 @@ def find_existing_skill(dep):
     return matches
 
 
+def skill_frontmatter_name(target):
+    skill_file = target / "SKILL.md"
+    if not skill_file.exists():
+        return None
+    content = skill_file.read_text(encoding="utf-8", errors="ignore")
+    if not content.startswith("---"):
+        return None
+    end_idx = content.find("---", 3)
+    if end_idx == -1:
+        return None
+    frontmatter = yaml.safe_load(content[3:end_idx]) or {}
+    value = frontmatter.get("name")
+    return str(value).strip() if value else None
+
+
+def skill_aliases(name, target):
+    aliases = [name]
+    frontmatter_name = skill_frontmatter_name(target)
+    if frontmatter_name:
+        aliases.append(frontmatter_name)
+    return [item for idx, item in enumerate(aliases) if item and item not in aliases[:idx]]
+
+
+def desired_skill_links(name):
+    cc_root = Path("~/.cc-switch/skills").expanduser()
+    codex_root = Path("~/.codex/skills").expanduser()
+    return [cc_root / name, codex_root / name]
+
+
+def missing_skill_links(names):
+    paths = []
+    for name in names:
+        paths.extend(path for path in desired_skill_links(name) if not (path / "SKILL.md").exists())
+    return paths
+
+
 def run(cmd, cwd=None, capture=False):
     if capture:
         return subprocess.run(cmd, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -215,15 +253,60 @@ def link_skill(name, target, dry_run):
     cc_root.mkdir(parents=True, exist_ok=True)
     codex_root.mkdir(parents=True, exist_ok=True)
 
-    if cc_link.is_symlink():
-        cc_link.unlink()
-    if not cc_link.exists():
-        cc_link.symlink_to(target)
+    if cc_link.resolve() != target.resolve():
+        if cc_link.is_symlink():
+            cc_link.unlink()
+        if not cc_link.exists():
+            cc_link.symlink_to(target)
 
-    if codex_link.is_symlink():
-        codex_link.unlink()
-    if not codex_link.exists():
-        codex_link.symlink_to(cc_link)
+    if codex_link.resolve() != cc_link.resolve():
+        if codex_link.is_symlink():
+            codex_link.unlink()
+        if not codex_link.exists():
+            codex_link.symlink_to(cc_link)
+
+
+def sync_existing_skill_links(name, target, dry_run):
+    aliases = skill_aliases(name, target)
+    missing = missing_skill_links(aliases)
+    if not missing:
+        print_plan_row(name, "skip", f"already installed at {target}")
+        return {"name": name, "status": "already_installed"}
+
+    detail = "missing links: " + ", ".join(str(path) for path in missing)
+    if dry_run:
+        print_plan_row(name, "would_sync", detail)
+        return {"name": name, "status": "would_sync"}
+
+    for alias in aliases:
+        link_skill(alias, target, dry_run=False)
+    print_plan_row(name, "synced", detail)
+    return {"name": name, "status": "synced"}
+
+
+def link_new_skill(name, target, dry_run):
+    cc_root = Path("~/.cc-switch/skills").expanduser()
+    codex_root = Path("~/.codex/skills").expanduser()
+
+    if dry_run:
+        return
+
+    cc_root.mkdir(parents=True, exist_ok=True)
+    codex_root.mkdir(parents=True, exist_ok=True)
+
+    for alias in skill_aliases(name, target):
+        cc_link = cc_root / alias
+        codex_link = codex_root / alias
+
+        if cc_link.is_symlink():
+            cc_link.unlink()
+        if not cc_link.exists():
+            cc_link.symlink_to(target)
+
+        if codex_link.is_symlink():
+            codex_link.unlink()
+        if not codex_link.exists():
+            codex_link.symlink_to(cc_link)
 
 
 def print_plan_row(name, status, detail):
@@ -235,8 +318,7 @@ def install_dependency(dep, source_root, dry_run, force):
     known = KNOWN_DEPENDENCIES.get(name)
     existing = find_existing_skill(dep)
     if existing:
-        print_plan_row(name, "skip", f"already installed at {existing[0]}")
-        return {"name": name, "status": "already_installed"}
+        return sync_existing_skill_links(name, existing[0], dry_run)
 
     if not known:
         print_plan_row(name, "manual", "no installer metadata; keep manifest command as fallback")
@@ -273,7 +355,7 @@ def install_dependency(dep, source_root, dry_run, force):
         if not (target_dir / "SKILL.md").exists():
             print_plan_row(name, "failed", f"target has no SKILL.md: {target_dir}")
             return {"name": name, "status": "failed"}
-        link_skill(name, target_dir, dry_run=False)
+        link_new_skill(name, target_dir, dry_run=False)
 
     action = "would_link" if dry_run else "linked"
     print_plan_row(name, action, f"{target_dir} ({scan_status}; {scan_detail})")
