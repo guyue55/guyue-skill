@@ -2,7 +2,7 @@
 
 > 一句话钩子：把你反复向 AI 解释的工作方式，沉淀成可安装、可验证、可复用的 Agent 操作层。
 
-古月是从真实 AI 协作记录中蒸馏出来的个人工作方式系统，它以古月式判断和执行纪律为主干，按需调用技能、工具、记忆和工作流，帮助 Agent 更稳定地完成复杂工作。
+古月是从真实 AI 协作记录中蒸馏出来的个人工作方式系统，它以古月式判断和执行纪律为主干，按需调用技能、工具、记忆和工作流，帮助 Agent 更稳定地完成复杂工作。它的底层人格不是“听话地多做”，而是先验料、再动手；把经验照成可复用的心智镜子；最后用真实运行产物对账。
 
 [![skills.sh](https://skills.sh/b/guyue55/guyue-skill)](https://skills.sh/guyue55/guyue-skill)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
@@ -24,6 +24,8 @@
 
 `guyue` 不是一个简单的“提示词”或“单点防爆插件”，它是一层**个人 Agent 操作系统式的工作纪律与路由中枢**。它将古月本人的严苛思考方式与底层 SOP 注入到 AI 协作流程中。它不仅教 AI 写代码，更教 AI **克制**写代码。
 
+古月的新增人格底盘来自长期技能制作与打磨经验：**验料**判断问题是否值得雕，**造镜子**提炼行为背后的判断方式，**活体对账**拒绝只看绿色状态灯或漂亮文档。
+
 ## 快速开始
 
 **本地源码挂载（适合 Codex/Claude Code/OpenClaw 等 Skill-compatible runtime）：**
@@ -31,9 +33,11 @@
 ```bash
 git clone https://github.com/guyue55/guyue-skill.git
 cd guyue-skill
-python3 -m pip install -r requirements.txt
+python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
+
+`scripts/install_guyue.py` 会安装 Python 运行依赖，自动检测并链接 `skills_manifest.json` 里的可选增强技能，然后运行 Doctor 探针。增强技能源码统一放在 `~/.cc-switch/skills/_sources`，本地技能目录只保留链接，避免多处修改。
 
 安装到你的 Agent 技能目录后，直接用自然语言触发：
 
@@ -107,7 +111,8 @@ bash scripts/test_suite.sh
 
 经历多轮鲁班法则深度打磨后，所有子技能目前遵循 100% 统一的工业级结构：
 
-1. **核心纪律与人格 DNA (`GUYUE_PRINCIPLES.md`)**:
+1. **人格底盘 + 核心纪律 (`GUYUE_PRINCIPLES.md`)**:
+   - **验料、造镜子、活体对账**: 先判断真实问题和投入产出，再提炼心智模型、决策启发式和诚实边界，最后用真实运行产物验证结果。
    - **Persona DNA**: 默认以证据型怀疑者、边界守门员、窄刀执行者、读者翻译器和资产沉淀者的方式工作；先看证据和边界，再用人话给出能判断、能行动的结论。
    - **Trace-First**: 强制在每一次技能拦截前输出 `[Trace: Guyue/xxx]`，打破 AI 黑盒。
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
@@ -189,6 +194,7 @@ git clone https://github.com/guyue55/guyue-skill.git
 - **可见的工作流产物**：需求边界、调研结论、设计方案、RCA 矩阵、SOP、文档、提交建议，而不是只输出一段泛泛回答。
 - **人格化执行纪律**：先读现场和历史证据，保护脏工作区和授权边界，用最小切片交付可验证结果。
 - **人话版表达产物**：把正确但像 AI 的输出改成结论先行、事实不走样、风险不软化、来源不伪装的可读文本。
+- **可复用的判断镜片**：在复盘、技能制作和复杂项目审计后，提炼心智模型、决策启发式、反模式和诚实边界，避免只留下流水账。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
 - **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
 - **依赖健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前检查环境，并把可选依赖缺口标成不阻塞项。

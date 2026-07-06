@@ -7,11 +7,63 @@ This document keeps installation paths explicit. Use the path that matches your 
 From the repository root:
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
 
-This installs the small validation/runtime dependency set, then runs the zero-leakage scanner, dependency doctor, SKILL.md validator, and test prompt evaluator.
+This installs the small validation/runtime dependency set, automatically detects and installs optional enhancement skills from `skills_manifest.json`, runs the dependency doctor, then runs the zero-leakage scanner, SKILL.md validator, and test prompt evaluator.
+
+## Optional Enhancement Skills
+
+Guyue can discover optional third-party skills listed in `skills_manifest.json`, but optional dependencies are not required for the core skill to run.
+
+The default installer already runs optional dependency installation:
+
+```bash
+python3 scripts/install_guyue.py
+```
+
+It installs every optional dependency declared in the manifest, including reviewed yellow/red dependencies, because running the top-level installer is treated as explicit installation intent.
+
+Use the lower-level planner when you want to preview or audit optional skill changes before touching local skill directories:
+
+```bash
+python3 scripts/install_optional_dependencies.py
+```
+
+The default mode is a dry run. It scans local skill roots first, reports already installed skills, and prints the actions it would take without cloning or linking anything.
+
+To install missing optional skills after reviewing the plan:
+
+```bash
+python3 scripts/install_optional_dependencies.py --install
+```
+
+Some optional skills contain shell helpers, command execution examples, or project layouts that are not a single `SKILL.md` directory. Those are intentionally stopped or adapter-mounted until you explicitly choose to proceed:
+
+```bash
+python3 scripts/install_optional_dependencies.py --install --force
+```
+
+For a conservative Guyue install that stops instead of force-installing yellow/red optional skills:
+
+```bash
+python3 scripts/install_guyue.py --optional-mode safe
+```
+
+For a plan-only optional dependency pass:
+
+```bash
+python3 scripts/install_guyue.py --optional-mode plan
+```
+
+The installer keeps third-party source checkouts under:
+
+```text
+~/.cc-switch/skills/_sources
+```
+
+Then it creates links from `~/.cc-switch/skills/<skill-name>` and `~/.codex/skills/<skill-name>` back to the single source location. This avoids multiple editable copies drifting apart.
 
 ## Codex
 

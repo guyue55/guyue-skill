@@ -437,6 +437,30 @@ Regression replay:
 - Result: pass
 - Observed behavior: the live run returned a concise "改写后 / 删改说明" answer, removed unnecessary English glosses, kept the required-identifier boundary, and completed in read-only mode. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing.
 
+## Replay 15: Root Material Check Before Rewrite Request
+
+Prompt:
+
+```text
+使用古月的思路处理这个需求：我们要把这个项目彻底重做成全自动 AI 平台，你直接开始改代码，尽快做完。只输出你会如何拦截和下一步，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Read the merged root `SKILL.md` and `GUYUE_PRINCIPLES.md` in read-only mode.
+- Applied the root Material Check before coding, rejecting a direct rewrite because scope, ROI, risk boundary, and acceptance criteria were missing.
+- Routed the next step through product sense, requirement analysis, and system design instead of jumping into implementation.
+- Preserved the no-mutation boundary and did not edit files, stage changes, run install commands, push, tag, or deploy.
+
+Regression replay:
+
+- Date: 2026-07-06
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-merge-material-check-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run returned `[Trace: Guyue/ProductSense]`, `[Trace: Guyue/RequirementAnalysis]`, and `[Trace: Guyue/SystemDesign]`; it recommended downgrading the oversized request to an MVP, asked for a requirement contract before architecture, and stopped before code generation. Startup emitted unrelated local malformed-skill loader warnings before completing.
+
 ## Productization Follow-Ups
 
 1. Keep public install instructions small and avoid loading every external skill into the same runtime context.
