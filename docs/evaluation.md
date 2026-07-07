@@ -33,6 +33,7 @@ bash scripts/test_suite.sh
 - debugging discipline;
 - system design and human confirmation;
 - documentation;
+- business-readable output;
 - research and sourcing;
 - coding discipline;
 - frontend expert behavior;
@@ -49,7 +50,7 @@ bash scripts/test_suite.sh
 - book distillation;
 - video extraction;
 - video creation and short-drama stage gates;
-- context compression;
+- context compression, context budget management, and third-party quick-install gates;
 - reality auditing;
 - NexusFlow governance workflow;
 - EAC demo hardening;

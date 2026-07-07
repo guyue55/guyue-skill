@@ -692,6 +692,297 @@ def check_human_voice_language_contract(repo_root):
     return passed
 
 
+def check_business_readable_output_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'human_voice': os.path.join(repo_root, 'skills', 'human-voice', 'SKILL.md'),
+        'documentation': os.path.join(repo_root, 'skills', 'documentation', 'SKILL.md'),
+        'requirement_analysis': os.path.join(repo_root, 'skills', 'requirement-analysis', 'SKILL.md'),
+        'product_sense': os.path.join(repo_root, 'skills', 'product-sense', 'SKILL.md'),
+        'system_design': os.path.join(repo_root, 'skills', 'system-design', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [BUSINESS READABLE ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '业务侧可读',
+            '解决什么问题、带来什么业务/用户价值、主要要做什么、成本风险限制是什么、需要哪些角色配合',
+            '术语先解释',
+            '命名先可沟通',
+        ],
+        'root_skill': [
+            '业务侧可读 (Business-Readable Output)',
+            '业务问题、用户价值、主要工作、成本风险限制和协作角色',
+            '必要术语首次出现必须解释业务含义',
+        ],
+        'human_voice': [
+            'Stay business-readable',
+            'Build The Business-Readable Frame',
+            'Problem solved',
+            'Business/user value',
+            'Collaboration roles',
+            'business meaning',
+        ],
+        'documentation': [
+            'Business-Facing Output Mode',
+            '这个方案解决什么问题',
+            '对业务/用户有什么价值',
+            '成本、风险或限制',
+            '需要哪些角色配合',
+            '必要术语解释',
+        ],
+        'requirement_analysis': [
+            '业务价值 (Business Value)',
+            '主要工作 (Main Work)',
+            '成本风险限制 (Cost/Risk/Limits)',
+            '协作角色 (Collaboration Roles)',
+            '术语解释 (Terms)',
+        ],
+        'product_sense': [
+            '解决什么问题',
+            '对业务/用户有什么价值',
+            '有什么成本、风险或限制',
+            '业务语义命名',
+        ],
+        'system_design': [
+            '业务可读方案推演',
+            '成本风险限制',
+            '协作角色',
+            '技术细节边界',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [BUSINESS READABLE ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [BUSINESS READABLE ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    skill_map = {skill.get('name'): skill for skill in manifest.get('skills', [])}
+    expected_manifest = {
+        'human-voice': {
+            'triggers': {'业务侧可读', '讲给业务听', '讲给产品听', '讲给运营听'},
+            'description': {'business-readable'},
+        },
+        'documentation': {
+            'triggers': {'业务侧可读', '业务汇报'},
+            'description': {'business-readable'},
+        },
+        'requirement-analysis': {
+            'triggers': {'业务侧需求', '业务可读需求'},
+            'description': {'business-readable', 'cost/risk'},
+        },
+        'product-sense': {
+            'triggers': {'业务价值', '业务侧方案'},
+            'description': {'Business-readable', 'user impact'},
+        },
+        'system-design': {
+            'triggers': {'业务侧架构方案', '业务可读方案'},
+            'description': {'business-readable'},
+        },
+    }
+
+    for skill_name, expected in expected_manifest.items():
+        skill = skill_map.get(skill_name)
+        if not skill:
+            print(f"❌ [BUSINESS READABLE ERROR] {skill_name} missing from skills_manifest.json", file=sys.stderr)
+            passed = False
+            continue
+        triggers = set(skill.get('trigger_intent', []))
+        for trigger in expected['triggers']:
+            if trigger not in triggers:
+                print(f"❌ [BUSINESS READABLE ERROR] Missing {skill_name} trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(skill.get('description', ''))
+        for needle in expected['description']:
+            if needle not in description:
+                print(f"❌ [BUSINESS READABLE ERROR] {skill_name} manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [BUSINESS READABLE ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Business-Readable Output Contract'), None)
+    if not prompt:
+        print("❌ [BUSINESS READABLE ERROR] Missing business-readable output prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['业务侧可读', 'problem solved', 'business or user value', 'collaboration roles', 'business-semantic names']:
+            if needle not in prompt_text:
+                print(f"❌ [BUSINESS READABLE ERROR] Business-readable prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
+def check_context_compressor_budget_contract(repo_root):
+    files = {
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'context_compressor': os.path.join(repo_root, 'skills', 'context-compressor', 'SKILL.md'),
+        'ecosystem_scout': os.path.join(repo_root, 'skills', 'ecosystem-scout', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [CONTEXT BUDGET ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'root_skill': [
+            '上下文过长、节省 token、MCP 工具太多、工具输出太长',
+            '不新建 `context-budget-manager`',
+            '第三方工具看起来特别适合当前任务',
+            '`context-compressor` -> `ecosystem-scout` -> `security-gate`',
+            '没有明确授权前只给安装计划',
+        ],
+        'context_compressor': [
+            'Agent 上下文预算管家',
+            '先判断钱花在哪',
+            '定位浪费源',
+            '选择压缩处方',
+            '量化节省口径',
+            'MCP 工具定义过多',
+            '工具输出过长',
+            'Headroom',
+            'Serena MCP',
+            'Repomix / Gitingest',
+            'Context7',
+            'MCP compressor / Context Mode',
+            '第三方工具快速接入模式',
+            '先展示命令',
+            '等明确授权',
+            '前台执行',
+            '外部工具、MCP、第三方 Skill intake -> 先转 `ecosystem-scout`',
+            '只有通过以下检查，才可以声称“节省了 Token”',
+            '没有 tokenizer 实测就标注“预估”',
+        ],
+        'ecosystem_scout': [
+            '快速接入',
+            '推荐不超过 3 个候选',
+            '展示安装计划',
+            '等待明确授权',
+            '前台执行与小样本验证',
+            '应用后复盘',
+        ],
+        'replay': [
+            'Replay 19: Third-Party Quick Install Root Route Fix',
+            'did not try to read or invent a separate `context-budget-manager` skill',
+            '我不会现在安装或运行',
+            'npx -y repomix@latest --compress --token-count-tree --output /tmp/guyue-repomix-output.xml',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [CONTEXT BUDGET ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [CONTEXT BUDGET ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    context_skill = next((skill for skill in manifest.get('skills', []) if skill.get('name') == 'context-compressor'), None)
+    if not context_skill:
+        print("❌ [CONTEXT BUDGET ERROR] context-compressor missing from skills_manifest.json", file=sys.stderr)
+        passed = False
+    else:
+        triggers = set(context_skill.get('trigger_intent', []))
+        for trigger in {'压缩上下文', '节省token', '控制token', '上下文预算', 'token预算', 'MCP工具太多', '工具输出太长', '推荐第三方工具', '快速安装工具', 'headroom', 'Serena', 'Repomix', 'Context7'}:
+            if trigger not in triggers:
+                print(f"❌ [CONTEXT BUDGET ERROR] Missing context-compressor trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(context_skill.get('description', ''))
+        for needle in {'Context budget manager', 'MCP tool schemas', 'tool outputs', 'controlled third-party quick installs', 'measured-or-marked token savings'}:
+            if needle not in description:
+                print(f"❌ [CONTEXT BUDGET ERROR] context-compressor manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    ecosystem_skill = next((skill for skill in manifest.get('skills', []) if skill.get('name') == 'ecosystem-scout'), None)
+    if not ecosystem_skill:
+        print("❌ [CONTEXT BUDGET ERROR] ecosystem-scout missing from skills_manifest.json", file=sys.stderr)
+        passed = False
+    else:
+        triggers = set(ecosystem_skill.get('trigger_intent', []))
+        for trigger in {'recommend tool', '快速安装', '帮我装一下', '应用第三方工具'}:
+            if trigger not in triggers:
+                print(f"❌ [CONTEXT BUDGET ERROR] Missing ecosystem-scout trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(ecosystem_skill.get('description', ''))
+        for needle in {'quick-install assistance', 'explicit approval', 'security-gate handoff', 'smoke tests'}:
+            if needle not in description:
+                print(f"❌ [CONTEXT BUDGET ERROR] ecosystem-scout manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [CONTEXT BUDGET ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Context Budget Manager - MCP And Tool Output'), None)
+    if not prompt:
+        print("❌ [CONTEXT BUDGET ERROR] Missing context budget prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['MCP 工具太多', 'tool schemas', 'search-plus-execute', 'measured or estimated', 'security boundaries']:
+            if needle not in prompt_text:
+                print(f"❌ [CONTEXT BUDGET ERROR] Context budget prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    quick_install_prompt = next((item for item in prompts if item.get('name') == 'Third-Party Tool Quick Install Gate'), None)
+    if not quick_install_prompt:
+        print("❌ [CONTEXT BUDGET ERROR] Missing third-party quick install prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(quick_install_prompt, ensure_ascii=False)
+        for needle in ['third-party tool', 'explicit imperative authorization', 'security-gate', 'smoke test', 'rollback']:
+            if needle not in prompt_text:
+                print(f"❌ [CONTEXT BUDGET ERROR] Quick install prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_showcase_assets(repo_root):
     demo_gif = os.path.join(repo_root, 'assets', 'demo.gif')
     demo_tape = os.path.join(repo_root, 'assets', 'demo.tape')
@@ -818,6 +1109,16 @@ def main():
 
     if check_human_voice_language_contract(repo_root):
         print("✅ human-voice language contract valid.")
+    else:
+        all_passed = False
+
+    if check_business_readable_output_contract(repo_root):
+        print("✅ business-readable output contract valid.")
+    else:
+        all_passed = False
+
+    if check_context_compressor_budget_contract(repo_root):
+        print("✅ context-compressor budget contract valid.")
     else:
         all_passed = False
 

@@ -10,6 +10,8 @@
 - Add route-boundary evaluation prompts for overlapping skills.
 - Add a CI guard for `video-creation-sop` short-drama contract completeness.
 - Add a CI guard for the `human-voice` language contract across principles, routing, manifest, tests, README, and live replay evidence.
+- Add a CI guard for business-readable output across persona principles, root routing, output skills, manifest, and evaluation prompts.
+- Add a CI guard for the `context-compressor` context-budget and third-party quick-install contract across Skill instructions, manifest routing, and evaluation prompts.
 
 ### Changed
 
@@ -27,6 +29,9 @@
 - Strengthen Guyue's human-voice persona contract so plain-language output must preserve facts, sources, authorship, authorization, and risk boundaries without marketing exaggeration.
 - Strengthen Guyue's language contract so normal communication defaults to Simplified Chinese when unspecified and removes unnecessary Chinese-English mixed labels while preserving required identifiers.
 - Strengthen `scripts/ci_validate_skills.py` so the human-voice language contract cannot drift silently across public docs and release evidence.
+- Strengthen Guyue's business-facing output contract so方案、文档和汇报 explain business problem, user value, main work, cost/risk limits, collaboration roles, and first-use term meanings.
+- Strengthen `context-compressor` from a file/log compression tactic into a context budget manager covering token-waste diagnosis, MCP tool schemas, tool outputs, repository maps, docs, long sessions, controlled third-party quick installs, and measured-or-marked savings.
+- Strengthen `ecosystem-scout` so third-party quick-install assistance requires source checks, an install plan, explicit authorization, foreground execution, smoke tests, and post-use evidence.
 - Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
 
 ## v1.2.0 - 2026-07-02

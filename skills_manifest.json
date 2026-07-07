@@ -29,9 +29,11 @@
             "trigger_intent": [
                 "new product",
                 "business requirement",
-                "vague idea"
+                "vague idea",
+                "业务价值",
+                "业务侧方案"
             ],
-            "description": "Value, ROI, and compliance interrogation before requirement analysis or system design."
+            "description": "Business-readable value, ROI, user impact, role, and compliance interrogation before requirement analysis or system design."
         },
         {
             "name": "research-and-sourcing",
@@ -48,18 +50,22 @@
             "path": "skills/requirement-analysis/SKILL.md",
             "trigger_intent": [
                 "vague request",
-                "ambiguous business logic"
+                "ambiguous business logic",
+                "业务侧需求",
+                "业务可读需求"
             ],
-            "description": "WISER framework for scope, acceptance criteria, edge cases, and business-rule boundaries before design."
+            "description": "WISER framework for scope, acceptance criteria, edge cases, business-readable value, role, and cost/risk boundaries before design."
         },
         {
             "name": "system-design",
             "path": "skills/system-design/SKILL.md",
             "trigger_intent": [
                 "architecture",
-                "core module refactoring"
+                "core module refactoring",
+                "业务侧架构方案",
+                "业务可读方案"
             ],
-            "description": "DEPTH framework for architecture and refactoring plans after value and requirement boundaries are clear."
+            "description": "DEPTH framework for business-readable architecture and refactoring plans after value and requirement boundaries are clear."
         },
         {
             "name": "coding-discipline",
@@ -90,12 +96,14 @@
                 "write report",
                 "PRD",
                 "README",
+                "业务侧可读",
+                "业务汇报",
                 "项目摸底",
                 "了解项目",
                 "repo orientation",
                 "architecture overview"
             ],
-            "description": "RTFD framework for reports, README, ADR, and code-backed project orientation maps; not post-success SOP or skill creation."
+            "description": "RTFD framework for business-readable reports, README, ADR, PRD, and code-backed project orientation maps; not post-success SOP or skill creation."
         },
         {
             "name": "human-voice",
@@ -111,10 +119,14 @@
                 "中英文混排",
                 "简体中文",
                 "默认中文",
+                "业务侧可读",
+                "讲给业务听",
+                "讲给产品听",
+                "讲给运营听",
                 "plain language",
                 "human voice"
             ],
-            "description": "Plain-language and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, language intent, and risk boundaries while avoiding unnecessary Chinese-English mixing."
+            "description": "Plain-language, business-readable, and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, language intent, and risk boundaries while avoiding unnecessary Chinese-English mixing."
         },
         {
             "name": "skill-crafting",
@@ -144,12 +156,16 @@
                 "recommend plugin",
                 "what is the best",
                 "new library",
+                "recommend tool",
+                "快速安装",
+                "帮我装一下",
+                "应用第三方工具",
                 "收纳",
                 "整合",
                 "ingest",
                 "integrate"
             ],
-            "description": "External skill, plugin, and tool discovery or intake with safety and anti-bloat checks; not local catalog software advice."
+            "description": "External skill, plugin, and tool discovery, intake, or quick-install assistance with source checks, explicit approval, security-gate handoff, smoke tests, and anti-bloat boundaries; not local catalog software advice."
         },
         {
             "name": "ai-website-cloner",
@@ -254,9 +270,19 @@
             "trigger_intent": [
                 "压缩上下文",
                 "节省token",
-                "headroom"
+                "控制token",
+                "上下文预算",
+                "token预算",
+                "MCP工具太多",
+                "工具输出太长",
+                "推荐第三方工具",
+                "快速安装工具",
+                "headroom",
+                "Serena",
+                "Repomix",
+                "Context7"
             ],
-            "description": "Methodology for dynamically compressing Agent context, Prompts, JSON, and ASTs to save tokens and reduce latency."
+            "description": "Context budget manager for diagnosing token waste across files, code maps, MCP tool schemas, tool outputs, docs, and long sessions; chooses minimal-context tactics and can recommend controlled third-party quick installs with traceability and measured-or-marked token savings."
         },
         {
             "name": "security-gate",

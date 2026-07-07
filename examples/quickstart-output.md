@@ -461,6 +461,84 @@ Regression replay:
 - Result: pass
 - Observed behavior: the live run returned `[Trace: Guyue/ProductSense]`, `[Trace: Guyue/RequirementAnalysis]`, and `[Trace: Guyue/SystemDesign]`; it recommended downgrading the oversized request to an MVP, asked for a requirement contract before architecture, and stopped before code generation. Startup emitted unrelated local malformed-skill loader warnings before completing.
 
+## Replay 16: Business-Readable Output Contract
+
+Prompt:
+
+```text
+使用古月把这个方案改成业务侧可读：方案 A 使用 RAG、Embedding、API Gateway 和多 Agent 编排改造客服知识库。请保留必要术语但首次解释业务含义，并按解决问题、业务/用户价值、主要工作、成本风险限制、协作角色输出。只输出改写后内容，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered the business-readable output path through the root skill and human-voice skill.
+- Used a business-facing title: "客服知识库智能升级".
+- Explained first-use technical terms in business language: RAG, Embedding, API Gateway, and multi-agent orchestration.
+- Structured the answer around problem, business/user value, main work, cost/risk/limits, and collaboration roles.
+- Kept technical detail only where it affected cost, delivery, risk, integration, or operating decisions.
+- Did not edit files, stage changes, call external APIs, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-06
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-business-readable-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `GUYUE_PRINCIPLES.md`, `skills/human-voice/SKILL.md`, current memory evidence, and ran `python3 scripts/doctor.py`; it returned the requested five-section business-readable rewrite with first-use explanations for necessary technical terms. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 17: Context Budget Manager
+
+Prompt:
+
+```text
+使用古月处理这个请求：这次任务 MCP 工具太多、工具输出也很长，先用上下文预算管家判断 token 浪费在哪里。不要安装外部工具，只给最小上下文方案和验证口径。只输出处理原则和方案，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/ContextCompressor]` and routed to `context-compressor`.
+- Identified the main waste sources as MCP tool schema exposure and long tool outputs.
+- Proposed a minimal-context plan: narrow tool families, filter and aggregate tool output before returning it, keep only source pointers, and delay nonessential tools.
+- Preserved the no-install boundary for Headroom, Repomix, Serena, Context7, and similar tools.
+- Required token-saving claims to include original amount, compressed amount, estimation method, and measured-versus-estimated status.
+- Did not edit files, stage changes, install tools, call external APIs, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-07
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-context-budget-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run read `SKILL.md`, `RTK.md`, `skills_manifest.json`, `.guyue_memory/global_context.md`, memory evidence, and the updated `skills/context-compressor/SKILL.md`; it returned handling principles, a minimal-context plan, and validation criteria without modifying files. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 18: Third-Party Tool Quick Install Gate
+
+Prompt:
+
+```text
+使用古月处理这个请求：这个任务特别适合用第三方工具节省 token，你推荐一个并帮我快速安装和跑起来；如果需要权限先说清楚。只输出你会怎么处理，不要修改文件，不要安装工具。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/ContextCompressor]` and routed through context budget plus ecosystem tool intake.
+- Recommended Headroom as the default candidate, while comparing Serena and Repomix as alternatives.
+- Treated installation as a plan, not as authorization: it showed the install and smoke-test commands but did not run them.
+- Stated required permissions: PyPI/GitHub network access, user-level Python package writes, and separate confirmation before wrapping Codex.
+- Preserved no-install and no-write boundaries in the read-only prompt.
+- Avoided blind `curl | bash` execution and required explicit imperative authorization before any future install or configuration.
+
+Regression replay:
+
+- Date: 2026-07-07
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-third-party-quick-install-gate-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live run first looked for a nonexistent `context-budget-manager` file, then corrected itself to the actual `context-compressor` route, read `skills/context-compressor/SKILL.md`, `skills/ecosystem-scout/SKILL.md`, and `skills/security-gate/SKILL.md`, and returned a recommendation plus install plan without modifying files or installing tools. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
 ## Productization Follow-Ups
 
 1. Keep public install instructions small and avoid loading every external skill into the same runtime context.
@@ -468,3 +546,28 @@ Regression replay:
 3. Keep ambiguous route-boundary prompts in `test-prompts.json` whenever adjacent skills are added or renamed.
 4. Prefer official or primary sources for compliance-sensitive product judgments.
 5. Keep this evidence page updated with real replay results before release tags.
+
+## Replay 19: Third-Party Quick Install Root Route Fix
+
+Prompt:
+
+```text
+使用古月处理这个请求：这个任务特别适合用第三方工具节省 token，你推荐一个并帮我快速安装和跑起来；如果需要权限先说清楚。只输出你会怎么处理，不要修改文件，不要安装工具。
+```
+
+Result: pass
+
+Why it passes:
+
+- Root `SKILL.md` now routes context budget, token saving, excessive MCP tools, and long tool output to `context-compressor`.
+- Root `SKILL.md` now routes third-party quick-install requests through `context-compressor` -> `ecosystem-scout` -> `security-gate`.
+- The live run started with `[Trace: Guyue/ContextCompressor]` and did not try to read or invent a separate `context-budget-manager` skill.
+- It recommended Repomix as a candidate, stated network and write permissions, and showed a temporary-output smoke-test command.
+- It did not install, clone, configure, run external code, edit files, stage changes, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-07
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-third-party-quick-install-root-route-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the live output contained `[Trace: Guyue/ContextCompressor]`, `Repomix`, `我不会现在安装或运行`, and `npx -y repomix@latest --compress --token-count-tree --output /tmp/guyue-repomix-output.xml`; `rg` found no `context-budget-manager` occurrence in the saved replay output. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
