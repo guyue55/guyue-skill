@@ -51,7 +51,7 @@ A release candidate is eligible only when every item below is true:
 | Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates. | pass | Needs current full-suite run before any release action. |
 | Runtime adapters | `docs/runtime-adapters.md` keeps tool-specific files as thin adapters and blocks unverified adapter files. | pass | Do not pre-add `CLAUDE.md` or `GEMINI.md`. |
 | Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
-| Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 45 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
+| Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 48 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
 | Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
 | GitHub CI gate | `.github/workflows/ci.yml` runs zero-leakage scanning, skill structure validation, and prompt evaluation. | pass | `doctor.py` remains a local release gate because it checks machine-installed external skills. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
@@ -192,7 +192,7 @@ Fix applied:
 - Added `skills_manifest.json` skill-path validation to `scripts/ci_validate_skills.py`, covering path existence, repository containment, `SKILL.md` target, directory/name alignment, frontmatter name alignment, and manifest coverage for every `skills/*/SKILL.md`.
 - Replaced the hardcoded home-relative helper-command examples in `scripts/ai_log_scanner.py` with repository-root-relative `python3 scripts/...` commands.
 - Added project configuration validation to `scripts/ci_validate_skills.py`, covering marketplace/manifest version alignment, marketplace entrypoint, `skills.json`, required CI commands, optional external dependency status, and fixed install-root command strings.
-- Removed the old `assets/demo.gif` ignore rule and made `scripts/ci_validate_skills.py` require the showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` to be tracked or staged release files.
+- Removed the old `assets/demo.gif` ignore rule and made `scripts/ci_validate_skills.py` require the showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` to be included in the release source archive.
 
 Fresh install verification after fix:
 
@@ -215,17 +215,22 @@ Additional issues found during Luban deep polishing:
 - A tracked `SKILL.md` referenced `references/short-drama-example-learnings.md`, but that new reference file was not in the release file set.
 - `scripts/ci_validate_skills.py` only checked Markdown links, so code-spanned Skill resources such as `references/...` could exist locally but be omitted from the package.
 - Release checklist and evaluation docs still described the older 20-skill baseline after the manifest and README expanded to 25 routed skills.
-- Later human-voice, business-readable output, context-budget, and third-party quick-install gate integration expanded the manifest to 26 routed skills and `test-prompts.json` to 45 structural prompts, but release evidence still carried older count snapshots.
+- Later human-voice, business-readable output, context-budget, third-party quick-install gate, reuse-first engineering, development-defaults, and loop-engineering integration expanded the manifest to 26 routed skills and `test-prompts.json` to 48 structural prompts, but release evidence still carried older count snapshots.
 - The human-voice language-default rule was present in docs and tests, but no CI guard checked that principles, root routing, manifest triggers, README, test prompt, and live replay evidence stayed synchronized.
 
 Fix applied:
 
 - Added `skills/video-creation-sop/references/short-drama-example-learnings.md` to the release slice.
 - Added Skill resource reference validation to `scripts/ci_validate_skills.py`, with child-skill-relative resolution first and repository-root fallback for shared scripts.
-- Tightened Markdown link validation so relative link targets must be tracked or staged for release, not merely present in the local working tree.
+- Tightened Markdown link validation so relative link targets must be included in the release source archive, not merely present in the local working tree.
+- Added `.gitattributes` `export-ignore` rules so GitHub-generated source archives exclude repository maintenance metadata, local indexes, private/raw research inputs, caches, environment files, build outputs, and logs while keeping runtime/installable files.
+- Added CI validation for the key GitHub source archive export rules so the automatic zip/tar.gz packaging contract cannot silently drift.
 - Updated release and evaluation docs to reflect 25 routed skills and 36 structural prompts.
-- Updated release evidence and checklist counts again to reflect the current 26 routed skills and 45 structural prompts after the human-voice, business-readable, context-budget, and third-party quick-install gates were integrated.
+- Updated release evidence and checklist counts again to reflect the current 26 routed skills and 48 structural prompts after the human-voice, business-readable, context-budget, third-party quick-install, reuse-first engineering, development-defaults, and loop-engineering gates were integrated.
 - Added a context-budget CI guard so `context-compressor` keeps MCP/tool-output boundaries, third-party quick-install gates, external-tool intake limits, and measured-or-marked token-saving claims synchronized across Skill instructions, manifest routing, and evaluation prompts.
+- Added a reuse-first engineering CI guard so function, model, table, global-parameter, API-contract, permission, component, prompt, dialog, script, and wrong-abstraction boundaries stay synchronized across principles, root routing, development skills, manifest routing, evaluation prompts, and live replay evidence.
+- Added a development-defaults CI guard so full-stack best practices, necessary comments, high-cohesion/low-coupling modularity, backend-owned permission checks, frontend permission presentation, build/lint/test gates, Chinese commit format, and UI-only default frontend workflow routing stay synchronized across principles, root routing, development skills, manifest routing, and evaluation prompts.
+- Added a loop-engineering CI guard so Loop Contract fields, dynamic workflow routing, max rounds/time/Token/subagent budgets, independent verifier requirements, stop conditions, and replay evidence stay synchronized across principles, root routing, workflow skills, manifest routing, evaluation prompts, and live replay evidence.
 - Added `check_human_voice_language_contract()` to `scripts/ci_validate_skills.py` so Simplified Chinese defaults, mixed-label cleanup, required English identifiers, manifest triggers, and replay evidence are validated together.
 - Added `check_business_readable_output_contract()` to `scripts/ci_validate_skills.py` so business-facing outputs preserve problem, value, main work, cost/risk limits, collaboration roles, term explanations, and business-semantic naming across the root skill and output skills.
 

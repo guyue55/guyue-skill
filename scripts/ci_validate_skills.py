@@ -55,6 +55,23 @@ def load_json_file(file_path, label):
         return None, False
 
 
+def is_git_checkout(repo_root):
+    try:
+        result = subprocess.run(
+            ['git', '-C', repo_root, 'rev-parse', '--show-toplevel'],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return False
+
+    if result.returncode != 0:
+        return False
+
+    return os.path.realpath(result.stdout.strip()) == os.path.realpath(repo_root)
+
+
 def check_project_config(repo_root):
     passed = True
     manifest_path = os.path.join(repo_root, 'skills_manifest.json')
@@ -102,23 +119,87 @@ def check_project_config(repo_root):
             print(f"❌ [CONFIG ERROR] external dependency must be optional in this release: {dep.get('name')}", file=sys.stderr)
             passed = False
 
-    try:
-        with open(workflow_path, 'r', encoding='utf-8') as f:
-            workflow = yaml.safe_load(f) or {}
-    except Exception as e:
-        print(f"❌ [CONFIG ERROR] {workflow_path}: {e}", file=sys.stderr)
+    if is_git_checkout(repo_root):
+        try:
+            with open(workflow_path, 'r', encoding='utf-8') as f:
+                workflow = yaml.safe_load(f) or {}
+        except Exception as e:
+            print(f"❌ [CONFIG ERROR] {workflow_path}: {e}", file=sys.stderr)
+            return False
+
+        workflow_text = json.dumps(workflow, ensure_ascii=False)
+        required_ci_commands = [
+            'pip install -r requirements.txt',
+            'python scripts/security_scanner.py',
+            'python scripts/ci_validate_skills.py',
+            'python scripts/run_eval.py',
+        ]
+        for command in required_ci_commands:
+            if command not in workflow_text:
+                print(f"❌ [CONFIG ERROR] GitHub CI missing command: {command}", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
+def check_source_archive_export_rules(repo_root):
+    attributes_path = os.path.join(repo_root, '.gitattributes')
+    if not os.path.exists(attributes_path):
+        if not is_git_checkout(repo_root):
+            return True
+        print("❌ [ARCHIVE ERROR] .gitattributes is required to filter GitHub source archives", file=sys.stderr)
         return False
 
-    workflow_text = json.dumps(workflow, ensure_ascii=False)
-    required_ci_commands = [
-        'pip install -r requirements.txt',
-        'python scripts/security_scanner.py',
-        'python scripts/ci_validate_skills.py',
-        'python scripts/run_eval.py',
+    expected_ignored = [
+        '.github/workflows/ci.yml',
+        '.gitignore',
+        '.gitattributes',
+        '.guyue_memory/local_skills_index.json',
+        'references/sources/example.md',
+        'references/research/private-draft.md',
+        '__pycache__/cache.pyc',
+        '.env',
+        'dist/package.tar.gz',
     ]
-    for command in required_ci_commands:
-        if command not in workflow_text:
-            print(f"❌ [CONFIG ERROR] GitHub CI missing command: {command}", file=sys.stderr)
+    expected_included = [
+        'SKILL.md',
+        'README.md',
+        'skills_manifest.json',
+        '.guyue_memory/index.json',
+        '.guyue_memory/global_context.md',
+        'references/research/14-permacomputing-lindy.md',
+        'references/research/15-zero-leakage-security.md',
+        'assets/demo.gif',
+        'scripts/ci_validate_skills.py',
+    ]
+    paths = expected_ignored + expected_included
+
+    try:
+        output = subprocess.check_output(
+            ['git', '-C', repo_root, 'check-attr', '--stdin', 'export-ignore'],
+            input='\n'.join(paths) + '\n',
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        print(f"❌ [ARCHIVE ERROR] Failed to inspect export-ignore attributes: {e}", file=sys.stderr)
+        return False
+
+    attrs = {}
+    for line in output.splitlines():
+        parts = line.split(': ', 2)
+        if len(parts) == 3:
+            attrs[parts[0]] = parts[2]
+
+    passed = True
+    for path in expected_ignored:
+        if attrs.get(path) != 'set':
+            print(f"❌ [ARCHIVE ERROR] {path} must be excluded from GitHub source archives", file=sys.stderr)
+            passed = False
+
+    for path in expected_included:
+        if attrs.get(path) == 'set':
+            print(f"❌ [ARCHIVE ERROR] {path} must remain in GitHub source archives", file=sys.stderr)
             passed = False
 
     return passed
@@ -205,7 +286,7 @@ def check_manifest_skill_paths(repo_root):
             passed = False
             continue
         if rel_path_posix not in release_rel_paths:
-            print(f"❌ [MANIFEST ERROR] {name}: path is not tracked/staged for release: {rel_path}", file=sys.stderr)
+            print(f"❌ [MANIFEST ERROR] {name}: path is not included in the release source archive: {rel_path}", file=sys.stderr)
             passed = False
         if os.path.basename(abs_path) != 'SKILL.md':
             print(f"❌ [MANIFEST ERROR] {name}: path must point to SKILL.md: {rel_path}", file=sys.stderr)
@@ -244,7 +325,7 @@ def check_manifest_skill_paths(repo_root):
     missing_from_manifest = sorted(actual_names - manifest_names)
     missing_from_disk = sorted(manifest_names - actual_names)
     if missing_from_manifest:
-        print(f"❌ [MANIFEST ERROR] release skill files missing from manifest: {missing_from_manifest}", file=sys.stderr)
+        print(f"❌ [MANIFEST ERROR] source-archive skill files missing from manifest: {missing_from_manifest}", file=sys.stderr)
         passed = False
     if missing_from_disk:
         print(f"❌ [MANIFEST ERROR] manifest skills missing from release file set: {missing_from_disk}", file=sys.stderr)
@@ -260,7 +341,22 @@ def list_release_files(repo_root):
             text=True,
             stderr=subprocess.STDOUT,
         )
-        return [os.path.join(repo_root, line) for line in output.splitlines() if line.strip()]
+        tracked_files = [line for line in output.splitlines() if line.strip()]
+        if not tracked_files:
+            return []
+
+        attr_output = subprocess.check_output(
+            ['git', '-C', repo_root, 'check-attr', '--stdin', 'export-ignore'],
+            input='\n'.join(tracked_files) + '\n',
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+        ignored = {
+            line.split(': ', 2)[0]
+            for line in attr_output.splitlines()
+            if line.endswith(': export-ignore: set')
+        }
+        return [os.path.join(repo_root, line) for line in tracked_files if line not in ignored]
     except (FileNotFoundError, subprocess.CalledProcessError):
         release_files = []
         for root, dirs, files in os.walk(repo_root):
@@ -413,7 +509,7 @@ def check_markdown_internal_links(repo_root):
                 passed = False
             elif target_rel not in release_rel_paths:
                 print(
-                    f"❌ [MARKDOWN LINK ERROR] Link target is not tracked/staged for release in {rel_file}: {match.group(1)}",
+                    f"❌ [MARKDOWN LINK ERROR] Link target is not included in the release source archive in {rel_file}: {match.group(1)}",
                     file=sys.stderr,
                 )
                 passed = False
@@ -455,7 +551,7 @@ def check_skill_resource_references(repo_root):
                 passed = False
             elif target_rel not in release_rel_paths:
                 print(
-                    f"❌ [RESOURCE ERROR] Resource is not tracked/staged for release in {rel_skill}: {raw_target}",
+                    f"❌ [RESOURCE ERROR] Resource is not included in the release source archive in {rel_skill}: {raw_target}",
                     file=sys.stderr,
                 )
                 passed = False
@@ -1457,7 +1553,7 @@ def check_showcase_assets(repo_root):
             print(f"❌ [SHOWCASE ERROR] Missing {label}: {rel_path}", file=sys.stderr)
             passed = False
         elif rel_path not in release_rel_paths:
-            print(f"❌ [SHOWCASE ERROR] {label} is not tracked/staged for release: {rel_path}", file=sys.stderr)
+            print(f"❌ [SHOWCASE ERROR] {label} is not included in the release source archive: {rel_path}", file=sys.stderr)
             passed = False
 
     if not passed:
@@ -1493,13 +1589,14 @@ def check_showcase_assets(repo_root):
         print(f"❌ [SHOWCASE ERROR] render_demo_gif.py --check failed: {result.stderr.strip()}", file=sys.stderr)
         passed = False
 
-    ignored = subprocess.run(
-        ['git', '-C', repo_root, 'check-ignore', '--quiet', 'assets/demo.gif'],
-        cwd=repo_root,
-    )
-    if ignored.returncode == 0:
-        print("❌ [SHOWCASE ERROR] assets/demo.gif is ignored by git and will be missing from release packaging", file=sys.stderr)
-        passed = False
+    if is_git_checkout(repo_root):
+        ignored = subprocess.run(
+            ['git', '-C', repo_root, 'check-ignore', '--quiet', 'assets/demo.gif'],
+            cwd=repo_root,
+        )
+        if ignored.returncode == 0:
+            print("❌ [SHOWCASE ERROR] assets/demo.gif is ignored by git and will be missing from release packaging", file=sys.stderr)
+            passed = False
 
     return passed
 
@@ -1528,6 +1625,11 @@ def main():
 
     if check_project_config(repo_root):
         print("✅ project configuration files valid.")
+    else:
+        all_passed = False
+
+    if check_source_archive_export_rules(repo_root):
+        print("✅ GitHub source archive export rules valid.")
     else:
         all_passed = False
 

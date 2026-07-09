@@ -9,7 +9,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 45 structural prompts.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 48 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
@@ -20,20 +20,24 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Published memory index matches the documented `{"memories": [...]}` schema and the MCP server accepts legacy list-shaped indexes.
 - [x] Fresh install path declares `PyYAML` in `requirements.txt`; README, installation docs, and GitHub CI all install from the same dependency file.
 - [x] Fresh `HOME` validation path passes without preinstalled external ecosystem skills; external skills are optional enhancements, not release-gate blockers.
+- [x] GitHub-generated source archives are filtered by `.gitattributes` `export-ignore` rules.
 - [x] `git archive` release bundle can run `scripts/test_suite.sh` without a `.git` directory.
-- [x] Release bundle must be created from `git archive` or the target source-package mechanism, not by zipping the working directory with ignored private files.
+- [x] Release bundle must be created from GitHub source archives, `git archive`, or the target source-package mechanism, not by zipping the working directory with ignored private files.
 - [x] Validation scripts do not leave `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
 - [x] MCP server resolves manifest and memory paths from the repository root even when launched from `src/`.
 - [x] `SKILL.md` distinguishes required dependency blockers from optional ecosystem enhancement warnings.
 - [x] Public/tracked Markdown internal links are validated by `scripts/ci_validate_skills.py`.
-- [x] Code-spanned Skill resource references such as `references/...` and `scripts/...` resolve to tracked or staged release files.
+- [x] Code-spanned Skill resource references such as `references/...` and `scripts/...` resolve to files included in the release source archive.
 - [x] Manifest skill paths, directories, and child `SKILL.md` frontmatter names are validated by `scripts/ci_validate_skills.py`.
 - [x] Diagnostic helper commands do not assume a fixed home-relative install root.
 - [x] Project configuration alignment is validated across manifest, marketplace metadata, `skills.json`, GitHub CI, and optional dependency flags.
 - [x] `human-voice` language defaults, mixed-label cleanup, manifest triggers, and live replay evidence are validated by `scripts/ci_validate_skills.py`.
 - [x] Business-readable output defaults, term explanations,方案五要素, manifest triggers, and evaluation prompts are validated by `scripts/ci_validate_skills.py`.
 - [x] `context-compressor` context-budget routing, MCP/tool-output boundaries, third-party quick-install gates, external-tool intake limits, and token-saving evidence rules are validated by `scripts/ci_validate_skills.py`.
-- [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as tracked or staged release files; ignored or untracked showcase assets fail CI.
+- [x] Reuse-first engineering defaults, single-authoritative-entry rules for functions, models, tables, parameters, API contracts, permissions, components, prompts, dialogs, and scripts are validated by `scripts/ci_validate_skills.py`.
+- [x] Full-stack development defaults for best practices, necessary comments, modularity, backend-owned permissions, frontend permission presentation, build/lint/test gates, Chinese commit format, and UI-only default frontend workflows are validated by `scripts/ci_validate_skills.py`.
+- [x] Loop engineering and dynamic workflow routing, Loop Contract fields, subagent budgets, independent verifiers, stop conditions, and replay evidence are validated by `scripts/ci_validate_skills.py`.
+- [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as files included in the release source archive; ignored, untracked, or export-ignored showcase assets fail CI.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
@@ -63,7 +67,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
 - [ ] `python3 scripts/run_eval.py` passes.
 - [ ] `bash scripts/test_suite.sh` passes.
-- [ ] Any new `references/`, `scripts/`, `assets/`, or `examples/` file mentioned from a `SKILL.md` is tracked or staged before release packaging.
+- [ ] Any new `references/`, `scripts/`, `assets/`, or `examples/` file mentioned from a `SKILL.md` is included in the release source archive before release packaging.
 
 ## Security
 

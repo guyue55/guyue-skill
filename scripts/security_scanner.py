@@ -16,7 +16,22 @@ def list_release_files():
         tracked_files_output = subprocess.check_output(
             ["git", "ls-files"], text=True, stderr=subprocess.STDOUT
         )
-        return [Path(f) for f in tracked_files_output.splitlines() if f.strip()]
+        tracked_files = [f for f in tracked_files_output.splitlines() if f.strip()]
+        if not tracked_files:
+            return []
+
+        attr_output = subprocess.check_output(
+            ["git", "check-attr", "--stdin", "export-ignore"],
+            input="\n".join(tracked_files) + "\n",
+            text=True,
+            stderr=subprocess.STDOUT,
+        )
+        ignored = {
+            line.split(": ", 2)[0]
+            for line in attr_output.splitlines()
+            if line.endswith(": export-ignore: set")
+        }
+        return [Path(f) for f in tracked_files if f not in ignored]
     except (FileNotFoundError, subprocess.CalledProcessError):
         files = []
         for path in Path(".").rglob("*"):

@@ -35,7 +35,8 @@ bash scripts/test_suite.sh
 - documentation;
 - business-readable output;
 - research and sourcing;
-- coding discipline;
+- coding discipline, reuse-first engineering, and development defaults;
+- loop engineering and dynamic workflow routing;
 - frontend expert behavior;
 - SOP generation;
 - memory bank;
@@ -46,7 +47,7 @@ bash scripts/test_suite.sh
 - website reconstruction;
 - software advising;
 - UI taste review;
-- code minimalism;
+- code minimalism and duplicate-code reduction;
 - book distillation;
 - video extraction;
 - video creation and short-drama stage gates;

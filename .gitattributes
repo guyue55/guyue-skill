@@ -1,0 +1,38 @@
+# GitHub-generated source archives use git archive attributes.
+# Keep runtime/installable files in the archive; filter repo-only metadata,
+# local indexes, private inputs, and generated artifacts.
+
+.github/** export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+
+# Local runtime/generated state.
+.serena/** export-ignore
+.guyue_memory/local_skills_index.json export-ignore
+.guyue_memory/archive/** export-ignore
+
+# Private/raw research inputs. Keep curated public references below.
+references/sources/** export-ignore
+references/research/** export-ignore
+references/research/14-permacomputing-lindy.md -export-ignore
+references/research/15-zero-leakage-security.md -export-ignore
+
+# Common generated or bulky artifacts.
+.DS_Store export-ignore
+**/.DS_Store export-ignore
+__pycache__/** export-ignore
+**/__pycache__/** export-ignore
+*.py[cod] export-ignore
+*$py.class export-ignore
+.pytest_cache/** export-ignore
+.mypy_cache/** export-ignore
+.ruff_cache/** export-ignore
+.coverage export-ignore
+htmlcov/** export-ignore
+dist/** export-ignore
+build/** export-ignore
+*.egg-info/** export-ignore
+node_modules/** export-ignore
+.env export-ignore
+.env.* export-ignore
+*.log export-ignore
