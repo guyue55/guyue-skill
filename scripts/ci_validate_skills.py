@@ -1533,6 +1533,142 @@ def check_loop_engineering_contract(repo_root):
     return passed
 
 
+def check_frontend_design_ecosystem_contract(repo_root):
+    files = {
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'frontend_expert': os.path.join(repo_root, 'skills', 'frontend-expert', 'SKILL.md'),
+        'taste_aesthetics': os.path.join(repo_root, 'skills', 'taste-aesthetics', 'SKILL.md'),
+        'website_cloner': os.path.join(repo_root, 'skills', 'ai-website-cloner', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'readme': os.path.join(repo_root, 'README.md'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [FRONTEND ECOSYSTEM ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'root_skill': [
+            '`DESIGN.md`、Refero、Figma、网页复刻或外部前端 Skill',
+            '只学习结构、节奏、层级和设计 token',
+            '不照搬品牌资产',
+        ],
+        'frontend_expert': [
+            '场景先于风格',
+            '设计参考摄入',
+            '产品类型、目标读者、信息密度、动效强度和设计参考来源',
+            '不得复刻第三方品牌识别',
+            'Impeccable',
+            'awesome-design-md',
+            'Refero Styles',
+        ],
+        'taste_aesthetics': [
+            'Brief Inference & Dial Setting',
+            'Marketing / brand page',
+            'SaaS dashboard / internal tool',
+            'Deterministic Anti-Slop Checks',
+            'Design-reference boundary',
+            'Reference Boundary',
+        ],
+        'website_cloner': [
+            '授权确认',
+            '边界脱敏',
+            '不得复制第三方商标、品牌识别',
+            '适合授权迁移、自有站重建、丢失源码恢复、学习参考和竞品结构分析',
+            '不适合钓鱼、仿冒',
+        ],
+        'readme': [
+            '前端参考资料使用边界',
+            '`frontend-design`、`taste-skill` 和 Impeccable',
+            '`awesome-design-md`、Refero Styles、Figma 或 html.to.design',
+            '不得复制第三方品牌资产',
+        ],
+        'replay': [
+            'Replay 23: Frontend Design Ecosystem Boundary',
+            '[Trace: Guyue/FrontendExpert]',
+            '[Taste: Reading page as SaaS dashboard',
+            'DESIGN.md',
+            'SaaS 后台',
+            '不复制 Logo、品牌图形、专属插画、营销文案、截图素材',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [FRONTEND ECOSYSTEM ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [FRONTEND ECOSYSTEM ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    skill_map = {skill.get('name'): skill for skill in manifest.get('skills', [])}
+    expected_manifest = {
+        'frontend-expert': {
+            'triggers': {'DESIGN.md', 'Refero', 'Figma 设计参考', '前端设计参考', 'Impeccable'},
+            'description': {'product-type-first design', 'safe DESIGN.md/Figma/Refero reference intake'},
+        },
+        'taste-aesthetics': {
+            'triggers': {'AI 味 UI', '设计拨盘', '确定性 UI 检查', 'frontend-design'},
+            'description': {'product-type classification', 'deterministic UI checks', 'design-reference boundaries'},
+        },
+        'ai-website-cloner': {
+            'triggers': {'网页复刻', 'html.to.design', 'Web to Figma', '授权页面迁移', '丢失源码恢复'},
+            'description': {'Authorized website reconstruction', 'no phishing', 'no brand-asset copying', 'learnable layout/token patterns'},
+        },
+    }
+
+    for skill_name, expected in expected_manifest.items():
+        skill = skill_map.get(skill_name)
+        if not skill:
+            print(f"❌ [FRONTEND ECOSYSTEM ERROR] {skill_name} missing from skills_manifest.json", file=sys.stderr)
+            passed = False
+            continue
+        triggers = set(skill.get('trigger_intent', []))
+        for trigger in expected['triggers']:
+            if trigger not in triggers:
+                print(f"❌ [FRONTEND ECOSYSTEM ERROR] Missing {skill_name} trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(skill.get('description', ''))
+        for needle in expected['description']:
+            if needle not in description:
+                print(f"❌ [FRONTEND ECOSYSTEM ERROR] {skill_name} manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [FRONTEND ECOSYSTEM ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Frontend Design Ecosystem Boundary'), None)
+    if not prompt:
+        print("❌ [FRONTEND ECOSYSTEM ERROR] Missing frontend design ecosystem prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['frontend-design', 'taste-skill', 'Impeccable', 'DESIGN.md', 'SaaS dashboards', 'ai-website-cloner', 'brand marks', 'phishing-like source confusion']:
+            if needle not in prompt_text:
+                print(f"❌ [FRONTEND ECOSYSTEM ERROR] Frontend design ecosystem prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_showcase_assets(repo_root):
     demo_gif = os.path.join(repo_root, 'assets', 'demo.gif')
     demo_tape = os.path.join(repo_root, 'assets', 'demo.tape')
@@ -1690,6 +1826,11 @@ def main():
 
     if check_loop_engineering_contract(repo_root):
         print("✅ loop engineering contract valid.")
+    else:
+        all_passed = False
+
+    if check_frontend_design_ecosystem_contract(repo_root):
+        print("✅ frontend design ecosystem contract valid.")
     else:
         all_passed = False
 

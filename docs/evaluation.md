@@ -38,6 +38,7 @@ bash scripts/test_suite.sh
 - coding discipline, reuse-first engineering, and development defaults;
 - loop engineering and dynamic workflow routing;
 - frontend expert behavior;
+- frontend design ecosystem boundaries;
 - SOP generation;
 - memory bank;
 - product sense;

@@ -9,7 +9,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 48 structural prompts.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 49 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
@@ -37,6 +37,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Reuse-first engineering defaults, single-authoritative-entry rules for functions, models, tables, parameters, API contracts, permissions, components, prompts, dialogs, and scripts are validated by `scripts/ci_validate_skills.py`.
 - [x] Full-stack development defaults for best practices, necessary comments, modularity, backend-owned permissions, frontend permission presentation, build/lint/test gates, Chinese commit format, and UI-only default frontend workflows are validated by `scripts/ci_validate_skills.py`.
 - [x] Loop engineering and dynamic workflow routing, Loop Contract fields, subagent budgets, independent verifiers, stop conditions, and replay evidence are validated by `scripts/ci_validate_skills.py`.
+- [x] Frontend design ecosystem routing, product-type classification, DESIGN.md/Figma/Refero reference boundaries, deterministic UI checks, and website reconstruction authorization limits are validated by `scripts/ci_validate_skills.py`.
 - [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as files included in the release source archive; ignored, untracked, or export-ignored showcase assets fail CI.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 

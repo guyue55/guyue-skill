@@ -29,9 +29,14 @@
                 "统一弹窗",
                 "统一提示",
                 "gsap-core",
-                "ui-ux-pro-max"
+                "ui-ux-pro-max",
+                "DESIGN.md",
+                "Refero",
+                "Figma 设计参考",
+                "前端设计参考",
+                "Impeccable"
             ],
-            "description": "Front-end implementation skill for UI, interaction, a11y, motion, default gsap-core and ui-ux-pro-max workflow alignment, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
+            "description": "Front-end implementation skill for UI, interaction, a11y, motion, product-type-first design, safe DESIGN.md/Figma/Refero reference intake, default gsap-core and ui-ux-pro-max workflow alignment, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
         },
         {
             "name": "product-sense",
@@ -212,9 +217,14 @@
                 "clone website",
                 "克隆网页",
                 "copy site",
-                "rebuild this page"
+                "rebuild this page",
+                "网页复刻",
+                "html.to.design",
+                "Web to Figma",
+                "授权页面迁移",
+                "丢失源码恢复"
             ],
-            "description": "Reverse-engineer and clone one or more websites in one shot."
+            "description": "Authorized website reconstruction and reference extraction workflow for owned, permitted, or public pages, with no login bypass, no phishing, no brand-asset copying, and explicit separation between learnable layout/token patterns and protected identity assets."
         },
         {
             "name": "software-advisor",
@@ -235,9 +245,13 @@
                 "高级UI",
                 "taste",
                 "vibe coding",
-                "anti-slop"
+                "anti-slop",
+                "AI 味 UI",
+                "设计拨盘",
+                "确定性 UI 检查",
+                "frontend-design"
             ],
-            "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique; use frontend-expert to write the UI."
+            "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique, product-type classification, deterministic UI checks, design-reference boundaries, and dial-based design direction; use frontend-expert to write the UI."
         },
         {
             "name": "code-minimalism",

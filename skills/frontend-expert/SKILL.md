@@ -22,14 +22,17 @@ trigger_includes:
 - **拥抱林迪与永续计算 (Lindy Web & Permacomputing)**：Web 技术中最具林迪寿命的是 HTML、CSS 和原生 JS。防臃肿，摒弃“古早 Bootstrap 风格”。优先使用 Vanilla CSS/JS 或轻量级的 TailwindCSS，**对抗客户端算力滥用**，拒绝在未验证需求时推荐极耗性能的重型微前端、SPA 框架或复杂的状态管理库。
 - **专业级视觉质感 (Modern Visual Quality)**：
   - **玻璃拟态 (Glassmorphism)**：适度使用 `backdrop-filter: blur()`。
-  - **克制的色彩 (Restrained Palette)**：不超过 5 种主色调（参考 ui-ux-pro-max），摒弃高饱和原色，使用 HSL 高级灰和无衬线现代字体 (如 Inter, Roboto)。
+  - **克制的色彩 (Restrained Palette)**：不超过 5 种主色调（参考 ui-ux-pro-max），摒弃高饱和原色，使用 HSL 高级灰和清晰字体；不要默认套用 Inter、Roboto、紫蓝渐变、圆角卡片和居中大标题。
   - **排版呼吸感 (Typography & Whitespace)**：留白即设计。使用清晰的间距系统（4px/8px 体系）。
   - **反 AI 廉价感 (Anti AI-Slop & Taste)**：吸收 `taste-skill` 的顶级审美约束。坚决抵制呆板的十二栅格填充和对称排版。强制引入高级字重对比、非对称布局，并通过极简主义与大面积留白创造“贵气”的视觉体验。
+- **场景先于风格 (Product-Type First)**：先判断页面是品牌官网、营销落地页、SaaS 后台、内部工具、数据报告、作品集还是活动页。品牌/营销页可以更大胆；后台和内部工具必须优先信息密度、可扫读、稳定导航、表单反馈和批量操作效率。
+- **设计参考摄入 (Design Reference Intake)**：当用户给 `DESIGN.md`、Refero、Figma、截图或竞品页面时，只学习颜色 token、字体层级、间距节奏、组件关系、信息架构和动效原则；不得复制第三方商标、品牌资产、付费素材、专属插画、受版权保护文案或登录后私有内容。
 
 ## 决策启发式 (Decision Heuristics)
 
 - **如果是复杂交互，必定使用 GSAP**：凡涉及滚动动画、复杂时序流、页面入场，**严禁使用原生 `setInterval` 或杂乱的 CSS 动画**。必须使用 `gsap.timeline()` 或 `ScrollTrigger` 将动效划分为精确的“三幕剧”（First, Second, Third act）。
 - **默认参考外部美学工作流**：用户未指定前端和 UI 工作流时，优先遵守 `gsap-core` 的动画编排纪律与 `ui-ux-pro-max` 的商业级 UI 审美约束；若当前环境缺失这些增强技能，按本技能降级执行，并说明取舍。
+- **外部 Skill 先分层再使用**：`frontend-design` 和 `taste-skill` 适合破除模板味；Impeccable 适合做确定性 UI 检查；`awesome-design-md` 和 Refero Styles 适合做设计系统参考；`gsap-skills` 只在动画真实需要时使用；网页复刻类请求必须转 `ai-website-cloner` 并先过授权边界。
 - **如果是报告/审计类页面，采用左侧导航+锚点联动**：确保文档与长报告拥有左侧导航目录（Left-side Navigation Directory），防止误触拖拽，并使用 GSAP ScrollTrigger 做丝滑阅读跟随。
 - **如果是数据比对，提供动态感知**：比如“10维雷达图”、“拖拽比对滑块”，必须用平滑的交互让用户感知差异，而不是干瘪的静态表格。
 - **如果是第二次出现的 UI 或交互，必须组件化**：按钮、弹窗、提示、表单校验、空状态、加载态、权限态、格式化显示和动效节奏只要出现第二个使用点，就优先抽成共享组件、Hook、常量、消息字典或样式 token。
@@ -53,12 +56,14 @@ trigger_includes:
 - **展示/宣发类**：调用 `ui-ux-pro-max` 中的 Brutalist / Glassmorphism 风格，构思 GSAP ScrollTrigger 滚屏动效。
 - **B2B / SaaS 工具类**：调用 Minimalist 风格，注重数据可读性、左侧导航布局、表单交互反馈与防误触设计。
 - **报告/度量类**：应用“商业代价转译”心智，自动将死板的数据转化为带计算公式、红绿对比的高可视转化卡片。
+- **参考设计类**：先读取 `DESIGN.md` / Figma / 截图 / 竞品页面的可学习项，列出可借鉴和禁止照搬的边界，再进入实现。
 
 ### Step 2: 方案输出与代码编排
 1. **先查标准件**：搜索已有 `components/`、`ui/`、`hooks/`、`constants/`、`dialogs/`、`toast`、`message`、`empty state`、`loading state` 和设计 token。已有同语义入口就复用。
-2. **定义基调**：给出色彩规范（主色、辅助色）和字体建议。
-3. **编排动画**：如果是关键元素入场，定义 `gsap.timeline()` 的 Easing 曲线，确保达到 Apple / Stripe 级别的丝滑体验。
-4. **输出代码**：产出 Vanilla CSS / Tailwind 加上原生 JS 的精简、无依赖的高性能代码；同一 UI/交互第二次出现时先抽共享组件，再调用。
+2. **场景分型**：明确产品类型、目标读者、信息密度、动效强度和设计参考来源。
+3. **定义基调**：给出色彩规范（主色、辅助色）、字体建议、间距节奏和组件层级。
+4. **编排动画**：如果是关键元素入场，定义 `gsap.timeline()` 的 Easing 曲线；后台工具和表单页默认只保留轻反馈，不为了炫技加动效。
+5. **输出代码**：产出 Vanilla CSS / Tailwind 加上原生 JS 的精简、无依赖的高性能代码；同一 UI/交互第二次出现时先抽共享组件，再调用。
 
 ## 强制纪律 (Trace Discipline)
 
@@ -90,6 +95,7 @@ export function initHeroAnimation() {
 - **拒绝过度工程**：如果用户要做个展示页，立刻阻止他引入全套 React+Redux+Next.js，回归原生或 Vite+Tailwind。
 - **防止动画滥用与臃肿**：如果目标仅是纯信息展示或系统管理后台的表单页，**强制停手不加 GSAP**。动画是为了聚焦与转化，不是为了炫技。
 - **拒绝重复 UI**：不得复制第二份弹窗、Toast、空状态、加载态、权限提示、按钮样式、表单错误文案或格式化组件。若不复用，必须说明两者业务语义、生命周期或权限边界不同。
+- **拒绝照搬品牌外观**：参考 `DESIGN.md`、Refero、Figma 或竞品页面时，只能学习可迁移的设计规律；不得复刻第三方品牌识别、商标、专属插画、受版权保护文案或登录后私有页面。
 - **无障碍底线 (a11y)**：HTML 标签必须语义化，必须有 `aria-label` 与 Focus states。对比度必须达到 WCAG 标准。
 - **不替代后端逻辑**：本技能仅专注于“数据如何被优雅、高转化地呈现”，不涉及复杂的分布式数据聚合。
 - **不替代后端权限**：权限安全必须由后端接口、服务、查询或数据层控制；前端只能按后端权限状态做显隐、禁用、提示和引导，不能把硬编码显隐当成安全实现。

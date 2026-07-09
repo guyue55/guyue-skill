@@ -77,9 +77,9 @@ bash scripts/test_suite.sh
 扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
 
 - 🛡️ **技能安检 (security-gate)**：收纳或使用第三方技能前，先做本地启发式安全预检，见红旗即拦截。
-- 🧱 **网页重建 (ai-website-cloner)**：在授权边界内重建公开或自有页面，禁止绕过登录、付费墙、反爬或 DRM。
+- 🧱 **网页重建 (ai-website-cloner)**：在授权边界内重建公开或自有页面，学习信息架构、组件关系和设计 token，禁止绕过登录、付费墙、反爬、DRM、钓鱼仿冒和复制第三方品牌资产。
 - 🧰 **软件顾问 (software-advisor)**：优先查询本地精选库，未命中时明确标注来源边界。
-- 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，输出具体设计拨盘和修正方向。
+- 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，先区分官网、后台、报告、作品集等页面类型，再输出设计拨盘、确定性检查项、参考设计边界和修正方向。
 - ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯和复用扫描削减过度设计、重复代码、重复模型/参数/契约和错误抽象，保留安全、错误处理和可访问性底线。
 - 📚 **长文蒸馏 (book-distiller)**：把方法论文档提炼为可复用技能结构，而不是普通摘要。
 - 🎬 **视频创作 SOP (video-creation-sop)**：把文章、产品、口播、短剧或创意拆成可审核的视频生产包；短剧走需求、大纲、风格锁定、视觉/音频资产、分镜、关键帧、分镜视频、成片合成导出和全案沉淀阶段门，保留复刻所需的字段来源、待确认项、授权证据、发布状态、时间线、参考图、连续性指标、音频混音、字幕、耗时成本和导出证据，优先使用当前 Agent 原生媒体能力，缺能力时再要求配置 provider。
@@ -99,6 +99,7 @@ bash scripts/test_suite.sh
 | `product-sense` / `requirement-analysis` / `system-design` | 先判断值不值得做，再拆需求边界，最后才做架构方案。 |
 | `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
 | `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
+| `frontend-expert` / `taste-aesthetics` / `ai-website-cloner` | `DESIGN.md`、Refero、Figma、Impeccable 等参考资料先走审美约束判断产品类型和可借鉴边界；写代码走前端专家；自有或授权页面迁移才走网页重建。 |
 | `coding-discipline` / `code-minimalism` | 写代码、拆模块、提交走开发纪律；削减过度设计和依赖走极简代码。 |
 | `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限、后端接线和部署生效证据走真实性审查。 |
 | `human-voice` / `documentation` / `taste-aesthetics` | 改回答、解释、语言默认值和中英文混排走 human-voice；写 README、PRD、ADR 或项目摸底走 documentation；审查 UI 视觉 AI 味走 taste-aesthetics。 |
@@ -170,6 +171,9 @@ npx skills add nextlevelbuilder/ui-ux-pro-max-skill
 # 前端动画与交互核心库 (GSAP)
 npx skills add greensock/gsap-skills
 ```
+
+前端参考资料使用边界：`frontend-design`、`taste-skill` 和 Impeccable 适合学习反 AI 味规则；`awesome-design-md`、Refero Styles、Figma 或 html.to.design 适合提取设计 token、层级和组件关系；网页复刻类工具只适合自有、授权或公开允许分析的页面迁移，不得复制第三方品牌资产、专属插图、受版权保护文案或登录后私有内容。
+
 **源码直装方式**（用于本地开发或深度定制）：
 
 ```bash

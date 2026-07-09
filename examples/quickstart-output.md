@@ -651,3 +651,29 @@ Regression replay:
 - Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-loop-engineering-replay.md "<prompt>"`
 - Result: pass
 - Observed behavior: the saved output contained `[Trace: Guyue/LoopEngineering]`, `Loop Contract`, `max rounds`, `subagent`, `reality-auditor`, `最大修正轮数：2 轮`, `最大审查子任务：4 个`, and `不会新建一个叫 “loop-engineering” 的万能技能`. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 23: Frontend Design Ecosystem Boundary
+
+Prompt:
+
+```text
+使用古月处理这个请求：我找到 frontend-design、taste-skill、Impeccable、awesome-design-md、Refero、Web to Figma、ai-website-cloner-template 这些前端技能和设计参考。帮我做一个业务 SaaS 后台页面，参考 DESIGN.md，但不要照搬品牌资产，也不要把后台做成营销页。只输出你会怎么处理，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/FrontendExpert]` and a taste read of `[Taste: Reading page as SaaS dashboard | Dials: Variance 4, Motion 2, Density 8]`.
+- Treated the page as a business SaaS dashboard, not a marketing page.
+- Used `DESIGN.md` as a reference source for color tokens, typography hierarchy, spacing rhythm, table/filter/navigation structures, interaction states, and component relationships.
+- Refused to copy Logo, brand graphics, proprietary illustrations, marketing copy, screenshots, or anything that would make the page look like the reference brand.
+- Routed the ecosystem tools by role: `frontend-design` for breaking template feel, `taste-skill` / `taste-aesthetics` for anti-slop review, Impeccable for deterministic UI checks, `awesome-design-md` / Refero for design-system reference, Web to Figma for structure extraction, and `ai-website-cloner-template` only for owned or authorized pages.
+- Kept dashboard priorities: dense, quiet, scannable UI, table hierarchy, filters, batch actions, state labels, permission states, focus states, and restrained motion.
+
+Regression replay:
+
+- Date: 2026-07-09
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-frontend-design-ecosystem-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the saved output contained `[Trace: Guyue/FrontendExpert]`, `[Taste: Reading page as SaaS dashboard`, `DESIGN.md`, `业务 SaaS 后台`, `不复制 Logo、品牌图形、专属插画、营销文案、截图素材`, `Impeccable`, `awesome-design-md`, `Refero`, `Web to Figma`, and `ai-website-cloner-template`; it stated `本轮只输出处理方式，不修改文件`. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.

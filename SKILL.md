@@ -72,6 +72,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 | 从本地精选库推荐软件或开源工具 | `software-advisor` | 不做第三方 Skill intake，不写入 manifest |
 | 实现前端页面、交互、a11y 和动效 | `frontend-expert` | 不是单纯审美诊断 |
 | 审查 UI 是否有 AI 味、调设计拨盘 | `taste-aesthetics` | 默认不写代码，不替代前端实现 |
+| 使用 `DESIGN.md`、Refero、Figma、网页复刻或外部前端 Skill 做设计参考 | `taste-aesthetics` -> `frontend-expert` / `ai-website-cloner` | 先判断参考来源、授权边界和产品类型；只学习结构、节奏、层级和设计 token，不照搬品牌资产 |
 | 开始写代码、拆模块、准备提交、隔离脏工作区提交 | `coding-discipline` | 不是过度设计削减审查 |
 | 削减冗余代码、压低抽象和依赖 | `code-minimalism` | 不是完整开发流程 |
 | 活跃故障、报错、测试失败排查 | `debugging-mindset` | 需要日志和根因证据，不是实现后验收 |

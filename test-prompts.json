@@ -120,6 +120,11 @@
     "expected_behavior": "Should trigger `taste-aesthetics`. Agent must output a design read with dial settings, identify concrete generic-UI issues, and suggest targeted changes without adding decorative gradients, oversized heroes, or unrelated marketing copy."
   },
   {
+    "name": "Frontend Design Ecosystem Boundary",
+    "prompt": "我找到 frontend-design、taste-skill、Impeccable、awesome-design-md、Refero、Web to Figma、ai-website-cloner-template 这些前端技能和设计参考。帮我用古月处理：做一个业务 SaaS 后台页面，参考 DESIGN.md，但不要照搬品牌资产，也不要把后台做成营销页。",
+    "expected_behavior": "Should treat frontend design ecosystem support as existing cross-skill routing, not a new frontend mega-skill. Agent should trigger taste-aesthetics first for product-type classification, design dials, deterministic UI checks, and design-reference boundaries; then frontend-expert for implementation if code is requested; ai-website-cloner only for owned, authorized, or publicly allowed page reconstruction. Must distinguish marketing/brand pages from SaaS dashboards, internal tools, reports, portfolios, and campaign pages; preserve dashboard density, scan speed, navigation, filters, tables, forms, focus states, accessibility, and responsive proof. It may learn layout, token, typography, spacing, component relationship, interaction state, and information architecture from DESIGN.md, Refero, Figma, screenshots, or competitor pages, but must not copy brand marks, proprietary illustrations, protected copy, private screens, customer logos, or phishing-like source confusion. It should route GSAP/gsap-skills only when motion serves state, focus, or brand, and avoid decorative motion on dense tools."
+  },
+  {
     "name": "Trigger Code Minimalism",
     "prompt": "用 code-minimalism 看看这个功能是不是过度设计了，能砍就砍。",
     "expected_behavior": "Should trigger `code-minimalism`. Agent must output a `[Ponytail Check]`, stop at the earliest YAGNI or reuse layer that applies, and preserve security, error handling, and accessibility requirements while reducing unnecessary abstraction."
