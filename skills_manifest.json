@@ -9,9 +9,14 @@
             "trigger_intent": [
                 "summarize",
                 "create tutorial",
-                "write sop"
+                "write sop",
+                "循环工程",
+                "loop engineering",
+                "动态工作流",
+                "可重复工作流",
+                "Loop Contract"
             ],
-            "description": "Post-success SOP extraction for repeatable operations; not for general documentation or skill creation."
+            "description": "Post-success SOP extraction for repeatable operations and Loop Contract packaging with stable inputs, loop bodies, checkers, stop conditions, budgets, and validation assets; not for general documentation or skill creation."
         },
         {
             "name": "frontend-expert",
@@ -19,9 +24,14 @@
             "trigger_intent": [
                 "frontend",
                 "ui design",
-                "web interface"
+                "web interface",
+                "复用组件",
+                "统一弹窗",
+                "统一提示",
+                "gsap-core",
+                "ui-ux-pro-max"
             ],
-            "description": "Front-end implementation skill for UI, interaction, a11y, and motion; use taste-aesthetics for review-only anti-slop critique."
+            "description": "Front-end implementation skill for UI, interaction, a11y, motion, default gsap-core and ui-ux-pro-max workflow alignment, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
         },
         {
             "name": "product-sense",
@@ -63,9 +73,14 @@
                 "architecture",
                 "core module refactoring",
                 "业务侧架构方案",
-                "业务可读方案"
+                "业务可读方案",
+                "统一模型",
+                "统一接口契约",
+                "全局参数",
+                "权限分层",
+                "后端控制权限"
             ],
-            "description": "DEPTH framework for business-readable architecture and refactoring plans after value and requirement boundaries are clear."
+            "description": "DEPTH framework for business-readable architecture, refactoring plans, backend-owned permission boundaries, frontend permission presentation, and single-source contracts for models, tables, parameters, permissions, and APIs after value and requirement boundaries are clear."
         },
         {
             "name": "coding-discipline",
@@ -75,9 +90,26 @@
                 "implement UI",
                 "generate commit",
                 "中文 conventional commit",
-                "脏工作区"
+                "脏工作区",
+                "避免重复实现",
+                "复用已有组件",
+                "抽象公共逻辑",
+                "工程标准件",
+                "单一权威入口",
+                "统一模型",
+                "统一表格",
+                "全局参数",
+                "最佳实践",
+                "高内聚低耦合",
+                "build lint",
+                "后端控制权限",
+                "中文提交",
+                "长任务循环",
+                "动态工作流开发",
+                "Agent loop",
+                "循环契约"
             ],
-            "description": "Implementation and commit discipline for code changes, including dirty-worktree commit slicing; use code-minimalism when the primary job is reducing overdesign."
+            "description": "Full-stack implementation and commit discipline for frontend, backend, data, scripts, configuration, infrastructure, and documentation changes, including best practices, necessary comments, high cohesion, low coupling, modularity, loop contracts for long-running agent workflows, backend-owned permission checks with frontend permission presentation, build/lint/test validation gates, Chinese conventional commits, dirty-worktree commit slicing, and reuse-first checks for functions, models, tables, parameters, API contracts, permissions, components, constants, dialogs, prompts, scripts, and shared logic; use frontend-expert only when UI work is involved, and use code-minimalism when the primary job is reducing overdesign."
         },
         {
             "name": "debugging-mindset",
@@ -134,9 +166,15 @@
             "trigger_intent": [
                 "create skill",
                 "distill ability",
-                "luban"
+                "luban",
+                "dynamic workflow",
+                "subagent workflow",
+                "循环工程",
+                "Agent 工作循环",
+                "Custom subagent",
+                "CI gate"
             ],
-            "description": "Workflow for creating, upgrading, auditing, and validating Agent Skills; not ordinary docs or task SOPs."
+            "description": "Workflow for creating, upgrading, auditing, and validating Agent Skills, plus packaging repeatable loops into Skill, Custom subagent, Hook, Automation, or CI gate when stable inputs, verifiers, stop conditions, and budgets exist; not ordinary docs or task SOPs."
         },
         {
             "name": "memory-bank",
@@ -208,9 +246,11 @@
                 "极简代码",
                 "YAGNI",
                 "减少冗余代码",
-                "ponytail"
+                "ponytail",
+                "重复代码",
+                "二次使用即抽象"
             ],
-            "description": "YAGNI and dependency-reduction critique for code and designs; not a full implementation or commit workflow."
+            "description": "YAGNI, reuse-first, duplicate-code, and dependency-reduction critique for code and designs; not a full implementation or commit workflow."
         },
         {
             "name": "book-distiller",
@@ -277,12 +317,16 @@
                 "工具输出太长",
                 "推荐第三方工具",
                 "快速安装工具",
+                "动态工作流成本",
+                "并行子 agent",
+                "loop budget",
+                "subagent budget",
                 "headroom",
                 "Serena",
                 "Repomix",
                 "Context7"
             ],
-            "description": "Context budget manager for diagnosing token waste across files, code maps, MCP tool schemas, tool outputs, docs, and long sessions; chooses minimal-context tactics and can recommend controlled third-party quick installs with traceability and measured-or-marked token savings."
+            "description": "Context budget manager for diagnosing token waste across files, code maps, MCP tool schemas, tool outputs, docs, long sessions, loop budgets, and subagent budgets; chooses minimal-context tactics and can recommend controlled third-party quick installs with traceability and measured-or-marked token savings."
         },
         {
             "name": "security-gate",
@@ -310,9 +354,12 @@
                 "部署是否生效",
                 "配置是否生效",
                 "release readiness",
-                "deployment reality"
+                "deployment reality",
+                "循环验证",
+                "动态工作流审查",
+                "subagent evidence"
             ],
-            "description": "Read-only truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, deployment/release reality, and unproven claims."
+            "description": "Read-only truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, deployment/release reality, loop output audit, dynamic workflow stop conditions, subagent evidence, and unproven claims."
         },
         {
             "name": "nexusflow-governance-workflow",

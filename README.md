@@ -26,6 +26,8 @@
 
 古月的新增人格底盘来自长期技能制作与打磨经验：**验料**判断问题是否值得雕，**造镜子**提炼行为背后的判断方式，**活体对账**拒绝只看绿色状态灯或漂亮文档。
 
+最新一轮调研把 Loop Engineering（循环工程，指把反复提示的 Agent 工作设计成有目标、检查器和停止条件的循环）融入现有能力：先用上下文预算控成本，再用 SOP 或 Skill 制作沉淀，最后用真实性审查验证，而不是新建一个空泛的万能技能。
+
 ## 快速开始
 
 **本地源码挂载（适合 Codex/Claude Code/OpenClaw 等 Skill-compatible runtime）：**
@@ -61,15 +63,15 @@ bash scripts/test_suite.sh
 - 🔍 **前置调研 (research-and-sourcing)**：收到新需求时，**强制停手**，必须先去联网获取最新官方文档或对标高星开源项目。
 - 🤔 **需求反问 (requirement-analysis)**：采用 WISER 框架，拒绝单向接受需求，强制通过链式反问挖掘边界和异常流。
 - 🎯 **价值拷问 (product-sense)**：在进入系统设计前，强制剥离技术滤镜，审视需求的 ROI 和商业逻辑。
-- 🏛️ **系统设计 (system-design)**：采用 DEPTH 框架，强制执行 Human-in-the-Loop 审批，不看到高维度架构方案前，拒绝写一行代码。
-- 💻 **开发纪律 (coding-discipline)**：进入编码阶段时，强制执行高内聚低耦合的架构规范，并默认应用前端/UI最佳实践。
+- 🏛️ **系统设计 (system-design)**：采用 DEPTH 框架，强制执行 Human-in-the-Loop 审批，并统一模型、表格、全局参数、接口契约和权限规则后再允许编码。
+- 💻 **全栈开发纪律 (coding-discipline)**：前端、后端、数据、脚本、配置、基础设施和文档进入实现阶段时，先查已有函数、模型、表格、常量、全局参数、接口契约、组件、弹窗、提示和脚本，二次使用即抽象，再执行高内聚低耦合、必要注释、权限分层、验证闭环和中文提交规范。
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
 - 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README、架构决策记录和代码背书的项目摸底地图。
 - 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；默认正常沟通用简体中文，避免不必要中英文混排；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
-- ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束，并默认融入 GSAP 级三幕剧动效与商业语境转换。
-- 🏭 **标准件车间 (sop-maker)**：当一项复杂排障或开发流成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP)。
+- ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束、复用 UI 标准件；未指定时优先遵守 `gsap-core` 和 `ui-ux-pro-max` 工作流，并默认融入 GSAP 级三幕剧动效与商业语境转换。
+- 🏭 **标准件车间 (sop-maker)**：当一项复杂排障、开发流或重复 Agent 工作成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP) 或 Loop Contract。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
-- 🛠️ **技能制作 (skill-crafting)**：从真实会话矿脉中提炼能力，再交给女娲蒸馏、鲁班打磨、活体验证。
+- 🛠️ **技能制作 (skill-crafting)**：从真实会话矿脉中提炼能力，再交给女娲蒸馏、鲁班打磨、活体验证；只有输入稳定、步骤可复用、输出可验证时，才把循环工程包装成 Skill、Custom subagent、Hook、Automation 或 CI gate。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册；确实适合第三方工具时，先给安装计划和安全边界，获明确授权后再快速接入。
 
 扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
@@ -78,12 +80,12 @@ bash scripts/test_suite.sh
 - 🧱 **网页重建 (ai-website-cloner)**：在授权边界内重建公开或自有页面，禁止绕过登录、付费墙、反爬或 DRM。
 - 🧰 **软件顾问 (software-advisor)**：优先查询本地精选库，未命中时明确标注来源边界。
 - 🎛️ **审美约束 (taste-aesthetics)**：审查和约束 AI 味 UI，输出具体设计拨盘和修正方向。
-- ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯削减过度设计，保留安全、错误处理和可访问性底线。
+- ✂️ **极简代码 (code-minimalism)**：用 YAGNI 阶梯和复用扫描削减过度设计、重复代码、重复模型/参数/契约和错误抽象，保留安全、错误处理和可访问性底线。
 - 📚 **长文蒸馏 (book-distiller)**：把方法论文档提炼为可复用技能结构，而不是普通摘要。
 - 🎬 **视频创作 SOP (video-creation-sop)**：把文章、产品、口播、短剧或创意拆成可审核的视频生产包；短剧走需求、大纲、风格锁定、视觉/音频资产、分镜、关键帧、分镜视频、成片合成导出和全案沉淀阶段门，保留复刻所需的字段来源、待确认项、授权证据、发布状态、时间线、参考图、连续性指标、音频混音、字幕、耗时成本和导出证据，优先使用当前 Agent 原生媒体能力，缺能力时再要求配置 provider。
 - 🎞️ **视频提取 (video-extractor)**：在授权和平台规则内提取元数据、字幕和可选媒体。
-- 🗜️ **上下文预算 (context-compressor)**：先判断 token 浪费来自文件、工具、文档还是长会话，再用最小上下文和可追溯证据完成任务。
-- 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界、部署配置是否真实生效和验证盲点。
+- 🗜️ **上下文预算 (context-compressor)**：先判断 token 浪费来自文件、工具、文档、长会话还是动态工作流，再用最小上下文、子任务预算和可追溯证据完成任务。
+- 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界、部署配置是否真实生效、动态工作流是否有停止条件和验证盲点。
 - 🏢 **NexusFlow 治理流 (nexusflow-governance-workflow)**：沉淀 NexusFlow 权限/治理/平台/仪表盘/GCP 导入工作的固定入口、验证门和中文提交纪律。
 - 🧾 **EAC Demo 加固 (eac-demo-hardening)**：约束 `Demo/index.html` 静态演示、报告导出、教程 fallback 和 GSAP 运行时加固。
 - 💸 **AI 成本实测 (ai-cost-grounding-measurement)**：用真实 token、Grounding 元数据、计费搜索 Query 和中文 CSV 输出证明成本口径。
@@ -101,6 +103,7 @@ bash scripts/test_suite.sh
 | `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限、后端接线和部署生效证据走真实性审查。 |
 | `human-voice` / `documentation` / `taste-aesthetics` | 改回答、解释、语言默认值和中英文混排走 human-voice；写 README、PRD、ADR 或项目摸底走 documentation；审查 UI 视觉 AI 味走 taste-aesthetics。 |
 | `documentation` / `sop-maker` / `skill-crafting` / `book-distiller` | 普通文档和项目摸底走 documentation；成功流程沉淀走 SOP；制作/升级 Skill 走 skill-crafting；长文方法论提炼走 book-distiller。 |
+| `context-compressor` / `sop-maker` / `skill-crafting` / `reality-auditor` | 循环工程和动态工作流先用 context-compressor 定成本预算；成功流程沉淀走 SOP；要变成 Skill、Custom subagent、Hook、Automation 或 CI gate 才走 skill-crafting；最后由 reality-auditor 独立验证。 |
 | `video-creation-sop` / `video-extractor` | 视频创作、分镜、生成/渲染/剪辑路由走 video-creation-sop；已有视频链接的元数据、字幕、授权边界提取走 video-extractor。 |
 | `nexusflow-governance-workflow` / 通用工程技能 | NexusFlow 权限、治理、平台可见性、仪表盘和 GCP 导入优先走项目技能，再按需调用通用技能。 |
 | `ai-cost-grounding-measurement` / `research-and-sourcing` / `reality-auditor` | 真跑 token、Grounding 和计费 Query 统计走成本实测；查资料走调研；复核声明真实性走审查。 |
@@ -117,6 +120,7 @@ bash scripts/test_suite.sh
    - **Trace-First**: 强制在每一次技能拦截前输出 `[Trace: Guyue/xxx]`，打破 AI 黑盒。
    - **Anti-Bloat 与林迪效应**: 拒绝为了技术而引入重型框架，崇尚零依赖与极简，追求架构的未来十年生存期。
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
+   - **Loop Engineering**: 把重复手工提示转成有目标、稳定输入、循环体、检查器、停止条件、预算和验证资产的工作流；不把动态工作流理解成无限循环或无限子 Agent。
 
 2. **矩阵级结构大一统**: 26 个路由技能全面实施相同的指令骨架。
    - **When to Use**: 明确何时该由什么子分身接管。

@@ -12,6 +12,9 @@
 - Add a CI guard for the `human-voice` language contract across principles, routing, manifest, tests, README, and live replay evidence.
 - Add a CI guard for business-readable output across persona principles, root routing, output skills, manifest, and evaluation prompts.
 - Add a CI guard for the `context-compressor` context-budget and third-party quick-install contract across Skill instructions, manifest routing, and evaluation prompts.
+- Add a CI guard for reuse-first engineering across persona principles, root routing, development skills, manifest routing, and evaluation prompts.
+- Add a CI guard for full-stack default development discipline covering best practices, modularity, backend-owned permissions, frontend permission presentation, validation gates, Chinese commit format, and UI-only default frontend workflow routing.
+- Add a CI guard for Loop Engineering and dynamic workflow routing across persona principles, root routing, workflow skills, manifest routing, evaluation prompts, and live replay evidence.
 
 ### Changed
 
@@ -32,6 +35,9 @@
 - Strengthen Guyue's business-facing output contract so方案、文档和汇报 explain business problem, user value, main work, cost/risk limits, collaboration roles, and first-use term meanings.
 - Strengthen `context-compressor` from a file/log compression tactic into a context budget manager covering token-waste diagnosis, MCP tool schemas, tool outputs, repository maps, docs, long sessions, controlled third-party quick installs, and measured-or-marked savings.
 - Strengthen `ecosystem-scout` so third-party quick-install assistance requires source checks, an install plan, explicit authorization, foreground execution, smoke tests, and post-use evidence.
+- Strengthen Guyue's full-stack development defaults so frontend, backend, data, script, configuration, infrastructure, and documentation implementation work preserves the original goal of lower barriers, better experience, Simplified Chinese by default, backend authorization boundaries, frontend permission presentation, and explicit build/lint/test evidence before commit.
+- Strengthen Guyue's development persona so architecture and coding start with reuse scanning, second use triggers abstraction, and common functions, models, tables, constants, global parameters, API contracts, dialogs, prompts, scripts, formatters, and permission checks have a single authoritative entry.
+- Strengthen Guyue's Loop Engineering posture so repeated manual Agent work is packaged with stable inputs, loop bodies, independent checkers, stop conditions, max rounds/time/Token/subagent budgets, and asset-deposition choices instead of becoming an unbounded new skill.
 - Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
 
 ## v1.2.0 - 2026-07-02

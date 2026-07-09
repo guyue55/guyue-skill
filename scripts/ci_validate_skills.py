@@ -840,6 +840,304 @@ def check_business_readable_output_contract(repo_root):
     return passed
 
 
+def check_reuse_first_engineering_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'system_design': os.path.join(repo_root, 'skills', 'system-design', 'SKILL.md'),
+        'coding_discipline': os.path.join(repo_root, 'skills', 'coding-discipline', 'SKILL.md'),
+        'code_minimalism': os.path.join(repo_root, 'skills', 'code-minimalism', 'SKILL.md'),
+        'frontend_expert': os.path.join(repo_root, 'skills', 'frontend-expert', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [REUSE FIRST ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '标准件管家',
+            '开发前先做复用扫描',
+            '函数、模型、表格、配置、常量、全局参数、接口契约',
+            '同一业务语义或工程能力被使用两次及以上',
+            '不把“复用”理解成过早抽象',
+        ],
+        'root_skill': [
+            '复用优先 (Reuse-First Engineering)',
+            '函数、模型、表格、配置、常量、全局参数、接口契约',
+            '第二次出现的函数、模型、表格、配置、常量、全局参数、接口契约',
+        ],
+        'system_design': [
+            '关键工程标准件必须有单一权威入口',
+            '领域模型、数据库表、枚举、全局参数、配置、接口契约',
+            '标准件与契约归一',
+            '不得让同一个模型、表格、全局参数、接口契约',
+        ],
+        'coding_discipline': [
+            '拒绝重复造件',
+            '拒绝错误抽象',
+            '复用扫描',
+            '二次使用即抽象',
+            'models/',
+            'schemas/',
+            'migrations/',
+            'parameters/',
+            'scripts/',
+        ],
+        'code_minimalism': [
+            '复用扫描',
+            '二次使用即抽象',
+            '函数、模型、表结构、配置、全局参数、接口契约',
+            '只是偶然相似',
+        ],
+        'frontend_expert': [
+            '如果是第二次出现的 UI 或交互，必须组件化',
+            '先查标准件',
+            '拒绝重复 UI',
+            '弹窗、Toast、空状态、加载态、权限提示',
+        ],
+        'replay': [
+            'Replay 20: Reuse-First Engineering Contract',
+            '[Trace: Guyue/CodingDiscipline]',
+            '[Ponytail Check]',
+            '函数、服务、模型、表结构、迁移、常量、配置、全局参数、接口契约、权限规则、弹窗、提示文案、工具脚本、测试夹具',
+            '本轮我只说明处理方式，不修改文件',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [REUSE FIRST ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [REUSE FIRST ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    skill_map = {skill.get('name'): skill for skill in manifest.get('skills', [])}
+    expected_manifest = {
+        'coding-discipline': {
+            'triggers': {'避免重复实现', '复用已有组件', '抽象公共逻辑', '工程标准件', '单一权威入口', '统一模型', '统一表格', '全局参数'},
+            'description': {'reuse-first checks', 'models', 'tables', 'parameters', 'API contracts', 'scripts'},
+        },
+        'system-design': {
+            'triggers': {'统一模型', '统一接口契约', '全局参数'},
+            'description': {'single-source contracts', 'models', 'tables', 'parameters', 'APIs'},
+        },
+        'frontend-expert': {
+            'triggers': {'复用组件', '统一弹窗', '统一提示'},
+            'description': {'reuse-first UI standardization', 'dialogs', 'toasts'},
+        },
+        'code-minimalism': {
+            'triggers': {'重复代码', '二次使用即抽象'},
+            'description': {'reuse-first', 'duplicate-code'},
+        },
+    }
+
+    for skill_name, expected in expected_manifest.items():
+        skill = skill_map.get(skill_name)
+        if not skill:
+            print(f"❌ [REUSE FIRST ERROR] {skill_name} missing from skills_manifest.json", file=sys.stderr)
+            passed = False
+            continue
+        triggers = set(skill.get('trigger_intent', []))
+        for trigger in expected['triggers']:
+            if trigger not in triggers:
+                print(f"❌ [REUSE FIRST ERROR] Missing {skill_name} trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(skill.get('description', ''))
+        for needle in expected['description']:
+            if needle not in description:
+                print(f"❌ [REUSE FIRST ERROR] {skill_name} manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [REUSE FIRST ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Reuse-First Engineering Contract'), None)
+    if not prompt:
+        print("❌ [REUSE FIRST ERROR] Missing reuse-first engineering prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['已有函数', '模型', '表格', '全局参数', '接口契约', 'two or more real usage points', 'single authoritative entry', 'wrong abstractions']:
+            if needle not in prompt_text:
+                print(f"❌ [REUSE FIRST ERROR] Reuse-first prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
+def check_development_defaults_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'system_design': os.path.join(repo_root, 'skills', 'system-design', 'SKILL.md'),
+        'coding_discipline': os.path.join(repo_root, 'skills', 'coding-discipline', 'SKILL.md'),
+        'frontend_expert': os.path.join(repo_root, 'skills', 'frontend-expert', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '全栈开发守门人',
+            '权限分层者',
+            '前端、后端、数据、脚本、配置、基础设施和文档',
+            '降低使用门槛、提高体验、默认中文可读',
+            '权限相关改动必须后端先兜底、前端再体现',
+            '提交信息使用 `type(scope): 中文描述`',
+            '`build`、`lint`、测试、安全扫描和缓存检查',
+            '只有任务涉及前端或 UI 设计',
+            '后端、数据、脚本、配置和基础设施任务仍按全栈开发守则执行',
+        ],
+        'root_skill': [
+            '全栈开发默认守则 (Full-Stack Development Defaults)',
+            '所有开发都必须遵守',
+            '最佳实践、必要注释、高内聚、低耦合、模块化和页面化',
+            '权限必须后端控制、前端体现',
+            '`build`、`lint`、测试、安全扫描和缓存检查',
+            '`type(scope): 中文描述`',
+            '只有涉及前端或 UI 设计且用户未指定其他工作流时',
+            '任何前端、后端、数据、脚本、配置、基础设施或文档实现',
+        ],
+        'system_design': [
+            '权限架构必须后端控制、前端体现',
+            '权限与体验分层',
+            '后端授权点',
+            '前端权限状态来源',
+            '不得把前端硬编码当成安全策略',
+        ],
+        'coding_discipline': [
+            '古月全栈开发纪律套件',
+            '前端、后端、数据、脚本、配置、基础设施、文档或 UI 开发',
+            '后端权限为准',
+            '最佳实践底线',
+            '必要注释、清晰命名、高内聚、低耦合、模块化和页面化',
+            '全栈阵线对齐',
+            '非前端任务不套用前端工作流',
+            '权限分层检查',
+            '`build`、`lint`、单元测试、集成测试、类型检查、格式检查、安全扫描和缓存检查',
+            '`type(scope): 中文描述`',
+            '`gsap-core` 与 `ui-ux-pro-max`',
+        ],
+        'frontend_expert': [
+            '默认参考外部美学工作流',
+            '`gsap-core` 的动画编排纪律',
+            '`ui-ux-pro-max` 的商业级 UI 审美约束',
+            '不替代后端权限',
+        ],
+        'replay': [
+            'Replay 21: Development Defaults Contract',
+            '[Trace: Guyue/Requirement-System-Frontend-Coding]',
+            '后端作为真实权限边界',
+            '前端只消费后端返回的权限状态',
+            'build',
+            'lint',
+            'gsap-core',
+            'ui-ux-pro-max',
+            '本轮按你的要求只说明处理方式，不修改文件',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    skill_map = {skill.get('name'): skill for skill in manifest.get('skills', [])}
+    expected_manifest = {
+        'coding-discipline': {
+            'triggers': {'最佳实践', '高内聚低耦合', 'build lint', '后端控制权限', '中文提交'},
+            'description': {'Full-stack implementation', 'frontend, backend, data, scripts, configuration, infrastructure, and documentation changes', 'best practices', 'necessary comments', 'high cohesion', 'low coupling', 'backend-owned permission checks', 'build/lint/test validation gates', 'Chinese conventional commits', 'frontend-expert only when UI work is involved'},
+        },
+        'system-design': {
+            'triggers': {'权限分层', '后端控制权限'},
+            'description': {'backend-owned permission boundaries', 'frontend permission presentation'},
+        },
+        'frontend-expert': {
+            'triggers': {'gsap-core', 'ui-ux-pro-max'},
+            'description': {'default gsap-core and ui-ux-pro-max workflow alignment'},
+        },
+    }
+
+    for skill_name, expected in expected_manifest.items():
+        skill = skill_map.get(skill_name)
+        if not skill:
+            print(f"❌ [DEVELOPMENT DEFAULTS ERROR] {skill_name} missing from skills_manifest.json", file=sys.stderr)
+            passed = False
+            continue
+        triggers = set(skill.get('trigger_intent', []))
+        for trigger in expected['triggers']:
+            if trigger not in triggers:
+                print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Missing {skill_name} trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(skill.get('description', ''))
+        for needle in expected['description']:
+            if needle not in description:
+                print(f"❌ [DEVELOPMENT DEFAULTS ERROR] {skill_name} manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Development Defaults Contract'), None)
+    if not prompt:
+        print("❌ [DEVELOPMENT DEFAULTS ERROR] Missing development defaults prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['full-stack development baseline', 'frontend, backend, data, scripts, configuration, infrastructure, and documentation changes', 'frontend-expert` only when UI work is involved', 'best practices', 'necessary comments', 'high-cohesion', 'backend-owned', 'frontend permission presentation', 'build, lint, tests', 'type(scope): 中文描述', 'gsap-core', 'ui-ux-pro-max', 'only when UI/front-end guidance is unspecified']:
+            if needle not in prompt_text:
+                print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Development defaults prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_context_compressor_budget_contract(repo_root):
     files = {
         'root_skill': os.path.join(repo_root, 'SKILL.md'),
@@ -983,6 +1281,162 @@ def check_context_compressor_budget_contract(repo_root):
     return passed
 
 
+def check_loop_engineering_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'sop_maker': os.path.join(repo_root, 'skills', 'sop-maker', 'SKILL.md'),
+        'skill_crafting': os.path.join(repo_root, 'skills', 'skill-crafting', 'SKILL.md'),
+        'context_compressor': os.path.join(repo_root, 'skills', 'context-compressor', 'SKILL.md'),
+        'coding_discipline': os.path.join(repo_root, 'skills', 'coding-discipline', 'SKILL.md'),
+        'reality_auditor': os.path.join(repo_root, 'skills', 'reality-auditor', 'SKILL.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [LOOP ENGINEERING ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '循环工程师',
+            '有目标、边界、检查器、停止条件',
+            '最大轮数、时间、Token、子任务数量',
+            '不把循环工程理解成无限循环',
+        ],
+        'root_skill': [
+            '循环工程 (Loop Engineering)',
+            '有目标、有边界、有检查器、有停止条件、有成本控制',
+            '动态工作流',
+            '`context-compressor`、`sop-maker`、`skill-crafting`、`coding-discipline`、`system-design` 和 `reality-auditor`',
+        ],
+        'sop_maker': [
+            'Loop Contract',
+            '稳定输入',
+            '停止条件',
+            '最大轮数',
+            '验证资产',
+        ],
+        'skill_crafting': [
+            'Loop Engineering / Dynamic Workflow Packaging',
+            'Skill、Custom subagent、Hook、Automation 或 CI gate',
+            '最大轮数、最大时间、最大 Token、最大子任务数量',
+            '先小样本回放',
+        ],
+        'context_compressor': [
+            '循环和动态工作流预算',
+            'max rounds',
+            'subagent',
+            'Token cap',
+            'checkpoint',
+        ],
+        'coding_discipline': [
+            '长任务循环边界',
+            '循环契约',
+            '不得开无限后台循环',
+            '正常停止、预算耗尽、缺证据熔断、失败回滚',
+        ],
+        'reality_auditor': [
+            'Loop And Dynamic Workflow Audit',
+            '执行器和验证器',
+            'max rounds',
+            'subagent cap',
+            'missing stop conditions',
+        ],
+        'replay': [
+            'Replay 22: Loop Engineering Contract',
+            '[Trace: Guyue/LoopEngineering]',
+            'Loop Contract',
+            'max rounds',
+            'subagent',
+            '不新建独立万能技能',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [LOOP ENGINEERING ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [LOOP ENGINEERING ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    skill_map = {skill.get('name'): skill for skill in manifest.get('skills', [])}
+    expected_manifest = {
+        'sop-maker': {
+            'triggers': {'循环工程', 'loop engineering', '动态工作流', '可重复工作流', 'Loop Contract'},
+            'description': {'Loop Contract', 'stable inputs', 'stop conditions', 'validation assets'},
+        },
+        'skill-crafting': {
+            'triggers': {'dynamic workflow', 'subagent workflow', '循环工程', 'Agent 工作循环', 'Custom subagent', 'CI gate'},
+            'description': {'Skill, Custom subagent, Hook, Automation, or CI gate', 'stable inputs', 'verifiers', 'stop conditions', 'budgets'},
+        },
+        'context-compressor': {
+            'triggers': {'动态工作流成本', '并行子 agent', 'loop budget', 'subagent budget'},
+            'description': {'loop budgets', 'subagent budgets'},
+        },
+        'coding-discipline': {
+            'triggers': {'长任务循环', '动态工作流开发', 'Agent loop', '循环契约'},
+            'description': {'loop contracts', 'long-running agent workflows'},
+        },
+        'reality-auditor': {
+            'triggers': {'循环验证', '动态工作流审查', 'subagent evidence'},
+            'description': {'loop output audit', 'dynamic workflow stop conditions', 'subagent evidence'},
+        },
+    }
+
+    for skill_name, expected in expected_manifest.items():
+        skill = skill_map.get(skill_name)
+        if not skill:
+            print(f"❌ [LOOP ENGINEERING ERROR] {skill_name} missing from skills_manifest.json", file=sys.stderr)
+            passed = False
+            continue
+        triggers = set(skill.get('trigger_intent', []))
+        for trigger in expected['triggers']:
+            if trigger not in triggers:
+                print(f"❌ [LOOP ENGINEERING ERROR] Missing {skill_name} trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(skill.get('description', ''))
+        for needle in expected['description']:
+            if needle not in description:
+                print(f"❌ [LOOP ENGINEERING ERROR] {skill_name} manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [LOOP ENGINEERING ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt = next((item for item in prompts if item.get('name') == 'Loop Engineering Contract'), None)
+    if not prompt:
+        print("❌ [LOOP ENGINEERING ERROR] Missing loop engineering prompt", file=sys.stderr)
+        passed = False
+    else:
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in ['Loop Engineering', '动态工作流', 'loop budget', 'Custom subagent', 'max rounds/time/token/subagent budget', 'unbounded loops', 'same executor/verifier view']:
+            if needle not in prompt_text:
+                print(f"❌ [LOOP ENGINEERING ERROR] Loop engineering prompt missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_showcase_assets(repo_root):
     demo_gif = os.path.join(repo_root, 'assets', 'demo.gif')
     demo_tape = os.path.join(repo_root, 'assets', 'demo.tape')
@@ -1117,8 +1571,23 @@ def main():
     else:
         all_passed = False
 
+    if check_reuse_first_engineering_contract(repo_root):
+        print("✅ reuse-first engineering contract valid.")
+    else:
+        all_passed = False
+
+    if check_development_defaults_contract(repo_root):
+        print("✅ development defaults contract valid.")
+    else:
+        all_passed = False
+
     if check_context_compressor_budget_contract(repo_root):
         print("✅ context-compressor budget contract valid.")
+    else:
+        all_passed = False
+
+    if check_loop_engineering_contract(repo_root):
+        print("✅ loop engineering contract valid.")
     else:
         all_passed = False
 

@@ -60,6 +60,16 @@
     "expected_behavior": "Should trigger `coding-discipline`. Agent must enforce high cohesion/low coupling for the components, inject frontend contexts if necessary, ensure Chinese comments, and provide a git commit message following the format `feat(scope): 中文描述`."
   },
   {
+    "name": "Development Defaults Contract",
+    "prompt": "开发这个权限管理页面和接口时，遵守最佳实践、注释齐全、高内聚低耦合、模块化和页面化；统一功能、组件、参数、模型、脚本、函数，避免冗余复写。牢记降低门槛、提高体验、优先中文。权限必须后端控制、前端体现，根据权限控制显隐，不要前端硬编码。完成后注意 build、lint 等检查，不要引入新故障；如果提交 git，用中文注释，格式是 xxx(xxx): 中文xxx。前端和 UI 没特别说明时优先用 gsap-core 和 ui-ux-pro-max。",
+    "expected_behavior": "Should trigger `coding-discipline` as a full-stack development baseline, route architecture or permission-contract decisions through `system-design`, and involve `frontend-expert` only when UI work is involved. Agent must apply the same defaults to frontend, backend, data, scripts, configuration, infrastructure, and documentation changes; preserve the product goal of lower barrier, better experience, and Simplified Chinese by default; follow best practices; perform reuse scanning for functions, components, parameters, models, scripts, and shared logic; keep permission enforcement backend-owned while using frontend permission presentation only for visibility, disabled states, prompts, and guidance; avoid frontend hardcoded authorization; use modular high-cohesion and low-coupling implementation with necessary comments; prefer gsap-core and ui-ux-pro-max workflows only when UI/front-end guidance is unspecified; run or report build, lint, tests, security/cache checks according to repo risk; and use `type(scope): 中文描述` for any commit without mixing unrelated changes."
+  },
+  {
+    "name": "Reuse-First Engineering Contract",
+    "prompt": "开发这个订单功能时不要重复写相同或类似的能力；先确认有没有已有函数、模型、表格、常量、全局参数、接口契约、权限规则、弹窗、提示和工具脚本。同一个业务语义或工程能力如果会用两次及以上，就抽象成一个统一权威入口。",
+    "expected_behavior": "Should trigger `coding-discipline`, `system-design` for model/table/API-contract decisions, and `frontend-expert` when UI work is involved. Agent must search existing functions, models, tables, schemas, migrations, constants, global parameters, API contracts, permissions, formatters, components, dialogs, toasts, messages, hooks, utilities, and scripts before adding code. If the same business rule, data structure, table field, parameter, function, component, dialog, prompt, formatter, permission check, or script has two or more real usage points, it should extract a single authoritative entry and update callers. It must avoid wrong abstractions when two snippets only look similar but have different business meaning, lifecycle, permission boundary, data ownership, or user commitment, and must report what was checked."
+  },
+  {
     "name": "Trigger Dirty Worktree Commit Boundary",
     "prompt": "这轮改了不少，全面检查后提交 git，中文 conventional commit，不要把我之前的无关修改混进去。",
     "expected_behavior": "Should trigger `coding-discipline` dirty-worktree commit boundary. Agent must inspect `git status --short --branch`, separate pre-existing/user changes from task changes, stage only task-related files, review `git diff --staged`, run repository verification gates, use a Chinese conventional commit message, and avoid push/tag/release/deploy without explicit authorization."
@@ -153,6 +163,11 @@
     "name": "Third-Party Tool Quick Install Gate",
     "prompt": "这个任务特别适合用第三方工具节省 token，你推荐一个并帮我快速安装和跑起来；如果需要权限先说清楚。",
     "expected_behavior": "Should route through `context-compressor` for fit assessment and `ecosystem-scout` for external tool recommendation or quick-install assistance, without inventing a separate `context-budget-manager` skill. Agent must first explain why a third-party tool is justified versus built-in `rg`/`jq`/slicing, recommend at most three candidates, choose a default with business value, main work, cost/risk/limits, and collaboration needs, then show the exact install plan including command, working directory, files written, network behavior, smoke test, and rollback. It must not install, clone, configure, run external code, or write dependency records until the user gives explicit imperative authorization; it must hand off to `security-gate` before execution and record measured-or-estimated savings after use."
+  },
+  {
+    "name": "Loop Engineering Contract",
+    "prompt": "这个任务我每周都要反复让 Agent 做：先扫仓库、分派子任务、并行审查、汇总问题、修正后再验证。帮我用古月设计成 Loop Engineering / 动态工作流，但不要盲目新建技能，也不要无限跑。",
+    "expected_behavior": "Should treat loop engineering as an existing cross-skill workflow discipline, not as a standalone hype skill. It should trigger context-compressor for loop budget, sop-maker for repeatable workflow extraction, skill-crafting only if packaging into Skill, Custom subagent, Hook, Automation, or CI gate is justified, reality-auditor for independent verifier, and coding-discipline/system-design when implementation is involved. Must define stable inputs, loop body, verifier/evaluator, stop conditions, max rounds/time/token/subagent budget, evidence artifacts, human checkpoints, rollback, and asset deposition; must avoid unbounded loops, subagent floods, same executor/verifier view, external tool execution without authorization, and unverifiable claims."
   },
   {
     "name": "Trigger Security Gate",

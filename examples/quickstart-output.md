@@ -571,3 +571,83 @@ Regression replay:
 - Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-third-party-quick-install-root-route-replay.md "<prompt>"`
 - Result: pass
 - Observed behavior: the live output contained `[Trace: Guyue/ContextCompressor]`, `Repomix`, `我不会现在安装或运行`, and `npx -y repomix@latest --compress --token-count-tree --output /tmp/guyue-repomix-output.xml`; `rg` found no `context-budget-manager` occurrence in the saved replay output. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 20: Reuse-First Engineering Contract
+
+Prompt:
+
+```text
+使用古月处理这个请求：开发这个订单功能时不要重复写相同或类似的能力；先确认有没有已有函数、模型、表格、常量、全局参数、接口契约、权限规则、弹窗、提示和工具脚本。同一个业务语义或工程能力如果会用两次及以上，就抽象成一个统一权威入口。只输出你会怎么处理，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/CodingDiscipline]` plus `[Ponytail Check]` for a full-stack order-feature planning request.
+- Read the updated root `SKILL.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, and implementation-related skills.
+- Started with system-level reuse scanning before new implementation.
+- Named existing standard-entry search targets across backend, data, configuration, frontend, and scripts: models, schemas, migrations, services, repositories, API contracts, constants, global parameters, permissions, components, messages, and scripts.
+- Preserved the abstraction boundary: two or more real usage points should share one authoritative entry, but similar code with different business meaning, lifecycle, data ownership, permissions, or user commitments should not be force-merged.
+- Did not edit files, stage changes, install tools, call external APIs, or mutate repository state.
+
+Regression replay:
+
+- Date: 2026-07-08
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-reuse-first-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the saved output contained `[Trace: Guyue/CodingDiscipline]`, `[Ponytail Check]`, `函数、服务、模型、表结构、迁移、常量、配置、全局参数、接口契约、权限规则、弹窗、提示文案、工具脚本、测试夹具`, and `本轮我只说明处理方式，不修改文件`; it kept the two-or-more-use abstraction rule and the wrong-abstraction boundary. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 21: Development Defaults Contract
+
+Prompt:
+
+```text
+使用古月处理这个请求：开发这个权限管理页面和接口时，遵守最佳实践、注释齐全、高内聚低耦合、模块化和页面化；统一功能、组件、参数、模型、脚本、函数，避免冗余复写。牢记降低门槛、提高体验、优先中文。权限必须后端控制、前端体现，根据权限控制显隐，不要前端硬编码。完成后注意 build、lint 等检查，不要引入新故障；如果提交 git，用中文注释，格式是 xxx(xxx): 中文xxx。前端和 UI 没特别说明时优先用 gsap-core 和 ui-ux-pro-max。只输出你会怎么处理，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered a combined requirement, system-design, frontend, and coding-discipline route for a permission-management page and API request.
+- Preserved the read-only boundary and did not edit files.
+- Treated development defaults as a full-stack baseline for backend APIs, models, scripts, parameters, permission contracts, and UI; `frontend-expert`, `gsap-core`, and `ui-ux-pro-max` were only added because this prompt included page and UI work.
+- Started from requirement scope before implementation, then moved to permission contracts, frontend presentation, validation, and commit discipline.
+- Kept backend authorization as the real security boundary, with frontend permission presentation limited to visibility, disabled states, prompts, and guidance.
+- Included reuse scanning across models, schemas, services, repositories, permissions, components, hooks, constants, and scripts before new implementation.
+- Applied Simplified Chinese-first user experience, modular page/component/Hook separation, necessary comments only for meaningful boundaries, and `gsap-core` / `ui-ux-pro-max` as default UI workflow references.
+- Required `build`, `lint`, type/format checks, tests, security scanning, cache checks, and Chinese conventional commits before delivery.
+
+Regression replay:
+
+- Date: 2026-07-08
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-development-defaults-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the saved output contained `[Trace: Guyue/Requirement-System-Frontend-Coding]`, `后端作为真实权限边界`, `前端只消费后端返回的权限状态`, `build`, `lint`, `gsap-core`, `ui-ux-pro-max`, and `feat(permissions): 新增权限管理页面与后端授权接口`; it stated `本轮按你的要求只说明处理方式，不修改文件`. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 22: Loop Engineering Contract
+
+Prompt:
+
+```text
+使用古月处理这个请求：这个任务我每周都要反复让 Agent 做：先扫仓库、分派子任务、并行审查、汇总问题、修正后再验证。帮我设计成 Loop Engineering / 动态工作流，但不要盲目新建技能，也不要无限跑。只输出你会怎么处理，不要修改文件。
+```
+
+Result: pass
+
+Why it passes:
+
+- Triggered `[Trace: Guyue/LoopEngineering]` and treated the request as an existing cross-skill workflow discipline, not as a new standalone skill.
+- Routed through `context-compressor` for budget, `sop-maker` for `Loop Contract`, `skill-crafting` only when packaging into Skill, Custom subagent, Hook, Automation, or CI gate is justified, and `reality-auditor` for independent verification.
+- Produced a `Loop Contract` with goal, stable inputs, loop body, max rounds, time, Token, subagent cap, evidence artifacts, human checkpoints, rollback and asset-deposition decisions.
+- Limited the workflow to 2 correction rounds, 3-4 review subtasks, evidence-path-only subtask summaries, and explicit stop conditions.
+- Preserved authorization boundaries: no push, deploy, installation, destructive command, external tool execution, or repository mutation without a separate explicit authorization.
+- Explicitly stated `不新建独立万能技能` and stopped short of converting the flow into automation before repeated successful runs.
+
+Regression replay:
+
+- Date: 2026-07-08
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-loop-engineering-replay.md "<prompt>"`
+- Result: pass
+- Observed behavior: the saved output contained `[Trace: Guyue/LoopEngineering]`, `Loop Contract`, `max rounds`, `subagent`, `reality-auditor`, `最大修正轮数：2 轮`, `最大审查子任务：4 个`, and `不会新建一个叫 “loop-engineering” 的万能技能`. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.

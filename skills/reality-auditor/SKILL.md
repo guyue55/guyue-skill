@@ -11,6 +11,8 @@ Act as an independent reviewer, not the implementer. Your job is to prove whethe
 
 Default stance: read-only unless the user explicitly asks you to fix confirmed defects.
 
+For Loop Engineering, dynamic workflows, or subagent orchestration, audit the loop as a product surface: prove that it has stable inputs, bounded execution, independent verification, visible checkpoints, and a real stop condition.
+
 ## Audit Contract
 
 1. Start from the user's claim.
@@ -32,6 +34,16 @@ Default stance: read-only unless the user explicitly asks you to fix confirmed d
    - Cite file and line references.
    - If no issue is found, say so and list remaining evidence gaps.
 
+## Loop And Dynamic Workflow Audit
+
+Use this mode when the claim is "the workflow is automated", "the agent loop can run repeatedly", "subagents verified the work", or "dynamic workflow is ready".
+
+- Trace the loop contract: goal -> stable input -> loop body -> checker -> stop condition -> budget -> artifact.
+- Verify执行器和验证器 are not the exact same unchallenged view. If the same agent wrote and approved the result, mark the evidence as weak unless tests, scripts, screenshots, logs, CI, or human checkpoints independently back it.
+- Check max rounds, time cap, Token cap, subagent cap, tool scope, authorization scope, and rollback behavior.
+- Inspect whether subagent outputs are summarized with evidence paths instead of flooding the main context.
+- Treat missing stop conditions, unbounded background tasks, silent external writes, or unverifiable "all checked" claims as findings.
+
 ## Standard Workflow
 
 1. Read the repo entry instructions, then `git status --short`.
@@ -51,6 +63,7 @@ Default stance: read-only unless the user explicitly asks you to fix confirmed d
    - error visibility
    - loading/empty/stale state
    - test coverage
+   - loop stop condition and budget, when the feature is a dynamic workflow
 5. Run targeted read-only or local validation commands when feasible.
 6. Return findings before summaries.
 
