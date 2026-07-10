@@ -58,6 +58,7 @@ No changes yet.
 - Harden the optional MCP memory layer with bounded queries, common secret/path detection, collision-resistant filenames, and atomic index replacement.
 - Replace the invalid custom Claude marketplace object with the official skill-bundle schema and verify a complete 27-component isolated installation.
 - Run the complete GitHub CI release gate twice on both `dev` and `main` pushes so cache pollution and non-idempotent checks cannot hide behind a single green run.
+- Upgrade GitHub CI to the Node 24-native `actions/checkout@v6` and `actions/setup-python@v6`, and lock both majors in project configuration validation.
 - Bound Python dependencies to compatible major versions (`mcp` 1.x and PyYAML 6.x); the release candidate was exercised with mcp 1.28.1 and PyYAML 6.0.3 on Python 3.11.
 - Accept both template-style and code-spanned Long Goal control paths, with regression coverage for each form.
 

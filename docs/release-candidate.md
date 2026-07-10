@@ -16,6 +16,7 @@ Scope: release-preparation evidence and boundary fixes. This document does not c
 - Claude marketplace: the former custom object failed Claude Code 2.1.170 validation because it omitted `owner` and `plugins`; v1.3.0 now uses the official marketplace schema and an explicit root skill bundle. Official strict validation and isolated install evidence are required below.
 - Claude install evidence: `claude plugin validate --strict .` passed; an empty-HOME local marketplace install enabled `guyue@guyue` at 1.3.0, reported 27 Skill components and about 1,940 always-on tokens, preserved the full payload, and passed the complete suite twice from the installed cache.
 - CI evidence: v1.3.0 CI listens to `dev` and `main` pushes plus pull requests to `main`, then runs the same complete release gate twice after installing `requirements.txt`.
+- CI runtime evidence: the first remote pass exposed GitHub's Node 20 deprecation warning despite green jobs. The workflow now uses `actions/checkout@v6` and `actions/setup-python@v6`, and the local configuration gate requires those Node 24-native majors before release.
 - Dependency evidence: runtime dependencies are bounded to compatible major lines and were verified with Python 3.11, mcp 1.28.1, and PyYAML 6.0.3.
 - Independent review: Codex review found that the Long Goal checker accepted only code-spanned control paths while the public template used plain paths. The parser and self-test now cover both formats.
 

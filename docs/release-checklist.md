@@ -20,6 +20,7 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] An isolated Claude Code 2.1.170 install reports Guyue 1.3.0 enabled with 27 Skill components and a complete payload.
 - [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
 - [x] GitHub CI listens to `dev` and `main`, installs declared dependencies, and runs the complete release gate twice to catch non-idempotent cache or artifact pollution.
+- [x] GitHub CI uses Node 24-native `actions/checkout@v6` and `actions/setup-python@v6`; project configuration validation blocks regression to deprecated action runtimes.
 - [x] Published memory index matches the documented `{"memories": [...]}` schema and the MCP server accepts legacy list-shaped indexes.
 - [x] Fresh install path declares `PyYAML` in `requirements.txt`; README, installation docs, and GitHub CI all install from the same dependency file.
 - [x] Fresh `HOME` validation path passes without preinstalled external ecosystem skills; external skills are optional enhancements, not release-gate blockers.

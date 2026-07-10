@@ -177,6 +177,15 @@ def check_project_config(repo_root):
             print("❌ [CONFIG ERROR] GitHub CI must cover both dev and main branches", file=sys.stderr)
             passed = False
 
+        required_actions = [
+            'actions/checkout@v6',
+            'actions/setup-python@v6',
+        ]
+        for action in required_actions:
+            if action not in workflow_text:
+                print(f"❌ [CONFIG ERROR] GitHub CI missing Node 24-native action: {action}", file=sys.stderr)
+                passed = False
+
     return passed
 
 
