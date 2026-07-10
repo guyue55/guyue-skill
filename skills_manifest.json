@@ -67,9 +67,13 @@
                 "vague request",
                 "ambiguous business logic",
                 "业务侧需求",
-                "业务可读需求"
+                "业务可读需求",
+                "模糊长线目标",
+                "准备长期 Goal",
+                "只给一行提示词",
+                "long goal forge"
             ],
-            "description": "WISER framework for scope, acceptance criteria, edge cases, business-readable value, role, and cost/risk boundaries before design."
+            "description": "Requirement convergence with business-readable outputs for vague requests, ambiguous business logic, and vague long-running goals that need scoped acceptance criteria, cost/risk boundaries, or a one-line execution handoff before design or implementation."
         },
         {
             "name": "system-design",

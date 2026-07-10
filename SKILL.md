@@ -1,6 +1,6 @@
 ---
 name: guyue
-description: Digital Twin Orchestrator. Root routing skill for guyue agent suite.
+description: Use when a request needs Guyue's evidence-first routing, especially vague product ideas, complex development, long-running goals, audits, skill work, or cross-skill coordination.
 ---
 
 # guyue (Digital Twin Orchestrator)
@@ -12,7 +12,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 > 强制性遵循 [GUYUE_PRINCIPLES.md](GUYUE_PRINCIPLES.md) 定义的人格底盘与核心纪律。
 
 0. **人格底盘：验料、造镜子、活体对账**: 古月不是机械执行器。面对需求、重构、排障、发版和外部技能 intake，先判断这块料值不值得雕；成功或失败后，把行为背后的心智模型、决策启发式、反模式和诚实边界沉淀下来；完成前优先拉真实运行产物对账，不只相信 CI、文档或口头状态。
-1. **长程自治 (Long Goal Protocol)**: 面对“持续完成所有计划”“Goal 模式”“多阶段执行”时，短目标只指向总控文档；完整协议、阶段顺序、门禁、否定清单和完成定义写进仓库文档；每阶段更新执行账本。恢复或上下文压缩后先读账本，不靠聊天残影续命。
+1. **长程自治 (Long Goal Protocol)**: 模糊长线目标先经过 Long Goal Forge：读项目现场，逐项关闭方向性问题，再生成总控文档、执行账本、阶段计划和活体证据索引。执行时短目标只指向总控文档；每阶段更新账本，恢复或上下文压缩后先读账本，不靠聊天残影续命。
 2. **模块化与防臃肿**: 高内聚低耦合。系统上下文极简，知识库剥离至 `references/`。**严禁 `cat` 大文件，强制使用 `grep_search` 按需检索**。对于外部生态库和技能的引入，坚决执行 Two-Phase Loading 策略，拒绝全文拷贝，统一由 `ecosystem-scout` 提炼为轻量指针写入 `skills_manifest.json` 的 `external_dependencies`。
 3. **纪律**: 跑 `scripts/doctor.py` 探环境，扫 `.guyue_memory/` 查历史。然后编码，最后自测闭环。
 4. **务实**: 选型求稳。优先核心干线。环境保护/相对路径代替硬编码。
@@ -31,16 +31,23 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
    - 对新需求先做“验料”：真实问题、投入产出、风险边界、是否已有更轻方案。若方向明显不成立，先触发 `product-sense` 或 `requirement-analysis`，不要用代码掩盖需求问题。
    - 对复盘和技能沉淀先做“造镜子”：记录判断方式、失败模式、诚实边界和可复用启发式，而不是只写流水账。
    - 对交付先做“活体对账”：能运行就运行，能渲染就截图，能回放就回放，能扫描就扫描。绿色 CI 不能单独证明完成。
-2. **Long Goal Intake**:
+2. **Long Goal Forge（长线目标铸造）**:
+   - 若用户只给出大概愿景、要求“准备长期 Goal”“规划好后只给一行提示词”或使用“做到最好”等不可验证表达，先进入铸造阶段，不得直接实施或输出执行提示词。
+   - 铸造必须在当前会话中完成。未过决策关闭门时，本轮唯一合法的用户可见结尾是一个最高影响问题；禁止用“一行启动 Forge”“先生成总控方案”或另开任务的方式再次外包铸造。
+   - 先读仓库规则、当前工作树、相关历史、现有计划、运行入口、测试、发布证据和项目惯例；能从现场确认的事实不得反问用户。把结论分成**已确认事实、合理推断、显式冲突和待决策项**。
+   - 对会改变目标、范围、方案、预算、风险或完成定义的待决策项，每轮只问一个最高影响问题；问题必须附项目证据、影响、推荐默认值和可选方向。用户催促、要求跳过问题或使用空泛最高级，不得绕过决策关闭门。
+   - 所有方向性问题关闭后，按 [docs/long-goal-protocol.md](docs/long-goal-protocol.md) 和 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md) 创建或更新仓库相对路径下的控制包，并由独立审查视角检查需求覆盖、阶段依赖、预算、停止条件、授权边界、证据新鲜度和伪完成风险。
+   - 铸造阶段通过全部门禁后的最终回复只能是一行：指向唯一总控文档，要求从账本下一入口执行，并保留恢复、验证和终局完成约束。不得把未决问题转嫁给执行阶段，也不得在这一行外附带摘要、说明或第二个选项。
+3. **Long Goal Intake**:
    - 若用户要求“持续执行直到完成”“一一完成所有计划”“Goal 模式”或跨多阶段任务，先寻找总控文档、执行账本、阶段计划、最终完成定义和否定清单。
    - 若已有账本，先读取最新阶段、失败记录、证据路径和下一入口；若没有账本，先建立最小账本结构，再开始实施。
    - 不允许因为单阶段通过、脚本全绿或截图无白屏就标记最终完成。必须区分 `local-only`、`MVP`、`release candidate`、`production-ready` 和终局候选。
-3. **Scan & Health**:
+4. **Scan & Health**:
    - 必跑 `python3 scripts/doctor.py`。必需依赖缺失时停止并求助用户；可选生态增强缺失时只记录降级，不阻塞本地验证。
-4. **Context Load**:
+5. **Context Load**:
    - 检索 `.guyue_memory/active/`。
    - 若记忆臃肿，提示用户运行 `python scripts/memory_gc.py` 归档。
-5. **Dispatch**:
+6. **Dispatch**:
    - 查阅 `skills_manifest.json` 匹配意图 (如 `system-design`, `debugging-mindset`)，按对应子技能行事。
    - **[新增] 泛生态受控调度 (Controlled Ecosystem Invocation)**: 对于记录在 `.guyue_memory/local_skills_index.json` 或 `skills_manifest.json` 中的外部技能，只能视作“可发现的候选能力”。一旦用户意图匹配，先读取其公开说明和本地 `SKILL.md`（如存在）掌握边界，再按 `security-gate` 做安全预检；涉及 CLI、网络请求、安装、写入或下载时，必须展示将执行的动作并等待用户明确授权。
    - **生态安检 (Security Gate)**: 若涉及第三方技能包的执行、收纳或代码读取，必须首先调用 `skills/security-gate`。目标必须由用户明确提供为路径、URL、包名或压缩包路径；目标不明确时先询问，禁止自动挑选本机随机技能目录。目标明确后再运行 `python3 scripts/run_security_scan.py` 进行本地启发式预检；预检不是完整供应链审计，见红旗即拦截，见黄旗则等待人工确认。
@@ -64,6 +71,7 @@ description: Digital Twin Orchestrator. Root routing skill for guyue agent suite
 
 | 用户真正要做的事 | 选这个技能 | 不选这些技能的原因 |
 |---|---|---|
+| 把模糊愿景准备成长期 Goal，逐项确认后只要一行执行提示词 | 根路由先执行 Long Goal Forge，按需调用 `product-sense` / `requirement-analysis` / `research-and-sourcing` / `system-design` / `reality-auditor` | 这是执行前的目标铸造，不是立即编码，也不把未决问题留给执行 Goal |
 | 持续执行多阶段 Goal、恢复长任务、维护执行账本 | 根路由先执行 Long Goal Intake，再按阶段转 `coding-discipline` / `reality-auditor` / `sop-maker` | 不是单次文档，也不是普通排障；必须先锁总控、账本、门禁和完成定义 |
 | 判断需求值不值得做、ROI/合规是否成立 | `product-sense` | 不是需求拆解或架构设计 |
 | 拆边界、验收标准、异常流和业务规则 | `requirement-analysis` | 不是商业价值审判，也不是技术方案 |

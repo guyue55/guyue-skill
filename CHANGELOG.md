@@ -16,6 +16,7 @@
 - Add a CI guard for full-stack default development discipline covering best practices, modularity, backend-owned permissions, frontend permission presentation, validation gates, Chinese commit format, and UI-only default frontend workflow routing.
 - Add a CI guard for Loop Engineering and dynamic workflow routing across persona principles, root routing, workflow skills, manifest routing, evaluation prompts, and live replay evidence.
 - Add a CI guard for frontend design ecosystem routing across frontend-expert, taste-aesthetics, ai-website-cloner, manifest routing, evaluation prompts, README, and live replay evidence.
+- Add a Long Goal Forge regression gate and reusable control-pack template covering vague-goal interrogation, decision closure, planning assets, independent readiness review, and one-line execution handoff.
 
 ### Changed
 
@@ -40,6 +41,7 @@
 - Strengthen Guyue's development persona so architecture and coding start with reuse scanning, second use triggers abstraction, and common functions, models, tables, constants, global parameters, API contracts, dialogs, prompts, scripts, formatters, and permission checks have a single authoritative entry.
 - Strengthen Guyue's Loop Engineering posture so repeated manual Agent work is packaged with stable inputs, loop bodies, independent checkers, stop conditions, max rounds/time/Token/subagent budgets, and asset-deposition choices instead of becoming an unbounded new skill.
 - Strengthen Guyue's frontend design posture so `frontend-design`, `taste-skill`, Impeccable, `DESIGN.md`, Refero, Figma, html.to.design, GSAP skills, and website cloning tools are routed by product type, design-reference safety, deterministic UI checks, and authorization boundaries instead of becoming another frontend mega-skill.
+- Strengthen Guyue's long-goal posture by separating preparation from execution: inspect project evidence first, confirm one direction-changing decision per turn, block urgency-driven vague goals, then create the control pack before returning a one-line Goal entrypoint.
 - Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
 
 ## v1.2.0 - 2026-07-02

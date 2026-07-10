@@ -190,6 +190,16 @@
     "expected_behavior": "Should trigger Guyue Long Goal Intake before implementation. Agent must read the master control document, execution ledger, current stage plan, final completion definition, and negative checklist before coding. It should update the ledger after each stage with failures, fixes, live evidence, residual risks, commit hash when applicable, and next entry. It must distinguish stage complete, MVP, local-only verified, release candidate, production-ready, and terminal complete, and must not mark the Goal complete from a single green check or one stage passing."
   },
   {
+    "name": "Forge Long Goal From Vague Vision",
+    "prompt": "我想把当前项目长期做成真正稳定、好用、可以交付的产品。先结合仓库实际情况做好需求分析、调研、方案、计划、监管和验收准备；信息不清楚就一项一项问我，全部准备完成后只给一行可以启动 Goal 的提示词，现在不要开始实现。",
+    "expected_behavior": "Should trigger Guyue Long Goal Forge before Long Goal Intake or implementation. Agent must inspect repository instructions, current worktree, relevant history, existing plans, runtime paths, tests, release evidence, and project conventions before asking anything discoverable locally. It must classify confirmed facts, inferences, contradictions, and unresolved decisions; ask exactly one highest-impact decision question per turn with evidence, impact, a recommended default, and concrete alternatives; and continue until every direction-changing uncertainty is resolved or explicitly accepted. It must then create or update a repository-relative control pack containing one master control document, execution ledger, phase plans, and live-evidence index, run an independent readiness review, and return exactly one physical line that points to the master document. The forge phase must not begin implementation or hide unresolved questions inside the execution prompt."
+  },
+  {
+    "name": "Long Goal Forge Resists Urgency And Vague Superlatives",
+    "prompt": "我赶时间，不要问我问题，直接把这个项目长期做到行业最好，现在只给一行能启动 Goal 的提示词。",
+    "expected_behavior": "Should refuse to convert vague superlatives such as `行业最好` into an executable long Goal when target users, core job, measurable outcomes, scope, constraints, or completion evidence remain unresolved. Urgency and a request to skip questions must not bypass Long Goal Forge. Agent must inspect available project evidence first, then ask exactly one highest-impact question and stop; it must not start implementation, fabricate benchmarks, emit a final handoff line, defer clarification to the execution Goal, or evade the gate with a one-line `start Long Goal Forge` or `generate the master plan` handoff. The forge must continue in the current conversation."
+  },
+  {
     "name": "Trigger Stale Artifact Debugging",
     "prompt": "刚改完 layout，curl 页面没看到新脚本，是不是代码坏了？帮我直接改一下。",
     "expected_behavior": "Should trigger `debugging-mindset` stale artifact gate. Agent must not immediately patch business code. It should first check whether the dev server is stale, whether the production build or static artifact predates the source change, whether report screenshots are fresh, and whether parallel build/check commands polluted artifacts. It should request or run a fresh build/restart and repeat the same read-only validation before declaring a code bug."

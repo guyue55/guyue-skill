@@ -1536,6 +1536,154 @@ def check_loop_engineering_contract(repo_root):
     return passed
 
 
+def check_long_goal_forge_contract(repo_root):
+    files = {
+        'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'root_skill': os.path.join(repo_root, 'SKILL.md'),
+        'requirement_analysis': os.path.join(repo_root, 'skills', 'requirement-analysis', 'SKILL.md'),
+        'protocol': os.path.join(repo_root, 'docs', 'long-goal-protocol.md'),
+        'template': os.path.join(repo_root, 'docs', 'templates', 'long-goal-control-pack.md'),
+        'manifest': os.path.join(repo_root, 'skills_manifest.json'),
+        'prompts': os.path.join(repo_root, 'test-prompts.json'),
+        'readme': os.path.join(repo_root, 'README.md'),
+        'evaluation': os.path.join(repo_root, 'docs', 'evaluation.md'),
+        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+    }
+    passed = True
+    contents = {}
+
+    for label, path in files.items():
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                contents[label] = f.read()
+        except Exception as e:
+            print(f"❌ [LONG GOAL FORGE ERROR] Failed to read {path}: {e}", file=sys.stderr)
+            passed = False
+
+    if not passed:
+        return False
+
+    required_needles = {
+        'principles': [
+            '长线目标铸造',
+            '先查后问',
+            '每轮只确认一个',
+            '不得把未决问题转嫁给执行阶段',
+            '铸造不能再次外包',
+        ],
+        'root_skill': [
+            'Long Goal Forge',
+            '已确认事实、合理推断、显式冲突和待决策项',
+            '每轮只问一个最高影响问题',
+            '最终回复只能是一行',
+            '铸造必须在当前会话中完成',
+        ],
+        'requirement_analysis': [
+            'Long Goal Forge Mode',
+            '证据、影响、推荐默认值和备选项',
+            '赶时间',
+            '不得生成最终执行提示词',
+            '不得输出“启动 Forge”',
+        ],
+        'protocol': [
+            '铸造阶段',
+            '执行阶段',
+            '决策关闭门',
+            '一行交接契约',
+            '独立就绪审查',
+            '铸造不是可再次委派的执行目标',
+        ],
+        'template': [
+            '总控文档模板',
+            '执行账本模板',
+            '阶段计划模板',
+            '活体证据索引模板',
+            '一行 Goal 提示词',
+        ],
+        'readme': [
+            '长线目标铸造',
+            '模糊愿景',
+            '一行 Goal 提示词',
+        ],
+        'evaluation': [
+            '长线目标铸造',
+            '逐项澄清',
+            '一行交接',
+        ],
+        'replay': [
+            'Long Goal Forge',
+            'baseline_fail',
+            '压力回放',
+            '不得跳过澄清',
+        ],
+    }
+
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in contents[label]:
+                print(f"❌ [LONG GOAL FORGE ERROR] Missing `{needle}` in {os.path.relpath(files[label], repo_root)}", file=sys.stderr)
+                passed = False
+
+    try:
+        manifest = json.loads(contents['manifest'])
+    except Exception as e:
+        print(f"❌ [LONG GOAL FORGE ERROR] Failed to parse skills_manifest.json: {e}", file=sys.stderr)
+        return False
+
+    requirement_skill = next((skill for skill in manifest.get('skills', []) if skill.get('name') == 'requirement-analysis'), None)
+    if not requirement_skill:
+        print("❌ [LONG GOAL FORGE ERROR] requirement-analysis missing from skills_manifest.json", file=sys.stderr)
+        passed = False
+    else:
+        triggers = set(requirement_skill.get('trigger_intent', []))
+        for trigger in {'模糊长线目标', '准备长期 Goal', '只给一行提示词', 'long goal forge'}:
+            if trigger not in triggers:
+                print(f"❌ [LONG GOAL FORGE ERROR] Missing requirement-analysis trigger: {trigger}", file=sys.stderr)
+                passed = False
+        description = str(requirement_skill.get('description', ''))
+        for needle in {'vague long-running goals', 'one-line execution handoff'}:
+            if needle not in description:
+                print(f"❌ [LONG GOAL FORGE ERROR] requirement-analysis manifest description missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    try:
+        prompts = json.loads(contents['prompts'])
+    except Exception as e:
+        print(f"❌ [LONG GOAL FORGE ERROR] Failed to parse test-prompts.json: {e}", file=sys.stderr)
+        return False
+
+    prompt_map = {item.get('name'): item for item in prompts}
+    expected_prompts = {
+        'Forge Long Goal From Vague Vision': [
+            'exactly one highest-impact decision question per turn',
+            'confirmed facts, inferences, contradictions, and unresolved decisions',
+            'exactly one physical line',
+            'must not begin implementation',
+        ],
+        'Long Goal Forge Resists Urgency And Vague Superlatives': [
+            'Urgency',
+            'must not bypass Long Goal Forge',
+            'ask exactly one highest-impact question and stop',
+            'must not start implementation',
+            'start Long Goal Forge',
+            'current conversation',
+        ],
+    }
+    for prompt_name, needles in expected_prompts.items():
+        prompt = prompt_map.get(prompt_name)
+        if not prompt:
+            print(f"❌ [LONG GOAL FORGE ERROR] Missing prompt: {prompt_name}", file=sys.stderr)
+            passed = False
+            continue
+        prompt_text = json.dumps(prompt, ensure_ascii=False)
+        for needle in needles:
+            if needle not in prompt_text:
+                print(f"❌ [LONG GOAL FORGE ERROR] Prompt `{prompt_name}` missing `{needle}`", file=sys.stderr)
+                passed = False
+
+    return passed
+
+
 def check_frontend_design_ecosystem_contract(repo_root):
     files = {
         'root_skill': os.path.join(repo_root, 'SKILL.md'),
@@ -1829,6 +1977,11 @@ def main():
 
     if check_loop_engineering_contract(repo_root):
         print("✅ loop engineering contract valid.")
+    else:
+        all_passed = False
+
+    if check_long_goal_forge_contract(repo_root):
+        print("✅ long goal forge contract valid.")
     else:
         all_passed = False
 

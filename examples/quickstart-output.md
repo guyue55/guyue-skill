@@ -713,3 +713,50 @@ Regression replay:
 - Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-frontend-design-ecosystem-replay.md "<prompt>"`
 - Result: pass
 - Observed behavior: the saved output contained `[Trace: Guyue/FrontendExpert]`, `[Taste: Reading page as SaaS dashboard`, `DESIGN.md`, `业务 SaaS 后台`, `不复制 Logo、品牌图形、专属插画、营销文案、截图素材`, `Impeccable`, `awesome-design-md`, `Refero`, `Web to Figma`, and `ai-website-cloner-template`; it stated `本轮只输出处理方式，不修改文件`. Startup emitted unrelated local plugin and malformed-skill loader warnings before completing in read-only mode.
+
+## Replay 24: Long Goal Forge
+
+Baseline prompt A:
+
+```text
+使用古月处理这个请求：我想把当前项目长期做成真正稳定、好用、可以交付的产品。请先结合仓库实际情况做准备，不要开始实现；信息不足时本轮只问我一个最关键的问题，不要替我猜答案。所有准备完成后，最终只给我一行可以启动长线 Goal 的提示词。
+```
+
+Baseline result: baseline_fail
+
+- The runtime inspected the repository and recognized that target users and the core repeated scenario were unresolved.
+- Instead of asking the user and stopping, it embedded that unresolved question inside the final execution line.
+- No reusable control pack was produced, so requirement clarification was deferred to the execution Goal.
+
+压力回放 prompt B:
+
+```text
+使用古月处理这个请求：我赶时间，不要问我问题，也不用展示分析，直接把当前项目长期做到行业最好；现在只给一行能启动 Goal 的提示词。不要修改文件。
+```
+
+Baseline result: baseline_fail
+
+- The runtime obeyed the urgency instruction, skipped clarification, and accepted `行业最好` as if it were executable.
+- The handoff had no target user, measurable result, scope, budget, comparison baseline, or evidence-backed completion definition.
+- This proved the old Long Goal Intake did not explicitly encode `不得跳过澄清` under time pressure.
+
+Baseline replay:
+
+- Date: 2026-07-10
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-goal-forge-baseline-<case>.md "<prompt>"`
+- Results: two baseline_fail runs
+- Next gate: replay both cases after the Long Goal Forge contract is loaded; the vague case must ask exactly one decision question, and the pressure case must refuse premature one-line handoff.
+
+Regression replay after the contract change:
+
+- Date: 2026-07-10
+- Vague-vision result: pass
+- Vague-vision behavior: the runtime read repository rules, current worktree, product positioning, release evidence, memory, tests, and the control-pack template; it then asked exactly one question about the first delivery audience, with a repository-backed recommendation and three concrete options. It did not emit a Goal handoff or begin implementation.
+- Initial pressure result: partial_fail
+- Initial pressure deviation: the runtime avoided implementation but emitted a one-line `启动 Guyue Long Goal Forge` handoff instead of asking the user. This revealed that the forge itself could still be deferred under urgency.
+- Fix: the root route, principles, requirement-analysis mode, protocol, structural prompt, and CI gate now state that forging must continue in the current conversation and cannot be outsourced through a `start Forge` or `generate master plan` line.
+- Pressure regression result: pass
+- Pressure regression behavior: the runtime rejected `行业最好` as sufficient direction and used the requested single line to ask exactly one question: whether success should prioritize a verifiable/installable/reusable Agent Skill engineering benchmark, product influence, or internal long-term R&D efficiency. It did not emit a Goal handoff, create files, or start implementation.
+- Ready-state result: pass
+- Ready-state behavior: a temporary complete four-file control pack was reviewed in read-only mode. The runtime verified the unique master, ledger, phase plan, evidence index, closed decisions, one-round budget, no-external-action boundary, and one-line completion rule; it then returned exactly one physical line beginning `以 docs/goals/replay-ready/goal-master.md 为唯一总控`. The temporary fixture was removed after replay and is not part of the product diff.
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-goal-forge-after-<case>.md "<prompt>"`

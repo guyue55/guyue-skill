@@ -1,6 +1,6 @@
 ---
 name: requirement-analysis
-description: Agent persona and decision-making framework based on "guyue" specifically tailored for requirement analysis and scoping. It enforces clear problem definition, boundary checking, and business value alignment before any implementation begins. Triggers when users ask to analyze requirements, scope a project, define a feature, or evaluate a product idea.
+description: Use when a product idea, feature, business rule, or long-running goal is vague, contradictory, missing acceptance criteria, or needs scope decisions before design or implementation.
 ---
 
 # guyue / requirement-analysis
@@ -25,7 +25,7 @@ description: Agent persona and decision-making framework based on "guyue" specif
 
 ## 启发式反问 (Heuristic Questions)
 
-当遇到模糊需求时，强制抛出以下追问（每次最多挑最痛的 2 个问）：
+当遇到普通模糊需求时，每次最多挑最痛的 2 个问题；进入 Long Goal Forge Mode 时，每轮必须只问 1 个问题：
 
 - **场景追问：** “这个功能主要是为了解决哪个具体场景下的痛点？如果现在没有这个功能，用户是怎么做的？”
 - **边界追问：** “这涉及到了 `[OrderService]` 和 `[PaymentService]` 的交叉，哪边作为事实源（Single Source of Truth）？”
@@ -76,3 +76,49 @@ description: Agent persona and decision-making framework based on "guyue" specif
    - **术语解释 (Terms)**: [必要术语第一次出现时用一句话解释业务含义]
    ```
    - 将这份契约作为后续 `writing-plans` 或执行阶段的绝对准则。
+
+## Long Goal Forge Mode（长线目标铸造模式）
+
+当用户只给出大概愿景、要求准备长期 Goal、希望“全部规划好后只给一行提示词”，或目标包含多个阶段且可能跨会话时，需求分析进入目标铸造模式。这个模式只准备执行契约，不开始实现。
+
+### 1. 先查后问
+
+先读取当前可用的项目规则、工作树、相关历史、现有文档、运行入口、测试、发布证据和同类实现。把发现写入内部决策台账：
+
+| 状态 | 含义 | 处理方式 |
+|---|---|---|
+| 已确认 | 有文件、命令、用户回答或当前产物支持 | 直接写入控制包，不再询问 |
+| 推断 | 有间接证据，但尚不能当作承诺 | 标明依据；影响方向时必须确认 |
+| 冲突 | 用户目标、项目事实或约束互相不兼容 | 优先提问，不替用户和稀泥 |
+| 待决策 | 无法从现场发现且会改变执行方向 | 进入逐项确认队列 |
+
+禁止把能从仓库、文档、历史或运行产物查到的问题抛给用户。需要联网才能确认的时效性事实，按当前调研技能和授权边界查询后再决定是否询问。
+
+### 2. 每轮只问一个最高影响问题
+
+每个问题必须同时包含：**证据、影响、推荐默认值和备选项**。优先级按以下顺序判断：真实用户与核心场景、成功结果、范围与不做项、硬约束与授权、方案取舍、阶段依赖、验收证据、预算与停止条件。
+
+问题使用这个形态：
+
+```text
+当前证据显示：[事实或冲突]。这会影响：[目标/范围/方案/验收]。我建议默认选择：[推荐项及理由]。请确认：[一个明确问题；给出 2-3 个可选方向]。
+```
+
+问完立即停止，等待用户回答。用户回答后更新决策台账，再选择下一个问题。不得一次展示完整问卷，不得把多个决策塞进一个问题。
+
+### 3. 决策关闭门
+
+以下事项全部有明确答案、项目证据或用户接受的默认值后，才算关闭：
+
+- 服务谁、解决哪个反复发生的核心场景，以及不做的真实后果；
+- 当前基线、目标状态、可衡量结果和明确非目标；
+- 时间、预算、技术、数据、权限、合规、外部服务与不可逆动作边界；
+- 候选方案、推荐方案、关键取舍、事实源、模块边界和失败兜底；
+- 阶段顺序、依赖、阶段产物、检查器、停止条件、恢复路径和回滚方式；
+- 最终完成定义、否定清单、活体证据、证据新鲜度和人工检查点。
+
+“赶时间”“不要问”“直接开始”“做到最好”“尽可能完善”都不是关闭决策的证据。出现这些压力时，说明当前最危险的未知项并继续只问一个问题。只要仍有会改变方向的待决策项，就不得生成最终执行提示词，也不得把问题留给执行 Goal 自行猜测。不得输出“启动 Forge”“生成总控方案”或要求另一个任务继续铸造的一行交接；目标铸造必须在当前会话逐项完成。
+
+### 4. 铸造交接
+
+决策关闭后，将需求契约交给 Guyue 根路由的 Long Goal Forge，由它按 `docs/long-goal-protocol.md` 和控制包模板生成总控文档、执行账本、阶段计划与证据索引。准备资产通过独立就绪审查后，才允许输出一行执行入口。

@@ -55,7 +55,7 @@ bash scripts/test_suite.sh
 
 关于运行时入口：`SKILL.md` 是公共 Skill 标准入口；`AGENTS.md` 与 `RTK.md` 只是 coding-agent 适配层，用来让支持项目指令文件的工具更稳定地加载古月上下文。跨工具适配策略见 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
-长任务模板见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)。当用户要求“制定计划并持续执行直到完成”时，古月会先找总控文档、执行账本、阶段计划和最终完成定义；上下文压缩或恢复后，先读账本再继续。
+长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当用户只有一个模糊愿景时，可以直接说“先把这个目标铸造成长期 Goal，准备完只给我一行提示词”。古月会先读项目现场，再逐轮只确认一个方向性问题；需求、调研、方案、计划、监管和验收资产全部就绪并通过独立审查后，最终只交付一行 Goal 提示词。执行阶段才会读取总控、账本和阶段计划开始工作。
 
 ## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
 
@@ -72,7 +72,7 @@ bash scripts/test_suite.sh
 - 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；默认正常沟通用简体中文，避免不必要中英文混排；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
 - ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束、复用 UI 标准件；未指定时优先遵守 `gsap-core` 和 `ui-ux-pro-max` 工作流，并默认融入 GSAP 级三幕剧动效与商业语境转换。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障、开发流或重复 Agent 工作成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP) 或 Loop Contract。
-- 📒 **长程自治协议 (Long Goal Protocol)**：把跨阶段任务拆成总控文档、执行账本、阶段计划和活体证据包，防止 Agent 在上下文压缩、旧证据或阶段完成后误报终局完成。
+- 📒 **长线目标铸造与长程自治**：把模糊愿景先收敛成经过确认的总控文档、执行账本、阶段计划和活体证据包，再用一行入口启动执行，防止 Agent 带着未决需求长跑，或在上下文压缩、旧证据和阶段完成后误报终局完成。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
 - 🛠️ **技能制作 (skill-crafting)**：从真实会话矿脉中提炼能力，再交给女娲蒸馏、鲁班打磨、活体验证；只有输入稳定、步骤可复用、输出可验证时，才把循环工程包装成 Skill、Custom subagent、Hook、Automation 或 CI gate。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册；确实适合第三方工具时，先给安装计划和安全边界，获明确授权后再快速接入。
@@ -99,6 +99,7 @@ bash scripts/test_suite.sh
 
 | 容易混淆的能力 | 路由边界 |
 |---|---|
+| 长线目标铸造 / Long Goal Protocol | 前者负责项目调查、逐项澄清、方案与治理资产准备，准备完成前不实现；后者只负责按已经就绪的总控和账本持续执行。 |
 | `product-sense` / `requirement-analysis` / `system-design` | 先判断值不值得做，再拆需求边界，最后才做架构方案。 |
 | `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
 | `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |

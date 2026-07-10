@@ -30,6 +30,7 @@ REQUIRED_RELEASE_FILES = [
     "docs/release-checklist.md",
     "docs/runtime-adapters.md",
     "docs/long-goal-protocol.md",
+    "docs/templates/long-goal-control-pack.md",
     "scripts/check_birth_certificate.py",
     "examples/quickstart-output.md",
     "examples/showcase.md",
@@ -53,6 +54,7 @@ README_NEEDLES = [
 
 ROOT_SKILL_NEEDLES = [
     "Material Check",
+    "Long Goal Forge",
     "Long Goal Intake",
     "Controlled Ecosystem Invocation",
     "Security Gate",
@@ -61,6 +63,7 @@ ROOT_SKILL_NEEDLES = [
 
 PRINCIPLE_NEEDLES = [
     "验料、造镜子、活体对账",
+    "长线目标铸造",
     "长程自治协议",
     "Human Voice Gate",
     "Zero-Leakage",
@@ -68,6 +71,8 @@ PRINCIPLE_NEEDLES = [
 ]
 
 PROMPT_NAMES = [
+    "Forge Long Goal From Vague Vision",
+    "Long Goal Forge Resists Urgency And Vague Superlatives",
     "Trigger Long Goal Protocol",
     "Trigger Stale Artifact Debugging",
     "Trigger Server Permission Boundary Review",

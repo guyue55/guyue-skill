@@ -9,7 +9,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 52 structural prompts.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 54 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.

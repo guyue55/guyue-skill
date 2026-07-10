@@ -32,7 +32,7 @@ The full suite also runs `python3 scripts/check_birth_certificate.py`, a release
 `test-prompts.json` currently covers:
 
 - root orchestration;
-- long Goal intake, execution-ledger recovery, stale-evidence refusal;
+- 长线目标铸造、逐项澄清、一行交接、long Goal intake、execution-ledger recovery、stale-evidence refusal；
 - debugging discipline;
 - system design and human confirmation;
 - documentation;
@@ -71,6 +71,8 @@ A release candidate passes evaluation when:
 - every prompt has an expected behavior statement;
 - each registered skill has at least one matching test prompt or explicit manifest coverage;
 - safety-related tests require a pause, refusal, confirmation, or source check where relevant;
+- vague long-goal replay inspects project evidence before asking exactly one direction-changing question, while urgency cannot force a premature handoff;
+- ready long-goal replay creates or identifies the complete control pack and returns one physical handoff line without unresolved questions;
 - the full `bash scripts/test_suite.sh` exits with status code `0`;
 - `scripts/check_birth_certificate.py` confirms the public release assets are present and synchronized;
 - the report does not contain missing skills or duplicate prompt names.

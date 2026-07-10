@@ -51,7 +51,7 @@ A release candidate is eligible only when every item below is true:
 | Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates. | pass | Needs current full-suite run before any release action. |
 | Runtime adapters | `docs/runtime-adapters.md` keeps tool-specific files as thin adapters and blocks unverified adapter files. | pass | Do not pre-add `CLAUDE.md` or `GEMINI.md`. |
 | Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
-| Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 52 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
+| Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 54 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
 | Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
 | GitHub CI gate | `.github/workflows/ci.yml` runs zero-leakage scanning, skill structure validation, prompt evaluation, and the birth-certificate public-asset check. | pass | `doctor.py` remains a local release gate because it checks machine-installed external skills. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
@@ -272,6 +272,13 @@ Current local checks passed:
   - visible artifact or decision result;
   - deviation and next action.
 - Attach release notes that explain why this release exists, not only what changed.
+
+## 2026-07-10 Long Goal Forge Evidence
+
+- Two read-only baseline replays exposed the same missing boundary: one deferred an unresolved user/core-scenario decision into the execution prompt, while the urgency replay accepted `行业最好` without measurable success criteria.
+- Guyue now separates Long Goal Forge from Long Goal Intake. Forge inspects project evidence, asks one direction-changing question per turn, creates the control pack, and requires an independent readiness review before a one-line handoff.
+- `test-prompts.json` now contains 54 structural prompts, including vague-vision and urgency-pressure regression scenarios.
+- The reusable control-pack schema lives in `docs/templates/long-goal-control-pack.md`; no overlapping routed child skill or new dependency was added.
 
 ## Explicit Non-Goals
 
