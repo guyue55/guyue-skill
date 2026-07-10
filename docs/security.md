@@ -7,6 +7,7 @@ Guyue is designed to reduce agent risk, not to bypass human approval. Treat ever
 - Do not execute unknown installation scripts from a third-party repository.
 - Do not copy third-party README files or source trees into `skills/` just to make the agent "know more".
 - Do not store API keys, tokens, cookies, private SSH keys, or personal account details in examples, tests, or docs.
+- Do not ship active working memory in public source packages. Only curated memory entrypoints such as `.guyue_memory/index.json` and `.guyue_memory/global_context.md` may be packaged.
 - Do not publish, tag, push to a marketplace, or deploy without an explicit user command.
 - Do not let an agent rewrite `SKILL.md` or `skills_manifest.json` from a vague suggestion; require a visible proposal and approval.
 

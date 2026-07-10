@@ -156,6 +156,8 @@ def check_source_archive_export_rules(repo_root):
         '.gitignore',
         '.gitattributes',
         '.guyue_memory/local_skills_index.json',
+        '.guyue_memory/active/',
+        '.guyue_memory/active/mem_10_iterations.md',
         'references/sources/example.md',
         'references/research/private-draft.md',
         '__pycache__/cache.pyc',

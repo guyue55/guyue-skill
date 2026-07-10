@@ -258,6 +258,42 @@ Why it passes:
 
 - Selected `documentation` and its `Project Orientation Mode` for code-backed project mapping.
 - Confirmed `skills_manifest.json` contains the `项目摸底` / `了解项目` / `repo orientation` triggers.
+
+## Replay 8: Long Goal Recovery Audit
+
+Prompt:
+
+```text
+使用古月审查长期 Goal 恢复流程，只列出应该先读的文件和证据，不要写代码。
+```
+
+Result: pass
+
+Runtime:
+
+- Date: 2026-07-10
+- Runtime: Codex CLI `0.144.1`
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-runtime-replay-standard-20260710.md "<prompt>"`
+
+Why it passes:
+
+- Loaded the root Guyue entrypoint and `RTK.md`.
+- Routed the review toward long-goal intake and `reality-auditor` evidence freshness checks.
+- Stayed read-only and did not write code.
+- Prioritized the concrete Goal four-piece set before generic protocol docs: master control document, execution ledger, phase plan, and live evidence package.
+- Marked a missing concrete Goal ledger as an evidence gap instead of inferring completion from generic docs.
+
+Representative trace:
+
+```text
+[Trace: Guyue/RealityAuditor] 只读审查清单如下，按优先级先读：
+```
+
+Representative conclusion:
+
+```text
+具体长期 Goal 的总控文档、执行账本、当前阶段计划和活体证据包必须优先于通用协议；若没有账本，这是首要证据缺口。
+```
 - Confirmed read-only wording keeps the workflow out of `coding-discipline`.
 - Excluded `requirement-analysis`, `system-design`, `reality-auditor`, and `coding-discipline` because the user's primary action is orientation, not requirements, design, audit, or implementation.
 
