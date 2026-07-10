@@ -9,7 +9,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 
 - [x] Positioning states Guyue is a Personal Agent Operating Layer, not a complete autonomous person.
 - [x] README links to installation, security, evaluation, live replay evidence, and showcase material.
-- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 49 structural prompts.
+- [x] Skill count is consistent across README, manifest, and structural tests: 26 routed skills and 52 structural prompts.
 - [x] `docs/runtime-adapters.md` blocks unverified `CLAUDE.md`, `GEMINI.md`, Copilot, and Cursor adapters.
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
@@ -39,6 +39,7 @@ Baseline commit before this deep release audit: `77b7cd5 docs(release): 刷新�
 - [x] Loop engineering and dynamic workflow routing, Loop Contract fields, subagent budgets, independent verifiers, stop conditions, and replay evidence are validated by `scripts/ci_validate_skills.py`.
 - [x] Frontend design ecosystem routing, product-type classification, DESIGN.md/Figma/Refero reference boundaries, deterministic UI checks, and website reconstruction authorization limits are validated by `scripts/ci_validate_skills.py`.
 - [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as files included in the release source archive; ignored, untracked, or export-ignored showcase assets fail CI.
+- [x] `scripts/check_birth_certificate.py` validates the public entrypoint, install path, trigger surface, evidence links, safety boundaries, and synchronized skill/prompt counts.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
@@ -67,6 +68,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
 - [ ] `python3 scripts/run_eval.py` passes.
+- [ ] `python3 scripts/check_birth_certificate.py` passes.
 - [ ] `bash scripts/test_suite.sh` passes.
 - [ ] Any new `references/`, `scripts/`, `assets/`, or `examples/` file mentioned from a `SKILL.md` is included in the release source archive before release packaging.
 

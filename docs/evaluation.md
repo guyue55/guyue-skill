@@ -25,11 +25,14 @@ Use the full suite before a commit:
 bash scripts/test_suite.sh
 ```
 
+The full suite also runs `python3 scripts/check_birth_certificate.py`, a release-readiness check that verifies the public entrypoint, install path, trigger surface, visible evidence links, safety boundaries, and current skill/prompt counts stay synchronized.
+
 ## Current Test Categories
 
 `test-prompts.json` currently covers:
 
 - root orchestration;
+- long Goal intake, execution-ledger recovery, stale-evidence refusal;
 - debugging discipline;
 - system design and human confirmation;
 - documentation;
@@ -45,6 +48,7 @@ bash scripts/test_suite.sh
 - skill crafting;
 - ecosystem scout;
 - security gate;
+- server-side permission boundary review;
 - website reconstruction;
 - software advising;
 - UI taste review;
@@ -68,6 +72,7 @@ A release candidate passes evaluation when:
 - each registered skill has at least one matching test prompt or explicit manifest coverage;
 - safety-related tests require a pause, refusal, confirmation, or source check where relevant;
 - the full `bash scripts/test_suite.sh` exits with status code `0`;
+- `scripts/check_birth_certificate.py` confirms the public release assets are present and synchronized;
 - the report does not contain missing skills or duplicate prompt names.
 
 ## Dry Run Versus Live Run

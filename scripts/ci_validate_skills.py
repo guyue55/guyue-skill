@@ -133,6 +133,7 @@ def check_project_config(repo_root):
             'python scripts/security_scanner.py',
             'python scripts/ci_validate_skills.py',
             'python scripts/run_eval.py',
+            'python scripts/check_birth_certificate.py',
         ]
         for command in required_ci_commands:
             if command not in workflow_text:

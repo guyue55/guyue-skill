@@ -30,3 +30,6 @@ jobs:
 
       - name: Run Test Prompt Evaluation
         run: python scripts/run_eval.py
+
+      - name: Run Birth Certificate Check
+        run: python scripts/check_birth_certificate.py

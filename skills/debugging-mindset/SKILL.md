@@ -39,6 +39,10 @@ trigger_includes:
 5. **治本重于治标 (Fix the Root Cause, Not the Symptom)**
    - 绝不接受通过“加个 `try-catch` 把错误吞掉”或“简单加个 `if (obj != null)`”来糊弄 Bug。
    - 必须回答灵魂拷问：“为什么这里会传入 null？”、“为什么这个状态会不一致？”只有回答了这些，才能进行修复。
+6. **旧产物优先排除 (Stale Artifact Before Code Blame)**
+   - 如果问题发生在页面渲染、路由、静态生成、构建产物、截图报告或 dev server 上，先确认当前运行物是否真的来自当前源码。
+   - 典型陷阱：旧 dev server 未热重载、构建目录早于源码变更、并行构建与检查互相清理产物、截图报告只刷新了时间戳但没有覆盖新断言。
+   - 在怀疑业务代码错误前，先用 fresh build、重启服务、检查构建时间戳、读取报告 `generated_at` 或等价字段来排除旧证据误判。
 
 ## 启发式反问 (Heuristic Questions)
 
@@ -54,6 +58,7 @@ trigger_includes:
 - ❌ 用户说“帮我写段重试代码包一下”，在没有日志、错误类型和幂等性证据前，直接给出 retry helper、超时配置或可复制代码。
 - ❌ 为了修复报错，疯狂重写一长段代码，引入更多变量，却不清楚报错的真正原因。
 - ❌ 忽视 Warning 级别的日志，直到它引发了 Fatal Error。
+- ❌ `curl` 或截图结果异常时，直接改业务代码，却没有确认 dev server 是否重启、production build 是否新鲜、截图报告是否来自当前构建。
 
 ## When to Use (何时使用)
 
@@ -73,6 +78,7 @@ trigger_includes:
 1. **Phase 1: 止血与信息收集 (Containment & Trace Gathering)**
    - 如果是在线上生产环境，优先考虑是否需要回滚或限流。
    - 强制收集“多模态”证据：完整的错误栈（Stack Trace）、相关时段的系统日志、监控面板指标、以及发生错误时的输入参数。
+   - 对前端、静态站、构建和报告类问题，额外收集：服务启动时间、构建产物时间、报告生成时间、截图路径和当前源码最后修改时间。
 2. **Phase 2: 建立 RCA (Root Cause Analysis) 诊断矩阵**
    - 强制按以下模板列出嫌疑点：
      - `[症状 Symptom]`: 发生了什么？
@@ -80,6 +86,7 @@ trigger_includes:
      - `[验证动作 Validation]`: 用什么一行命令/日志能证明或证伪这个假设？
 3. **Phase 3: 受控验证与修复 (Controlled Simulation & Fix)**
    - 优先通过只读命令（如查日志、发测试请求）验证假设。
+   - 如果怀疑旧产物，先做 fresh build 或重启本地服务，并重跑同一只读验证。只有新鲜产物仍复现，才进入代码修复。
    - 找到根因后，只修改引发该问题的**最小代码集**。修改前需解释原理，拒绝盲目试错。
 4. **Phase 4: 防御性反思 (Self-Reflection & Repair)**
    - 修复后输出复盘：为什么测试用例没有覆盖到这里？是否需要在此处补充一行观测日志（Observability）？

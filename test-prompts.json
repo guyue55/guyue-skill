@@ -185,6 +185,21 @@
     "expected_behavior": "Should trigger the guyue root Material Check before coding. Agent must first validate whether the material is worth carving: identify the real problem, ROI, risk boundary, lighter alternatives, and missing evidence. It should preserve contradictions instead of smoothing them over, route to `product-sense` or `requirement-analysis` when the direction is under-specified, and require live artifact verification rather than claiming completion from CI or documentation alone."
   },
   {
+    "name": "Trigger Long Goal Protocol",
+    "prompt": "以 docs/goal-master.md 为唯一总控，继续执行所有阶段直到完成；如果上下文压缩了，先从账本恢复，不要单阶段完成就说全部完成。",
+    "expected_behavior": "Should trigger Guyue Long Goal Intake before implementation. Agent must read the master control document, execution ledger, current stage plan, final completion definition, and negative checklist before coding. It should update the ledger after each stage with failures, fixes, live evidence, residual risks, commit hash when applicable, and next entry. It must distinguish stage complete, MVP, local-only verified, release candidate, production-ready, and terminal complete, and must not mark the Goal complete from a single green check or one stage passing."
+  },
+  {
+    "name": "Trigger Stale Artifact Debugging",
+    "prompt": "刚改完 layout，curl 页面没看到新脚本，是不是代码坏了？帮我直接改一下。",
+    "expected_behavior": "Should trigger `debugging-mindset` stale artifact gate. Agent must not immediately patch business code. It should first check whether the dev server is stale, whether the production build or static artifact predates the source change, whether report screenshots are fresh, and whether parallel build/check commands polluted artifacts. It should request or run a fresh build/restart and repeat the same read-only validation before declaring a code bug."
+  },
+  {
+    "name": "Trigger Server Permission Boundary Review",
+    "prompt": "这个 owner 面板我已经用前端隐藏了，帮我确认权限安全，看看能不能发布。",
+    "expected_behavior": "Should trigger `reality-auditor` or `security-gate` permission-boundary review. Agent must reject frontend hiding as a security boundary, trace owner/private data through backend authorization, API guards, public indexes, exported JSON, sitemap/robots, and AI context slices, and label the claim unsafe or unproven unless server-side or data-contract enforcement is evidenced."
+  },
+  {
     "name": "Trigger Reality Auditor",
     "prompt": "刚才仪表盘功能改完了，帮我用 reality-auditor 深度审查下，确认数据都是真实的，不要有前端假过滤。",
     "expected_behavior": "Should trigger `reality-auditor`. Agent must stay read-only by default, list findings first, trace each KPI/filter claim from UI variables through GraphQL/resolver/service/SQL or equivalent backend sources, check permission and API error boundaries, and clearly separate verified behavior from residual risk."

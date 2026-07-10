@@ -29,6 +29,8 @@ For Loop Engineering, dynamic workflows, or subagent orchestration, audit the lo
    - A filter changes a label but not a backend predicate.
    - A success toast hides a failed API call.
    - A report/export path renders a preview but not the final artifact.
+   - Screenshot, report, static index, export bundle, or build artifact is older than the source/data change it is supposed to prove.
+   - A dev server or generated artifact is reused after route, layout, static-generation, or config changes.
 4. Report findings first.
    - Use code-review severity ordering.
    - Cite file and line references.
@@ -62,6 +64,7 @@ Use this mode when the claim is "the workflow is automated", "the agent loop can
    - permission boundary
    - error visibility
    - loading/empty/stale state
+   - evidence freshness
    - test coverage
    - loop stop condition and budget, when the feature is a dynamic workflow
 5. Run targeted read-only or local validation commands when feasible.
@@ -82,6 +85,17 @@ Use this mode when the claim is "the workflow is automated", "the agent loop can
 - Frontend gates such as `permissionSnapshot`, `PermissionGate`, and disabled buttons are UX only.
 - Do not accept role-name checks, hardcoded admin logic, stale JWT claims, or client-only hiding as proof.
 - Approval, cancellation, membership, and audit actions must update backend state and audit evidence together.
+- Public indexes, search payloads, AI context slices, exported JSON, and static build artifacts must not contain private or owner-only data. If private data reaches the client and is merely hidden, the verdict is fake or unsafe.
+
+### Long Goal And Evidence Freshness
+
+Use this mode when the claim is "all phases are complete", "the Goal can be marked complete", "the local RC evidence is fresh", or "the screenshots/reports prove the latest build".
+
+- Trace the chain: source/data change -> build or generation command -> artifact timestamp or report metadata -> live route or opened artifact -> screenshot/report evidence.
+- Compare modification times or explicit metadata where feasible. If source/data is newer than the proof artifact, label the proof stale and require a rerun.
+- Distinguish these states explicitly: stage complete, MVP complete, release candidate, local-only verified, production-ready, terminal/ultimate complete.
+- Do not accept "page has no white screen" as enough evidence for product experience. Check layout obstruction, mobile viewport, reduced-motion/reduced-sensory behavior, navigation exits, and human-readable content.
+- If artifact freshness cannot be proven, mark the claim "unproven" and propose the smallest rerun or live check.
 
 ### External Calls And AI Cost Claims
 
