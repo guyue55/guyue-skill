@@ -55,6 +55,9 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] `scripts/check_full_install.py --self-test` rejects a root-only generic CLI payload and accepts the complete routed repository payload.
 - [x] Independent Codex review found one template/checker mismatch; both plain and code-spanned Long Goal control paths now pass regression coverage.
 - [x] The final staged source archive passes the ten-part release suite twice with no `.git` directory and an empty HOME.
+- [x] Public GitHub marketplace installation from `main` succeeds in an empty `HOME`, reports Guyue 1.3.0 with 27 Skill components, preserves the full payload, and passes the installed-cache release suite twice.
+- [x] Commit `10237d7` passes the doubled remote gate on `dev` run `29083000196` and `main` run `29083044900`, with no check-run annotations.
+- [x] The user explicitly authorized commit, push, tag, and GitHub Release for the v1.3.0 release operation.
 
 The checklist below remains the reusable release gate. Re-run it after any additional change before tag or publication.
 

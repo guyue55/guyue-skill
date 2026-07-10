@@ -186,8 +186,11 @@ def check_release_sync(errors: list[str], skill_count: int, prompt_count: int) -
     if not version:
         add_error(errors, "skills_manifest.json must declare a release version")
     else:
-        if f"v{version}-rc" not in readme:
-            add_error(errors, f"README certificate does not match candidate version: {version}")
+        certificate_pattern = re.compile(
+            rf"古月数字分身 v{re.escape(version)}(?:-rc)?\)"
+        )
+        if not certificate_pattern.search(readme):
+            add_error(errors, f"README certificate does not match release version: {version}")
         if f"## v{version} - 2026-07-10" not in changelog:
             add_error(errors, f"CHANGELOG does not contain the dated release heading for v{version}")
         if f"Candidate version: `{version}`" not in release:

@@ -1,8 +1,8 @@
 # Release Candidate Evidence
 
 Date: 2026-07-10
-Status: v1.3.0 release candidate ready for commit and push; public-source install recheck is required before tag creation
-Scope: release-preparation evidence and boundary fixes. This document does not create a tag, push commits, submit to a marketplace, deploy, or change the public runtime adapter policy.
+Status: v1.3.0 passed public-source installation and remote CI verification; approved for tag and GitHub Release
+Scope: release-preparation evidence and boundary fixes. The current release operation has explicit user authorization for commit, push, tag, and GitHub Release; marketplace listing outside this repository and deployment remain separate actions.
 
 ## 2026-07-10 Comprehensive Luban Audit
 
@@ -12,11 +12,13 @@ Scope: release-preparation evidence and boundary fixes. This document does not c
 - MCP safety: empty memory queries, common credential patterns, and personal absolute paths are rejected before storage; rapid writes use microsecond filenames and atomic index replacement. Focused temporary-directory tests pass.
 - Frontend judgment: defaults now preserve the product type, existing design system, and current stack. GSAP, Tailwind, glass effects, asymmetry, and unverified conversion claims are conditional rather than stylistic defaults.
 - Live evidence: the full-install replay reached the correct safe conclusion without scripts after the routing fix, but still used 16 read-only commands; mark context efficiency `partial_pass`. The React/MUI SaaS replay correctly refused four unnecessary frontend additions and passed.
-- Local gate: `bash scripts/test_suite.sh`, `git diff --check`, official frontmatter validation, install-plan replay, and focused MCP tests passed before final review. Public push/tag/release remains unauthorized.
+- Local gate: `bash scripts/test_suite.sh`, `git diff --check`, official frontmatter validation, install-plan replay, and focused MCP tests passed before final review. Later release authorization and public evidence are recorded below.
 - Claude marketplace: the former custom object failed Claude Code 2.1.170 validation because it omitted `owner` and `plugins`; v1.3.0 now uses the official marketplace schema and an explicit root skill bundle. Official strict validation and isolated install evidence are required below.
 - Claude install evidence: `claude plugin validate --strict .` passed; an empty-HOME local marketplace install enabled `guyue@guyue` at 1.3.0, reported 27 Skill components and about 1,940 always-on tokens, preserved the full payload, and passed the complete suite twice from the installed cache.
 - CI evidence: v1.3.0 CI listens to `dev` and `main` pushes plus pull requests to `main`, then runs the same complete release gate twice after installing `requirements.txt`.
 - CI runtime evidence: the first remote pass exposed GitHub's Node 20 deprecation warning despite green jobs. The workflow now uses `actions/checkout@v6` and `actions/setup-python@v6`, and the local configuration gate requires those Node 24-native majors before release.
+- Remote CI evidence: commit `10237d7` passed the complete gate twice on `dev` run `29083000196` and `main` run `29083044900`; both check runs completed without annotations.
+- Public installation evidence: an empty `HOME` added `guyue55/guyue-skill` over HTTPS, installed `guyue@guyue` 1.3.0 from public `main`, reported 27 Skill components and about 1,940 always-on tokens, passed `scripts/check_full_install.py`, and passed the installed-cache release suite twice.
 - Dependency evidence: runtime dependencies are bounded to compatible major lines and were verified with Python 3.11, mcp 1.28.1, and PyYAML 6.0.3.
 - Independent review: Codex review found that the Long Goal checker accepted only code-spanned control paths while the public template used plain paths. The parser and self-test now cover both formats.
 
@@ -64,12 +66,12 @@ A release candidate is eligible only when every item below is true:
 |---|---|---|---|
 | Positioning | README states Guyue is a Personal Agent Operating Layer and not a complete autonomous person. | pass | Keep wording stable for release. |
 | Runtime entrypoint | `AGENTS.md` points to `RTK.md`; `examples/quickstart-output.md` records Codex read-only replay without the earlier missing-`RTK.md` issue. | pass | Codex path is the current verified runtime path. |
-| Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates. | pass | Needs current full-suite run before any release action. |
+| Structural evaluation | `docs/evaluation.md` defines local and live evaluation gates; the final local suite and doubled remote CI pass. | pass | Re-run after any post-evidence source change. |
 | Runtime adapters | `docs/runtime-adapters.md` keeps tool-specific files as thin adapters and blocks unverified adapter files. | pass | Do not pre-add `CLAUDE.md` or `GEMINI.md`. |
 | Showcase | README links to real replay evidence and `examples/showcase.md`; the non-informative 1x1 GIF placeholder was removed from the public README path. | pass | Do not reintroduce decorative or non-reproducible demo placeholders. |
 | Skill registry | `skills_manifest.json` records 26 routed skills; `test-prompts.json` contains 54 structural prompts. | pass | Keep manifest, README, and tests synchronized when adding skills. |
-| Marketplace metadata | `.claude-plugin/marketplace.json` now matches the v1.2.0 candidate version and positioning. | pass | Keep release metadata aligned with `skills_manifest.json`. |
-| GitHub CI gate | `.github/workflows/ci.yml` runs zero-leakage scanning, skill structure validation, prompt evaluation, and the birth-certificate public-asset check. | pass | `doctor.py` remains a local release gate because it checks machine-installed external skills. |
+| Marketplace metadata | `.claude-plugin/marketplace.json` matches v1.3.0 and the official skill-bundle schema; public empty-HOME installation succeeds. | pass | Keep release metadata aligned with `skills_manifest.json`. |
+| GitHub CI gate | `.github/workflows/ci.yml` uses Node 24-native Actions and runs the complete release suite twice on `dev` and `main`. | pass | Preserve doubled idempotence coverage and inspect annotations, not only conclusions. |
 | v1.2.0 extension boundaries | New website, video, security, software, context, distillation, taste, and minimalism skills include authorization or verification boundaries. | pass | Do not loosen approval gates for CLI, network, install, download, or write actions. |
 | Optional ecosystem dependencies | Newly referenced ecosystem projects are marked `required: false`; `scripts/doctor.py` reports them as optional and does not fail local validation. | pass | Optional dependencies are recommendations, not release blockers. |
 | Security-gate target boundary | Live replay found that a missing target caused the runtime to infer a local skill directory. `security-gate`, root dispatch, evaluation docs, and test prompts now require an explicit target before scanning; regression replay now stops for clarification. | pass | Keep this case covered before external-intake wording changes. |
@@ -271,7 +273,7 @@ Current local checks passed:
 
 - Re-run the full release gate on the intended release tree if any file changes before the release action.
 - Confirm `git status --short` contains no unreviewed local changes.
-- Decide whether the release is only a local candidate or should proceed to tag/marketplace submission.
+- Confirm the intended tag and GitHub Release still point to the public-source-verified commit lineage.
 
 ### Within 3 days
 
@@ -319,19 +321,19 @@ python3 scripts/check_birth_certificate.py
 bash scripts/test_suite.sh
 ```
 
-The local release gates pass on the intended current candidate tree. Public release action remains blocked until explicit user authorization for push, tag, marketplace submission, or deployment.
+The local and public-source release gates pass on the intended v1.3.0 lineage. The user explicitly authorized commit, push, tag, and GitHub Release for this release operation; marketplace listing outside this repository and deployment remain separately gated.
 
 ## Result Card
 
 ```text
 ┌─────────────────────────────────────┐
-│  Release Candidate · Guyue          │
+│  Release Ready · Guyue v1.3.0       │
 │                                     │
-│  Status: current local gates passed │
+│  Status: local + public gates passed│
 │  Focus: skill expansion boundaries  │
-│  Verified runtime: Codex path       │
-│  Current blocker: release auth      │
-│  Next step: release authorization    │
+│  Verified: Codex + Claude install   │
+│  Current blocker: none              │
+│  Next step: tag and GitHub Release  │
 │                                     │
 │  Reviewer: Luban                    │
 └─────────────────────────────────────┘

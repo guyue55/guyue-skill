@@ -6,13 +6,13 @@
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Status-Release_Candidate-yellow)
+![Status](https://img.shields.io/badge/Release-v1.3.0-brightgreen)
 
 > [!IMPORTANT]
 > 古月不是“完整的人”，也不是万能自动化系统。它是一个 Personal Agent Operating Layer：用古月式判断、执行纪律、审美偏好、风险边界和复盘方式，调度不同技能与工具完成工作。
 > 古月会把话说清楚，但不会把 AI 参与伪装成人工来源，也不会为了好听删除事实、证据、授权缺口或风险。
 
-活体输出证据见 [examples/quickstart-output.md](examples/quickstart-output.md)，展示场景见 [examples/showcase.md](examples/showcase.md)，v1.3.0 的完整鲁班审计见 [docs/luban-report-v1.3.0.md](docs/luban-report-v1.3.0.md)。当前发布候选不使用不可复现的装饰性截图占位。
+活体输出证据见 [examples/quickstart-output.md](examples/quickstart-output.md)，展示场景见 [examples/showcase.md](examples/showcase.md)，v1.3.0 的完整鲁班审计见 [docs/luban-report-v1.3.0.md](docs/luban-report-v1.3.0.md)。当前版本不使用不可复现的装饰性截图占位。
 
 ## 为什么你需要它？
 
@@ -36,7 +36,7 @@ claude plugin marketplace add guyue55/guyue-skill
 claude plugin install guyue@guyue
 ```
 
-安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。`v1.3.0-rc` 的隔离安装实测识别到 27 个 Skill 组件（1 个根路由 + 26 个内部能力模块），并保留完整仓库载荷。
+安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。`v1.3.0` 已通过公开 GitHub 源和空 `HOME` 隔离安装实测，识别到 27 个 Skill 组件（1 个根路由 + 26 个内部能力模块），并保留完整仓库载荷。
 
 **Codex 完整安装：**
 
@@ -289,7 +289,7 @@ guyue/
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.3.0-rc)           │
+│  作品：guyue (古月数字分身 v1.3.0)              │
 │  打磨前：只有基础的工程防线与生硬的界面           │
 │  打磨后：可安装、可验证、可传播的 Agent 操作层    │
 │  定位：Personal Agent Operating Layer            │

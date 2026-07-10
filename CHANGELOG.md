@@ -61,6 +61,12 @@ No changes yet.
 - Upgrade GitHub CI to the Node 24-native `actions/checkout@v6` and `actions/setup-python@v6`, and lock both majors in project configuration validation.
 - Bound Python dependencies to compatible major versions (`mcp` 1.x and PyYAML 6.x); the release candidate was exercised with mcp 1.28.1 and PyYAML 6.0.3 on Python 3.11.
 - Accept both template-style and code-spanned Long Goal control paths, with regression coverage for each form.
+- Let the birth-certificate gate validate either a matching release-candidate certificate or the matching final release certificate.
+
+### Verification
+
+- Pass the complete release suite twice on both `dev` and `main` GitHub CI with no check-run annotations after the Node 24 action upgrade.
+- Install `guyue@guyue` 1.3.0 from the public GitHub marketplace in an empty `HOME`, verify all 27 Skill components and the complete repository payload, then pass the installed-cache release suite twice.
 
 ## v1.2.0 - 2026-07-02
 
