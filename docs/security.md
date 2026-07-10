@@ -45,6 +45,10 @@ MCP servers and scripts can expose local files, shell commands, credentials, and
 - Review every new script before adding it to `scripts/`.
 - Keep script dependencies explicit and minimal.
 - Run `python3 scripts/security_scanner.py` before every commit.
+- The scanner covers tracked files plus unignored untracked files, so newly generated control packs and release assets are checked before staging. Git-ignored local material remains outside the release scan.
+- `guyue_read_memory` rejects empty queries and caps each result set; it does not provide a bulk-dump mode.
+- `guyue_write_memory` rejects common API keys, bearer tokens, provider credentials, and personal absolute paths before creating storage files. This is a narrow local guard, not a complete secret detector; callers must still redact logs and account data before writing memory.
+- Memory index updates use a temporary file and atomic replacement so an interrupted write is less likely to corrupt the index.
 
 ## Approval Points
 
@@ -63,6 +67,7 @@ Before committing:
 
 ```bash
 python3 scripts/security_scanner.py
+python3 scripts/test_mcp_server.py
 python3 scripts/doctor.py
 python3 scripts/ci_validate_skills.py
 python3 scripts/run_eval.py

@@ -30,8 +30,12 @@ REQUIRED_RELEASE_FILES = [
     "docs/release-checklist.md",
     "docs/runtime-adapters.md",
     "docs/long-goal-protocol.md",
+    "docs/luban-report-v1.3.0.md",
     "docs/templates/long-goal-control-pack.md",
     "scripts/check_birth_certificate.py",
+    "scripts/check_long_goal_pack.py",
+    "scripts/check_full_install.py",
+    "scripts/test_mcp_server.py",
     "examples/quickstart-output.md",
     "examples/showcase.md",
     ".claude-plugin/marketplace.json",
@@ -50,6 +54,9 @@ README_NEEDLES = [
     "docs/installation.md",
     "docs/security.md",
     "docs/evaluation.md",
+    "docs/luban-report-v1.3.0.md",
+    "完整古月必须以整个仓库作为一个技能目录挂载",
+    "claude plugin install guyue@guyue",
 ]
 
 ROOT_SKILL_NEEDLES = [
@@ -163,6 +170,9 @@ def check_manifest_and_prompts(errors: list[str]) -> tuple[int, int]:
 def check_release_sync(errors: list[str], skill_count: int, prompt_count: int) -> None:
     readme = read_text("README.md")
     release = read_text("docs/release-checklist.md")
+    changelog = read_text("CHANGELOG.md")
+    manifest = load_json("skills_manifest.json")
+    version = str(manifest.get("version", "")).strip() if isinstance(manifest, dict) else ""
 
     if f"{skill_count} routed skills" not in release and f"{skill_count} 个" not in readme:
         add_error(errors, f"release/readme skill count does not mention current count: {skill_count}")
@@ -172,6 +182,16 @@ def check_release_sync(errors: list[str], skill_count: int, prompt_count: int) -
 
     if re.search(r"\b41 structural prompts\b", release):
         add_error(errors, "release checklist still contains stale prompt count: 41")
+
+    if not version:
+        add_error(errors, "skills_manifest.json must declare a release version")
+    else:
+        if f"v{version}-rc" not in readme:
+            add_error(errors, f"README certificate does not match candidate version: {version}")
+        if f"## v{version} - 2026-07-10" not in changelog:
+            add_error(errors, f"CHANGELOG does not contain the dated release heading for v{version}")
+        if f"Candidate version: `{version}`" not in release:
+            add_error(errors, f"release checklist does not name candidate version: {version}")
 
 
 def check_public_boundaries(errors: list[str]) -> None:
@@ -186,6 +206,16 @@ def check_public_boundaries(errors: list[str]) -> None:
     ]:
         if needle not in security and needle not in release:
             add_error(errors, f"public safety boundary missing `{needle}`")
+
+    readme = read_text("README.md")
+    installation = read_text("docs/installation.md")
+    installer = read_text("scripts/install_guyue.py")
+    if "不要把 `npx skills add guyue55/guyue-skill` 当成完整安装" not in readme:
+        add_error(errors, "README must disclose the root-only generic CLI installation limitation")
+    if "Do not use `npx skills add guyue55/guyue-skill` as a full installation path" not in installation:
+        add_error(errors, "installation docs must preserve the full-package contract")
+    if 'default="plan"' not in installer:
+        add_error(errors, "optional dependency installation must default to plan mode")
 
     if "push, tag, marketplace submission, or deployment" not in release:
         add_error(errors, "release checklist must preserve explicit public-action authorization boundary")

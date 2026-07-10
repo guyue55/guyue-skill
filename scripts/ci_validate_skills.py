@@ -8,6 +8,16 @@ import importlib.util
 import re
 import subprocess
 
+ALLOWED_SKILL_FRONTMATTER_FIELDS = {
+    'name',
+    'description',
+    'license',
+    'compatibility',
+    'metadata',
+    'allowed-tools',
+}
+SKILL_NAME_PATTERN = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+
 def check_json(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -94,8 +104,9 @@ def check_project_config(repo_root):
         print(f"❌ [CONFIG ERROR] marketplace name must be guyue, got {marketplace.get('name')}", file=sys.stderr)
         passed = False
 
-    if marketplace.get('entrypoint') != 'SKILL.md':
-        print(f"❌ [CONFIG ERROR] marketplace entrypoint must be SKILL.md, got {marketplace.get('entrypoint')}", file=sys.stderr)
+    owner = marketplace.get('owner')
+    if not isinstance(owner, dict) or not str(owner.get('name', '')).strip():
+        print("❌ [CONFIG ERROR] marketplace owner.name is required", file=sys.stderr)
         passed = False
 
     if not os.path.exists(root_skill_path):
@@ -109,6 +120,28 @@ def check_project_config(repo_root):
             file=sys.stderr,
         )
         passed = False
+
+    plugins = marketplace.get('plugins')
+    if not isinstance(plugins, list) or len(plugins) != 1:
+        print("❌ [CONFIG ERROR] marketplace must declare exactly one Guyue plugin", file=sys.stderr)
+        passed = False
+    else:
+        plugin = plugins[0]
+        expected_plugin_fields = {
+            'name': 'guyue',
+            'version': manifest.get('version'),
+            'source': './',
+            'strict': False,
+            'skills': ['./'],
+        }
+        for field, expected in expected_plugin_fields.items():
+            if plugin.get(field) != expected:
+                print(
+                    f"❌ [CONFIG ERROR] marketplace plugin.{field} must be {expected!r}, "
+                    f"got {plugin.get(field)!r}",
+                    file=sys.stderr,
+                )
+                passed = False
 
     if skills_json.get('entries') != [{'path': 'skills'}]:
         print(f"❌ [CONFIG ERROR] skills.json entries must be [{{'path': 'skills'}}], got {skills_json.get('entries')}", file=sys.stderr)
@@ -130,24 +163,29 @@ def check_project_config(repo_root):
         workflow_text = json.dumps(workflow, ensure_ascii=False)
         required_ci_commands = [
             'pip install -r requirements.txt',
-            'python scripts/security_scanner.py',
-            'python scripts/ci_validate_skills.py',
-            'python scripts/run_eval.py',
-            'python scripts/check_birth_certificate.py',
+            'bash scripts/test_suite.sh',
         ]
         for command in required_ci_commands:
             if command not in workflow_text:
                 print(f"❌ [CONFIG ERROR] GitHub CI missing command: {command}", file=sys.stderr)
                 passed = False
 
+        if workflow_text.count('bash scripts/test_suite.sh') < 2:
+            print("❌ [CONFIG ERROR] GitHub CI must run the release gate twice", file=sys.stderr)
+            passed = False
+        if 'dev' not in workflow_text or 'main' not in workflow_text:
+            print("❌ [CONFIG ERROR] GitHub CI must cover both dev and main branches", file=sys.stderr)
+            passed = False
+
     return passed
 
 
 def check_source_archive_export_rules(repo_root):
     attributes_path = os.path.join(repo_root, '.gitattributes')
+    if not is_git_checkout(repo_root):
+        return True
+
     if not os.path.exists(attributes_path):
-        if not is_git_checkout(repo_root):
-            return True
         print("❌ [ARCHIVE ERROR] .gitattributes is required to filter GitHub source archives", file=sys.stderr)
         return False
 
@@ -394,9 +432,39 @@ def check_skill_markdown(file_path):
                 frontmatter_str = content[3:end_idx]
                 try:
                     data = yaml.safe_load(frontmatter_str)
-                    if not data or 'name' not in data or 'description' not in data:
+                    if not isinstance(data, dict) or 'name' not in data or 'description' not in data:
                         print(f"❌ [FRONTMATTER ERROR] Missing 'name' or 'description' in {file_path}", file=sys.stderr)
                         passed = False
+                    else:
+                        extra_fields = set(data) - ALLOWED_SKILL_FRONTMATTER_FIELDS
+                        if extra_fields:
+                            print(
+                                f"❌ [FRONTMATTER ERROR] Unsupported fields {sorted(extra_fields)} in {file_path}",
+                                file=sys.stderr,
+                            )
+                            passed = False
+
+                        name = str(data.get('name', '')).strip()
+                        description = str(data.get('description', '')).strip()
+                        if not SKILL_NAME_PATTERN.fullmatch(name):
+                            print(f"❌ [FRONTMATTER ERROR] Invalid skill name `{name}` in {file_path}", file=sys.stderr)
+                            passed = False
+                        if not description or len(description) > 1024:
+                            print(
+                                f"❌ [FRONTMATTER ERROR] Description must contain 1-1024 characters in {file_path}",
+                                file=sys.stderr,
+                            )
+                            passed = False
+
+                        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                        if os.path.dirname(file_path) != repo_root:
+                            directory_name = os.path.basename(os.path.dirname(file_path))
+                            if name != directory_name:
+                                print(
+                                    f"❌ [FRONTMATTER ERROR] Skill name `{name}` must match directory `{directory_name}` in {file_path}",
+                                    file=sys.stderr,
+                                )
+                                passed = False
                 except yaml.YAMLError as e:
                     print(f"❌ [YAML ERROR] Invalid frontmatter in {file_path}: {e}", file=sys.stderr)
                     passed = False
@@ -1120,8 +1188,8 @@ def check_development_defaults_contract(repo_root):
             '权限相关改动必须后端先兜底、前端再体现',
             '提交信息使用 `type(scope): 中文描述`',
             '`build`、`lint`、测试、安全扫描和缓存检查',
-            '只有任务涉及前端或 UI 设计',
-            '后端、数据、脚本、配置和基础设施任务仍按全栈开发守则执行',
+            '先服从产品类型、现有设计系统和技术栈',
+            '后端、数据、脚本、配置和基础设施任务不强行套用前端工作流',
         ],
         'root_skill': [
             '全栈开发默认守则 (Full-Stack Development Defaults)',
@@ -1130,7 +1198,7 @@ def check_development_defaults_contract(repo_root):
             '权限必须后端控制、前端体现',
             '`build`、`lint`、测试、安全扫描和缓存检查',
             '`type(scope): 中文描述`',
-            '只有涉及前端或 UI 设计且用户未指定其他工作流时',
+            '前端或 UI 任务先服从产品类型、现有设计系统和技术栈',
             '任何前端、后端、数据、脚本、配置、基础设施或文档实现',
         ],
         'system_design': [
@@ -1151,12 +1219,12 @@ def check_development_defaults_contract(repo_root):
             '权限分层检查',
             '`build`、`lint`、单元测试、集成测试、类型检查、格式检查、安全扫描和缓存检查',
             '`type(scope): 中文描述`',
-            '`gsap-core` 与 `ui-ux-pro-max`',
+            '再按需参考 `gsap-core` 与 `ui-ux-pro-max`',
         ],
         'frontend_expert': [
-            '默认参考外部美学工作流',
-            '`gsap-core` 的动画编排纪律',
-            '`ui-ux-pro-max` 的商业级 UI 审美约束',
+            '复杂时序才使用 GSAP',
+            '外部美学工作流按需参考',
+            '沿用仓库现有框架、样式方案和组件边界',
             '不替代后端权限',
         ],
         'replay': [
@@ -1196,7 +1264,7 @@ def check_development_defaults_contract(repo_root):
         },
         'frontend-expert': {
             'triggers': {'gsap-core', 'ui-ux-pro-max'},
-            'description': {'default gsap-core and ui-ux-pro-max workflow alignment'},
+            'description': {'existing-stack alignment', 'conditional motion tooling'},
         },
     }
 
@@ -1229,7 +1297,7 @@ def check_development_defaults_contract(repo_root):
         passed = False
     else:
         prompt_text = json.dumps(prompt, ensure_ascii=False)
-        for needle in ['full-stack development baseline', 'frontend, backend, data, scripts, configuration, infrastructure, and documentation changes', 'frontend-expert` only when UI work is involved', 'best practices', 'necessary comments', 'high-cohesion', 'backend-owned', 'frontend permission presentation', 'build, lint, tests', 'type(scope): 中文描述', 'gsap-core', 'ui-ux-pro-max', 'only when UI/front-end guidance is unspecified']:
+        for needle in ['full-stack development baseline', 'frontend, backend, data, scripts, configuration, infrastructure, and documentation changes', 'frontend-expert` only when UI work is involved', 'best practices', 'necessary comments', 'high-cohesion', 'backend-owned', 'frontend permission presentation', 'build, lint, tests', 'type(scope): 中文描述', 'gsap-core', 'ui-ux-pro-max', 'preserve the existing design system and stack']:
             if needle not in prompt_text:
                 print(f"❌ [DEVELOPMENT DEFAULTS ERROR] Development defaults prompt missing `{needle}`", file=sys.stderr)
                 passed = False
@@ -1539,6 +1607,7 @@ def check_loop_engineering_contract(repo_root):
 def check_long_goal_forge_contract(repo_root):
     files = {
         'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
+        'rtk': os.path.join(repo_root, 'RTK.md'),
         'root_skill': os.path.join(repo_root, 'SKILL.md'),
         'requirement_analysis': os.path.join(repo_root, 'skills', 'requirement-analysis', 'SKILL.md'),
         'protocol': os.path.join(repo_root, 'docs', 'long-goal-protocol.md'),
@@ -1548,6 +1617,8 @@ def check_long_goal_forge_contract(repo_root):
         'readme': os.path.join(repo_root, 'README.md'),
         'evaluation': os.path.join(repo_root, 'docs', 'evaluation.md'),
         'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
+        'pack_checker': os.path.join(repo_root, 'scripts', 'check_long_goal_pack.py'),
+        'security_scanner': os.path.join(repo_root, 'scripts', 'security_scanner.py'),
     }
     passed = True
     contents = {}
@@ -1571,12 +1642,24 @@ def check_long_goal_forge_contract(repo_root):
             '不得把未决问题转嫁给执行阶段',
             '铸造不能再次外包',
         ],
+        'rtk': [
+            'Long Goal Clarification Budget',
+            "sed -n '1,120p' SKILL.md",
+            'maximum of four targeted reads/searches',
+            'Do not pre-read the long-goal protocol/template',
+        ],
         'root_skill': [
             'Long Goal Forge',
             '已确认事实、合理推断、显式冲突和待决策项',
             '每轮只问一个最高影响问题',
             '最终回复只能是一行',
             '铸造必须在当前会话中完成',
+            '单轮最多 4 次定向读取或检索',
+            '工具返回合计不超过 16000 字符',
+            'check_long_goal_pack.py',
+            'Long Goal Forge Fast Gate',
+            'remaining budget is at most 3 targeted reads/searches',
+            "sed -n '1,120p' SKILL.md",
         ],
         'requirement_analysis': [
             'Long Goal Forge Mode',
@@ -1584,6 +1667,8 @@ def check_long_goal_forge_contract(repo_root):
             '赶时间',
             '不得生成最终执行提示词',
             '不得输出“启动 Forge”',
+            '轻量证据预算',
+            'check_long_goal_pack.py',
         ],
         'protocol': [
             '铸造阶段',
@@ -1592,6 +1677,9 @@ def check_long_goal_forge_contract(repo_root):
             '一行交接契约',
             '独立就绪审查',
             '铸造不是可再次委派的执行目标',
+            '不得运行完整测试套件',
+            '不预读控制包模板',
+            '逐个列出账本、每个阶段计划和证据索引',
         ],
         'template': [
             '总控文档模板',
@@ -1599,6 +1687,19 @@ def check_long_goal_forge_contract(repo_root):
             '阶段计划模板',
             '活体证据索引模板',
             '一行 Goal 提示词',
+            '阶段计划清单',
+            'check_long_goal_pack.py',
+        ],
+        'pack_checker': [
+            'phase file is not explicitly referenced',
+            'control pack must contain exactly one master document',
+            'unresolved template placeholder found',
+            '--self-test',
+        ],
+        'security_scanner': [
+            '--cached',
+            '--others',
+            '--exclude-standard',
         ],
         'readme': [
             '长线目标铸造',
@@ -1659,6 +1760,8 @@ def check_long_goal_forge_contract(repo_root):
             'confirmed facts, inferences, contradictions, and unresolved decisions',
             'exactly one physical line',
             'must not begin implementation',
+            'must not run the full test suite',
+            'explicitly list every phase-plan file',
         ],
         'Long Goal Forge Resists Urgency And Vague Superlatives': [
             'Urgency',
@@ -1667,6 +1770,8 @@ def check_long_goal_forge_contract(repo_root):
             'must not start implementation',
             'start Long Goal Forge',
             'current conversation',
+            'lightweight evidence budget',
+            'must not run full validation gates',
         ],
     }
     for prompt_name, needles in expected_prompts.items():

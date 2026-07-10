@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+No changes yet.
+
+## v1.3.0 - 2026-07-10
+
 ### Added
 
 - Add five evidence-heavy workflow skills: `video-creation-sop`, `reality-auditor`, `nexusflow-governance-workflow`, `eac-demo-hardening`, and `ai-cost-grounding-measurement`.
@@ -17,6 +21,9 @@
 - Add a CI guard for Loop Engineering and dynamic workflow routing across persona principles, root routing, workflow skills, manifest routing, evaluation prompts, and live replay evidence.
 - Add a CI guard for frontend design ecosystem routing across frontend-expert, taste-aesthetics, ai-website-cloner, manifest routing, evaluation prompts, README, and live replay evidence.
 - Add a Long Goal Forge regression gate and reusable control-pack template covering vague-goal interrogation, decision closure, planning assets, independent readiness review, and one-line execution handoff.
+- Add a Long Goal control-pack checker that rejects unlisted phases, missing references, competing masters, and unresolved placeholders.
+- Add a full-install payload checker that rejects root-only installs and verifies every routed skill remains present.
+- Add focused MCP memory tests for empty queries, secret/path refusal, rapid-write uniqueness, and keyword retrieval.
 
 ### Changed
 
@@ -42,7 +49,17 @@
 - Strengthen Guyue's Loop Engineering posture so repeated manual Agent work is packaged with stable inputs, loop bodies, independent checkers, stop conditions, max rounds/time/Token/subagent budgets, and asset-deposition choices instead of becoming an unbounded new skill.
 - Strengthen Guyue's frontend design posture so `frontend-design`, `taste-skill`, Impeccable, `DESIGN.md`, Refero, Figma, html.to.design, GSAP skills, and website cloning tools are routed by product type, design-reference safety, deterministic UI checks, and authorization boundaries instead of becoming another frontend mega-skill.
 - Strengthen Guyue's long-goal posture by separating preparation from execution: inspect project evidence first, confirm one direction-changing decision per turn, block urgency-driven vague goals, then create the control pack before returning a one-line Goal entrypoint.
+- Bound decision-open Long Goal clarification rounds to targeted evidence reads, and extend Zero-Leakage scanning to unignored untracked files before staging.
 - Strengthen showcase validation so `assets/demo.gif`, `assets/demo.tape`, and `scripts/render_demo_gif.py` must be release-packaged assets, not local-only files.
+- Align every child Skill frontmatter with the public Agent Skills field set and official name/description constraints.
+- Change optional enhancement installation from force-install-by-default to plan-only-by-default, with explicit `safe` and `all` modes.
+- Replace the incomplete root-level generic CLI installation claim with a verified full-repository mount contract.
+- Make frontend guidance product-type-first and existing-stack-first; GSAP, Tailwind, glass effects, asymmetry, and conversion claims are conditional rather than defaults.
+- Harden the optional MCP memory layer with bounded queries, common secret/path detection, collision-resistant filenames, and atomic index replacement.
+- Replace the invalid custom Claude marketplace object with the official skill-bundle schema and verify a complete 27-component isolated installation.
+- Run the complete GitHub CI release gate twice on both `dev` and `main` pushes so cache pollution and non-idempotent checks cannot hide behind a single green run.
+- Bound Python dependencies to compatible major versions (`mcp` 1.x and PyYAML 6.x); the release candidate was exercised with mcp 1.28.1 and PyYAML 6.0.3 on Python 3.11.
+- Accept both template-style and code-spanned Long Goal control paths, with regression coverage for each form.
 
 ## v1.2.0 - 2026-07-02
 

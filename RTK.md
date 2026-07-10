@@ -34,6 +34,10 @@ If any instruction conflicts with higher-priority instructions from the active r
 - Do not add dependencies, install third-party skills, call external APIs, push, tag, release, deploy, or run destructive commands without explicit user authorization.
 - Treat frontend, debugging, product, and system-design work as separate routed skills. Do not silently merge them into one generic answer.
 
+### Long Goal Clarification Budget
+
+When Long Goal Forge still has an unresolved direction decision, read the root entry with exactly `sed -n '1,120p' SKILL.md`; do not read later lines in that round. Count it inside the maximum of four targeted reads/searches, plus one lightweight status probe. Use the remaining reads only for project identity and existing goal paths, then ask one highest-impact question. Do not pre-read the long-goal protocol/template or run full validation gates before the decision closes.
+
 ## Required Checks
 
 Before committing a repository change, run:

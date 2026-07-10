@@ -13,16 +13,18 @@ def print_status(msg, is_error=False):
 
 def list_release_files():
     try:
-        tracked_files_output = subprocess.check_output(
-            ["git", "ls-files"], text=True, stderr=subprocess.STDOUT
+        candidate_files_output = subprocess.check_output(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
+            text=True,
+            stderr=subprocess.STDOUT,
         )
-        tracked_files = [f for f in tracked_files_output.splitlines() if f.strip()]
-        if not tracked_files:
+        candidate_files = [f for f in candidate_files_output.splitlines() if f.strip()]
+        if not candidate_files:
             return []
 
         attr_output = subprocess.check_output(
             ["git", "check-attr", "--stdin", "export-ignore"],
-            input="\n".join(tracked_files) + "\n",
+            input="\n".join(candidate_files) + "\n",
             text=True,
             stderr=subprocess.STDOUT,
         )
@@ -31,7 +33,7 @@ def list_release_files():
             for line in attr_output.splitlines()
             if line.endswith(": export-ignore: set")
         }
-        return [Path(f) for f in tracked_files if f not in ignored]
+        return [Path(f) for f in candidate_files if f not in ignored]
     except (FileNotFoundError, subprocess.CalledProcessError):
         files = []
         for path in Path(".").rglob("*"):
@@ -48,7 +50,7 @@ def run_security_scan():
     print("🔒 Running Zero-Leakage Security Scanner...")
     print("==========================================")
 
-    tracked_files = list_release_files()
+    release_files = list_release_files()
 
     # 2. Define bloated/cache files rules (Anti-Bloat)
     bloat_patterns = [
@@ -76,7 +78,7 @@ def run_security_scan():
     has_error = False
 
     print("[1/2] Scanning for bloat and cache files...")
-    for path_obj in tracked_files:
+    for path_obj in release_files:
         f_path = path_obj.as_posix()
         for p in bloat_patterns:
             if p.search(f_path):
@@ -89,7 +91,7 @@ def run_security_scan():
 
     print("\n[2/2] Scanning file contents for secrets and personal paths...")
     secret_errors = 0
-    for path_obj in tracked_files:
+    for path_obj in release_files:
         f_path = path_obj.as_posix()
         if not path_obj.is_file():
             continue

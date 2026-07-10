@@ -1,15 +1,6 @@
 ---
 name: ecosystem-scout
-description: Tool discoverer and dependency manager using Two-Phase Loading to prevent context bloat.
-trigger_includes:
-  - "帮我找个"
-  - "收纳这个"
-  - "整合技能"
-  - "添加外部依赖"
-  - "寻找插件"
-  - "推荐工具"
-  - "快速安装"
-  - "帮我装一下"
+description: Use to find, compare, ingest, or install an external Agent Skill, plugin, library, or tool, including requests such as "推荐工具", "寻找插件", "收纳这个", or "帮我装一下". Uses two-phase loading, source checks, explicit approval, and security-gate handoff to prevent context and dependency bloat.
 ---
 
 # ecosystem-scout (生态侦察兵)

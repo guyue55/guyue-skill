@@ -94,6 +94,8 @@ description: Use when a product idea, feature, business rule, or long-running go
 
 禁止把能从仓库、文档、历史或运行产物查到的问题抛给用户。需要联网才能确认的时效性事实，按当前调研技能和授权边界查询后再决定是否询问。
 
+澄清轮使用轻量证据预算：单轮最多 4 次定向读取或检索，加 1 次 `git status`、版本或同等级轻量探针；单文件最多读取 120 行，工具返回合计不超过 16000 字符。优先确认项目身份、当前状态和已有目标路径；此时不预读控制包模板、完整原则、完整 manifest、测试、发布档案或全仓正文。决策关闭前不运行完整测试套件、安全扫描、安装、构建或 live replay；只有当该动作直接决定当前最高影响问题或处置安全风险时才可例外，并要说明必要性。下一问已经有充分证据后立即停止工具调用。
+
 ### 2. 每轮只问一个最高影响问题
 
 每个问题必须同时包含：**证据、影响、推荐默认值和备选项**。优先级按以下顺序判断：真实用户与核心场景、成功结果、范围与不做项、硬约束与授权、方案取舍、阶段依赖、验收证据、预算与停止条件。
@@ -121,4 +123,4 @@ description: Use when a product idea, feature, business rule, or long-running go
 
 ### 4. 铸造交接
 
-决策关闭后，将需求契约交给 Guyue 根路由的 Long Goal Forge，由它按 `docs/long-goal-protocol.md` 和控制包模板生成总控文档、执行账本、阶段计划与证据索引。准备资产通过独立就绪审查后，才允许输出一行执行入口。
+决策关闭后，将需求契约交给 Guyue 根路由的 Long Goal Forge，由它按 `docs/long-goal-protocol.md` 和控制包模板生成总控文档、执行账本、阶段计划与证据索引。总控必须逐个列出全部阶段计划文件，并通过 `python3 scripts/check_long_goal_pack.py <goal-master.md>`；准备资产通过独立就绪审查后，才允许输出一行执行入口。

@@ -40,10 +40,11 @@ def main():
     parser.add_argument(
         "--optional-mode",
         choices=["all", "safe", "plan"],
-        default="all",
+        default="plan",
         help=(
-            "Optional skill behavior: all installs every manifest dependency with reviewed "
-            "force mode; safe stops on yellow/red findings; plan only prints a dry-run plan."
+            "Optional skill behavior: plan only prints a dry-run plan (default); safe installs "
+            "green dependencies and stops on yellow/red findings; all requires explicit opt-in "
+            "and force-installs every reviewed manifest dependency."
         ),
     )
     parser.add_argument(
@@ -65,11 +66,8 @@ def main():
             optional_dependency_command(args.optional_mode),
         )
 
-    should_run_doctor = not args.skip_doctor and args.optional_mode != "plan"
-    if should_run_doctor:
+    if not args.skip_doctor:
         run_step("running dependency doctor", [sys.executable, "scripts/doctor.py"])
-    elif args.optional_mode == "plan" and not args.skip_doctor:
-        print("[Trace: Guyue/Install] skipping dependency doctor for plan mode", flush=True)
 
     print("[Trace: Guyue/Install] complete", flush=True)
 

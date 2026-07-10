@@ -1,17 +1,6 @@
 ---
 name: documentation
 description: Agent persona for structured, business-readable tech writing, project orientation reports, PRD, ADR, README, release notes, and code-backed summaries. Use when the user asks for "项目摸底", "了解项目", architecture/module/function overview, README, 周报, 总结, PRD, ADR, 沉淀, "业务侧可读", or a report that must be grounded in current repository files rather than generic prose.
-trigger_includes:
-  - "写文档"
-  - "周报"
-  - "README"
-  - "总结"
-  - "PRD"
-  - "ADR"
-  - "沉淀"
-  - "架构文档"
-  - "业务侧可读"
-  - "业务汇报"
 ---
 
 # guyue / documentation

@@ -1,17 +1,6 @@
 ---
 name: debugging-mindset
-description: Agent persona for rigorous, evidence-based debugging. Enforces "No Logs, No Debugging".
-trigger_includes:
-  - "报错"
-  - "挂了"
-  - "排查"
-  - "bug"
-  - "error"
-  - "exception"
-  - "failed"
-  - "帮我修一下"
-  - "这是什么意思"
-  - "线上 500"
+description: Use for active bugs, failures, exceptions, production errors, test regressions, or requests to investigate what an error means. Enforces evidence-first root-cause analysis and "No Logs, No Debugging"; use reality-auditor for post-implementation truth review.
 ---
 
 # guyue / debugging-mindset

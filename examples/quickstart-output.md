@@ -760,3 +760,44 @@ Regression replay after the contract change:
 - Ready-state result: pass
 - Ready-state behavior: a temporary complete four-file control pack was reviewed in read-only mode. The runtime verified the unique master, ledger, phase plan, evidence index, closed decisions, one-round budget, no-external-action boundary, and one-line completion rule; it then returned exactly one physical line beginning `以 docs/goals/replay-ready/goal-master.md 为唯一总控`. The temporary fixture was removed after replay and is not part of the product diff.
 - Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-goal-forge-after-<case>.md "<prompt>"`
+
+### 2026-07-10 Concentrated Repair Replay
+
+- Runtime: Codex CLI `0.144.1`, read-only sandbox.
+- Scope: urgency-pressure clarification round after adding phase-file, untracked-security, and evidence-budget gates.
+- Initial measured input: `122480` tokens. The run asked one question but used seven targeted reads plus one status probe and unnecessarily large file/search outputs.
+- Final measured input: `51238` tokens, a 58% reduction from the initial measured run.
+- Final behavior: one physical-line question, three read-only commands, no test suite, security scan, install, build, nested live replay, file write, or Goal handoff.
+- Result: `partial_pass`.
+- Remaining deviation: Codex still requested more than 120 lines from root entry files and used one repository-wide Markdown `rg`; the Skill and `RTK.md` now state the stricter cap, but this runtime did not fully honor it. Do not present the 58% reduction as proof that the hard line/output budget is universally enforced.
+- Separate live probe: an untracked fake-key file was detected by `scripts/security_scanner.py` with exit code `1`, then removed. `scripts/check_long_goal_pack.py --self-test` accepted a fully referenced pack and rejected an unlisted phase file.
+
+## Replay 25: Full Install Truth Check
+
+Prompt:
+
+```text
+使用古月，只读判断 npx skills add guyue55/guyue-skill 是否能完整安装当前仓库。只允许读取必要文档，不运行 Doctor、测试、安装或其他脚本；给出最短可验证建议。
+```
+
+- Date: 2026-07-10
+- Runtime: Codex CLI `0.144.1`, read-only sandbox.
+- Result: `partial_pass`.
+- Correct behavior: the runtime stated that the generic root install is incomplete, cited `README.md` and `docs/installation.md`, recommended cloning and mounting the whole repository, and preserved the no-install/no-script boundary.
+- Fixed deviation: an earlier replay ran the full-install checker and Doctor even though the conclusion only needed documentation evidence. Root routing now makes Doctor and memory lookup conditional on actual task dependencies.
+- Remaining efficiency deviation: the regression used 16 read-only commands despite the request for the shortest necessary check. It did not execute Doctor, tests, installation, or any repository script, but the runtime still over-read supporting files. Treat the conclusion as behaviorally correct, not as proof of optimal context use.
+
+## Replay 26: Existing-Stack Frontend Restraint
+
+Prompt:
+
+```text
+使用古月，只读评估：现有 SaaS 后台已经使用 React、MUI 和既有设计 token，要新增权限管理页面。不要写代码，不要安装依赖，只给实现策略，并明确是否需要 GSAP、Tailwind、玻璃拟态或重做设计系统。
+```
+
+- Date: 2026-07-10
+- Runtime: Codex CLI `0.144.1`, read-only sandbox.
+- Result: `pass`.
+- Observed behavior: the runtime explicitly rejected GSAP, Tailwind, glass effects, and a design-system rewrite; it reused React, MUI, existing tokens, dialogs, tables, feedback, and request patterns.
+- Permission behavior: it kept authorization in backend interfaces and treated frontend visibility, disabled states, explanations, and confirmation as experience controls only.
+- UX behavior: it prioritized a dense, scannable management workflow, explicit save, audit history, conflict/error states, keyboard access, and dangerous-permission confirmation instead of marketing-page composition.

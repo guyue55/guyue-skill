@@ -11,19 +11,31 @@ python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
 
-This installs the small validation/runtime dependency set, automatically detects and installs optional enhancement skills from `skills_manifest.json`, runs the dependency doctor, then runs the zero-leakage scanner, SKILL.md validator, and test prompt evaluator.
+This installs the small validation/runtime dependency set, prints a dry-run plan for optional enhancement skills from `skills_manifest.json`, runs the dependency doctor, then runs the zero-leakage scanner, SKILL.md validator, MCP tests, and test prompt evaluator. The default command does not download or link third-party skills.
+
+## Full-Package Contract
+
+Guyue is one root orchestrator with repository-local principles, routed modules, scripts, docs, and optional MCP support. A complete installation must preserve the whole repository tree under one runtime skill directory.
+
+Do not use `npx skills add guyue55/guyue-skill` as a full installation path. Current generic Skills CLI behavior intentionally installs only a root-level `SKILL.md`; the resulting directory omits files that the Guyue entrypoint references. Clone the repository, then link or copy that checkout into the skill directory supported by your runtime.
+
+Verify the mounted directory itself before relying on it:
+
+```bash
+python3 /path/to/guyue/scripts/check_full_install.py /path/to/guyue
+```
 
 ## Optional Enhancement Skills
 
 Guyue can discover optional third-party skills listed in `skills_manifest.json`, but optional dependencies are not required for the core skill to run.
 
-The default installer already runs optional dependency installation:
+The default installer only plans optional dependency changes:
 
 ```bash
 python3 scripts/install_guyue.py
 ```
 
-It installs every optional dependency declared in the manifest, including reviewed yellow/red dependencies, because running the top-level installer is treated as explicit installation intent.
+It scans the manifest and local skill roots, reports what is already present, and prints proposed actions without cloning, downloading, or linking anything.
 
 Use the lower-level planner when you want to preview or audit optional skill changes before touching local skill directories:
 
@@ -33,28 +45,16 @@ python3 scripts/install_optional_dependencies.py
 
 The default mode is a dry run. It scans local skill roots first, reports already installed skills, and prints the actions it would take without cloning or linking anything.
 
-To install missing optional skills after reviewing the plan:
-
-```bash
-python3 scripts/install_optional_dependencies.py --install
-```
-
-Some optional skills contain shell helpers, command execution examples, or project layouts that are not a single `SKILL.md` directory. Those are intentionally stopped or adapter-mounted until you explicitly choose to proceed:
-
-```bash
-python3 scripts/install_optional_dependencies.py --install --force
-```
-
-For a conservative Guyue install that stops instead of force-installing yellow/red optional skills:
+To install green optional skills after reviewing the plan, while stopping on yellow/red findings:
 
 ```bash
 python3 scripts/install_guyue.py --optional-mode safe
 ```
 
-For a plan-only optional dependency pass:
+Some optional skills contain shell helpers, command execution examples, or project layouts that are not a single `SKILL.md` directory. Only after reviewing those findings should you explicitly allow every declared dependency:
 
 ```bash
-python3 scripts/install_guyue.py --optional-mode plan
+python3 scripts/install_guyue.py --optional-mode all
 ```
 
 The installer keeps third-party source checkouts under:
@@ -79,7 +79,7 @@ For a portable setup, link or copy the repository into your local Codex skills d
 ln -s /path/to/guyue ~/.codex/skills/guyue
 ```
 
-Use a fresh Codex turn to confirm that the `guyue` root skill and child skills such as `coding-discipline`, `debugging-mindset`, and `frontend-expert` appear in the available skills list.
+Use a fresh Codex turn to confirm that the `guyue` root skill appears and can resolve routed files such as `skills/coding-discipline/SKILL.md`, `skills/debugging-mindset/SKILL.md`, and `skills/frontend-expert/SKILL.md`. Do not assume every runtime advertises repository-local routed modules as separate top-level skills.
 
 This repository also includes a minimal `AGENTS.md` and `RTK.md` for coding-agent runtime guidance. They are adapters, not public Skill standards:
 
@@ -98,10 +98,20 @@ codex exec --ephemeral -C <repo-root> --sandbox read-only "使用古月的思路
 
 ## Claude Code
 
-Install from the published skill source or copy the repository into your Claude skills/plugin workflow:
+Use the repository's validated marketplace manifest for a complete plugin install:
 
 ```bash
-npx skills add guyue55/guyue-skill
+claude plugin marketplace add guyue55/guyue-skill
+claude plugin install guyue@guyue
+claude plugin details guyue@guyue
+```
+
+Before publication, `claude plugin validate --strict .` and an isolated local marketplace install must pass. After the candidate is pushed, repeat the same install from the public GitHub source before tagging the release.
+
+The source checkout path remains available when you want to develop or customize Guyue:
+
+```bash
+git clone https://github.com/guyue55/guyue-skill.git /path/to/guyue
 ```
 
 Then start a new Claude Code session and trigger it with:

@@ -1,6 +1,6 @@
 {
     "name": "guyue-digital-twin",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "skills": [
         {
@@ -36,7 +36,7 @@
                 "前端设计参考",
                 "Impeccable"
             ],
-            "description": "Front-end implementation skill for UI, interaction, a11y, motion, product-type-first design, safe DESIGN.md/Figma/Refero reference intake, default gsap-core and ui-ux-pro-max workflow alignment, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
+            "description": "Front-end implementation skill for UI, interaction, a11y, responsive behavior, product-type-first design, safe DESIGN.md/Figma/Refero reference intake, existing-stack alignment, conditional motion tooling, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
         },
         {
             "name": "product-sense",

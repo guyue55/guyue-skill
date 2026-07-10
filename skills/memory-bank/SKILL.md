@@ -1,13 +1,6 @@
 ---
 name: memory-bank
-description: Digital twin memory system for documenting and recalling architectural decisions and bug fixes.
-trigger_includes:
-  - "记录教训"
-  - "检索历史"
-  - "记住这个坑"
-  - "上次怎么修的"
-  - "/guyue-remember"
-  - "/guyue-recall"
+description: Use to record or recall verified architectural decisions, bug fixes, lessons, and prevention steps, including "记住这个坑", "上次怎么修的", /guyue-remember, and /guyue-recall. Store a compact JSON index plus Markdown detail, reject secrets and personal paths, and never invent a historical match.
 ---
 
 # guyue / memory-bank

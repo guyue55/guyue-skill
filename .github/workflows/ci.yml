@@ -1,8 +1,8 @@
 name: CI Pipeline
 
-on:
+"on":
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
     branches: [ main ]
 
@@ -22,14 +22,8 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Zero-Leakage Security Gate
-        run: python scripts/security_scanner.py
+      - name: Run Complete Release Gate
+        run: bash scripts/test_suite.sh
 
-      - name: Run Skill Structure Validation
-        run: python scripts/ci_validate_skills.py
-
-      - name: Run Test Prompt Evaluation
-        run: python scripts/run_eval.py
-
-      - name: Run Birth Certificate Check
-        run: python scripts/check_birth_certificate.py
+      - name: Re-run Release Gate For Idempotence
+        run: bash scripts/test_suite.sh

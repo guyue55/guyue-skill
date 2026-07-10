@@ -4,7 +4,6 @@
 
 古月是从真实 AI 协作记录中蒸馏出来的个人工作方式系统，它以古月式判断和执行纪律为主干，按需调用技能、工具、记忆和工作流，帮助 Agent 更稳定地完成复杂工作。它的底层人格不是“听话地多做”，而是先验料、再动手；把经验照成可复用的心智镜子；最后用真实运行产物对账。
 
-[![skills.sh](https://skills.sh/b/guyue55/guyue-skill)](https://skills.sh/guyue55/guyue-skill)
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
 ![Status](https://img.shields.io/badge/Status-Release_Candidate-yellow)
@@ -13,7 +12,7 @@
 > 古月不是“完整的人”，也不是万能自动化系统。它是一个 Personal Agent Operating Layer：用古月式判断、执行纪律、审美偏好、风险边界和复盘方式，调度不同技能与工具完成工作。
 > 古月会把话说清楚，但不会把 AI 参与伪装成人工来源，也不会为了好听删除事实、证据、授权缺口或风险。
 
-活体输出证据见 [examples/quickstart-output.md](examples/quickstart-output.md)，展示场景见 [examples/showcase.md](examples/showcase.md)。当前发布候选不使用不可复现的装饰性截图占位。
+活体输出证据见 [examples/quickstart-output.md](examples/quickstart-output.md)，展示场景见 [examples/showcase.md](examples/showcase.md)，v1.3.0 的完整鲁班审计见 [docs/luban-report-v1.3.0.md](docs/luban-report-v1.3.0.md)。当前发布候选不使用不可复现的装饰性截图占位。
 
 ## 为什么你需要它？
 
@@ -30,16 +29,35 @@
 
 ## 快速开始
 
-**本地源码挂载（适合 Codex/Claude Code/OpenClaw 等 Skill-compatible runtime）：**
+**Claude Code Marketplace（完整安装，推荐）：**
 
 ```bash
-git clone https://github.com/guyue55/guyue-skill.git
-cd guyue-skill
+claude plugin marketplace add guyue55/guyue-skill
+claude plugin install guyue@guyue
+```
+
+安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。`v1.3.0-rc` 的隔离安装实测识别到 27 个 Skill 组件（1 个根路由 + 26 个内部能力模块），并保留完整仓库载荷。
+
+**Codex 完整安装：**
+
+```bash
+git clone https://github.com/guyue55/guyue-skill.git ~/.codex/skills/guyue
+python3 ~/.codex/skills/guyue/scripts/check_full_install.py ~/.codex/skills/guyue
+```
+
+**完整仓库挂载（适合 Codex/Claude Code/OpenClaw 等 Skill-compatible runtime）：**
+
+```bash
+git clone https://github.com/guyue55/guyue-skill.git /path/to/guyue
+cd /path/to/guyue
 python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
 
-`scripts/install_guyue.py` 会安装 Python 运行依赖，自动检测并链接 `skills_manifest.json` 里的可选增强技能，然后运行 Doctor 探针。增强技能源码统一放在 `~/.cc-switch/skills/_sources`，本地技能目录只保留链接，避免多处修改。
+然后把 `/path/to/guyue` 链接或复制到运行时的技能目录，并重新开始会话。`scripts/install_guyue.py` 会安装 Python 运行依赖、只读规划 `skills_manifest.json` 里的可选增强技能，再运行 Doctor 探针；不会在默认模式下下载或链接第三方技能。需要安装增强能力时，先阅读计划，再显式选择 `--optional-mode safe` 或 `--optional-mode all`。
+
+> [!WARNING]
+> 不要把 `npx skills add guyue55/guyue-skill` 当成完整安装。当前通用 Skills CLI 对仓库根技能只复制 `SKILL.md`，不会带上本项目运行所需的 `GUYUE_PRINCIPLES.md`、`skills_manifest.json`、`skills/`、`scripts/` 和 `docs/`。完整古月必须以整个仓库作为一个技能目录挂载。
 
 安装到你的 Agent 技能目录后，直接用自然语言触发：
 
@@ -59,7 +77,7 @@ bash scripts/test_suite.sh
 
 ## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
 
-本系统采用类似操作系统的多智能体路由架构（Digital Twin Orchestrator），主干会自动拦截你的意图，并派发给古月分身下最专业的子能力（当前精通开发流，未来持续进化）：
+本系统采用类似操作系统的技能路由架构（Digital Twin Orchestrator）。当运行时加载根 `SKILL.md` 后，主干根据意图选择最窄的内部能力模块：
 
 - 🚦 **核心分身 (guyue)**：接管意图，强制注入模块化解耦、全局规划、规范化纪律的底层思维 SOP。
 - 🔍 **前置调研 (research-and-sourcing)**：收到新需求时，**强制停手**，必须先去联网获取最新官方文档或对标高星开源项目。
@@ -70,7 +88,7 @@ bash scripts/test_suite.sh
 - 🕵️ **受控排障 (debugging-mindset)**：引入 RCA 诊断矩阵，没看到原始日志/报错堆栈前，绝对拒绝通过盲猜来改代码。
 - 📝 **结构化沉淀 (documentation)**：采用 RTFD 框架与 XML 隔离，写出极简、结构化、金字塔逻辑的 README、架构决策记录和代码背书的项目摸底地图。
 - 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；默认正常沟通用简体中文，避免不必要中英文混排；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
-- ✨ **前端与交互美学 (frontend-expert)**：强制推行 Vanilla CSS/JS 极简主义、a11y 约束、复用 UI 标准件；未指定时优先遵守 `gsap-core` 和 `ui-ux-pro-max` 工作流，并默认融入 GSAP 级三幕剧动效与商业语境转换。
+- ✨ **前端与交互美学 (frontend-expert)**：先服从产品类型、现有设计系统和技术栈，再落实 a11y、响应式与 UI 标准件复用；只有复杂时序或现有项目确有需要时才引入 GSAP 等增强能力。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障、开发流或重复 Agent 工作成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP) 或 Loop Contract。
 - 📒 **长线目标铸造与长程自治**：把模糊愿景先收敛成经过确认的总控文档、执行账本、阶段计划和活体证据包，再用一行入口启动执行，防止 Agent 带着未决需求长跑，或在上下文压缩、旧证据和阶段完成后误报终局完成。
 - 🧠 **双轨记忆 (memory-bank)**：负责提取、归档并回溯之前的错误与成功经验，确立“不在同一个坑里摔倒两次”的准则。
@@ -115,9 +133,9 @@ bash scripts/test_suite.sh
 
 合并纪律：只有当真实回放或 `test-prompts.json` 证明两个技能反复误触发，且执行步骤高度重复时，才合并或删除。否则优先打磨 description、触发词和边界表，避免把专业技能揉成一个含糊的大技能。
 
-## 大盘心法与规范矩阵 (Master Principles & Uniform Matrix)
+## 大盘心法与能力契约 (Master Principles & Capability Contract)
 
-经历多轮鲁班法则深度打磨后，所有子技能目前遵循 100% 统一的工业级结构：
+古月不追求让所有子技能长得一模一样，而是要求它们共享可检查的行为契约：
 
 1. **人格底盘 + 核心纪律 (`GUYUE_PRINCIPLES.md`)**:
    - **验料、造镜子、活体对账**: 先判断真实问题和投入产出，再提炼心智模型、决策启发式和诚实边界，最后用真实运行产物验证结果。
@@ -127,13 +145,7 @@ bash scripts/test_suite.sh
    - **Human-in-the-Loop**: 守住高风险架构与合规边界，必要时果断刹车。
    - **Loop Engineering**: 把重复手工提示转成有目标、稳定输入、循环体、检查器、停止条件、预算和验证资产的工作流；不把动态工作流理解成无限循环或无限子 Agent。
 
-2. **矩阵级结构大一统**: 26 个路由技能全面实施相同的指令骨架。
-   - **When to Use**: 明确何时该由什么子分身接管。
-   - **Anti-Patterns to Avoid**: 定义绝对不要做的行为。
-   - **Step-by-Step Execution**: 标准化作业流程。
-   - **Showcase (展台)**: 高密度的应用范例场景。
-   - **Guardrails (诚实边界)**: 明确不能越权的死线。
-   - **Cross-Skill Invocation**: 技能流转协议，使得基础能力与扩展能力可以组合形成智能闭环。
+2. **能力契约**：26 个内部路由技能都必须有公开规范兼容的 `name` / `description`，并能说清触发边界、可重复步骤、验证方式和越权死线；具体章节按技能复杂度取舍，不为形式统一复制空模板。
 
 ## MCP 接入
 
@@ -158,11 +170,7 @@ bash scripts/test_suite.sh
 ```
 *注意：替换 `cwd` 为你实际克隆的目录路径。*
 
-**传统挂载方式**（如 Claude Code, OpenClaw）：
-
-```bash
-npx skills add guyue55/guyue-skill
-```
+**完整挂载方式**：克隆整个仓库，再把仓库目录链接或复制到 Claude Code、OpenClaw 或其他运行时配置的技能根目录。不同运行时的路径与实测状态见 [docs/installation.md](docs/installation.md) 和 [docs/runtime-adapters.md](docs/runtime-adapters.md)。
 
 **推荐的前端与交互基建技能（可选增强）**：
 
@@ -187,7 +195,7 @@ cd ~/.gemini/config/skills/  # (以你的实际 Agent 技能路径为准)
 # 2. 克隆本套件
 git clone https://github.com/guyue55/guyue-skill.git
 
-# 3. 技能将自动生效，全局守护你的每一次代码生成！
+# 3. 重启对应运行时，并在新会话中确认 guyue 已被发现
 ```
 
 ## 触发方式
@@ -208,8 +216,8 @@ git clone https://github.com/guyue55/guyue-skill.git
 - **人话版表达产物**：把正确但像 AI 的输出改成结论先行、事实不走样、风险不软化、来源不伪装的可读文本。
 - **可复用的判断镜片**：在复盘、技能制作和复杂项目审计后，提炼心智模型、决策启发式、反模式和诚实边界，避免只留下流水账。
 - **长程任务执行骨架**：为多阶段目标准备总控文档、执行账本、否定清单和活体证据要求，确保恢复时能从项目事实继续，而不是从聊天上下文猜进度。
-- **双轨长时记忆引擎 (Structured Memory Bank)**：拥有主动复盘能力。本地挂载 `.guyue_memory`，通过 JSON 元数据索引 + Markdown 详情实现 $O(1)$ 级教训检索，不在同一个坑里跌倒两次。
-- **开放生态协议 (MCP Ready)**：动态注册表 `skills_manifest.json` 与外挂记忆引擎在设计上原生兼容 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可作为独立编排器介入现有工作流。
+- **双轨长时记忆引擎 (Structured Memory Bank)**：本地挂载 `.guyue_memory`，先在紧凑 JSON 元数据索引中做关键词匹配，再按命中文件读取 Markdown 详情；空查询和常见密钥、令牌、个人绝对路径会被拒绝。
+- **可选 MCP 接口**：`src/mcp_server.py` 可通过 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) 暴露技能清单和本地记忆工具；它是完整仓库上的可选运行层，不代表所有 Agent Skills 运行时都会自动加载 MCP。
 - **依赖健康探针 (Doctor Probe)**：内置 `scripts/doctor.py` 探针，调度外部技能（如 `LearnPrompt/luban-skill`、`alchaincyf/nuwa-skill`）前检查环境，并把可选依赖缺口标成不阻塞项。
 - **前端演示样例 (UI/UX Real-world Proving Ground)**：附带 `examples/saas-conversion-demo/` Demo，示范如何把 500 报错改写成业务方能理解的“商业代价预估”，并用 Vanilla JS + GSAP ScrollTrigger 做滚动动画。
 - **可复用本地工具**：避免硬编码绑定，SOP 工具包按当前运行环境做显式检查和降级。
@@ -281,7 +289,7 @@ guyue/
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.2.0-rc)           │
+│  作品：guyue (古月数字分身 v1.3.0-rc)           │
 │  打磨前：只有基础的工程防线与生硬的界面           │
 │  打磨后：可安装、可验证、可传播的 Agent 操作层    │
 │  定位：Personal Agent Operating Layer            │

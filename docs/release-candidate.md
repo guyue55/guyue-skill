@@ -1,12 +1,27 @@
 # Release Candidate Evidence
 
-Date: 2026-07-03
-Status: Unreleased capability-fusion local gates passed; public release action pending explicit authorization
+Date: 2026-07-10
+Status: v1.3.0 release candidate ready for commit and push; public-source install recheck is required before tag creation
 Scope: release-preparation evidence and boundary fixes. This document does not create a tag, push commits, submit to a marketplace, deploy, or change the public runtime adapter policy.
+
+## 2026-07-10 Comprehensive Luban Audit
+
+- Full-package truth: source inspection and a live Codex replay confirmed that generic root-level `npx skills add` copies only `SKILL.md`; public installation now requires mounting the complete repository, and `scripts/check_full_install.py --self-test` rejects a root-only payload.
+- Public specification: all 26 child skills pass `npx skills-ref validate`; the root passes when staged under its install name `guyue`. Five unsupported `trigger_includes` fields were folded into standard descriptions.
+- Installation safety: `scripts/install_guyue.py` now defaults optional dependencies to dry-run planning. Networked third-party installation requires explicit `safe` or `all` selection.
+- MCP safety: empty memory queries, common credential patterns, and personal absolute paths are rejected before storage; rapid writes use microsecond filenames and atomic index replacement. Focused temporary-directory tests pass.
+- Frontend judgment: defaults now preserve the product type, existing design system, and current stack. GSAP, Tailwind, glass effects, asymmetry, and unverified conversion claims are conditional rather than stylistic defaults.
+- Live evidence: the full-install replay reached the correct safe conclusion without scripts after the routing fix, but still used 16 read-only commands; mark context efficiency `partial_pass`. The React/MUI SaaS replay correctly refused four unnecessary frontend additions and passed.
+- Local gate: `bash scripts/test_suite.sh`, `git diff --check`, official frontmatter validation, install-plan replay, and focused MCP tests passed before final review. Public push/tag/release remains unauthorized.
+- Claude marketplace: the former custom object failed Claude Code 2.1.170 validation because it omitted `owner` and `plugins`; v1.3.0 now uses the official marketplace schema and an explicit root skill bundle. Official strict validation and isolated install evidence are required below.
+- Claude install evidence: `claude plugin validate --strict .` passed; an empty-HOME local marketplace install enabled `guyue@guyue` at 1.3.0, reported 27 Skill components and about 1,940 always-on tokens, preserved the full payload, and passed the complete suite twice from the installed cache.
+- CI evidence: v1.3.0 CI listens to `dev` and `main` pushes plus pull requests to `main`, then runs the same complete release gate twice after installing `requirements.txt`.
+- Dependency evidence: runtime dependencies are bounded to compatible major lines and were verified with Python 3.11, mcp 1.28.1, and PyYAML 6.0.3.
+- Independent review: Codex review found that the Long Goal checker accepted only code-spanned control paths while the public template used plain paths. The parser and self-test now cover both formats.
 
 ## Baseline
 
-Current candidate baseline at v1.2.0 deep release-audit intake:
+Historical baseline at v1.2.0 deep release-audit intake:
 
 - commit: `77b7cd5 docs(release): 刷新发版证据`
 - branch state at intake: `main` ahead of `origin/main` by 10 commits
@@ -279,6 +294,9 @@ Current local checks passed:
 - Guyue now separates Long Goal Forge from Long Goal Intake. Forge inspects project evidence, asks one direction-changing question per turn, creates the control pack, and requires an independent readiness review before a one-line handoff.
 - `test-prompts.json` now contains 54 structural prompts, including vague-vision and urgency-pressure regression scenarios.
 - The reusable control-pack schema lives in `docs/templates/long-goal-control-pack.md`; no overlapping routed child skill or new dependency was added.
+- Concentrated repair added `scripts/check_long_goal_pack.py`: the master must explicitly list every phase-plan file, and the checker rejects unlisted phases, duplicate references, missing files, competing masters, and unresolved placeholders.
+- `scripts/security_scanner.py` now scans tracked files plus unignored untracked files. A live untracked fake-key probe was blocked with exit code `1` and removed after the check.
+- Decision-open Forge rounds now have a four-read plus one-status budget and forbid full gates before the next question. Codex pressure replay reduced measured input from `122480` to `51238` tokens and avoided all heavy gates, but remains `partial_pass` because the runtime still exceeded the requested per-file line cap and used one broad Markdown search.
 
 ## Explicit Non-Goals
 
@@ -295,6 +313,7 @@ Run these commands from the repository root before release:
 git status --short
 git diff --check
 python3 scripts/security_scanner.py
+python3 scripts/check_long_goal_pack.py --self-test
 python3 scripts/check_birth_certificate.py
 bash scripts/test_suite.sh
 ```

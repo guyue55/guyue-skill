@@ -1,5 +1,6 @@
 import json
 import datetime
+import re
 from pathlib import Path
 from mcp.server.fastmcp import FastMCP
 
@@ -10,6 +11,14 @@ WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
 MEMORY_DIR = WORKSPACE_ROOT / ".guyue_memory"
 INDEX_FILE = MEMORY_DIR / "index.json"
 MANIFEST_FILE = WORKSPACE_ROOT / "skills_manifest.json"
+MAX_MEMORY_RESULTS = 20
+
+SENSITIVE_MEMORY_PATTERNS = [
+    ("API key or token", re.compile(r"(?i)(?:api[_ -]?key|access[_ -]?token|secret)\s*[:=]\s*[^\s,;]+")),
+    ("bearer token", re.compile(r"(?i)bearer\s+[a-z0-9._~+/-]{12,}")),
+    ("provider credential", re.compile(r"(?:sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})")),
+    ("personal absolute path", re.compile(r"(?:/(?:Users|home)/[^/\s]+/|[A-Za-z]:\\\\Users\\\\[^\\\s]+\\\\)")),
+]
 
 
 def load_memory_index() -> dict:
@@ -22,7 +31,8 @@ def load_memory_index() -> dict:
 
     if isinstance(data, dict):
         memories = data.get("memories", [])
-        return {"memories": memories if isinstance(memories, list) else []}
+        normalized = [item for item in memories if isinstance(item, dict)] if isinstance(memories, list) else []
+        return {"memories": normalized}
 
     if isinstance(data, list):
         normalized = []
@@ -40,6 +50,15 @@ def load_memory_index() -> dict:
     return {"memories": []}
 
 
+def find_sensitive_memory_content(values: list[str]) -> str | None:
+    """Return the first sensitive-content category found in memory input."""
+    content = "\n".join(values)
+    for label, pattern in SENSITIVE_MEMORY_PATTERNS:
+        if pattern.search(content):
+            return label
+    return None
+
+
 @mcp.tool()
 def guyue_list_skills() -> str:
     """Read skills_manifest.json to report available skills."""
@@ -51,6 +70,10 @@ def guyue_list_skills() -> str:
 @mcp.tool()
 def guyue_read_memory(query: str) -> str:
     """Read the memory index and return relevant past lessons based on a keyword query."""
+    normalized_query = query.strip().casefold()
+    if not normalized_query:
+        return "Memory query must contain a non-whitespace keyword."
+
     if not INDEX_FILE.exists():
         return "No memory bank index found."
 
@@ -64,8 +87,10 @@ def guyue_read_memory(query: str) -> str:
         # Simple text matching across tags and summary
         tags_str = " ".join(mem.get("tags", []))
         summary_str = mem.get("summary", "")
-        if query.lower() in tags_str.lower() or query.lower() in summary_str.lower():
+        if normalized_query in tags_str.casefold() or normalized_query in summary_str.casefold():
             results.append(mem)
+            if len(results) >= MAX_MEMORY_RESULTS:
+                break
             
     if not results:
         return f"No memories found for query: {query}"
@@ -75,9 +100,16 @@ def guyue_read_memory(query: str) -> str:
 @mcp.tool()
 def guyue_write_memory(symptom: str, root_cause: str, solution: str, tags: list[str]) -> str:
     """Write a new lesson into the double-track memory bank."""
+    normalized_tags = [str(tag).strip() for tag in (tags or []) if str(tag).strip()]
+    sensitive_label = find_sensitive_memory_content(
+        [symptom, root_cause, solution, *normalized_tags]
+    )
+    if sensitive_label:
+        return f"Refused to store memory containing {sensitive_label}. Redact it and try again."
+
     MEMORY_DIR.mkdir(parents=True, exist_ok=True)
-    
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
     filename = f"memory_{timestamp}.md"
     filepath = MEMORY_DIR / filename
     
@@ -93,14 +125,16 @@ def guyue_write_memory(symptom: str, root_cause: str, solution: str, tags: list[
                 
     new_entry = {
         "filename": filename,
-        "tags": tags,
+        "tags": normalized_tags,
         "summary": root_cause[:100] + ("..." if len(root_cause) > 100 else ""),
         "timestamp": timestamp
     }
     index_data.setdefault("memories", []).append(new_entry)
     
-    with open(INDEX_FILE, "w", encoding="utf-8") as f:
+    temporary_index = INDEX_FILE.with_name(f".{INDEX_FILE.name}.{timestamp}.tmp")
+    with open(temporary_index, "w", encoding="utf-8") as f:
         json.dump(index_data, f, ensure_ascii=False, indent=2)
+    temporary_index.replace(INDEX_FILE)
         
     return f"Successfully saved memory to {filename} and updated the index.json."
 

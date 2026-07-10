@@ -25,7 +25,16 @@ Use the full suite before a commit:
 bash scripts/test_suite.sh
 ```
 
-The full suite also runs `python3 scripts/check_birth_certificate.py`, a release-readiness check that verifies the public entrypoint, install path, trigger surface, visible evidence links, safety boundaries, and current skill/prompt counts stay synchronized.
+The full suite also runs `python3 scripts/check_full_install.py --self-test`, official `claude plugin validate --strict .` when the Claude CLI is available, `python3 scripts/test_mcp_server.py`, and `python3 scripts/check_birth_certificate.py`. These verify the full-package payload, marketplace metadata, memory read/write safety, public entrypoint, trigger surface, visible evidence links, safety boundaries, and current skill/prompt counts. CI always enforces the corresponding internal marketplace schema contract even when Claude CLI is unavailable.
+
+For public Agent Skills frontmatter compatibility, run the official reference validator against every child skill and against a temporary root directory named `guyue`:
+
+```bash
+npx skills-ref validate skills/<skill-name>
+npx skills-ref validate /tmp/<staging-root>/guyue
+```
+
+The repository checkout is named `guyue-skill`, while the installed root skill is named `guyue`; validate the installed/staged directory for the root name-to-directory rule.
 
 ## Current Test Categories
 
@@ -72,9 +81,13 @@ A release candidate passes evaluation when:
 - each registered skill has at least one matching test prompt or explicit manifest coverage;
 - safety-related tests require a pause, refusal, confirmation, or source check where relevant;
 - vague long-goal replay inspects project evidence before asking exactly one direction-changing question, while urgency cannot force a premature handoff;
-- ready long-goal replay creates or identifies the complete control pack and returns one physical handoff line without unresolved questions;
+- decision-open long-goal replay uses only targeted reads and a lightweight status probe; it does not run the full suite, security scan, installation, build, or live replay unless that evidence is necessary for the current decision or a safety risk;
+- ready long-goal replay creates or identifies the complete control pack, explicitly lists every phase-plan file, passes `python3 scripts/check_long_goal_pack.py <goal-master.md>`, and returns one physical handoff line without unresolved questions;
 - the full `bash scripts/test_suite.sh` exits with status code `0`;
 - `scripts/check_birth_certificate.py` confirms the public release assets are present and synchronized;
+- `scripts/check_full_install.py --self-test` rejects a root-only install and accepts the complete repository payload;
+- `scripts/test_mcp_server.py` proves empty memory queries and common secret-bearing writes are rejected, while normal rapid writes remain distinct and retrievable;
+- all child skills pass the official `skills-ref` validator, and the root passes when staged under its install name `guyue`;
 - the report does not contain missing skills or duplicate prompt names.
 
 ## Dry Run Versus Live Run
