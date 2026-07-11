@@ -2,7 +2,18 @@
 
 This document keeps installation paths explicit. Use the path that matches your agent runtime, then run the local verification command before relying on the skill.
 
-## Verify The Repository
+## 30-Second Read-Only Proof
+
+From the repository root, verify the package and deterministic router before installing dependencies or connecting a model:
+
+```bash
+python3 scripts/try_guyue.py
+python3 scripts/try_guyue.py --json
+```
+
+The command reads the full-package receipt, route manifest, project-context gates, and context budget. It does not write files, access the network, install dependencies, or call a model. A pass proves that the local package and deterministic route evidence are coherent; it does not prove that a target runtime discovered or activated Guyue.
+
+## Verify The Development Environment
 
 From the repository root:
 
@@ -23,7 +34,10 @@ Verify the mounted directory itself before relying on it:
 
 ```bash
 python3 /path/to/guyue/scripts/check_full_install.py /path/to/guyue
+python3 /path/to/guyue/scripts/check_full_install.py /path/to/guyue --runtime codex --json
 ```
+
+The JSON form is a local install receipt: package version, routed Skill count, runtime-specific required files, source commit when available, dirty-worktree state, and a SHA-256 over the required payload. Save or attach it to release evidence when needed; a complete receipt proves payload presence, not behavioral activation.
 
 ## Optional Enhancement Skills
 
@@ -43,7 +57,7 @@ Use the lower-level planner when you want to preview or audit optional skill cha
 python3 scripts/install_optional_dependencies.py
 ```
 
-The default mode is a dry run. It scans local skill roots first, reports already installed skills, and prints the actions it would take without cloning or linking anything.
+The default mode is a dry run. It scans local skill roots first, verifies that an existing Skill comes from the reviewed origin and exact commit recorded in the manifest, and prints the actions it would take without cloning or linking anything. A directory merely existing no longer counts as verified installation.
 
 To install green optional skills after reviewing the plan, while stopping on yellow/red findings:
 
@@ -126,7 +140,7 @@ When adding `CLAUDE.md`, keep it as a thin adapter to `RTK.md`; do not copy the 
 
 ## MCP Clients
 
-Use the MCP server when you want the agent to read the skill manifest or use the local memory bank through tools.
+Use the MCP server when you want the agent to read the skill manifest, explain candidate routes without loading every Skill body, or use the local memory bank through tools. The exposed route tool is `guyue_explain_route`; it returns match and rejection evidence but does not execute a Skill.
 
 ```json
 {
@@ -172,6 +186,6 @@ Use this prompt to verify behavior without touching project files:
 
 Expected behavior:
 
-- The agent pauses instead of writing code immediately.
-- The agent routes to requirement analysis, research, and system design concerns.
-- The agent names missing business/security details and asks for confirmation before implementation.
+- The agent respects the explicit read-only boundary and inspects available project evidence before making claims.
+- The agent routes to requirement-analysis or system-design concerns; it uses external research only when an unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical fact remains.
+- If one unresolved decision would change the direction, it asks only that highest-impact question. It does not invent missing facts or demand duplicate approval for already bounded reversible work.

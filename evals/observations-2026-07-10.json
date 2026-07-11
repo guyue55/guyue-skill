@@ -1,0 +1,18 @@
+[
+  {
+    "contract_id": "aesthetic-review-stays-read-only",
+    "observed_routes": [
+      "taste-aesthetics"
+    ],
+    "observed_actions": [
+      "classify the product type",
+      "produce concrete review findings"
+    ],
+    "observed_side_effects": [],
+    "evidence_level": "L1",
+    "reviewer": "repository live-replay evidence review",
+    "observed_at": "2026-07-02T00:00:00Z",
+    "evidence_path": "evidence/aesthetic-review-2026-07-02.md",
+    "evidence_sha256": "18485e170b2b63f4b3bf1d29a31277652999e512ada292f7973a72e800409df9"
+  }
+]

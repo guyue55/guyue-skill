@@ -9,6 +9,8 @@
 # Local runtime/generated state.
 .serena/** export-ignore
 .guyue_memory/local_skills_index.json export-ignore
+.guyue_memory/local/ export-ignore
+.guyue_memory/local/** export-ignore
 .guyue_memory/active/ export-ignore
 .guyue_memory/active/** export-ignore
 .guyue_memory/archive/** export-ignore
@@ -18,6 +20,7 @@ references/sources/** export-ignore
 references/research/** export-ignore
 references/research/14-permacomputing-lindy.md -export-ignore
 references/research/15-zero-leakage-security.md -export-ignore
+references/research/16-ecosystem-study-2026-q2.md -export-ignore
 
 # Common generated or bulky artifacts.
 .DS_Store export-ignore

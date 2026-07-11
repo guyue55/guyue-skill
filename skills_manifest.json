@@ -2,6 +2,24 @@
     "name": "guyue-digital-twin",
     "version": "1.3.0",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
+    "routing_contract": {
+        "version": 1,
+        "lifecycle": [
+            "discovered",
+            "selected",
+            "activated",
+            "resource_read",
+            "verified",
+            "failed"
+        ],
+        "selection_rule": "Select the narrowest skill whose positive intent and required context match, then reject candidates whose negative intent matches.",
+        "trace_fields": [
+            "skill",
+            "state",
+            "evidence",
+            "boundary"
+        ]
+    },
     "skills": [
         {
             "name": "sop-maker",
@@ -41,6 +59,7 @@
         {
             "name": "product-sense",
             "path": "skills/product-sense/SKILL.md",
+            "routing_priority": 30,
             "trigger_intent": [
                 "new product",
                 "business requirement",
@@ -48,17 +67,34 @@
                 "业务价值",
                 "业务侧方案"
             ],
+            "negative_intent": [
+                "implementation already approved and bounded",
+                "read-only implementation audit",
+                "active bug with logs"
+            ],
             "description": "Business-readable value, ROI, user impact, role, and compliance interrogation before requirement analysis or system design."
         },
         {
             "name": "research-and-sourcing",
             "path": "skills/research-and-sourcing/SKILL.md",
+            "routing_priority": 40,
             "trigger_intent": [
-                "new feature",
                 "unknown technology",
-                "design request"
+                "latest official docs",
+                "version-sensitive API",
+                "current comparison",
+                "explicit research request",
+                "当前版本",
+                "官方 API",
+                "废弃项"
             ],
-            "description": "Latest-source research for docs, APIs, libraries, and references; use ecosystem-scout for external skill/tool intake."
+            "negative_intent": [
+                "stable local repository fact",
+                "current git status",
+                "local file explanation",
+                "external Skill intake"
+            ],
+            "description": "Current primary-source research for unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical facts; use local inspection for stable repository facts and ecosystem-scout for external Skill intake."
         },
         {
             "name": "requirement-analysis",
@@ -68,16 +104,25 @@
                 "ambiguous business logic",
                 "业务侧需求",
                 "业务可读需求",
+                "模糊需求",
+                "给当前项目做一个",
+                "全面升级",
                 "模糊长线目标",
                 "准备长期 Goal",
                 "只给一行提示词",
                 "long goal forge"
             ],
-            "description": "Requirement convergence with business-readable outputs for vague requests, ambiguous business logic, and vague long-running goals that need scoped acceptance criteria, cost/risk boundaries, or a one-line execution handoff before design or implementation."
+            "negative_intent": [
+                "方案已经确认",
+                "需求已经确认",
+                "implementation already approved and bounded"
+            ],
+            "description": "Requirement convergence with business-readable outputs for vague requests, feature requests stated only as something to build, ambiguous business logic, and vague long-running goals that need scoped acceptance criteria, cost/risk boundaries, or a one-line execution handoff before design or implementation."
         },
         {
             "name": "system-design",
             "path": "skills/system-design/SKILL.md",
+            "routing_priority": 50,
             "trigger_intent": [
                 "architecture",
                 "core module refactoring",
@@ -87,7 +132,15 @@
                 "统一接口契约",
                 "全局参数",
                 "权限分层",
-                "后端控制权限"
+                "后端控制权限",
+                "权限管理",
+                "权限模型替换",
+                "不可逆迁移"
+            ],
+            "negative_intent": [
+                "language-only rewrite",
+                "read-only reality audit",
+                "small bounded implementation with established contract"
             ],
             "description": "DEPTH framework for business-readable architecture, refactoring plans, backend-owned permission boundaries, frontend permission presentation, and single-source contracts for models, tables, parameters, permissions, and APIs after value and requirement boundaries are clear."
         },
@@ -116,7 +169,14 @@
                 "长任务循环",
                 "动态工作流开发",
                 "Agent loop",
-                "循环契约"
+                "循环契约",
+                "后端接口",
+                "静态 demo",
+                "PDF 导出",
+                "当前分支",
+                "未提交修改",
+                "修这个仓库",
+                "可回滚的小问题"
             ],
             "description": "Full-stack implementation and commit discipline for frontend, backend, data, scripts, configuration, infrastructure, and documentation changes, including best practices, necessary comments, high cohesion, low coupling, modularity, loop contracts for long-running agent workflows, backend-owned permission checks with frontend permission presentation, build/lint/test validation gates, Chinese conventional commits, dirty-worktree commit slicing, and reuse-first checks for functions, models, tables, parameters, API contracts, permissions, components, constants, dialogs, prompts, scripts, and shared logic; use frontend-expert only when UI work is involved, and use code-minimalism when the primary job is reducing overdesign."
         },
@@ -207,6 +267,8 @@
                 "快速安装",
                 "帮我装一下",
                 "应用第三方工具",
+                "第三方 Agent Skill",
+                "评估第三方技能",
                 "收纳",
                 "整合",
                 "ingest",
@@ -233,27 +295,40 @@
         {
             "name": "software-advisor",
             "path": "skills/software-advisor/SKILL.md",
+            "routing_priority": 60,
             "trigger_intent": [
                 "recommend tool",
                 "推荐软件",
                 "开源工具推荐",
                 "what is a good tool for"
             ],
+            "negative_intent": [
+                "Agent Skill intake",
+                "plugin installation",
+                "known project dependency"
+            ],
             "description": "Local curated software and open-source tool advisor; if the task is external Skill intake, route to ecosystem-scout."
         },
         {
             "name": "taste-aesthetics",
             "path": "skills/taste-aesthetics/SKILL.md",
+            "routing_priority": 60,
             "trigger_intent": [
                 "前端审美",
                 "高级UI",
                 "taste",
                 "vibe coding",
                 "anti-slop",
+                "AI 味",
                 "AI 味 UI",
                 "设计拨盘",
                 "确定性 UI 检查",
                 "frontend-design"
+            ],
+            "negative_intent": [
+                "implement the UI",
+                "fix frontend code",
+                "backend-only task"
             ],
             "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique, product-type classification, deterministic UI checks, design-reference boundaries, and dial-based design direction; use frontend-expert to write the UI."
         },
@@ -354,6 +429,8 @@
                 "技能安全",
                 "防注入",
                 "审核技能",
+                "第三方 Agent Skill",
+                "评估技能",
                 "security scan"
             ],
             "description": "Local safety preflight for third-party skills, scripts, and external code before use or intake."
@@ -361,8 +438,10 @@
         {
             "name": "reality-auditor",
             "path": "skills/reality-auditor/SKILL.md",
+            "routing_priority": 80,
             "trigger_intent": [
                 "reality audit",
+                "只读审查",
                 "真实审查",
                 "确认真实",
                 "深度审查",
@@ -373,6 +452,9 @@
                 "配置是否生效",
                 "release readiness",
                 "deployment reality",
+                "可发版状态",
+                "发版审查",
+                "检查这个实现",
                 "循环验证",
                 "动态工作流审查",
                 "subagent evidence"
@@ -382,28 +464,54 @@
         {
             "name": "nexusflow-governance-workflow",
             "path": "skills/nexusflow-governance-workflow/SKILL.md",
+            "routing_priority": 100,
+            "required_any_context": [
+                "NexusFlow",
+                "permissionSnapshot",
+                "tenant governance",
+                "GCP import",
+                "repository marker for NexusFlow"
+            ],
             "trigger_intent": [
                 "NexusFlow",
-                "权限管理",
-                "后端控制权限",
                 "permissionSnapshot",
-                "平台治理",
                 "tenant governance",
                 "GCP import"
+            ],
+            "negative_intent": [
+                "generic permission management",
+                "unrelated tenant system",
+                "是否触发",
+                "是否应触发",
+                "repository without a NexusFlow marker"
             ],
             "description": "Project-specific NexusFlow workflow for permission, tenant governance, platform visibility, dashboard, GCP import, audit-log, and Chinese commit work."
         },
         {
             "name": "eac-demo-hardening",
             "path": "skills/eac-demo-hardening/SKILL.md",
-            "trigger_intent": [
+            "routing_priority": 100,
+            "required_any_context": [
+                "EAC",
                 "EAC Demo",
+                "EAC B2B Site Auditor",
+                "EAC repository marker",
+                "known EAC Demo/index.html"
+            ],
+            "trigger_intent": [
+                "EAC",
+                "EAC Demo",
+                "EAC B2B Site Auditor",
                 "Demo/index.html",
-                "报告导出",
-                "PDF 下载",
-                "教程视频",
-                "GSAP report",
-                "static demo"
+                "EAC report export",
+                "EAC tutorial fallback"
+            ],
+            "negative_intent": [
+                "generic static demo",
+                "unrelated PDF export",
+                "是否触发",
+                "是否应触发",
+                "repository without an EAC marker"
             ],
             "description": "Project-specific EAC static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, and demo-only boundaries."
         },
@@ -427,40 +535,45 @@
             "name": "luban",
             "description": "Skill打磨工坊",
             "package_id": "LearnPrompt/luban-skill",
-            "command": "git clone https://github.com/LearnPrompt/luban-skill ~/.cc-switch/skills/luban",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only luban",
             "url": "https://github.com/LearnPrompt/luban-skill",
+            "ref": "89b1f0dd338345d036232e24046eabad5a64205c",
             "required": false
         },
         {
             "name": "huashu-nuwa",
             "description": "提示词蒸馏与规范化",
             "package_id": "alchaincyf/nuwa-skill",
-            "command": "git clone https://github.com/alchaincyf/nuwa-skill ~/.cc-switch/skills/nuwa-skill",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only huashu-nuwa",
             "url": "https://github.com/alchaincyf/nuwa-skill",
+            "ref": "72857dc720f4d1dd3e68a40a544341dfc65ea33e",
             "required": false
         },
         {
             "name": "superpowers",
             "description": "高级 Agent 工作流",
             "package_id": "obra/superpowers",
-            "command": "git clone https://github.com/obra/superpowers ~/.cc-switch/skills/superpowers",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only superpowers",
             "url": "https://github.com/obra/superpowers",
+            "ref": "d884ae04edebef577e82ff7c4e143debd0bbec99",
             "required": false
         },
         {
             "name": "ui-ux-pro-max",
             "description": "极致的前端与交互美学设计规范",
             "package_id": "nextlevelbuilder/ui-ux-pro-max-skill",
-            "command": "git clone https://github.com/nextlevelbuilder/ui-ux-pro-max-skill ~/.cc-switch/skills/ui-ux-pro-max",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only ui-ux-pro-max",
             "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+            "ref": "12b486b22e67f5d887962ef8351c1ac863bfaeb9",
             "required": false
         },
         {
             "name": "gsap-core",
             "description": "前端动画与交互核心库",
             "package_id": "greensock/gsap-skills",
-            "command": "git clone https://github.com/greensock/gsap-skills ~/.gemini/config/skills/gsap-core",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only gsap-core",
             "url": "https://github.com/greensock/gsap-skills",
+            "ref": "aed9cfd3277740755f6bfc1155c7aa645403b760",
             "required": false
         },
         {
@@ -473,8 +586,9 @@
                 "how do I do",
                 "find a skill"
             ],
-            "command": "npx skills add vercel-labs/skills@find-skills",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only find-skills",
             "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills",
+            "ref": "4ce6d48ac44c8b637db87b2102fea3baca719df1",
             "required": false
         },
         {
@@ -488,8 +602,9 @@
                 "taste",
                 "vibe coding"
             ],
-            "command": "npx skills add Leonxlnx/taste-skill",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only taste-skill",
             "url": "https://github.com/Leonxlnx/taste-skill",
+            "ref": "b17742737e796305d829b3ad39eda3add0d79060",
             "required": false
         },
         {
@@ -502,8 +617,9 @@
                 "headroom",
                 "上下文过长"
             ],
-            "command": "npx skills add chopratejas/headroom",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only headroom",
             "url": "https://github.com/chopratejas/headroom",
+            "ref": "1d2b76e72e16eaf532326d9e75a481e18bde1ab7",
             "required": false
         },
         {
@@ -516,8 +632,9 @@
                 "减少冗余代码",
                 "ponytail"
             ],
-            "command": "npx skills add DietrichGebert/ponytail",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only ponytail",
             "url": "https://github.com/DietrichGebert/ponytail",
+            "ref": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
             "required": false
         },
         {
@@ -530,8 +647,9 @@
                 "沉淀书本知识",
                 "沉淀视频技能"
             ],
-            "command": "npx skills add kangarooking/cangjie-skill",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only cangjie-skill",
             "url": "https://github.com/kangarooking/cangjie-skill",
+            "ref": "78899a9ec906451c1d1685cb0c248fe2441bbb89",
             "required": false
         },
         {
@@ -543,8 +661,9 @@
                 "视频抓取",
                 "video downloader"
             ],
-            "command": "npx skills add kangarooking/kangarooking-skills",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only video-downloader",
             "url": "https://github.com/kangarooking/kangarooking-skills/tree/main/video-downloader",
+            "ref": "528b53c1005812b1203a9abe5a1f6b9b01f1ed98",
             "required": false
         },
         {
@@ -557,8 +676,9 @@
                 "防注入",
                 "审核技能"
             ],
-            "command": "git clone https://github.com/NVIDIA/SkillSpector ~/.cc-switch/skills/skillspector",
+            "command": "python3 scripts/install_optional_dependencies.py --install --only skillspector",
             "url": "https://github.com/NVIDIA/SkillSpector",
+            "ref": "c2d09df019e358d3dc12d980b82c798b87cb9f56",
             "required": false
         }
     ]

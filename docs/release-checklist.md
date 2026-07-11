@@ -2,6 +2,9 @@
 
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
+> [!WARNING]
+> The working tree after the 2026-07-10 comprehensive upgrade and 2026-07-11 first-run polish is **Unreleased**. The checked v1.3.0 snapshot below remains historical release evidence, not authorization to reuse its tag, public-install result, or live replay as proof for the next version. See [guyue-upgrade-audit-2026-07-10.md](guyue-upgrade-audit-2026-07-10.md) and [guyue-first-run-polish-2026-07-11.md](guyue-first-run-polish-2026-07-11.md).
+
 ## Current Candidate Snapshot
 
 Date: 2026-07-10
@@ -16,6 +19,7 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] `examples/quickstart-output.md` records Codex read-only live replay results, including fixed deviations.
 - [x] `security-gate` missing-target behavior has a regression replay and now stops for clarification.
 - [x] Placeholder demo GIF is removed; current visible evidence is text replay plus a reproducible showcase GIF referenced from `examples/showcase.md`.
+- [x] `scripts/try_guyue.py` gives a zero-network, zero-dependency, read-only first proof with package, route, project-gate, context-budget, and evidence-boundary output.
 - [x] Claude marketplace metadata passes `claude plugin validate --strict .` and declares the repository root as an explicit skill bundle.
 - [x] An isolated Claude Code 2.1.170 install reports Guyue 1.3.0 enabled with 27 Skill components and a complete payload.
 - [x] Current release-evidence refresh passed `bash scripts/test_suite.sh`, `git diff --check`, cache scan, and `python3 scripts/security_scanner.py`.
@@ -25,7 +29,7 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] Fresh install path declares `PyYAML` in `requirements.txt`; README, installation docs, and GitHub CI all install from the same dependency file.
 - [x] Fresh `HOME` validation path passes without preinstalled external ecosystem skills; external skills are optional enhancements, not release-gate blockers.
 - [x] GitHub-generated source archives are filtered by `.gitattributes` `export-ignore` rules.
-- [x] Release source archives keep curated memory entrypoints (`.guyue_memory/index.json`, `.guyue_memory/global_context.md`) but exclude `.guyue_memory/active/**`.
+- [x] Release source archives keep curated memory entrypoints (`.guyue_memory/index.json`, `.guyue_memory/global_context.md`) but exclude `.guyue_memory/local/**`, legacy active memory, and archives.
 - [x] `git archive` release bundle can run `scripts/test_suite.sh` without a `.git` directory.
 - [x] Release bundle must be created from GitHub source archives, `git archive`, or the target source-package mechanism, not by zipping the working directory with ignored private files.
 - [x] Validation scripts do not leave `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
@@ -43,9 +47,10 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] Full-stack development defaults for best practices, necessary comments, modularity, backend-owned permissions, frontend permission presentation, build/lint/test gates, Chinese commit format, and UI-only default frontend workflows are validated by `scripts/ci_validate_skills.py`.
 - [x] Loop engineering and dynamic workflow routing, Loop Contract fields, subagent budgets, independent verifiers, stop conditions, and replay evidence are validated by `scripts/ci_validate_skills.py`.
 - [x] Frontend design ecosystem routing, product-type classification, DESIGN.md/Figma/Refero reference boundaries, deterministic UI checks, and website reconstruction authorization limits are validated by `scripts/ci_validate_skills.py`.
-- [x] Showcase GIF, `assets/demo.tape`, and `scripts/render_demo_gif.py` are validated as files included in the release source archive; ignored, untracked, or export-ignored showcase assets fail CI.
+- [x] Showcase GIF, `assets/demo.tape`, `scripts/render_demo_gif.py`, and the tested first-run proof are validated as files included in the release source archive; the VHS tape runs the real proof instead of echoing fabricated results.
 - [x] `scripts/check_birth_certificate.py` validates the public entrypoint, install path, trigger surface, evidence links, safety boundaries, and synchronized skill/prompt counts.
 - [x] Long Goal masters explicitly list every phase-plan file, and `scripts/check_long_goal_pack.py --self-test` rejects an unlisted phase.
+- [x] New Long Goal v3 masters define delegation ownership, BASE/report/review packets and convergence budgets; complete evidence binds actual artifact SHA-256, implementation version, worktree state, command, exit code, and time.
 - [x] Zero-Leakage scans tracked and unignored untracked files; an untracked fake-key probe is blocked before staging.
 - [x] Public release actions still require explicit authorization for push, tag, marketplace submission, or deployment.
 - [x] Public install docs disclose that generic root-level `npx skills add` installs only `SKILL.md`; the supported full install preserves the whole repository tree.
@@ -80,6 +85,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] Default optional dependency handling is plan-only; networked third-party installation requires explicit mode selection.
 - [ ] `docs/runtime-adapters.md` is current before adding or changing runtime-specific adapter files.
 - [ ] First-run prompt produces a visible planning or analysis result without editing files.
+- [ ] `python3 scripts/try_guyue.py` passes before runtime installation and states that deterministic proof is not activation proof.
 
 ## Verification
 
@@ -88,13 +94,21 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
 - [ ] `python3 scripts/run_eval.py` passes.
+- [ ] `python3 scripts/test_skill_router.py` passes all positive/negative route contracts.
+- [ ] `python3 scripts/test_context_budget.py` and `python3 scripts/check_context_budget.py` pass without budget or collision errors.
+- [ ] `python3 scripts/test_try_guyue.py` passes and the JSON proof reports a complete payload with at least one evidence-backed route.
 - [ ] `python3 scripts/check_birth_certificate.py` passes.
 - [ ] `python3 scripts/check_long_goal_pack.py --self-test` passes.
 - [ ] `python3 scripts/check_full_install.py --self-test` passes.
+- [ ] `python3 scripts/check_full_install.py --runtime <target> --json` returns a complete payload receipt and the recorded SHA-256 matches the installed candidate.
 - [ ] `claude plugin validate --strict .` passes when preparing a Claude marketplace release.
 - [ ] `python3 scripts/test_mcp_server.py` passes.
+- [ ] `python3 scripts/test_codex_extractor.py` passes.
+- [ ] `python3 scripts/check_behavior_replay.py --self-test` passes, every `evals/observations-*.json` file is hash-checked, and release-critical live observations use `--require-all` only when complete coverage is claimed.
+- [ ] `ruff check scripts src` passes.
 - [ ] Official `skills-ref` validation passes for every child skill and for the root staged under a directory named `guyue`.
 - [ ] `bash scripts/test_suite.sh` passes.
+- [ ] After staging the exact release candidate, `GUYUE_RELEASE_STRICT=1 bash scripts/test_suite.sh` passes so untracked files cannot masquerade as archive payload.
 - [ ] Any new `references/`, `scripts/`, `assets/`, or `examples/` file mentioned from a `SKILL.md` is included in the release source archive before release packaging.
 
 ## Security
@@ -103,6 +117,8 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] No generated cache files are tracked.
 - [ ] External skill intake requires `ecosystem-scout` assessment and approval.
 - [ ] Unknown install scripts are not auto-executed.
+- [ ] Existing optional Skill directories are verified against the manifest's reviewed origin and exact commit; presence alone is not accepted.
+- [ ] Private runtime memory remains under ignored storage, while the public schema-v2 index contains only curated, existing release files.
 - [ ] Publishing, marketplace submission, tag creation, and deployment require explicit user authorization.
 
 ## Showcase

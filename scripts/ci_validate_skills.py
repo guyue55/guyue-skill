@@ -36,11 +36,26 @@ def check_memory_index(file_path):
         print(f"❌ [MEMORY INDEX ERROR] {file_path}: {e}", file=sys.stderr)
         return False
 
-    if not isinstance(data, dict) or not isinstance(data.get('memories'), list):
-        print(f"❌ [MEMORY INDEX ERROR] {file_path}: expected object with a memories list", file=sys.stderr)
+    if not isinstance(data, dict) or data.get('schema_version') != 2 or not isinstance(data.get('memories'), list):
+        print(f"❌ [MEMORY INDEX ERROR] {file_path}: expected schema_version 2 and a memories list", file=sys.stderr)
         return False
 
-    required_fields = {'filename', 'tags', 'summary', 'timestamp'}
+    required_fields = {
+        'schema_version',
+        'id',
+        'filename',
+        'tags',
+        'summary',
+        'timestamp',
+        'provenance',
+        'scope',
+        'evidence',
+        'confidence',
+        'status',
+        'supersedes',
+        'review_after',
+    }
+    memory_root = os.path.dirname(file_path)
     for idx, item in enumerate(data['memories']):
         if not isinstance(item, dict):
             print(f"❌ [MEMORY INDEX ERROR] {file_path}: memories[{idx}] must be an object", file=sys.stderr)
@@ -51,6 +66,17 @@ def check_memory_index(file_path):
             return False
         if not isinstance(item.get('tags'), list):
             print(f"❌ [MEMORY INDEX ERROR] {file_path}: memories[{idx}].tags must be a list", file=sys.stderr)
+            return False
+        filename = str(item.get('filename', ''))
+        if filename.startswith(('active/', 'archive/', 'local/')):
+            print(f"❌ [MEMORY INDEX ERROR] public index cannot reference private runtime path: {filename}", file=sys.stderr)
+            return False
+        detail_path = os.path.realpath(os.path.join(memory_root, filename))
+        if os.path.commonpath([os.path.realpath(memory_root), detail_path]) != os.path.realpath(memory_root):
+            print(f"❌ [MEMORY INDEX ERROR] memory path escapes public root: {filename}", file=sys.stderr)
+            return False
+        if not os.path.isfile(detail_path):
+            print(f"❌ [MEMORY INDEX ERROR] public memory detail not found: {filename}", file=sys.stderr)
             return False
 
     return True
@@ -87,6 +113,7 @@ def check_project_config(repo_root):
     manifest_path = os.path.join(repo_root, 'skills_manifest.json')
     marketplace_path = os.path.join(repo_root, '.claude-plugin', 'marketplace.json')
     skills_json_path = os.path.join(repo_root, 'skills.json')
+    requirements_path = os.path.join(repo_root, 'requirements.txt')
     workflow_path = os.path.join(repo_root, '.github', 'workflows', 'ci.yml')
     root_skill_path = os.path.join(repo_root, 'SKILL.md')
 
@@ -147,9 +174,82 @@ def check_project_config(repo_root):
         print(f"❌ [CONFIG ERROR] skills.json entries must be [{{'path': 'skills'}}], got {skills_json.get('entries')}", file=sys.stderr)
         passed = False
 
+    try:
+        with open(requirements_path, 'r', encoding='utf-8') as f:
+            requirements = {line.strip() for line in f if line.strip() and not line.lstrip().startswith('#')}
+    except OSError as e:
+        print(f"❌ [CONFIG ERROR] Failed to read requirements.txt: {e}", file=sys.stderr)
+        requirements = set()
+        passed = False
+    required_specs = {'mcp>=1.0.0,<2.0.0', 'PyYAML>=6.0,<7.0', 'ruff>=0.15,<1.0'}
+    missing_specs = required_specs - requirements
+    if missing_specs:
+        print(
+            f"❌ [CONFIG ERROR] requirements.txt missing bounded validation dependencies: {sorted(missing_specs)}",
+            file=sys.stderr,
+        )
+        passed = False
+
+    routing_contract = manifest.get('routing_contract')
+    expected_lifecycle = [
+        'discovered',
+        'selected',
+        'activated',
+        'resource_read',
+        'verified',
+        'failed',
+    ]
+    if not isinstance(routing_contract, dict) or routing_contract.get('version') != 1:
+        print("❌ [CONFIG ERROR] routing_contract.version must be 1", file=sys.stderr)
+        passed = False
+    elif routing_contract.get('lifecycle') != expected_lifecycle:
+        print("❌ [CONFIG ERROR] routing_contract lifecycle is incomplete or out of order", file=sys.stderr)
+        passed = False
+
+    manifest_skills = manifest.get('skills')
+    if not isinstance(manifest_skills, list):
+        print("❌ [CONFIG ERROR] manifest skills must be a list", file=sys.stderr)
+        passed = False
+        manifest_skills = []
+
+    skill_names = set()
+    for skill in manifest_skills:
+        if not isinstance(skill, dict):
+            print("❌ [CONFIG ERROR] each manifest skill must be an object", file=sys.stderr)
+            passed = False
+            continue
+        name = str(skill.get('name', '')).strip()
+        if not name or name in skill_names:
+            print(f"❌ [CONFIG ERROR] missing or duplicate manifest skill name: {name!r}", file=sys.stderr)
+            passed = False
+        skill_names.add(name)
+        for field in ('trigger_intent', 'negative_intent', 'required_any_context'):
+            if field not in skill:
+                continue
+            values = skill[field]
+            if not isinstance(values, list) or not all(isinstance(value, str) and value.strip() for value in values):
+                print(f"❌ [CONFIG ERROR] {name}.{field} must be a non-empty string list", file=sys.stderr)
+                passed = False
+        if 'routing_priority' in skill and not isinstance(skill['routing_priority'], int):
+            print(f"❌ [CONFIG ERROR] {name}.routing_priority must be an integer", file=sys.stderr)
+            passed = False
+
+    for project_skill in ('nexusflow-governance-workflow', 'eac-demo-hardening'):
+        item = next((skill for skill in manifest_skills if skill.get('name') == project_skill), None)
+        if not item or not item.get('required_any_context') or not item.get('negative_intent'):
+            print(
+                f"❌ [CONFIG ERROR] project skill {project_skill} requires positive project markers and negative routes",
+                file=sys.stderr,
+            )
+            passed = False
+
     for dep in manifest.get('external_dependencies', []):
         if dep.get('required', False):
             print(f"❌ [CONFIG ERROR] external dependency must be optional in this release: {dep.get('name')}", file=sys.stderr)
+            passed = False
+        ref = str(dep.get('ref', ''))
+        if not re.fullmatch(r'[0-9a-f]{40}', ref):
+            print(f"❌ [CONFIG ERROR] external dependency must pin a reviewed 40-character commit: {dep.get('name')}", file=sys.stderr)
             passed = False
 
     if is_git_checkout(repo_root):
@@ -203,6 +303,8 @@ def check_source_archive_export_rules(repo_root):
         '.gitignore',
         '.gitattributes',
         '.guyue_memory/local_skills_index.json',
+        '.guyue_memory/local/index.json',
+        '.guyue_memory/local/active/example.md',
         '.guyue_memory/active/',
         '.guyue_memory/active/mem_10_iterations.md',
         'references/sources/example.md',
@@ -219,6 +321,7 @@ def check_source_archive_export_rules(repo_root):
         '.guyue_memory/global_context.md',
         'references/research/14-permacomputing-lindy.md',
         'references/research/15-zero-leakage-security.md',
+        'references/research/16-ecosystem-study-2026-q2.md',
         'assets/demo.gif',
         'scripts/ci_validate_skills.py',
     ]
@@ -386,18 +489,22 @@ def check_manifest_skill_paths(repo_root):
 
 def list_release_files(repo_root):
     try:
+        strict_release = os.getenv('GUYUE_RELEASE_STRICT') == '1'
+        command = ['git', '-C', repo_root, 'ls-files']
+        if not strict_release:
+            command.extend(['--cached', '--others', '--exclude-standard'])
         output = subprocess.check_output(
-            ['git', '-C', repo_root, 'ls-files'],
+            command,
             text=True,
             stderr=subprocess.STDOUT,
         )
-        tracked_files = [line for line in output.splitlines() if line.strip()]
-        if not tracked_files:
+        candidate_files = [line for line in output.splitlines() if line.strip()]
+        if not candidate_files:
             return []
 
         attr_output = subprocess.check_output(
             ['git', '-C', repo_root, 'check-attr', '--stdin', 'export-ignore'],
-            input='\n'.join(tracked_files) + '\n',
+            input='\n'.join(candidate_files) + '\n',
             text=True,
             stderr=subprocess.STDOUT,
         )
@@ -406,7 +513,7 @@ def list_release_files(repo_root):
             for line in attr_output.splitlines()
             if line.endswith(': export-ignore: set')
         }
-        return [os.path.join(repo_root, line) for line in tracked_files if line not in ignored]
+        return [os.path.join(repo_root, line) for line in candidate_files if line not in ignored]
     except (FileNotFoundError, subprocess.CalledProcessError):
         release_files = []
         for root, dirs, files in os.walk(repo_root):
@@ -426,13 +533,12 @@ def check_skill_markdown(file_path):
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
-        # Hardcoded paths check (ignore common examples)
+        # Hardcoded paths check
         lines = content.split('\n')
         for i, line in enumerate(lines):
             if '/Users/' in line or 'C:\\Users\\' in line:
-                if '`/Users/apple/...`' not in line and '`/Users/xxx`' not in line:
-                    print(f"❌ [SECURITY ERROR] Hardcoded local path found in {file_path}:{i+1}", file=sys.stderr)
-                    passed = False
+                print(f"❌ [SECURITY ERROR] Hardcoded local path found in {file_path}:{i+1}", file=sys.stderr)
+                passed = False
             
         # Frontmatter check
         if content.startswith('---'):
@@ -499,9 +605,8 @@ def check_python_scripts(file_path):
         lines = content.split('\n')
         for i, line in enumerate(lines):
             if '/Users/' in line or 'C:\\Users\\' in line:
-                if '`/Users/apple/...`' not in line and '`/Users/xxx`' not in line:
-                    print(f"❌ [SECURITY ERROR] Hardcoded local path found in {file_path}:{i+1}", file=sys.stderr)
-                    passed = False
+                print(f"❌ [SECURITY ERROR] Hardcoded local path found in {file_path}:{i+1}", file=sys.stderr)
+                passed = False
 
         try:
             ast.parse(content, filename=file_path)
@@ -535,9 +640,11 @@ def check_mcp_server_paths(repo_root):
         return False
 
     expected_manifest = os.path.join(repo_root, 'skills_manifest.json')
-    expected_memory = os.path.join(repo_root, '.guyue_memory')
+    expected_memory = os.path.join(repo_root, '.guyue_memory', 'local')
+    expected_curated_memory = os.path.join(repo_root, '.guyue_memory')
     actual_manifest = os.fspath(module.MANIFEST_FILE)
     actual_memory = os.fspath(module.MEMORY_DIR)
+    actual_curated_memory = os.fspath(module.CURATED_MEMORY_DIR)
 
     if actual_manifest != expected_manifest:
         print(f"❌ [MCP ERROR] MANIFEST_FILE points to {actual_manifest}, expected {expected_manifest}", file=sys.stderr)
@@ -545,6 +652,13 @@ def check_mcp_server_paths(repo_root):
 
     if actual_memory != expected_memory:
         print(f"❌ [MCP ERROR] MEMORY_DIR points to {actual_memory}, expected {expected_memory}", file=sys.stderr)
+        return False
+
+    if actual_curated_memory != expected_curated_memory:
+        print(
+            f"❌ [MCP ERROR] CURATED_MEMORY_DIR points to {actual_curated_memory}, expected {expected_curated_memory}",
+            file=sys.stderr,
+        )
         return False
 
     return True
@@ -1026,7 +1140,6 @@ def check_reuse_first_engineering_contract(repo_root):
         'frontend_expert': os.path.join(repo_root, 'skills', 'frontend-expert', 'SKILL.md'),
         'manifest': os.path.join(repo_root, 'skills_manifest.json'),
         'prompts': os.path.join(repo_root, 'test-prompts.json'),
-        'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
         'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
     }
     passed = True
@@ -1669,6 +1782,9 @@ def check_long_goal_forge_contract(repo_root):
             'Long Goal Forge Fast Gate',
             'remaining budget is at most 3 targeted reads/searches',
             "sed -n '1,120p' SKILL.md",
+            'v3 控制包',
+            '委派收束',
+            '证据哈希',
         ],
         'requirement_analysis': [
             'Long Goal Forge Mode',
@@ -1689,6 +1805,8 @@ def check_long_goal_forge_contract(repo_root):
             '不得运行完整测试套件',
             '不预读控制包模板',
             '逐个列出账本、每个阶段计划和证据索引',
+            '委派与收束',
+            '文件哈希',
         ],
         'template': [
             '总控文档模板',
@@ -1698,12 +1816,19 @@ def check_long_goal_forge_contract(repo_root):
             '一行 Goal 提示词',
             '阶段计划清单',
             'check_long_goal_pack.py',
+            '控制包版本：3',
+            '委派与收束',
+            '证据 SHA-256',
+            '工作树状态',
         ],
         'pack_checker': [
             'phase file is not explicitly referenced',
             'control pack must contain exactly one master document',
             'unresolved template placeholder found',
             '--self-test',
+            'LATEST_CONTROL_PACK_VERSION',
+            'validate_delegation_contract',
+            'SHA-256 does not match its artifact',
         ],
         'security_scanner': [
             '--cached',
@@ -1771,6 +1896,9 @@ def check_long_goal_forge_contract(repo_root):
             'must not begin implementation',
             'must not run the full test suite',
             'explicitly list every phase-plan file',
+            'version-3',
+            'delegation/convergence contract',
+            'hash-bound live-evidence index',
         ],
         'Long Goal Forge Resists Urgency And Vague Superlatives': [
             'Urgency',
@@ -1938,6 +2066,8 @@ def check_showcase_assets(repo_root):
     demo_gif = os.path.join(repo_root, 'assets', 'demo.gif')
     demo_tape = os.path.join(repo_root, 'assets', 'demo.tape')
     render_script = os.path.join(repo_root, 'scripts', 'render_demo_gif.py')
+    try_script = os.path.join(repo_root, 'scripts', 'try_guyue.py')
+    try_test = os.path.join(repo_root, 'scripts', 'test_try_guyue.py')
     release_rel_paths = {
         os.path.relpath(path, repo_root).replace(os.sep, '/')
         for path in list_release_files(repo_root)
@@ -1948,6 +2078,8 @@ def check_showcase_assets(repo_root):
         'showcase GIF': demo_gif,
         'showcase tape': demo_tape,
         'showcase renderer': render_script,
+        'first-run proof': try_script,
+        'first-run proof regression': try_test,
     }.items():
         rel_path = os.path.relpath(path, repo_root).replace(os.sep, '/')
         if not os.path.exists(path):
@@ -1976,6 +2108,9 @@ def check_showcase_assets(repo_root):
         if 'Output assets/demo.gif' not in tape:
             print("❌ [SHOWCASE ERROR] assets/demo.tape must render assets/demo.gif", file=sys.stderr)
             passed = False
+        if 'python3 scripts/try_guyue.py' not in tape:
+            print("❌ [SHOWCASE ERROR] assets/demo.tape must run the real first-run proof", file=sys.stderr)
+            passed = False
     except OSError as e:
         print(f"❌ [SHOWCASE ERROR] Failed to read assets/demo.tape: {e}", file=sys.stderr)
         passed = False
@@ -1988,6 +2123,25 @@ def check_showcase_assets(repo_root):
     )
     if result.returncode != 0:
         print(f"❌ [SHOWCASE ERROR] render_demo_gif.py --check failed: {result.stderr.strip()}", file=sys.stderr)
+        passed = False
+
+    proof_result = subprocess.run(
+        [sys.executable, try_script, '--json'],
+        cwd=repo_root,
+        text=True,
+        capture_output=True,
+    )
+    try:
+        proof = json.loads(proof_result.stdout)
+    except json.JSONDecodeError:
+        proof = {}
+    if (
+        proof_result.returncode != 0
+        or proof.get('status') != 'pass'
+        or proof.get('package', {}).get('payload_status') != 'complete'
+        or not proof.get('routing', {}).get('selected')
+    ):
+        print("❌ [SHOWCASE ERROR] read-only first-run proof did not produce a complete passing result", file=sys.stderr)
         passed = False
 
     if is_git_checkout(repo_root):
@@ -2050,7 +2204,7 @@ def main():
         all_passed = False
 
     if check_markdown_internal_links(repo_root):
-        print("✅ tracked markdown internal links valid.")
+        print("✅ candidate release Markdown internal links valid.")
     else:
         all_passed = False
 

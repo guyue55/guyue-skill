@@ -13,19 +13,22 @@ RTK.md         repository runtime kernel for coding agents
 AGENTS.md      currently active thin adapter
 ```
 
-Do not add `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, or `.cursor/rules/*` until there is a real user path and a read-only live replay proving that the target runtime loads the adapter as expected.
+Do not add `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, or `.cursor/rules/*` until there is a real user path and a read-only live replay proving that the target runtime loads the adapter as expected. Claude's plugin manifest is a package/discovery surface, not evidence that Claude reads `AGENTS.md` or a substitute for a project adapter.
 
-## Current Adapter Matrix
+## Current Runtime Matrix
 
-| Runtime | Native instruction file | Current repository state | Policy |
-|---|---|---|---|
-| Codex | `AGENTS.md` plus `SKILL.md` for Skills | Active `AGENTS.md` points to `RTK.md` | Keep active. Codex live replay already proved `RTK.md` loads. |
-| AGENTS.md-compatible agents | `AGENTS.md` | Active | Keep short. Do not duplicate `RTK.md`. |
-| Claude Code | `CLAUDE.md`, `.claude/rules/` | Not present | Add only when Claude Code is a verified distribution target. |
-| Gemini CLI | `GEMINI.md` | Not present | Add only when Gemini CLI is a verified distribution target. |
-| GitHub Copilot | `.github/copilot-instructions.md`, `AGENTS.md` for coding agent flows | Not present except `AGENTS.md` | Prefer `AGENTS.md` first. Add Copilot file only for GitHub-native workflows. |
-| Cursor | Project/User Rules, AGENTS.md support in recent docs | Not present except `AGENTS.md` | Add `.cursor/rules/` only for Cursor-specific users. |
-| OpenClaw / other Skill runtimes | `SKILL.md` | Active | Keep `SKILL.md` canonical. |
+Discovery, repository instructions, and payload installation are separate claims. “File exists” does not prove that a runtime advertised or activated it.
+
+| Runtime | Discovery/package path | Repository adapter | Verified state | Caveat |
+|---|---|---|---|---|
+| Codex | Full-repository mount under a configured Skill root | `AGENTS.md` -> `RTK.md` | Root instructions and repository adapter have read-only replay evidence | Recheck discovery after changing Skill roots or symlinks; routed children may not be advertised separately |
+| AGENTS.md-compatible agents | Runtime-specific project loading | `AGENTS.md` -> `RTK.md` | Adapter is structurally active | Each runtime must still prove it reads `AGENTS.md` |
+| Claude Code | `.claude-plugin/marketplace.json` Skill bundle | No `CLAUDE.md` | Strict validation and isolated 27-component install were verified for v1.3.0 | Repeat public-source install for each release; plugin discovery does not imply `AGENTS.md` loading |
+| Generic Agent Skills CLI | Runtime-defined Skill directory | None | Frontmatter is standards-compatible | Root-only installers can omit routed payload; require a full-repository mount and install receipt |
+| Gemini CLI | Runtime Skill support plus optional `GEMINI.md` | Not present | Not live-verified | Add an adapter only after a real user path and replay |
+| GitHub Copilot | Runtime Skill support and project instructions | Only `AGENTS.md` | Not separately live-verified | Do not claim Copilot-specific loading from repository structure alone |
+| Cursor | Runtime Skill support and project rules | Only `AGENTS.md` | Not separately live-verified | Add `.cursor/rules/` only after a real user path and replay |
+| Other Skill runtimes | `SKILL.md` plus full payload | None | Unknown until tested | Run `check_full_install.py --runtime generic --json` and a read-only activation replay |
 
 ## Thin Adapter Rule
 

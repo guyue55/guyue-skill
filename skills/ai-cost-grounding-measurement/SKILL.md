@@ -1,6 +1,6 @@
 ---
 name: ai-cost-grounding-measurement
-description: Workflow skill for real AI report-cost measurement with web crawling, dynamic rendering, model token usage, Grounding or web-search metadata, CSV/Markdown summaries, and Chinese presentation requirements. Use when the user asks to actually run cost measurements, compare standard/deep report versions, verify real Grounding enablement, calculate billable search queries, explain USD/CNY units, or distinguish estimates from real model calls.
+description: Real AI report-cost measurement for model tokens, Grounding/web-search metadata, dynamic pages, CSV/Markdown evidence, and USD/CNY reporting. Use for actual standard/deep runs, billable search-query checks, or estimate-versus-real-call verification; not for generic pricing questions.
 ---
 
 # ai-cost-grounding-measurement

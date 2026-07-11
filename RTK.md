@@ -17,10 +17,10 @@ When working in this repository:
 1. Follow system, developer, and user instructions first.
 2. Read `AGENTS.md` when the runtime loads it.
 3. Read this file for local runtime rules.
-4. Read `SKILL.md` for the public Guyue orchestrator behavior.
-5. Read `GUYUE_PRINCIPLES.md` for cross-skill discipline.
-6. Read `skills_manifest.json` before choosing a child skill.
-7. Read only the relevant child `skills/*/SKILL.md` file for the current task.
+4. Read the relevant section of `SKILL.md` for the public Guyue orchestrator behavior.
+5. Read only the principle section that can change the current decision; do not load all of `GUYUE_PRINCIPLES.md` by default.
+6. Prefer `scripts/explain_route.py` or MCP `guyue_explain_route`; otherwise query `skills_manifest.json` by intent or skill name. Load only matching entries.
+7. Read only the selected child `skills/*/SKILL.md` file for the current task.
 8. Use `README.md`, `docs/`, and `examples/` for installation, evidence, and public-facing context.
 
 If any instruction conflicts with higher-priority instructions from the active runtime, follow the higher-priority instruction and mention the conflict in the final response.
@@ -28,10 +28,11 @@ If any instruction conflicts with higher-priority instructions from the active r
 ## Runtime Discipline
 
 - Keep context small. Use `rg`, `sed`, and targeted reads instead of dumping large files.
+- Treat context as a staged lifecycle: discover candidates, select one route, activate its instructions, read resources on demand, then record verification or failure. Do not activate every discovered Skill.
 - Prefer the existing skill structure and docs conventions over new abstractions.
 - Do not invent hidden capabilities. If a runtime does not support `AGENTS.md`, `RTK.md`, or nested skills, say so and fall back to `SKILL.md`.
 - Do not write private paths, account names, tokens, API keys, cookies, or local machine details into tracked files.
-- Do not add dependencies, install third-party skills, call external APIs, push, tag, release, deploy, or run destructive commands without explicit user authorization.
+- Repository-local, reversible changes within the stated task may proceed without repeated confirmation. Do not add dependencies, install third-party skills, call external APIs, push, tag, release, deploy, spend money, change permissions, or run destructive commands without explicit authorization for that concrete action.
 - Treat frontend, debugging, product, and system-design work as separate routed skills. Do not silently merge them into one generic answer.
 
 ### Long Goal Clarification Budget
@@ -44,6 +45,7 @@ Before committing a repository change, run:
 
 ```bash
 bash scripts/test_suite.sh
+ruff check scripts src
 git diff --check
 find . \( -name '__pycache__' -o -name '*.pyc' -o -name '.DS_Store' \) -print
 python3 scripts/security_scanner.py

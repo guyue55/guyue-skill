@@ -1,44 +1,75 @@
-# Guyue Perspective Showcase
+# Guyue Showcase
 
-可复现视觉产物：`assets/demo.gif` 由 `assets/demo.tape` 对应的演示流程沉淀而来；本地无 VHS 时，可用 `python3 scripts/render_demo_gif.py` 重新生成同名 GIF。
+这页只展示能追到代码、合同或历史回放的结果，并明确区分三种证据：本地确定性验货、行为合同、真实模型回放。
 
-![Guyue showcase replay](../assets/demo.gif)
+![Guyue read-only first-run flow](../assets/demo.gif)
 
-## 场景 1：面对含糊不清的新需求
+## 1. 30 秒本地验货
 
-**🚫 普通 Agent 的做法：盲目堆砌代码**
-> **用户**：我们要加个支付模块，直接帮我把前后端写好。
-> **普通 Agent**：好的！马上为您生成！
-> *(接着吐出 500 行把 UI、业务逻辑和鉴权全部揉在一个文件里的 React 代码，根本不管系统现有架构)*
+运行：
 
-**✅ 古月套件的做法：拦截 -> 调研 -> 链式反问**
-> **用户**：我们要加个支付模块，直接帮我把前后端写好。
-> **Guyue Perspective**：
-> 暂停执行。支付模块属于高风险核心业务。
-> **1. 路由拦截**：我不会立刻编写代码，这违背了高内聚低耦合的架构原则。
-> **2. 启动前置调研 (research-and-sourcing)**：我将联网检索目前官方最推荐的支付（如 Stripe/WeChat Pay）安全对接实践，确保不使用过时的废弃 SDK。
-> **3. 需求反问 (requirement-analysis)**：在此之前，请先明确：
-> - 失败重试和回调对账是由独立微服务处理，还是揉在当前单体库里？
-> - 我们的预算 Token/资源有限，是否先出 POC？
+```bash
+python3 scripts/try_guyue.py
+```
 
----
+真实输出摘要：
 
-## 场景 2：面对线上故障与报错
+```text
+Guyue 30 秒验货
+[PASS] 包体 complete | v1.3.0 | 26 Skills
+意图: 给当前项目做一个普通权限管理页面和后端接口。
+候选路由:
+  1. requirement-analysis | 证据: 给当前项目做一个
+  2. system-design | 证据: 权限管理
+  3. coding-discipline | 证据: 后端接口
+项目边界: eac-demo-hardening, nexusflow-governance-workflow 未误触
+上下文: 0 个高相似路由碰撞
+[PASS] 本地验货通过
+```
 
-**🚫 普通 Agent 的做法：盲目猜测与试错**
-> **用户**：刚才新上的版本挂了，老是报 502，是不是内存泄漏了？帮我改一下。
-> **普通 Agent**：很抱歉听到这个！有可能是内存泄漏，也有可能是超时。建议您在请求外面包一层 `try-catch` 屏蔽它，代码如下...
+它证明了四件事：完整仓库载荷存在；通用任务能命中有证据的候选路由；项目专属能力不会被泛词误触；发现面和根入口没有越过本地预算。它不证明目标运行时已发现古月，也不证明模型一定遵守行为合同。
 
-**✅ 古月套件的做法：受控排障与 RCA 矩阵**
-> **用户**：刚才新上的版本挂了，老是报 502，是不是内存泄漏了？帮我改一下。
-> **Guyue Perspective**：
-> > [!CAUTION]
-> > **无日志，不排查。严禁盲目修改代码。**
-> 
-> 请立刻出示相关的 Nginx/网关日志或应用错误堆栈。在此之前我拒绝提供修改方案。
-> 
-> **RCA 诊断矩阵已建立（待您提供日志后验证）：**
-> - **[假设 1: 内存打满]** -> `验证动作`：去面板看 Pod 的 OOM 记录或输入 `docker stats`。
-> - **[假设 2: 下游超时]** -> `验证动作`：提供完整的 Stack Trace，查看抛出异常的具体模块。
-> 
-> 请贴出日志，我们用证据说话。
+给出真实项目标记后，同一个入口会提升项目工作流：
+
+```bash
+python3 scripts/try_guyue.py \
+  "修复租户治理权限。" \
+  --context-marker NexusFlow \
+  --context-marker permissionSnapshot
+```
+
+```text
+1. nexusflow-governance-workflow | 证据: NexusFlow, permissionSnapshot
+项目边界: eac-demo-hardening 未误触
+```
+
+## 2. 行为合同前后对照
+
+这些是仓库已经固化的合同变化，不是假装刚刚完成的模型对话。
+
+| 旧失败模式 | 当前合同 | 可复跑证据 |
+|---|---|---|
+| 新需求一律联网 | 稳定本地事实直接检查；只有不稳定、陌生、高风险或明确要求的外部事实查当前一手来源 | `stable-local-fact-avoids-web-research`、`current-api-uses-primary-research` |
+| 没有用户贴日志就一律拒绝排障 | Agent 先读取当前可得的错误、测试、日志和活体产物；证据仍不足时才请求最小缺口，不用猜测性补丁 | `debugging-mindset`、Replay 3 |
+| 模糊长目标直接交给执行 Agent 猜 | Forge 先做项目摸底，每轮只关闭一个最高影响问题；v3 控制包绑定委派、收束和文件哈希 | Long Goal Forge prompts、`check_long_goal_pack.py --self-test` |
+| 方案已确认仍重复要授权 | 仓库内可逆且边界明确的改动主动完成；只为公开、付费、破坏性、权限或不可逆动作保留版本化授权 | `bounded-reversible-work-does-not-reask-approval` |
+| 一次绿色检查被写成全部完成 | 阶段、MVP、local-only、release candidate、production-ready 和 Goal complete 分开；旧证据与哈希不符会失败 | Long Goal v3 evidence gate |
+
+机器可读合同见 [`evals/behavior-contracts.json`](../evals/behavior-contracts.json)。确定性路由执行 17 条正负合同，并要求每条合同列出的全部期望路由都出现；真实观察还必须绑定独立证据文件和 SHA-256。
+
+## 3. 真实模型回放
+
+[`quickstart-output.md`](quickstart-output.md) 保留了真实 Codex 只读回放的通过、偏差、修复和阻断记录。它不会把 `partial_pass` 改写成成功，也不会把模型执行前的额度或登录阻断算作行为通过。
+
+2026-07-11 的新 Codex 回放已证明只读元审查会优先进入 `reality-auditor`，保留需求收敛、设计和实现候选，并阻止问题文本中的 NexusFlow/EAC 名称自触发项目能力。证据见 [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md)。诚实边界仍然是：这只覆盖 17 条合同中的 1 条，不能替代其余合同或其他运行时的活体回放。
+
+## 4. 可复现方式
+
+- 本地验货：`python3 scripts/try_guyue.py`
+- JSON 收据：`python3 scripts/try_guyue.py --json`
+- GIF 校验：`python3 scripts/render_demo_gif.py --check`
+- GIF 重建：`python3 scripts/render_demo_gif.py`
+- VHS 录制：`vhs assets/demo.tape`
+- 全量门禁：`bash scripts/test_suite.sh`
+
+`assets/demo.tape` 运行真实的 `try_guyue.py`，不再通过 `echo` 编造记忆、路由或授权结果。没有 VHS 时，仓库内置渲染器会生成同一条 INPUT -> ROUTE -> BOUND -> PROVE 叙事的 GIF。

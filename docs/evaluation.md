@@ -17,7 +17,30 @@ The evaluator checks `test-prompts.json` for:
 - non-empty user prompts;
 - non-empty expected behavior;
 - coverage for every registered skill in `skills_manifest.json`;
-- coverage for the core safety disciplines: trace logging, human approval, research before action, controlled debugging, and memory write behavior.
+- coverage for the core safety disciplines: bounded trace logging, version-bound approval, calibrated research, controlled debugging, and memory write behavior.
+
+It also validates `evals/behavior-contracts.json`. These machine-readable contracts separate expected routes, forbidden routes, required observable actions, forbidden side effects, and minimum evidence level. `run_eval.py` runs the deterministic route candidate check for every contract; that proves manifest routing consistency, not that a model already followed the required actions.
+
+Inspect one route or the whole context budget with:
+
+```bash
+python3 scripts/try_guyue.py
+python3 scripts/explain_route.py "<intent>" --context-marker "<project-marker>"
+python3 scripts/check_context_budget.py --json
+```
+
+`try_guyue.py` is the public first-run proof. It composes the package receipt, route explanation, project-context exclusions, and context budget without model or network access, and explicitly marks runtime activation and model behavior as unverified. The budget gate measures discovery metadata, routing metadata, Unicode characters and UTF-8 bytes for the root entry, activated Skill bodies, and high-similarity route collisions.
+
+Reviewed live observations can be checked with:
+
+```bash
+python3 scripts/check_behavior_replay.py <observations.json>
+python3 scripts/check_behavior_replay.py <observations.json> --require-all
+```
+
+Each observation records the contract ID, observed routes/actions/side effects, evidence level, reviewer, observation time, evidence path, and SHA-256. The checker verifies the referenced file and rejects stale hashes. `scripts/test_suite.sh` checks every `evals/observations-*.json` file. Human labeling remains a judgment step; the script makes that judgment auditable rather than pretending to replace it.
+
+The 2026-07-11 read-only route-audit replay is recorded in [`evals/evidence/route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md) and bound by `evals/observations-2026-07-11.json`. It covers one contract only; do not use it as `--require-all` evidence.
 
 Use the full suite before a commit:
 
@@ -25,7 +48,15 @@ Use the full suite before a commit:
 bash scripts/test_suite.sh
 ```
 
-The full suite also runs `python3 scripts/check_full_install.py --self-test`, official `claude plugin validate --strict .` when the Claude CLI is available, `python3 scripts/test_mcp_server.py`, and `python3 scripts/check_birth_certificate.py`. These verify the full-package payload, marketplace metadata, memory read/write safety, public entrypoint, trigger surface, visible evidence links, safety boundaries, and current skill/prompt counts. CI always enforces the corresponding internal marketplace schema contract even when Claude CLI is unavailable.
+During development the validator includes unignored untracked files so new linked docs and scripts can be checked before staging. After staging the exact release candidate, run strict archive mode:
+
+```bash
+GUYUE_RELEASE_STRICT=1 bash scripts/test_suite.sh
+```
+
+Strict mode accepts only Git-indexed files as release payload; it should fail if a tracked document links to an untracked candidate file.
+
+The 15-stage suite also runs `python3 scripts/check_full_install.py --self-test`, official `claude plugin validate --strict .` when the Claude CLI is available, `python3 scripts/test_mcp_server.py`, `python3 scripts/test_codex_extractor.py`, `python3 scripts/test_skill_router.py`, `python3 scripts/test_context_budget.py`, `python3 scripts/test_try_guyue.py`, the real first-run command, `python3 scripts/check_behavior_replay.py --self-test`, and `python3 scripts/check_birth_certificate.py`. These verify the full-package payload, marketplace metadata, first-run truth, explainable route boundaries, context budgets, memory lifecycle safety, bounded session extraction, replay-evidence binding, public entrypoint, trigger surface, visible evidence links, safety boundaries, and current skill/prompt counts.
 
 For public Agent Skills frontmatter compatibility, run the official reference validator against every child skill and against a temporary root directory named `guyue`:
 
@@ -82,11 +113,14 @@ A release candidate passes evaluation when:
 - safety-related tests require a pause, refusal, confirmation, or source check where relevant;
 - vague long-goal replay inspects project evidence before asking exactly one direction-changing question, while urgency cannot force a premature handoff;
 - decision-open long-goal replay uses only targeted reads and a lightweight status probe; it does not run the full suite, security scan, installation, build, or live replay unless that evidence is necessary for the current decision or a safety risk;
-- ready long-goal replay creates or identifies the complete control pack, explicitly lists every phase-plan file, passes `python3 scripts/check_long_goal_pack.py <goal-master.md>`, and returns one physical handoff line without unresolved questions;
+- ready long-goal replay creates or identifies the version-3 control pack, explicitly lists every phase-plan file, maps every promise to a stage and evidence ID, classifies side-effect replay, binds high-risk approval to an action version, defines delegation ownership/BASE/report/review/convergence budgets, passes `python3 scripts/check_long_goal_pack.py --mode ready <goal-master.md>`, and returns one physical handoff line without unresolved questions;
+- complete long-goal validation reads each evidence artifact and verifies its SHA-256, implementation version, worktree state, command, exit code, generation time, freshness, and passing result;
 - the full `bash scripts/test_suite.sh` exits with status code `0`;
 - `scripts/check_birth_certificate.py` confirms the public release assets are present and synchronized;
 - `scripts/check_full_install.py --self-test` rejects a root-only install and accepts the complete repository payload;
-- `scripts/test_mcp_server.py` proves empty memory queries and common secret-bearing writes are rejected, while normal rapid writes remain distinct and retrievable;
+- `scripts/test_mcp_server.py` proves explainable project-context routing plus public/private memory separation, schema-v2 lifecycle metadata, secret rejection, supersession, retrieval, and lossless GC;
+- `scripts/test_codex_extractor.py` proves user/final extraction excludes developer/tool payloads, redacts common secrets and personal home roots, and enforces cwd/time-window/thread-source/keyword/deduplication/inventory filters;
+- `scripts/test_context_budget.py` proves Unicode characters are not confused with UTF-8 bytes and rejects overlong descriptions, missing bodies, and route collisions;
 - all child skills pass the official `skills-ref` validator, and the root passes when staged under its install name `guyue`;
 - the report does not contain missing skills or duplicate prompt names.
 
@@ -95,6 +129,17 @@ A release candidate passes evaluation when:
 `scripts/run_eval.py` is a structural evaluator. It does not call an LLM and does not prove output quality by itself.
 
 Live evaluation means replaying the prompts in a real agent session and saving the observed outputs under `examples/` or a release report. Mark structural checks as `dry_run`; mark real agent replay results as `live_run`.
+
+For evidence mining from existing Codex sessions, use the bounded extractor instead of reading raw rollout files into context:
+
+```bash
+python3 scripts/codex_extractor.py <jsonl-or-session-dir> \
+  --cwd <project-root> --since <YYYY-MM-DD> --until <YYYY-MM-DD> \
+  --thread-source user,subagent --roles user,final \
+  --keyword <term> --dedupe --inventory --stats --format json
+```
+
+The extractor streams JSONL, ignores system/developer/tool payloads, marks the last assistant message of a completed turn as `final`, truncates each message, and redacts common credential and personal-home patterns. Its output remains local evidence and must be reviewed before publication.
 
 ## Live Replay Evidence
 

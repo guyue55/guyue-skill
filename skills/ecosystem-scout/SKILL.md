@@ -1,6 +1,6 @@
 ---
 name: ecosystem-scout
-description: Use to find, compare, ingest, or install an external Agent Skill, plugin, library, or tool, including requests such as "推荐工具", "寻找插件", "收纳这个", or "帮我装一下". Uses two-phase loading, source checks, explicit approval, and security-gate handoff to prevent context and dependency bloat.
+description: Find, compare, intake, or install external Agent Skills, plugins, libraries, and tools for "寻找插件", "收纳这个", or "帮我装一下". Use two-phase loading, source checks, pinned refs, explicit action approval, and security-gate; software-advisor handles local curated software recommendations.
 ---
 
 # ecosystem-scout (生态侦察兵)

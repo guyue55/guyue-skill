@@ -119,9 +119,9 @@ def make_frame(active_index: int, caption: str) -> bytes:
     rect(buffer, 82, 54, 12, 12, 4)
 
     draw_text(buffer, 116, 54, "GUYUE SHOWCASE", 6, 3)
-    draw_text(buffer, 118, 94, "ASK  ROUTE  VERIFY  PACKAGE", 7, 2)
+    draw_text(buffer, 118, 94, "INPUT  ROUTE  BOUND  PROVE", 7, 2)
 
-    labels = ["ASK", "ROUTE", "CHECK", "SHIP"]
+    labels = ["INPUT", "ROUTE", "BOUND", "PROVE"]
     for index, label in enumerate(labels):
         draw_step(buffer, index, label, active_index == index, active_index > index)
 
@@ -142,10 +142,10 @@ def make_frame(active_index: int, caption: str) -> bytes:
 
 def make_frames() -> list[bytes]:
     return [
-        make_frame(0, "USER ASKS FAST CODE"),
-        make_frame(1, "ROUTE BEFORE WRITING"),
-        make_frame(2, "CHECK EVIDENCE FIRST"),
-        make_frame(3, "PACKAGE REUSABLE SOP"),
+        make_frame(0, "READ INTENT AND BOUNDARY"),
+        make_frame(1, "EXPLAIN ROUTE EVIDENCE"),
+        make_frame(2, "KEEP PROJECT GATES CLOSED"),
+        make_frame(3, "PROVE WITHOUT SIDE EFFECTS"),
     ]
 
 
@@ -327,9 +327,20 @@ def check(output_path: str) -> bool:
         print(f"missing showcase GIF: {output_path}", file=sys.stderr)
         return False
     with open(output_path, "rb") as handle:
-        header = handle.read(6)
+        data = handle.read()
+    header = data[:6]
     if header not in {b"GIF87a", b"GIF89a"}:
         print(f"invalid GIF header: {output_path}", file=sys.stderr)
+        return False
+    if len(data) < 10:
+        print(f"truncated showcase GIF: {output_path}", file=sys.stderr)
+        return False
+    width, height = struct.unpack("<HH", data[6:10])
+    if (width, height) != (WIDTH, HEIGHT):
+        print(
+            f"unexpected GIF dimensions: {width}x{height}, expected {WIDTH}x{HEIGHT}",
+            file=sys.stderr,
+        )
         return False
     if os.path.getsize(output_path) < 1024:
         print(f"showcase GIF is unexpectedly small: {output_path}", file=sys.stderr)
@@ -339,13 +350,38 @@ def check(output_path: str) -> bool:
     if Image is not None:
         try:
             image = Image.open(output_path)
-            for index in range(getattr(image, "n_frames", 1)):
+            frame_count = getattr(image, "n_frames", 1)
+            if frame_count != len(make_frames()):
+                print(
+                    f"unexpected GIF frame count: {frame_count}, expected {len(make_frames())}",
+                    file=sys.stderr,
+                )
+                return False
+            frame_pixels: set[bytes] = set()
+            for index in range(frame_count):
                 image.seek(index)
                 image.load()
+                rgb = image.convert("RGB")
+                colors = rgb.getcolors(maxcolors=WIDTH * HEIGHT) or []
+                if len(colors) < 6:
+                    print(f"showcase GIF frame {index} is visually sparse", file=sys.stderr)
+                    return False
+                frame_pixels.add(rgb.tobytes())
+            if len(frame_pixels) != frame_count:
+                print("showcase GIF contains duplicate frames", file=sys.stderr)
+                return False
         except Exception as exc:
             print(f"GIF decode failed: {exc}", file=sys.stderr)
             return False
         return True
+
+    frame_count = data.count(b"\x21\xF9\x04")
+    if frame_count != len(make_frames()):
+        print(
+            f"unexpected GIF frame markers: {frame_count}, expected {len(make_frames())}",
+            file=sys.stderr,
+        )
+        return False
 
     ffmpeg = shutil.which("ffmpeg")
     if ffmpeg:

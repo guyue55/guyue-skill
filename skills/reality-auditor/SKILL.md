@@ -1,6 +1,6 @@
 ---
 name: reality-auditor
-description: Independent implementation reality-audit skill for catching fake or incomplete delivery after code changes. Use when the user asks to verify whether a dashboard, report, permission flow, integration, cost measurement, or UI claim is actually real; when they say "确认真实", "深度审查", "避免异常", "是不是假数据", "审查下"; or when implementation passed tests but may still have frontend-only filters, stale mock data, missing backend authorization, hidden API errors, or weak validation evidence.
+description: Read-only implementation truth audit for "只读审查", "确认真实", "深度审查", "是不是假数据", release readiness, permissions, integrations, dashboards, reports, costs, and UI claims. Trace current code to backend/data/live evidence and report findings first; use debugging-mindset for active failures.
 ---
 
 # reality-auditor

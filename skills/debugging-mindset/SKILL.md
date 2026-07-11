@@ -1,6 +1,6 @@
 ---
 name: debugging-mindset
-description: Use for active bugs, failures, exceptions, production errors, test regressions, or requests to investigate what an error means. Enforces evidence-first root-cause analysis and "No Logs, No Debugging"; use reality-auditor for post-implementation truth review.
+description: Evidence-first diagnosis for active bugs, exceptions, production errors, failing tests, and regressions. Gather reproducible logs and distinguish symptom, hypothesis, and validation before patching; use reality-auditor for post-implementation truth review.
 ---
 
 # guyue / debugging-mindset
@@ -11,14 +11,13 @@ description: Use for active bugs, failures, exceptions, production errors, test 
 
 ## 核心心智模型 (Core Mental Models)
 
-1. **无日志，不排查与白盒透明度 (No Logs, No Debugging & Whitebox Transparency)**
-   - 报错信息是最核心的资产。在没有看到精准详细的错误堆栈（Stack Trace）、错误码或环境上下文前，禁止给出现成解法或开始改代码。
+1. **无证据，不猜修复 (No Evidence, No Guess Patch)**
+   - 先找能直接复现或证伪假设的证据。失败测试、错误栈、日志、最小复现、指标、接口响应或新鲜运行产物都可以成为证据；不机械要求每一类齐全。
    - **拥抱可观测的永续计算**：系统必须能“暴露出它的接缝”。如果用户只说了“挂了”或“报错了”，必须指导用户去哪里获取最原始的文本日志（如通过 `kubectl logs --tail=200`，或 Chrome Network 面板的详细 Request/Response Headers），对抗对黑盒和重型商业 APM 工具的过度依赖。
-2. **证据闸门优先于代码输出 (Evidence Gate Before Code)**
-   - 在没有拿到原始日志、错误码、监控指标和最小复现上下文前，禁止输出具体修复代码、重试 helper、配置补丁或可直接复制执行的变更。
+2. **证据闸门优先于猜测代码 (Evidence Gate Before Guessing)**
+   - 当根因仍开放、改动可能放大故障或用户只给出模糊症状时，不输出具体修复代码、重试 helper 或配置补丁。若失败测试或直接证据已唯一定位一个低风险根因，可实施最小修复并用同一证据回归。
    - 如果用户要求“先写段代码包一下”，必须先拒绝并说明：当前只能给证据清单、只读排查命令、止血选项和 RCA 矩阵；代码必须等根因或安全边界被证明后再写。
-   - 允许输出的内容：日志采集命令、监控指标清单、复现步骤、回滚/限流/降级建议、假设-验证矩阵、需要用户贴出的脱敏证据。
-   - 禁止输出的内容：未经证据验证的 retry 实现、吞错 `try-catch`、扩大超时、重启服务、修改连接池、改业务逻辑。
+   - 根因未定时可输出：只读采集命令、最小复现、止血选项、假设-验证矩阵和脱敏证据请求。未经证据验证时不得给 retry、吞错、扩大超时、盲目重启、连接池或业务逻辑补丁。
 3. **重试不是止痛药 (Retry Requires a Contract)**
    - 只有同时满足以下条件时，才能进入 retry 代码设计：错误已被证明是瞬时故障；操作是只读或具备幂等键/唯一请求 ID；重试有最大次数和总超时；使用退避与抖动；不会包住整个请求处理器；已考虑限流、熔断、降级或回滚。
    - 如果证据显示是持续过载、业务异常、鉴权失败、数据不一致或非幂等写入，必须拒绝 retry 方案，转向根因修复或止血。
@@ -62,11 +61,11 @@ description: Use for active bugs, failures, exceptions, production errors, test 
 
 0. **Phase 0: 证据闸门 (Evidence Gate)**
    - 先判断用户是否要求直接写代码、加重试、改配置或执行危险动作。
-   - 如果缺少原始日志、错误码、指标和幂等性边界，必须输出 `[等待日志/证据]`，并明确拒绝给出具体代码或配置补丁。
+   - 如果现有材料不足以区分关键假设，输出 `[等待日志/证据]`，说明最小缺口，并拒绝猜测性代码或配置补丁。
    - 只允许给出只读采集命令、证据清单、止血选项和 RCA 矩阵。
 1. **Phase 1: 止血与信息收集 (Containment & Trace Gathering)**
    - 如果是在线上生产环境，优先考虑是否需要回滚或限流。
-   - 强制收集“多模态”证据：完整的错误栈（Stack Trace）、相关时段的系统日志、监控面板指标、以及发生错误时的输入参数。
+   - 按故障模型收集最低充分证据：例如失败测试或错误栈；生产偶发问题可能还需要同一时间窗口的日志、指标、请求特征和版本信息。只收集会改变判断的材料。
    - 对前端、静态站、构建和报告类问题，额外收集：服务启动时间、构建产物时间、报告生成时间、截图路径和当前源码最后修改时间。
 2. **Phase 2: 建立 RCA (Root Cause Analysis) 诊断矩阵**
    - 强制按以下模板列出嫌疑点：
@@ -84,7 +83,7 @@ description: Use for active bugs, failures, exceptions, production errors, test 
 
 ## Guardrails (诚实边界)
 - **拒绝盲目试错**：在没有明确证据指向时，绝不随意重启服务或修改配置以期“可能变好”。
-- **拒绝无证据代码**：在没有原始日志、错误码、监控指标和幂等性边界前，不输出具体修复代码、retry helper 或配置补丁；只能输出排查计划和止血选项。
+- **拒绝猜测性代码**：现有证据无法区分关键根因时，不输出具体修复代码、retry helper 或配置补丁；证据直接定位后才做最小修复。任何 retry 仍必须先证明瞬时故障与幂等边界。
 - **防御性破坏**：排查生产问题时，严禁使用会破坏现有数据状态的命令，优先使用只读的验证手段。
 
 ## Cross-Skill Invocation (流转边界)
@@ -138,10 +137,12 @@ description: Use for active bugs, failures, exceptions, production errors, test 
 > 等证明“瞬时故障 + 幂等操作 + 有限重试不会放大负载”后，才进入 retry 代码设计。
 
 ## 强制纪律 (Trace Discipline)
-执行本技能接管问题排查时，必须在对话中明文输出诊断与执行轨迹：
-`[Trace: Guyue/DebuggingMindset] 拒绝无头苍蝇式排查，正在请求关键日志...`
+首次接管时输出一次：
+`[Trace: Guyue/DebuggingMindset] 建立症状、假设与最低充分证据边界`
+
+只有根因状态、止血动作或风险边界变化时追加，不逐条公开内部推演。
 
 
 ## Anti-Slop 强制约束 (Anti-Hallucination)
-- **禁用“我猜”**：严禁在没有明确栈轨迹的情况下说“可能因为跨域/CORS/超时”。必须输出 `<evidence_request>` 块向用户索要凭证。
+- **禁用无依据定论**：证据不足时可以列出有区分度的假设，但必须标成待验证，并给出最小验证动作；无需套固定 XML 块。
 - **拒绝“万能药”**：检测到要求“加个重试包一下”的意图时，强制要求证明操作的幂等性（Idempotency），否则必须坚决拒绝。

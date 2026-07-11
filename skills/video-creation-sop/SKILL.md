@@ -1,6 +1,6 @@
 ---
 name: video-creation-sop
-description: Workflow skill for planning auditable AI video creation from articles, product briefs, scripts, talking-head footage, or creative concepts. Use when the user asks to make a video, turn content into a short video, plan AI video production, choose between native agent media tools and providers, create storyboards, generate video/image prompts, package talking-head edits, or define a repeatable video SOP. Do not use for simple video metadata extraction; use video-extractor for that.
+description: Auditable AI-video workflow for briefs, scripts, storyboards, prompts, assets, rendering, and repeatable production from text, footage, or concepts. Prefer native media capabilities before providers. For metadata, captions, transcripts, or source-media extraction only, use video-extractor.
 ---
 
 # video-creation-sop

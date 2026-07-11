@@ -45,6 +45,8 @@ README_NEEDLES = [
     "一句话钩子",
     "Personal Agent Operating Layer",
     "快速开始",
+    "30 秒验货",
+    "scripts/try_guyue.py",
     "触发方式",
     "它会交付什么",
     "安全边界",

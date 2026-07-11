@@ -48,7 +48,7 @@ def extract_claude_chat(jsonl_path, limit=50, keyword=None):
                     
                     extracted_count += 1
                 except json.JSONDecodeError:
-                    print(f"[RAW JSONL]")
+                    print("[RAW JSONL]")
                     print(line[:1000])
                     print("-" * 40)
                     extracted_count += 1

@@ -1,6 +1,6 @@
 ---
 name: taste-aesthetics
-description: Aesthetic UI/UX constraints. Prevents AI generic output ("slop"). Applies 3-Dials (Variance, Motion, Density), enforces design system matching, limits boilerplate components, and requires real visual assets. Use when generating, reviewing, or refactoring front-end code, landing pages, or portfolios.
+description: Review-only or pre-implementation UI taste constraints for "AI 味", anti-slop critique, product-type classification, design dials, and reference boundaries. Use frontend-expert to change code; do not trigger for backend-only work.
 ---
 
 # taste-aesthetics (Aesthetic Constraint Engine)

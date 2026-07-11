@@ -162,6 +162,40 @@ def find_existing_skill(dep):
     return matches
 
 
+def normalize_repo_url(url):
+    value = str(url).strip()
+    if value.startswith("git@github.com:"):
+        value = "https://github.com/" + value.removeprefix("git@github.com:")
+    return value.removesuffix(".git").rstrip("/")
+
+
+def verify_git_checkout(path, expected_repo, expected_ref):
+    """Verify that an existing Skill resolves inside the reviewed checkout."""
+    if not expected_ref:
+        return False, "manifest ref is missing"
+    if not path.exists():
+        return False, f"reviewed source checkout is missing: {path}"
+    root_result = run(["git", "rev-parse", "--show-toplevel"], cwd=path, capture=True)
+    if root_result.returncode != 0:
+        return False, "existing Skill is not inside a Git checkout"
+    git_root = Path(root_result.stdout.strip()).resolve()
+    try:
+        path.resolve().relative_to(git_root)
+    except ValueError:
+        return False, "existing Skill resolves outside its Git checkout"
+    head_result = run(["git", "rev-parse", "HEAD"], cwd=git_root, capture=True)
+    if head_result.returncode != 0 or head_result.stdout.strip() != expected_ref:
+        actual = head_result.stdout.strip() or "<unknown>"
+        return False, f"checkout HEAD {actual} does not match reviewed ref {expected_ref}"
+    remote_result = run(["git", "remote", "get-url", "origin"], cwd=git_root, capture=True)
+    if remote_result.returncode != 0:
+        return False, "checkout has no verifiable origin remote"
+    actual_repo = normalize_repo_url(remote_result.stdout)
+    if actual_repo != normalize_repo_url(expected_repo):
+        return False, f"checkout origin {actual_repo} does not match {normalize_repo_url(expected_repo)}"
+    return True, f"verified {expected_ref} from {actual_repo}"
+
+
 def skill_frontmatter_name(target):
     skill_file = target / "SKILL.md"
     if not skill_file.exists():
@@ -204,15 +238,29 @@ def run(cmd, cwd=None, capture=False):
     return subprocess.run(cmd, cwd=cwd, check=True)
 
 
-def clone_or_update(repo, destination, dry_run):
+def clone_or_update(repo, ref, destination, dry_run):
     if destination.exists():
+        if not ref:
+            return "missing_ref"
+        result = run(["git", "rev-parse", "HEAD"], cwd=destination, capture=True)
+        if result.returncode != 0 or result.stdout.strip() != ref:
+            return "ref_mismatch"
         return "exists"
     if dry_run:
         return "would_clone"
+    if not ref:
+        return "missing_ref"
     destination.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="guyue-skill-source-") as temp_dir:
         staged = Path(temp_dir) / destination.name
-        run(["git", "clone", "--depth", "1", repo, str(staged)])
+        staged.mkdir()
+        run(["git", "init", "--quiet"], cwd=staged)
+        run(["git", "remote", "add", "origin", repo], cwd=staged)
+        run(["git", "fetch", "--quiet", "--depth", "1", "origin", ref], cwd=staged)
+        run(["git", "checkout", "--quiet", "--detach", "FETCH_HEAD"], cwd=staged)
+        resolved = run(["git", "rev-parse", "HEAD"], cwd=staged, capture=True)
+        if resolved.returncode != 0 or resolved.stdout.strip() != ref:
+            raise RuntimeError(f"fetched ref mismatch for {repo}: expected {ref}")
         shutil.move(str(staged), str(destination))
     return "cloned"
 
@@ -318,6 +366,19 @@ def install_dependency(dep, source_root, dry_run, force):
     known = KNOWN_DEPENDENCIES.get(name)
     existing = find_existing_skill(dep)
     if existing:
+        if not known:
+            print_plan_row(name, "blocked", "existing Skill has no reviewed source metadata")
+            return {"name": name, "status": "blocked", "scan": "unverified_source"}
+        verification_target = source_root / known["source_name"] if known.get("adapter") else existing[0]
+        verified, detail = verify_git_checkout(
+            verification_target,
+            known["repo"],
+            dep.get("ref"),
+        )
+        if not verified:
+            print_plan_row(name, "blocked", detail)
+            return {"name": name, "status": "blocked", "scan": "unverified_source"}
+        print_plan_row(name, "verified", detail)
         return sync_existing_skill_links(name, existing[0], dry_run)
 
     if not known:
@@ -325,7 +386,10 @@ def install_dependency(dep, source_root, dry_run, force):
         return {"name": name, "status": "manual"}
 
     source_dir = source_root / known["source_name"]
-    clone_state = clone_or_update(known["repo"], source_dir, dry_run)
+    clone_state = clone_or_update(known["repo"], dep.get("ref"), source_dir, dry_run)
+    if clone_state in {"missing_ref", "ref_mismatch"}:
+        print_plan_row(name, "blocked", f"source checkout is not pinned to reviewed ref {dep.get('ref') or '<missing>'}")
+        return {"name": name, "status": "blocked", "scan": "unverified_source"}
 
     if known.get("adapter"):
         adapter_dir = source_root / "_adapters" / name

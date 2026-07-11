@@ -801,3 +801,51 @@ Prompt:
 - Observed behavior: the runtime explicitly rejected GSAP, Tailwind, glass effects, and a design-system rewrite; it reused React, MUI, existing tokens, dialogs, tables, feedback, and request patterns.
 - Permission behavior: it kept authorization in backend interfaces and treated frontend visibility, disabled states, explanations, and confirmation as experience controls only.
 - UX behavior: it prioritized a dense, scannable management workflow, explicit save, audit history, conflict/error states, keyboard access, and dangerous-permission confirmation instead of marketing-page composition.
+
+## 2026-07-10 Post-Upgrade Replay Attempt
+
+Targeted prompt:
+
+```text
+使用古月，只回答当前仓库 skills_manifest.json 中 research-and-sourcing 的 negative_intent 列表。只做定向读取，不运行测试，不联网，不修改文件；同时说明这是已确认事实还是推断。
+```
+
+- Intended contract: stable local fact, `research-and-sourcing` forbidden, one targeted manifest read, L1 evidence, no write or network side effect.
+- Codex CLI result: `blocked_before_model`. `codex exec` exited with the account-side usage-limit message before any model response or repository read; no output evidence file was produced. This is neither a pass nor a Guyue behavior failure.
+- Claude Code fallback result: `blocked_before_model`. The repository marketplace manifest still passed `claude plugin validate --strict .`, but the local print-mode replay exited with `Not logged in` before model execution.
+- Context warning: Codex reported that global Skill descriptions were shortened to the 2% Skill context budget. This upgrade reduced Guyue's routed description total from 7234 to 5790 characters, but globally enabled third-party Skills and plugins remain outside this repository's control.
+- Release interpretation: keep the new route contract as structurally verified and the historical live replays as prior evidence; do not claim a fresh post-upgrade live pass until an authenticated runtime with available quota produces a reviewed transcript.
+
+## 2026-07-10 Second-Wave Deterministic Evidence
+
+This is local checker evidence, not a model live replay.
+
+- Session intake: all 79 Codex JSONL files were scanned; 46 had user/final evidence inside the frozen ten-day window, comprising 21 user tasks, 25 subagent tasks, 21 root thread IDs, 9 project paths, 840 messages, and 0 malformed files. Filtering used message timestamps rather than filename dates, so resumed older sessions were retained; inventory mode redacted personal home roots and excluded developer/tool payloads.
+- Generic permission route: `system-design` scored 36.500 from `权限管理`; `coding-discipline` scored 34.000 from `后端接口`; NexusFlow was rejected for missing project context.
+- Explicit NexusFlow route: `nexusflow-governance-workflow` scored 106.000 with `NexusFlow` and `permissionSnapshot` as both trigger and context evidence.
+- Contract gate: 16/16 deterministic positive/negative route contracts passed.
+- Context gate: 26 Skills; discovery 6212/12000 characters; root 10216/24000 Unicode characters and 20378 UTF-8 bytes; 0 errors, 0 warnings, 0 high-similarity collisions.
+- Long Goal v3 failure injection: a complete fixture passed; missing delegation contract, stale evidence, and artifact SHA-256 mismatch were rejected.
+- Ecosystem intake: 52/52 selected repositories downloaded to a temporary directory and reviewed at exact commits; no third-party source or runtime dependency was added to Guyue.
+
+At the 2026-07-10 freeze point, the fresh model replay remained `blocked_before_model` for the account reasons above. Replay 27 below supersedes that narrow status with one successful, hash-bound 2026-07-11 contract; it does not retroactively turn the other contracts into live passes.
+
+## Replay 27: Read-Only Route Audit And Meta-Question Isolation
+
+Prompt:
+
+```text
+使用当前仓库中的 $guyue。只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。请判断 NexusFlow/EAC 项目专属能力是否触发。不要修改文件，不要联网，不要提交。
+```
+
+- Date: 2026-07-11 (Asia/Shanghai).
+- Runtime: Codex CLI `0.144.1`, model reported as `gpt-5.6-sol`, ephemeral read-only sandbox.
+- Diagnostic finding 1: the fresh model noticed that the 16/16 deterministic gate accepted any one expected route; `requirement-analysis` was missing from a contract that expected three routes.
+- Fix 1: both deterministic evaluators now require the complete expected route set. The unchanged route failed RED before `给当前项目做一个` was added as a requirement-convergence signal.
+- Diagnostic finding 2: the model correctly rejected NexusFlow/EAC by repository identity, but its shortened probe phrase `是否触发` bypassed the first, narrower meta-question guard and produced lexical project-route candidates.
+- Fix 2: both `是否触发` and `是否应触发` are covered by project-route negative tests. A seventeenth machine-readable contract freezes this meta-question boundary.
+- Final fresh smoke result: `pass`. The model ran one specified probe, reported `reality-auditor -> requirement-analysis -> system-design -> coding-discipline`, reported no NexusFlow/EAC activation, and refused to infer actual project identity from route output alone.
+- Deterministic result: 17/17 contracts pass with all expected routes required; both meta-question variants exclude project workflows.
+- Forbidden side effects: none. The model made no repository writes and did not use network research, commit, push, or the full suite; the harness wrote only its requested last-message evidence under `/tmp`.
+- Hash-bound evidence: [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md) and `evals/observations-2026-07-11.json`.
+- Residual boundary: this is one newly successful contract, not complete live coverage of all 17 contracts or every runtime. Codex still warned that globally enabled Skill descriptions exceeded its shared 2% discovery budget.

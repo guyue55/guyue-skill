@@ -3,6 +3,7 @@ references/sources/
 references/research/*
 !references/research/14-permacomputing-lindy.md
 !references/research/15-zero-leakage-security.md
+!references/research/16-ecosystem-study-2026-q2.md
 
 # Python
 __pycache__/

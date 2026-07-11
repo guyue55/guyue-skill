@@ -2,7 +2,53 @@
 
 ## Unreleased
 
-No changes yet.
+### Added
+
+- Add a versioned routing lifecycle plus 17 machine-readable behavior contracts, deterministic route explanations, project-context gates, and an MCP route tool.
+- Add `scripts/check_behavior_replay.py` to bind reviewed live observations to evidence files and SHA-256 hashes.
+- Add `scripts/codex_extractor.py` with cwd/time-window/thread-source/keyword/role filters, deduplication, inventory mode, bounded output, statistics, and credential/home-path redaction.
+- Add Long Goal control-pack schema v3 with stable IDs, promise coverage, replay classes, version-bound approvals, delegation ownership/BASE/report/review/convergence contracts, and artifact-hash-bound completion evidence; retain v2 parsing compatibility.
+- Add a context-budget gate for discovery metadata, routing metadata, Unicode root size, UTF-8 byte size, activated Skill bodies, and route collisions.
+- Add a frozen 52-repository ecosystem research ledger with exact source commits and per-project adoption or rejection decisions.
+- Add `scripts/try_guyue.py`, a read-only 30-second first proof for package completeness, explainable routes, project gates, context budgets, and honest activation boundaries.
+- Add memory schema v2 with public/private storage separation, provenance, scope, evidence, confidence, supersession, review timing, and lossless archive GC.
+- Add machine-readable full-install receipts with runtime-specific payload checks and required-payload SHA-256.
+- Add Ruff static analysis to the main validation suite.
+
+### Changed
+
+- Calibrate Guyue autonomy by evidence level and reversibility: bounded repository work proceeds without duplicate approval, while public, paid, destructive, permission-changing, or irreversible actions require action-specific authorization.
+- Reduce routed description size from 7234 to 5790 characters and define positive/negative routes for ambiguous and project-specific skills.
+- Replace per-command Trace logging with one takeover trace plus meaningful state/risk transitions.
+- Replace zero-dependency and fixed-age dogma with lifecycle-cost dependency stewardship; prefer proven libraries for parsers, auth, crypto, protocols, media, and domain engines.
+- Rewrite `skill-crafting` around packaging-form selection, existing-capability reuse, evidence intake boundaries, with/without baselines, holdout cases, repeated replay, and installation truth.
+- Make research conditional on unstable, unfamiliar, high-stakes, explicit, or decision-critical facts; stable local facts use direct inspection.
+- Make system-design approval risk-tiered, documentation format audience-driven, debugging evidence minimally sufficient, website reconstruction existing-stack-first, and video extraction mode-specific.
+- Pin every optional external dependency to a reviewed commit and verify existing local Skills against both exact HEAD and origin before linking.
+- Expand the security preflight from a 200-file sample to all eligible files, reject empty targets, centralize credential patterns, and prevent allow-marker bypass in production scans.
+- Separate curated public memory from ignored local runtime memory and remove the dangling tracked active-memory entry from the release payload.
+- Update README, installation, runtime matrix, security, evaluation, Long Goal, and release-checklist documentation for the new contracts.
+- Move README's first visible result ahead of the architecture catalog, and replace the stale narrative showcase/VHS script with the real first-run proof and current behavior contracts.
+
+### Fixed
+
+- Fix a duplicate `replay` dictionary key in the CI validator.
+- Fix Long Goal's previous false-green self-test that accepted blank ledger, evidence, and phase files.
+- Fix memory writer/GC directory disagreement and prevent GC from truncating archived lessons.
+- Fix project-specific NexusFlow and EAC skills being eligible from generic permission, dashboard, static-demo, PDF, or GSAP terms.
+- Fix `video-extractor` requiring `video.mp4` even in metadata-only mode.
+- Fix the context-budget gate counting UTF-8 bytes as characters for Chinese root instructions.
+- Fix Long Goal completion evidence accepting a fresh label without recomputing the referenced artifact SHA-256.
+- Fix the full-package receipt omitting the router and context modules required by the public first-run command.
+- Fix showcase examples that still encoded blanket research, blanket refusal, multi-question interrogation, and fabricated memory output from earlier Guyue behavior.
+- Fix route-contract validation accepting any one expected route instead of requiring the complete expected route set.
+- Fix read-only route-audit prompts treating project names in the audit question as verified NexusFlow or EAC context.
+
+### Verification
+
+- Pass the expanded 15-stage local suite, Ruff, strict Claude marketplace validation, all 26 official `skills-ref` child validations, security failure injection, Long Goal delegation/staleness/hash failure injection, memory/MCP route tests, Codex extractor tests, deterministic route tests, context-budget tests, and behavior-replay checker tests.
+- Record the initial post-upgrade Codex replay as `blocked_before_model` due account usage limits and the Claude fallback as `blocked_before_model` because the local CLI was not logged in.
+- After quota became available, pass a fresh Codex read-only route-audit replay, use it to expose and fix incomplete expected-route validation plus project-name meta-question pollution, then bind the reviewed evidence to SHA-256. This covers 1 of 17 behavior contracts, not all model behavior or every runtime.
 
 ## v1.3.0 - 2026-07-10
 

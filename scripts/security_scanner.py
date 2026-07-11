@@ -4,6 +4,10 @@ import subprocess
 import re
 from pathlib import Path
 
+sys.dont_write_bytecode = True
+
+from security_patterns import find_secret_matches  # noqa: E402
+
 def print_status(msg, is_error=False):
     if is_error:
         print(f"❌ {msg}")
@@ -52,32 +56,30 @@ def run_security_scan():
 
     release_files = list_release_files()
 
-    # 2. Define bloated/cache files rules (Anti-Bloat)
+    # Release-only patterns and whole-worktree generated cache rules.
     bloat_patterns = [
-        re.compile(r'__pycache__/'),
-        re.compile(r'\.pyc$'),
-        re.compile(r'\.DS_Store$'),
         re.compile(r'\.env$'),
         re.compile(r'\.idea/'),
         re.compile(r'\.vscode/'),
     ]
+    workspace_exclusions = {'.git', 'node_modules', '.venv', 'venv'}
 
-    # 3. Define secret/privacy patterns (Anti-Leak)
-    secret_patterns = [
-        (re.compile(r'sk-[a-zA-Z0-9_-]{20,}'), "Potential API Key (sk-...)"),
-        (re.compile(r'AIza[0-9A-Za-z-_]{35}'), "Google API Key"),
-        (re.compile(r'(?i)api[_-]?key[\s]*=[\s]*[\'"]?[a-zA-Z0-9_\-]{16,}'), "Generic API Key Assignment"),
-        (re.compile(r'(?i)token[\s]*=[\s]*[\'"]?[a-zA-Z0-9_\-]{16,}'), "Generic Token Assignment"),
-        (re.compile(r'/User' + r's/apple/'), "Hardcoded personal path (/User" + "s/apple/)"),
-    ]
-
-    # Ignore checking contents of specific binary or safe files
+    # 二进制媒体不做文本扫描；代码和规则文件不再整文件豁免。
     ignore_content_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mov']
-    ignore_content_paths = ['GUYUE_PRINCIPLES.md', 'scripts/security_scanner.py', 'scripts/ci_validate_skills.py']
 
     has_error = False
 
     print("[1/2] Scanning for bloat and cache files...")
+    generated_bloat = []
+    for path_obj in Path('.').rglob('*'):
+        if workspace_exclusions.intersection(path_obj.parts):
+            continue
+        if path_obj.name == '__pycache__' or path_obj.name == '.DS_Store' or path_obj.suffix == '.pyc':
+            generated_bloat.append(path_obj)
+    for path_obj in sorted(generated_bloat):
+        print_status(f"Generated cache present in worktree: {path_obj.as_posix()}", is_error=True)
+        has_error = True
+
     for path_obj in release_files:
         f_path = path_obj.as_posix()
         for p in bloat_patterns:
@@ -99,21 +101,20 @@ def run_security_scan():
         if path_obj.suffix.lower() in ignore_content_extensions:
             continue
             
-        if any(f_path.endswith(ignore_path) for ignore_path in ignore_content_paths):
-            continue
-
         try:
             with open(f_path, 'r', encoding='utf-8') as f:
                 for line_idx, line in enumerate(f):
-                    for pattern, desc in secret_patterns:
-                        if pattern.search(line):
-                            print_status(f"Security Leak [{desc}] found in {f_path} (line {line_idx + 1})", is_error=True)
-                            print(f"   -> {line.strip()[:100]}...")  # Truncated for display
-                            secret_errors += 1
-                            has_error = True
+                    for desc in find_secret_matches(line):
+                        print_status(f"Security Leak [{desc}] found in {f_path} (line {line_idx + 1})", is_error=True)
+                        print(f"   -> {line.strip()[:100]}...")
+                        secret_errors += 1
+                        has_error = True
         except UnicodeDecodeError:
-            # Skip binary files that slipped through extension check
-            pass
+            print_status(f"Undeclared binary or undecodable release file: {f_path}", is_error=True)
+            has_error = True
+        except OSError as exc:
+            print_status(f"Could not read release file {f_path}: {exc}", is_error=True)
+            has_error = True
 
     if secret_errors == 0:
         print_status("No secrets or personal paths detected in contents.")

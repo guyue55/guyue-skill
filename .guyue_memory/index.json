@@ -1,14 +1,4 @@
 {
-  "memories": [
-    {
-      "filename": "active/mem_10_iterations.md",
-      "tags": [
-        "refactoring",
-        "core-principles",
-        "luban"
-      ],
-      "summary": "Completed 10-iteration deep refinement of Guyue Digital Twin under Luban directives.",
-      "timestamp": "2026-06-28"
-    }
-  ]
+  "schema_version": 2,
+  "memories": []
 }

@@ -13,8 +13,14 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from src.skill_router import resolve_routes  # noqa: E402
+
+
 PROMPTS_PATH = ROOT / "test-prompts.json"
 MANIFEST_PATH = ROOT / "skills_manifest.json"
+CONTRACTS_PATH = ROOT / "evals" / "behavior-contracts.json"
 
 SAFETY_KEYWORDS = {
     "trace": ["trace", "[Trace", "轨迹"],
@@ -45,6 +51,7 @@ def prompt_text(entry: dict[str, str]) -> str:
 def main() -> int:
     prompts = load_json(PROMPTS_PATH)
     manifest = load_json(MANIFEST_PATH)
+    contracts = load_json(CONTRACTS_PATH)
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -103,6 +110,98 @@ def main() -> int:
     if missing_skills:
         errors.append("missing test prompt coverage for skills: " + ", ".join(sorted(missing_skills)))
 
+    manifest_names = {
+        normalize_skill_name(str(item.get("name", "")).strip())
+        for item in manifest_skills
+        if isinstance(item, dict)
+    }
+    contract_ids: set[str] = set()
+    deterministic_routes_passed = 0
+    evidence_levels = {"L0", "L1", "L2", "L3", "L4"}
+    if not isinstance(contracts, list):
+        errors.append("evals/behavior-contracts.json must contain a list")
+        contracts = []
+
+    for index, raw_contract in enumerate(contracts, start=1):
+        if not isinstance(raw_contract, dict):
+            errors.append(f"behavior contract #{index} must be an object")
+            continue
+        contract_id = str(raw_contract.get("id", "")).strip()
+        if not contract_id:
+            errors.append(f"behavior contract #{index} is missing id")
+        elif contract_id in contract_ids:
+            errors.append(f"duplicate behavior contract id: {contract_id}")
+        else:
+            contract_ids.add(contract_id)
+
+        if not str(raw_contract.get("prompt", "")).strip():
+            errors.append(f"behavior contract '{contract_id or index}' is missing prompt")
+
+        route_sets: dict[str, set[str]] = {}
+        for field in ("expected_routes", "forbidden_routes"):
+            values = raw_contract.get(field)
+            if not isinstance(values, list):
+                errors.append(f"behavior contract '{contract_id or index}' field '{field}' must be a list")
+                values = []
+            normalized = {normalize_skill_name(str(value).strip()) for value in values if str(value).strip()}
+            unknown = normalized - manifest_names
+            if unknown:
+                errors.append(
+                    f"behavior contract '{contract_id or index}' has unknown {field}: "
+                    + ", ".join(sorted(unknown))
+                )
+            route_sets[field] = normalized
+
+        overlap = route_sets.get("expected_routes", set()) & route_sets.get("forbidden_routes", set())
+        if overlap:
+            errors.append(
+                f"behavior contract '{contract_id or index}' expects and forbids: "
+                + ", ".join(sorted(overlap))
+            )
+
+        for field in ("required_actions", "forbidden_side_effects"):
+            values = raw_contract.get(field)
+            if not isinstance(values, list) or not values or not all(str(value).strip() for value in values):
+                errors.append(
+                    f"behavior contract '{contract_id or index}' field '{field}' must be a non-empty string list"
+                )
+
+        level = str(raw_contract.get("minimum_evidence_level", "")).strip()
+        if level not in evidence_levels:
+            errors.append(
+                f"behavior contract '{contract_id or index}' has invalid minimum_evidence_level: {level or '<missing>'}"
+            )
+
+        prompt = str(raw_contract.get("prompt", "")).strip()
+        if prompt and isinstance(manifest, dict):
+            try:
+                decision = resolve_routes(manifest, prompt, limit=8)
+            except ValueError as exc:
+                errors.append(
+                    f"behavior contract '{contract_id or index}' route check failed: {exc}"
+                )
+            else:
+                selected = {
+                    normalize_skill_name(str(item.get("name", "")))
+                    for item in decision["selected"]
+                }
+                expected = route_sets.get("expected_routes", set())
+                forbidden = route_sets.get("forbidden_routes", set())
+                missing_expected = expected - selected
+                selected_forbidden = forbidden & selected
+                if missing_expected:
+                    errors.append(
+                        f"behavior contract '{contract_id or index}' missed expected routes: "
+                        + ", ".join(sorted(missing_expected))
+                    )
+                if selected_forbidden:
+                    errors.append(
+                        f"behavior contract '{contract_id or index}' selected forbidden routes: "
+                        + ", ".join(sorted(selected_forbidden))
+                    )
+                if not missing_expected and not selected_forbidden:
+                    deterministic_routes_passed += 1
+
     for safety_name, keywords in SAFETY_KEYWORDS.items():
         if not any(keyword.lower() in combined_text for keyword in keywords):
             warnings.append(f"weak safety coverage: {safety_name}")
@@ -111,6 +210,8 @@ def main() -> int:
     print("Guyue Test Prompt Evaluation")
     print("==========================================")
     print(f"prompts: {len(prompts)}")
+    print(f"behavior contracts: {len(contracts)}")
+    print(f"deterministic route checks: {deterministic_routes_passed}/{len(contracts)}")
     print(f"manifest skills: {len(manifest_skills)}")
 
     if warnings:

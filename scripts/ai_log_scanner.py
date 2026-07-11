@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 import os
-import glob
-import time
-import json
-import sqlite3
 from datetime import datetime
 
 def format_size(size_bytes):
@@ -91,7 +87,7 @@ def main():
     targets = {
         "Gemini / Antigravity": os.path.expanduser("~/.gemini/antigravity/brain/"),
         "Claude Code": os.path.expanduser("~/.claude/projects/"),
-        "Codex / Opencode": os.path.expanduser("~/.codex/sessions/"),
+        "Codex": os.path.expanduser("~/.codex/sessions/"),
         "AutoGLM / AutoClaw": os.path.expanduser("~/.openclaw-autoclaw/workspace/")
     }
     
@@ -119,7 +115,7 @@ def main():
         print(f"- **路径**: `{path}` (SQLite)")
         print(f"- **体量**: {cursor_stats['file_count']} 个数据库, 共 {format_size(cursor_stats['total_size'])}")
         print(f"- **最后活跃**: {mtime_str}")
-        print(f"- **注意**: 请在 Guyue 仓库根目录运行 `python3 scripts/cursor_extractor.py` 进行安全读取，切勿直接 `cat`。\n")
+        print("- **注意**: 请在 Guyue 仓库根目录运行 `python3 scripts/cursor_extractor.py` 进行安全读取，切勿直接 `cat`。\n")
         
     # Check for Aider in current dir
     aider_log = os.path.join(os.getcwd(), ".aider.chat.history.md")
@@ -127,7 +123,7 @@ def main():
         found_any = True
         stat = os.stat(aider_log)
         mtime_str = datetime.fromtimestamp(stat.st_mtime).strftime('%Y-%m-%d %H:%M:%S')
-        print(f"### 🟢 Aider (当前工作区)")
+        print("### 🟢 Aider (当前工作区)")
         print(f"- **路径**: `{aider_log}`")
         print(f"- **体量**: {format_size(stat.st_size)}")
         print(f"- **最后活跃**: {mtime_str}\n")
@@ -142,6 +138,7 @@ def main():
         print("> **提取纪律**: Agent 在提取数据时，必须使用专用的安全脚本以防显存爆炸：")
         print("> - Cursor SQLite: `python3 scripts/cursor_extractor.py <db_path> [--keyword xxx]`")
         print("> - Claude JSONL: `python3 scripts/claude_extractor.py <jsonl_path> [--keyword xxx]`")
+        print("> - Codex JSONL: `python3 scripts/codex_extractor.py <jsonl_or_dir> --cwd <project> --roles user,final --dedupe --stats`")
 
 if __name__ == "__main__":
     main()

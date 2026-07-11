@@ -1,6 +1,6 @@
 ---
 name: eac-demo-hardening
-description: Project-specific workflow skill for EAC B2B Site Auditor static Demo hardening. Use when working on EAC, `Demo/index.html`, report export, browser-native PDF/HTML download, GSAP report animations, tutorial video fallbacks, AI Content Studio preview, official tutorial resources, runtime self-checks, or static-demo-only UX refinements.
+description: EAC B2B Site Auditor-only static Demo hardening. Require an explicit EAC checkout/name or the known EAC Demo/index.html markers. Do not trigger for generic static demos, PDF/report export, GSAP, or tutorial requests in unrelated projects.
 ---
 
 # eac-demo-hardening

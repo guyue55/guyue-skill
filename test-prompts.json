@@ -2,7 +2,7 @@
   {
     "name": "Trigger Root Orchestrator (Implicit)",
     "prompt": "我们要新加一个积分商城功能，你直接帮我把前后端代码写好。",
-    "expected_behavior": "Should trigger guyue root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis` and `research-and-sourcing` to prevent hallucination and clarify boundaries before any code generation."
+    "expected_behavior": "Should trigger guyue root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis`; it should use `research-and-sourcing` only if an unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical external fact remains. It must clarify boundaries before code generation."
   },
   {
     "name": "Trigger Guyue Persona DNA",
@@ -17,7 +17,7 @@
   {
     "name": "Trigger System Design (HITL)",
     "prompt": "需求调研完了，现在开始重构底层的权限鉴权模块吧，把代码给我。",
-    "expected_behavior": "Should trigger `system-design`. Agent must NOT write code immediately. It should output a high-level architecture plan (Plan-then-Execute) applying the DEPTH framework and halt with a `[等待用户确认]` prompt. Must reject Hype-driven development and enforce Permacomputing principles."
+    "expected_behavior": "Should trigger `system-design`. Because replacing the underlying authorization module changes a high-impact security contract, the agent must not write code immediately. It should inspect the current boundary, output a high-level architecture and migration plan, bind approval to the exact version and parameters, and halt for explicit confirmation. For ordinary bounded and reversible repository work that was already approved, it must not ask for duplicate confirmation."
   },
   {
     "name": "Trigger Documentation",
@@ -52,7 +52,7 @@
   {
     "name": "Trigger Research and Sourcing",
     "prompt": "打算引入一个专门处理并发队列的开源库，有什么推荐的最新方案吗？",
-    "expected_behavior": "Should trigger `research-and-sourcing`. Agent must explicitly state it is pausing to fetch the latest official documentation or check GitHub stars/best practices, rather than hallucinating an outdated or deprecated library. MUST advocate for Zero-Dependency and the Lindy Effect before adding external bloat."
+    "expected_behavior": "Should trigger `research-and-sourcing`. Agent must use current official documentation, release records, and maintained primary repositories rather than hallucinating an outdated or deprecated library. It should compare maintenance, security, license, compatibility, migration cost, and self-maintenance cost; stars and age are only supporting signals. It must prefer an existing suitable dependency or standard library when that minimizes total lifecycle complexity, without hand-rolling queue semantics merely to claim zero dependencies."
   },
   {
     "name": "Trigger Coding Discipline",
@@ -87,7 +87,7 @@
   {
     "name": "Trigger Memory Bank",
     "prompt": "把我们今天踩的关于 React Hydration 的坑记下来。",
-    "expected_behavior": "Should trigger `memory-bank`. Agent must create or update `.guyue_memory/index.json` and generate a markdown file detailing Symptom, Root Cause, Solution, and Prevention. Must output the trace: `[Trace: Guyue/MemoryBank]`."
+    "expected_behavior": "Should trigger `memory-bank`. Agent must store the verified lesson in private runtime memory under `.guyue_memory/local/`, not mutate the curated public index. The schema-v2 index and Markdown detail must include Symptom, Root Cause, Solution, Prevention, provenance, scope, evidence, confidence, lifecycle status, supersedes, and review_after; secrets and personal paths must be rejected. It should emit one takeover trace and must not claim a historical match without an indexed record."
   },
   {
     "name": "Trigger Product Sense",
@@ -97,7 +97,7 @@
   {
     "name": "Trigger Skill Crafting",
     "prompt": "帮我写一个新的 Agent 技能，用来自动化分析代码质量。",
-    "expected_behavior": "Should trigger `skill-crafting`. Agent must refuse to blindly generate prompts and instead request to scan workflow logs to distill real-world patterns. Must output the trace: `[Trace: Guyue/SkillCrafting]`."
+    "expected_behavior": "Should trigger `skill-crafting`. Agent must first check whether an existing code-review Skill, script, subagent, or CI gate can be upgraded; verify recurrence, stable inputs, repeatable steps, and observable outputs; then choose the narrowest packaging form. It may use user-provided sessions or specifications as evidence but must not automatically scan private local histories. For a Skill, it must define positive/negative routes, side effects, stop conditions, a with/without baseline, holdout cases, repeated live replay, and installation proof, with one takeover trace."
   },
   {
     "name": "Trigger Ecosystem Scout",
@@ -187,12 +187,12 @@
   {
     "name": "Trigger Long Goal Protocol",
     "prompt": "以 docs/goal-master.md 为唯一总控，继续执行所有阶段直到完成；如果上下文压缩了，先从账本恢复，不要单阶段完成就说全部完成。",
-    "expected_behavior": "Should trigger Guyue Long Goal Intake before implementation. Agent must read the master control document, execution ledger, current stage plan, final completion definition, and negative checklist before coding. It should update the ledger after each stage with failures, fixes, live evidence, residual risks, commit hash when applicable, and next entry. It must distinguish stage complete, MVP, local-only verified, release candidate, production-ready, and terminal complete, and must not mark the Goal complete from a single green check or one stage passing."
+    "expected_behavior": "Should trigger Guyue Long Goal Intake before implementation. Agent must read the master control document, execution ledger, current stage plan, promise coverage, final completion definition, and negative checklist before coding. It should restore from stable Goal/phase/task/run IDs, inspect each task's replay class before repeating side effects, verify the approval version for high-risk actions, and update the ledger with state transitions, stop reason, completion verdict, failures, fixes, fresh live evidence, residual risks, commit hash when applicable, and next entry. Delegated work must use a durable brief with exclusive ownership, BASE version, report path, independent review package, return state, heartbeat, and convergence budget. Terminal evidence must bind a repository artifact SHA-256, implementation version, worktree state, command, exit code, and generation time. It must distinguish stage complete, MVP, local-only verified, release candidate, production-ready, and terminal complete, and must not mark the Goal complete from a single green check or one stage passing."
   },
   {
     "name": "Forge Long Goal From Vague Vision",
     "prompt": "我想把当前项目长期做成真正稳定、好用、可以交付的产品。先结合仓库实际情况做好需求分析、调研、方案、计划、监管和验收准备；信息不清楚就一项一项问我，全部准备完成后只给一行可以启动 Goal 的提示词，现在不要开始实现。",
-    "expected_behavior": "Should trigger Guyue Long Goal Forge before Long Goal Intake or implementation. While decisions remain open, it must inspect only the minimum repository evidence needed for the next decision: project identity, current worktree, and existing goal paths first; at most four targeted reads/searches plus one lightweight status probe, no more than 120 lines per file and 16000 returned characters in total. It must not pre-read the control-pack template, full principles, full manifest, tests, release archives, or all repository content, and must stop tool use once the next question is supported. It must not run the full test suite, security scan, install, build, or live replay unless one is necessary to resolve that decision or a safety risk. It must classify confirmed facts, inferences, contradictions, and unresolved decisions; ask exactly one highest-impact decision question per turn with evidence, impact, a recommended default, and concrete alternatives; and continue until every direction-changing uncertainty is resolved or explicitly accepted. It must then create or update a repository-relative control pack containing one master control document, execution ledger, phase plans, and live-evidence index; the master must explicitly list every phase-plan file and pass `python3 scripts/check_long_goal_pack.py <goal-master.md>`. It must run an independent readiness review and return exactly one physical line that points to the master document. The forge phase must not begin implementation or hide unresolved questions inside the execution prompt."
+    "expected_behavior": "Should trigger Guyue Long Goal Forge before Long Goal Intake or implementation. While decisions remain open, it must inspect only the minimum repository evidence needed for the next decision: project identity, current worktree, and existing goal paths first; at most four targeted reads/searches plus one lightweight status probe, no more than 120 lines per file and 16000 returned characters in total. It must not pre-read the control-pack template, full principles, full manifest, tests, release archives, or all repository content, and must stop tool use once the next question is supported. It must not run the full test suite, security scan, install, build, or live replay unless one is necessary to resolve that decision or a safety risk. It must classify confirmed facts, inferences, contradictions, and unresolved decisions; ask exactly one highest-impact decision question per turn with evidence, impact, a recommended default, and concrete alternatives; and continue until every direction-changing uncertainty is resolved or explicitly accepted. It must then create or update a version-3 repository-relative control pack with stable Goal/phase/task/run/promise/evidence/action IDs, one master, ledger, phase plans, promise coverage, replay classes, version-bound approvals, delegation/convergence contract, and hash-bound live-evidence index; the master must explicitly list every phase-plan file and pass `python3 scripts/check_long_goal_pack.py --mode ready <goal-master.md>`. It must run an independent readiness review and return exactly one physical line that points to the master document. The forge phase must not begin implementation or hide unresolved questions inside the execution prompt."
   },
   {
     "name": "Long Goal Forge Resists Urgency And Vague Superlatives",

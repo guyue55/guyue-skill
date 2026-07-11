@@ -5,14 +5,18 @@ description: Methodologies for extracting normalized metadata, post captions, tr
 
 # video-extractor (Platform Extraction Workflow)
 
-**Mission:** Convert video-platform URLs into a normalized local source-material folder containing predictable assets (`metadata.json`, `post_caption.txt`, `transcript.txt`, `video.mp4`).
+**Mission:** Convert authorized video-platform URLs into a normalized, provenance-aware material folder whose assets match the requested extraction mode.
 
 ## The Standard Asset Contract
-You must create a dedicated folder for each extraction and place these exact files:
-- `metadata.json`
-- `post_caption.txt`
-- `transcript.txt`
-- `video.mp4`
+Create a dedicated folder only when the user asks for an actual extraction. Do not create empty placeholder assets.
+
+| Mode | Required assets | Optional assets |
+|---|---|---|
+| `metadata-only` (default) | `metadata.json`, `post_caption.txt` | platform-provided caption file |
+| `transcript` | metadata assets plus `transcript.txt` | audio intermediate, removed after verification unless requested |
+| `source-media` | metadata assets plus the downloaded source file | `transcript.txt` when separately requested |
+
+`metadata.json` records source URL, platform, extraction time, selected mode, field provenance, authorization basis, and planned/generated/failed asset counts.
 
 ## Authorization Boundary
 - Only extract media the user owns, is authorized to process, or that is explicitly licensed for download and reuse.
@@ -22,13 +26,14 @@ You must create a dedicated folder for each extraction and place these exact fil
 ## Provider Strategies
 
 ### 1. yt-dlp Primary (Default for YT/Bili)
-- When executing extraction, prefer this command template:
+- After authorization and when `source-media` is requested, a suitable command template is:
   `yt-dlp --write-info-json --write-description --format "bv*+ba/b" --merge-output-format mp4 -o "video.%(ext)s" [URL]`
 - Parse the resulting `.info.json` and `.description` to populate `metadata.json` and `post_caption.txt`.
 
 ### 2. ASR Integration (Transcript)
-- Always ask the user if they want ASR generation: "Would you like me to extract the transcript using ASR (e.g. Whisper)?"
-- Provide an option for `--metadata-only` to skip downloading large video chunks if the user only needs the title and description.
+- Use platform captions first when they are available and authorized.
+- If the requested transcript requires ASR, state the local/provider capability, expected download or cost, data boundary, and output before execution. Do not ask about ASR when the user requested metadata only.
+- Keep `metadata-only` free of large media downloads.
 
 ### 3. Graceful Degradation
 - If blocked (e.g. WeChat Channels), say: `[Extractor] Target is heavily walled. Please download manually and place the file here. I will resume the ASR workflow.`

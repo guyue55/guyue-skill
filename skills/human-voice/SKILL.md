@@ -1,6 +1,6 @@
 ---
 name: human-voice
-description: Plain-language editing skill for making Guyue outputs sound direct, specific, business-readable, and human-readable without changing facts, sources, authorship, language intent, or risk boundaries. Use when the user asks to "说人话", "去 AI 味", "别写官话", "少点套话", "改得像人能看懂", "像人说话", "业务侧可读", explain technical content to business/product/operations/management readers, avoid unnecessary Chinese-English mixing, default to Simplified Chinese, simplify a response, tighten prose, or remove generic AI phrasing from reports, replies, product copy, release notes, or technical explanations.
+description: Plain-language editing for "说人话", "去 AI 味", business-readable explanations, concise rewrites, and cleaner Chinese. Preserve facts, sources, authorship, uncertainty, language intent, and risk; do not use it to evade detectors or invent human provenance.
 ---
 
 # human-voice
@@ -69,9 +69,11 @@ Also use it as a final editing gate for public-facing Guyue outputs when the dra
 
 ## Workflow
 
-Start with:
+On first takeover, emit once:
 
 `[Trace: Guyue/HumanVoice] 启用说人话门禁：先锁事实和来源，再删套话，最后检查读者能否听懂、判断、行动。`
+
+Only add another trace when the reader, source status, or risk boundary changes.
 
 ### 1. Lock The Facts
 

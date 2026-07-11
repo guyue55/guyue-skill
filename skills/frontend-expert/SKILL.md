@@ -1,6 +1,6 @@
 ---
 name: frontend-expert
-description: Use to implement or upgrade frontend pages, UI/UX, interaction, accessibility, responsive behavior, or motion. Start from the product type, audience, existing design system, and current stack; add GSAP or Tailwind only when the task and repository justify them. Use taste-aesthetics for review-only visual critique.
+description: Implement or upgrade frontend pages, UI/UX, interaction, accessibility, responsiveness, and useful motion. Start from product type, audience, existing design system, and current stack; use taste-aesthetics for review-only critique and avoid forcing new frameworks.
 ---
 
 # 古月 / 前端与交互专精 (Frontend & UX Expert)
@@ -60,15 +60,16 @@ description: Use to implement or upgrade frontend pages, UI/UX, interaction, acc
 
 ## 强制纪律 (Trace Discipline)
 
-执行本技能接管前端设计或代码时，必须在对话中明文输出诊断与执行轨迹：
-`[Trace: Guyue/FrontendExpert] 识别产品场景、现有设计系统与前端技术栈...`
+首次接管时输出一次：
+`[Trace: Guyue/FrontendExpert] 识别产品类型、现有设计系统、技术栈与验证视口`
+
+只有实现阶段、设计边界或活体证据结论变化时追加。
 
 ## Showcase (展台)
 
 当需求确实包含多元素时序动画且项目已采用 GSAP 时，可参照以下骨架：
 
 ```javascript
-// [Trace: Guyue/FrontendExpert] 注入 GSAP 三幕剧叙事
 import gsap from 'gsap';
 
 export function initHeroAnimation() {

@@ -1,6 +1,6 @@
 ---
 name: nexusflow-governance-workflow
-description: Project-specific workflow skill for NexusFlow permission, tenant governance, platform visibility, dashboard, GCP import, audit-log, and role-management work. Use when working in a NexusFlow checkout or when the user mentions NexusFlow, "权限管理", "后端控制权限，前端控制体现", tenant governance, platform scope, permissionSnapshot, approval flows, dashboard reality checks, GCP resource discovery, or Chinese conventional commits for this project.
+description: NexusFlow-only workflow for permissions, tenant governance, visibility, dashboards, GCP import, audit logs, and roles. Require an explicit NexusFlow checkout/name or marker such as permissionSnapshot; do not trigger from generic permission, tenant, dashboard, or commit requests.
 ---
 
 # nexusflow-governance-workflow
