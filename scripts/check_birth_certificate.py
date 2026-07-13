@@ -30,10 +30,27 @@ REQUIRED_RELEASE_FILES = [
     "docs/release-checklist.md",
     "docs/runtime-adapters.md",
     "docs/long-goal-protocol.md",
+    "docs/release-v1.4.0.md",
     "docs/luban-report-v1.3.0.md",
     "docs/templates/long-goal-control-pack.md",
     "scripts/check_birth_certificate.py",
     "scripts/check_long_goal_pack.py",
+    "scripts/check_capability_chain.py",
+    "scripts/run_capability_live_canaries.py",
+    "scripts/run_capability_output_quality.py",
+    "evals/capability-routing.json",
+    "evals/capability-near-misses.json",
+    "evals/capability-live-canaries.json",
+    "evals/capability-output-quality.json",
+    "evals/evidence/capability-live-canaries-2026-07-13.json",
+    "evals/evidence/capability-evidence-profile-replay-2026-07-13.json",
+    "evals/evidence/capability-output-quality-2026-07-13.json",
+    "evals/evidence/artifacts/capability-evidence-profile-output-v3.md",
+    "evals/evidence/artifacts/capability-evidence-profile-review-v3.json",
+    "evals/evidence/new-user-eight-question-audit-2026-07-13.md",
+    "scripts/test_long_goal_pack.py",
+    "scripts/simulate_long_goal_lifecycle.py",
+    "scripts/simulate_install_journey.py",
     "scripts/check_full_install.py",
     "scripts/test_mcp_server.py",
     "examples/quickstart-output.md",
@@ -193,7 +210,11 @@ def check_release_sync(errors: list[str], skill_count: int, prompt_count: int) -
         )
         if not certificate_pattern.search(readme):
             add_error(errors, f"README certificate does not match release version: {version}")
-        if f"## v{version} - 2026-07-10" not in changelog:
+        release_heading = re.compile(
+            rf"^## v{re.escape(version)} - \d{{4}}-\d{{2}}-\d{{2}}$",
+            re.MULTILINE,
+        )
+        if not release_heading.search(changelog):
             add_error(errors, f"CHANGELOG does not contain the dated release heading for v{version}")
         if f"Candidate version: `{version}`" not in release:
             add_error(errors, f"release checklist does not name candidate version: {version}")

@@ -199,11 +199,22 @@ def check_project_config(repo_root):
         'verified',
         'failed',
     ]
-    if not isinstance(routing_contract, dict) or routing_contract.get('version') != 1:
-        print("❌ [CONFIG ERROR] routing_contract.version must be 1", file=sys.stderr)
+    if not isinstance(routing_contract, dict) or routing_contract.get('version') != 2:
+        print("❌ [CONFIG ERROR] routing_contract.version must be 2", file=sys.stderr)
         passed = False
     elif routing_contract.get('lifecycle') != expected_lifecycle:
         print("❌ [CONFIG ERROR] routing_contract lifecycle is incomplete or out of order", file=sys.stderr)
+        passed = False
+    elif routing_contract.get('external_lifecycle') != [
+        'external_candidate',
+        'source_checked',
+        'installed',
+        'security_checked',
+        'authorized',
+        'activated',
+        'blocked',
+    ]:
+        print("❌ [CONFIG ERROR] external capability lifecycle is incomplete or out of order", file=sys.stderr)
         passed = False
 
     manifest_skills = manifest.get('skills')
@@ -233,6 +244,28 @@ def check_project_config(repo_root):
         if 'routing_priority' in skill and not isinstance(skill['routing_priority'], int):
             print(f"❌ [CONFIG ERROR] {name}.routing_priority must be an integer", file=sys.stderr)
             passed = False
+        if skill.get('root_exposure') not in {'explicit', 'contextual', 'manual-only'}:
+            print(f"❌ [CONFIG ERROR] {name}.root_exposure is invalid", file=sys.stderr)
+            passed = False
+        if skill.get('evidence_profile') not in {
+            'E1-decision',
+            'E2-change',
+            'E3-lineage',
+            'E4-audit',
+        }:
+            print(f"❌ [CONFIG ERROR] {name}.evidence_profile is invalid", file=sys.stderr)
+            passed = False
+        expected_policy = (
+            'context-gated'
+            if skill.get('root_exposure') == 'contextual'
+            else 'model-or-explicit'
+        )
+        if skill.get('activation_policy') != expected_policy:
+            print(f"❌ [CONFIG ERROR] {name}.activation_policy must be {expected_policy}", file=sys.stderr)
+            passed = False
+        if skill.get('live_canary_required') is not True:
+            print(f"❌ [CONFIG ERROR] {name}.live_canary_required must be true", file=sys.stderr)
+            passed = False
 
     for project_skill in ('nexusflow-governance-workflow', 'eac-demo-hardening'):
         item = next((skill for skill in manifest_skills if skill.get('name') == project_skill), None)
@@ -250,6 +283,22 @@ def check_project_config(repo_root):
         ref = str(dep.get('ref', ''))
         if not re.fullmatch(r'[0-9a-f]{40}', ref):
             print(f"❌ [CONFIG ERROR] external dependency must pin a reviewed 40-character commit: {dep.get('name')}", file=sys.stderr)
+            passed = False
+        for field in ('name', 'description', 'package_id', 'url', 'command'):
+            if not str(dep.get(field, '')).strip():
+                print(f"❌ [CONFIG ERROR] external dependency missing {field}: {dep.get('name')}", file=sys.stderr)
+                passed = False
+        if not dep.get('trigger_intent') or not all(
+            isinstance(value, str) and value.strip()
+            for value in dep.get('trigger_intent', [])
+        ):
+            print(f"❌ [CONFIG ERROR] external dependency requires trigger_intent: {dep.get('name')}", file=sys.stderr)
+            passed = False
+        if dep.get('root_exposure') != 'external-candidate' or dep.get('activation_policy') != 'external-candidate':
+            print(f"❌ [CONFIG ERROR] external dependency must remain a candidate: {dep.get('name')}", file=sys.stderr)
+            passed = False
+        if dep.get('evidence_profile') not in {'E3-lineage', 'E4-audit'}:
+            print(f"❌ [CONFIG ERROR] external dependency evidence profile is invalid: {dep.get('name')}", file=sys.stderr)
             passed = False
 
     if is_git_checkout(repo_root):
@@ -1740,6 +1789,9 @@ def check_long_goal_forge_contract(repo_root):
         'evaluation': os.path.join(repo_root, 'docs', 'evaluation.md'),
         'replay': os.path.join(repo_root, 'examples', 'quickstart-output.md'),
         'pack_checker': os.path.join(repo_root, 'scripts', 'check_long_goal_pack.py'),
+        'pack_tests': os.path.join(repo_root, 'scripts', 'test_long_goal_pack.py'),
+        'lifecycle_simulator': os.path.join(repo_root, 'scripts', 'simulate_long_goal_lifecycle.py'),
+        'install_simulator': os.path.join(repo_root, 'scripts', 'simulate_install_journey.py'),
         'security_scanner': os.path.join(repo_root, 'scripts', 'security_scanner.py'),
     }
     passed = True
@@ -1782,7 +1834,7 @@ def check_long_goal_forge_contract(repo_root):
             'Long Goal Forge Fast Gate',
             'remaining budget is at most 3 targeted reads/searches',
             "sed -n '1,120p' SKILL.md",
-            'v3 控制包',
+            'v4 控制包',
             '委派收束',
             '证据哈希',
         ],
@@ -1816,8 +1868,17 @@ def check_long_goal_forge_contract(repo_root):
             '一行 Goal 提示词',
             '阶段计划清单',
             'check_long_goal_pack.py',
-            '控制包版本：3',
+            '控制包版本：4',
+            '控制权与三层时间尺度',
+            '控制修订记录',
+            '活跃控制文档清单',
+            '认知与实验台账',
+            '风险门与先纵切后扩张',
+            '终局封账顺序',
+            '设计门失败记录',
             '委派与收束',
+            'FINAL / ATTEMPT',
+            'derived@master+ledger',
             '证据 SHA-256',
             '工作树状态',
         ],
@@ -1828,7 +1889,52 @@ def check_long_goal_forge_contract(repo_root):
             '--self-test',
             'LATEST_CONTROL_PACK_VERSION',
             'validate_delegation_contract',
+            'validate_control_revisions',
+            'validate_promise_evidence_links',
+            'validate_git_seal',
+            'BLOCKED_DESIGN_REVIEW_REQUIRED',
+            'three differentiated failed experiments',
+            'must be complete before Goal completion',
+            'derived@master+ledger',
             'SHA-256 does not match its artifact',
+            '--repo-root',
+            'master path must stay inside --repo-root',
+        ],
+        'pack_tests': [
+            'test_cli_accepts_an_external_target_repository',
+            'test_cli_rejects_a_master_outside_the_target_repository',
+            'test_valid_ready_pack_and_legacy_versions',
+            'test_approved_revision_preserves_failures_and_recovers',
+            'test_failed_attempt_cannot_authorize_revision_recovery',
+            'test_stale_final_cannot_authorize_revision_recovery',
+            'test_passing_evidence_cannot_count_as_failed_attempt',
+            'test_real_git_seal_survives_unrelated_descendant_commit',
+            'test_git_seal_rejects_external_final_evidence_state',
+            'test_complete_rejects_negated_freshness_label',
+            'test_git_seal_rejects_post_seal_evidence_mutation',
+            'test_git_seal_rejects_mutation_even_after_content_is_restored',
+            'test_escaped_pipe_remains_inside_one_markdown_cell',
+            'test_freshness_requires_a_canonical_positive_status',
+        ],
+        'lifecycle_simulator': [
+            'three_failures_force_design_review',
+            'approved_revision_recovery',
+            'implementation_commit_A',
+            'evidence_commit_B',
+            'seal_commit_C',
+            'restart_replay',
+            'post_seal_mutation_rejected',
+            'real_user_value_verified',
+        ],
+        'install_simulator': [
+            'file_git_remote',
+            'temporary_git_index',
+            'release_tree_copy',
+            'empty_home_verified',
+            'restart_same_payload',
+            'installed_worktree_clean',
+            'public_network_verified',
+            'real_user_feedback_verified',
         ],
         'security_scanner': [
             '--cached',
@@ -1896,7 +2002,10 @@ def check_long_goal_forge_contract(repo_root):
             'must not begin implementation',
             'must not run the full test suite',
             'explicitly list every phase-plan file',
-            'version-3',
+            'version-4',
+            'ultimate vision/current Goal/time-only outcomes',
+            'verified facts/frozen decisions/falsifiable hypotheses/experiments',
+            'vertical risk gate before scale',
             'delegation/convergence contract',
             'hash-bound live-evidence index',
         ],

@@ -82,6 +82,7 @@ Use this mode when the claim is "the workflow is automated", "the agent loop can
 ### Permission And Governance Flows
 
 - Backend authorization is the security boundary.
+- Missing middleware proves only that authorization was not found at that layer. Before declaring server-side authorization absent, trace controller, service, policy engine, gateway, database policy, and equivalent enforcement points; when that trace is unavailable, say “no server-side authorization evidence was provided/found,” not “authorization does not exist.”
 - Frontend gates such as `permissionSnapshot`, `PermissionGate`, and disabled buttons are UX only.
 - Do not accept role-name checks, hardcoded admin logic, stale JWT claims, or client-only hiding as proof.
 - Approval, cancellation, membership, and audit actions must update backend state and audit evidence together.
@@ -110,6 +111,7 @@ Use this mode when the claim is "deployment succeeded", "the remote uses this co
 - Treat local `.env`, README examples, and green build logs as weak evidence until traced into the deployed artifact or live service behavior.
 - Trace the chain: local config -> build/deploy command -> packaged artifact or serialized metadata -> remote process/environment -> health endpoint or authenticated smoke check.
 - Distinguish four states explicitly: configured locally, packaged into artifact, accepted by remote platform, observable in runtime behavior.
+- For every deployment or “already live” claim, render those four states as separate rows with evidence and verdict, even when all four are `unproven`; do not collapse artifact packaging, remote acceptance, and runtime observation into one generic “deployment evidence missing” statement.
 - Prefer read-only checks first: deployment manifests, CI logs, artifact metadata, remote health probes, version endpoints, logs, or API responses.
 - Do not push, deploy, restart, mutate cloud state, delete resources, or rotate secrets while auditing unless the user explicitly asks for that action.
 - When artifact inspection is impossible, label the gap as "unproven" and propose the smallest proof step instead of claiming success.

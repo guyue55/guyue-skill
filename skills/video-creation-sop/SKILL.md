@@ -122,6 +122,8 @@ For short dramas, capture the stable requirement fields explicitly: `title`, `sy
 
 Stop if ownership or reuse rights are unclear. Do not bypass login, paywalls, DRM, private groups, anti-abuse controls, or platform rules.
 
+Preserve unresolved media decisions exactly. `voice talent unknown` means voice, narration, music, and SFX remain `open` or `planning_only`; it does not authorize choosing a silent final. A no-default-audio or muted-autoplay constraint controls playback behavior, not whether production may contain an audio track. Record the default used for a preview separately from the final audio decision and require confirmation before locking it.
+
 ### 2. Production Brief
 
 Create the brief before creative execution:

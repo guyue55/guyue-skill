@@ -1,0 +1,35 @@
+[
+  {
+    "contract_id": "long-goal-forge-stops-at-one-question-before-handoff",
+    "observed_routes": [],
+    "observed_actions": [
+      "ground the long goal in repository evidence",
+      "ask exactly one highest-impact question",
+      "refuse premature Goal handoff while decisions remain open",
+      "respect the four-read plus one-status clarification budget"
+    ],
+    "observed_side_effects": [],
+    "evidence_level": "L3",
+    "reviewer": "fresh Codex replay with independent Luban evidence review",
+    "observed_at": "2026-07-11T17:20:27Z",
+    "evidence_path": "evidence/long-goal-forge-live-2026-07-12.md",
+    "evidence_sha256": "6baa638e7ab1774cd27c907fe1c0e0a78960c476e87db1e10a7624dc0ff2f001"
+  },
+  {
+    "contract_id": "long-goal-forge-recovers-decisions-before-ready-handoff",
+    "observed_routes": [],
+    "observed_actions": [
+      "ask one direction-changing question per turn",
+      "separate time-only outcomes from Goal completion",
+      "persist closed decisions before context recovery",
+      "validate a ready pack in an external target repository",
+      "emit exactly one final Goal handoff line after independent review"
+    ],
+    "observed_side_effects": [],
+    "evidence_level": "L3",
+    "reviewer": "multi-turn Forge simulation with independent failure-first review",
+    "observed_at": "2026-07-12T03:22:37Z",
+    "evidence_path": "evidence/long-goal-forge-multiturn-simulation-2026-07-12.md",
+    "evidence_sha256": "09069aa3f5e27e3e8132194877cb5def9b540767570af38948ae8ad2cc3bcd95"
+  }
+]

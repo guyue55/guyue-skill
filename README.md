@@ -6,7 +6,10 @@
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Release-v1.3.0-brightgreen)
+![Status](https://img.shields.io/badge/Release-v1.4.0-brightgreen)
+
+> [!WARNING]
+> `v1.4.0` 的当前证据覆盖完整本地候选、Codex 26/26 激活和 26/26 逐 Skill 合成输出审查。它不复用 `v1.3.0` 的公网安装或 Claude 活体结果，也不把其他运行时、所有领域输入或真实用户价值写成已验证。
 
 > [!IMPORTANT]
 > 古月不是“完整的人”或万能自动化系统。它会主动完成边界明确、仓库内可逆的工作；公开发布、付费、凭证、权限扩大、不可逆迁移等高影响动作仍需绑定具体版本的授权。它不会把 AI 参与伪装成人工来源，也不会为了好听删除证据缺口或风险。
@@ -37,6 +40,21 @@ python3 scripts/try_guyue.py
 
 这个入口复用真实的包体收据、路由解释器和上下文预算器，只读、不写文件。它证明本地包体与确定性路由可用，但不冒充目标运行时已经激活，也不冒充模型行为回放通过。入口源码见 [scripts/try_guyue.py](scripts/try_guyue.py)，完整场景见 [examples/showcase.md](examples/showcase.md)，历史活体回放见 [examples/quickstart-output.md](examples/quickstart-output.md)。
 
+### 证明口径
+
+| 证据 | 能证明 | 不能证明 |
+|---|---|---|
+| `scripts/try_guyue.py` | 当前载荷、确定性路由、项目边界和上下文预算 | 目标运行时已激活，或模型一定遵守合同 |
+| 哈希绑定的只读回放 | 指定提示词在指定运行时中的真实行为 | 其余行为合同、其他运行时或长期结果 |
+| 26 项输出质量收据 | 每个 Skill 的一个合成任务已读取正文、产生产物并通过独立准则审查 | 任意输入都高质量、真实用户价值或其他运行时表现 |
+| 当前候选套件与发布清单 | 精确候选的本地结构、安全和安装完整性 | 已推送、已打 tag、已公开安装或已产生长期用户价值 |
+
+## 适合谁
+
+- 长期让 Agent 参与复杂工程、需要跨会话恢复和验收的人。
+- 维护多个 Skill、多个项目或多个 Agent 运行时，需要稳定路由和上下文边界的人。
+- 不能接受“测试全绿就算完成”，需要发布前证据、安全边界和可追溯决定的人。
+
 ## 它解决什么
 
 - **模糊需求直接进入实现**：先用项目事实关闭目标、范围、成本和验收边界，再决定是否编码。
@@ -46,16 +64,24 @@ python3 scripts/try_guyue.py
 
 古月的底盘是三件事：**验料**，先判断什么值得做；**造镜子**，把经验沉淀成可复用判断；**活体对账**，能运行就运行，能打开就打开，不让绿色状态灯替代真实结果。
 
+## 为什么不只是临时问 Agent
+
+| 形态 | 擅长 | 缺少什么 |
+|---|---|---|
+| 临时提示 | 一次性回答和局部执行 | 没有版本化路由、恢复账本、证据合同和回归门 |
+| 单一任务 Skill | 固化一个领域的稳定步骤 | 通常不负责跨任务仲裁、长线控制修订和终局封账 |
+| Guyue | 用 26 个窄能力组织需求、实现、恢复、审查和沉淀 | 仍依赖目标运行时执行；不替代用户价值判断或时间型结果 |
+
 ## 安装到 Agent
 
-**Claude Code Marketplace（完整安装，推荐）：**
+### v1.4.0：GitHub 源与 Claude Code Marketplace 元数据
 
 ```bash
 claude plugin marketplace add guyue55/guyue-skill
 claude plugin install guyue@guyue
 ```
 
-安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。`v1.3.0` 已通过公开 GitHub 源和空 `HOME` 隔离安装实测，识别到 27 个 Skill 组件（1 个根路由 + 26 个内部能力模块），并保留完整仓库载荷。
+安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。Marketplace 元数据已同步为 `v1.4.0` 并通过严格结构校验；按本次约定，Claude 模型激活与公网安装不属于 v1.4.0 的已验证声明。`v1.3.0` 的历史公开安装证据不能替代当前版本。
 
 **Codex 完整安装：**
 
@@ -88,7 +114,7 @@ bash scripts/test_suite.sh
 
 更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
 
-运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。v1.3.0 的完整鲁班审计见 [docs/luban-report-v1.3.0.md](docs/luban-report-v1.3.0.md)，未发布升级证据见 [全面升级审计](docs/guyue-upgrade-audit-2026-07-10.md) 与 [首轮体验打磨报告](docs/guyue-first-run-polish-2026-07-11.md)。
+运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前版本证据见 [v1.4.0 发布说明](docs/release-v1.4.0.md) 和 [发布清单](docs/release-checklist.md#v140-release-evidence)；v1.3.0 的历史鲁班审计仍保留在 [docs/luban-report-v1.3.0.md](docs/luban-report-v1.3.0.md)。
 
 ## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
 
@@ -105,9 +131,10 @@ bash scripts/test_suite.sh
 - 🗣️ **说人话门禁 (human-voice)**：把回答、报告、技术解释和发布说明改成读者能听懂、能判断、能行动的表达；默认正常沟通用简体中文，避免不必要中英文混排；保留事实、证据、来源、授权和风险边界，不做 AI 检测规避，不伪装人工来源。
 - ✨ **前端与交互美学 (frontend-expert)**：先服从产品类型、现有设计系统和技术栈，再落实 a11y、响应式与 UI 标准件复用；只有复杂时序或现有项目确有需要时才引入 GSAP 等增强能力。
 - 🏭 **标准件车间 (sop-maker)**：当一项复杂排障、开发流或重复 Agent 工作成功闭环后，将其提炼、泛化并打包为可复用的操作手册 (SOP) 或 Loop Contract。
-- 📒 **长线目标铸造与长程自治**：Long Goal v3 用稳定 ID 管理状态机、承诺覆盖、版本化审批和副作用重放，并要求委派包绑定所有权、BASE、报告、独立审查和收束预算；终局证据绑定文件哈希、实现版本、工作树状态、命令与退出码。v2 仅保留历史解析兼容。
+- 📒 **长线目标铸造与长程自治**：Long Goal v4 在 v3 的稳定 ID、委派收束和哈希证据上，增加三层时间尺度、事实/决定/假设/实验台账、可追溯控制修订、先纵切后扩张和 A/B/C Git 封账。检查器可通过 `--repo-root` 验证任意目标仓库；连续模拟覆盖三次失败、设计复核、批准恢复、封账、重启与篡改拒绝。承诺与 `FINAL/ATTEMPT` 证据双向对账，检查器通过仍只证明控制结构完整。v2/v3 仅保留历史解析兼容。
 - 🧠 **证据型双轨记忆 (memory-bank)**：公共精选索引与本地私有运行记忆分离；每条教训记录来源、证据、作用域、置信度、替代关系和复查日期，避免把过期经验当成当前事实。
 - 🛠️ **技能制作 (skill-crafting)**：先验证重复价值、稳定输入、可复用步骤和验证标准，再选择 Skill、Custom subagent、SOP、脚本、Hook、Automation 或 CI gate；用无 Skill 基线、留出样本、重复回放和安装验真取代评分表自嗨。
+- 📡 **能力链验真**：26 个内置 Skill 统一声明发现策略和 E1-E4 证据档位；54 条宽路由、345 条正触发、208 条近邻负例、48 条外部候选触发与 26 条 Codex 活体激活共同证明“可发现/可选择/可激活”。12 个外部增强只能进入候选态，未完成来源、安装、安检和动作授权前不能冒充已激活能力。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册；确实适合第三方工具时，先给安装计划和安全边界，获明确授权后再快速接入。
 
 扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
@@ -243,7 +270,7 @@ python3 scripts/check_context_budget.py
 - **可复用的判断镜片**：在复盘、技能制作和复杂项目审计后，提炼心智模型、决策启发式、反模式和诚实边界，避免只留下流水账。
 - **长程任务执行骨架**：为多阶段目标准备总控文档、执行账本、否定清单和活体证据要求，确保恢复时能从项目事实继续，而不是从聊天上下文猜进度。
 - **会话证据提取器**：`scripts/codex_extractor.py` 流式提取 Codex JSONL 中的 user/final 证据，支持项目、起止时间、主任务/子任务、关键词、角色、去重、统计、清单和限长，并排除开发者/工具载荷、脱敏常见凭证与个人主目录。
-- **分层行为评测**：54 个结构 prompt、17 个正负路由行为契约、确定性候选路由，以及绑定证据文件 SHA-256 的真实回放观察检查器；结构和路由全绿不会冒充模型行为已通过。
+- **分层行为评测**：54 个结构 prompt、19 个正负路由行为契约、确定性候选路由，以及绑定证据文件 SHA-256 的真实回放观察检查器；结构和路由全绿不会冒充模型行为已通过。
 - **安装收据**：`scripts/check_full_install.py --runtime <runtime> --json` 输出完整载荷、Skill 数、来源提交、脏工作区状态和必要文件哈希；安装成功仍需真实激活回放。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：随包发布的 `.guyue_memory/index.json` 只承载公共精选条目；私有运行记忆默认写入 Git 忽略的 `.guyue_memory/local/`。检索先按状态、作用域和关键词命中 schema v2 索引，再读取单条 Markdown；空查询、常见密钥、令牌和个人绝对路径会被拒绝。
 - **可选 MCP 接口**：`src/mcp_server.py` 可通过 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) 暴露技能清单、可解释路由和本地记忆工具；它是完整仓库上的可选运行层，不代表所有 Agent Skills 运行时都会自动加载 MCP。
@@ -280,7 +307,12 @@ guyue/
 │   ├── explain_route.py     # 确定性候选路由与排除原因
 │   ├── check_context_budget.py # 发现面、根入口与碰撞预算
 │   ├── check_behavior_replay.py # 回放观察与证据哈希检查
-│   ├── check_long_goal_pack.py  # Long Goal v2/v3 控制包门禁
+│   ├── check_capability_chain.py # 发现、路由、证据档位与活体激活门
+│   ├── run_capability_live_canaries.py # 26 Skill Codex 只读激活探针
+│   ├── check_long_goal_pack.py  # Long Goal v2/v3/v4 控制包门禁
+│   ├── test_long_goal_pack.py   # Long Goal 兼容、反例与真实 Git 封账测试
+│   ├── simulate_long_goal_lifecycle.py # 外部项目失败、恢复、封账与重启模拟
+│   ├── simulate_install_journey.py # 空 HOME 裸远程克隆、首次运行与重启模拟
 │   ├── run_security_scan.py # 第三方技能本地启发式安检
 │   ├── extract_software_box.py # 软件精选库提取工具
 │   └── ci_validate_skills.py# CI 检测流水线
@@ -321,17 +353,17 @@ guyue/
     └── video-extractor/
 ```
 
-## 出师证书
+## v1.4.0 出师证书
 
 ```text
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.3.0)              │
-│  打磨前：只有基础的工程防线与生硬的界面           │
-│  打磨后：可安装、可验证、可传播的 Agent 操作层    │
+│  作品：guyue (古月数字分身 v1.4.0)              │
+│  打磨前：能力存在，但发现、激活与证据链不统一      │
+│  打磨后：26 项能力可路由、可激活、可逐项验收       │
 │  定位：Personal Agent Operating Layer            │
-│  绝活：真实协作语料蒸馏 + 技能路由 + 验证纪律     │
+│  绝活：失败优先打磨 + 活体激活 + 可反算证据       │
 │                                               │
 │  验收师傅：鲁班                                 │
 └───────────────────────────────────────────────┘

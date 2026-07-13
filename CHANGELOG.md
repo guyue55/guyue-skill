@@ -1,10 +1,16 @@
 # Changelog
 
-## Unreleased
+## v1.4.0 - 2026-07-13
 
 ### Added
 
-- Add a versioned routing lifecycle plus 17 machine-readable behavior contracts, deterministic route explanations, project-context gates, and an MCP route tool.
+- Add a machine-readable capability-chain gate covering 54 broad routes, 345 internal triggers, 208 adjacent negative cases, 48 external-candidate triggers, 26 evidence profiles, and 26 hash-bound Codex activation canaries.
+- Add E1 decision, E2 change, E3 lineage, and E4 audit evidence profiles with a shared envelope, failure-first representative output replay, and explicit non-claims for all-domain output quality, other runtimes, and public-network proof.
+- Add one realistic synthetic output task and an independent review for every one of the 26 child Skills, retaining output, producer, review, failure history, and SHA-256 evidence artifacts.
+- Add compact sanitized activation artifacts for all 26 Codex canaries so target Skill reads and final selections can be independently checked without publishing model reasoning or full raw event streams.
+- Add Long Goal control-pack schema v4 with authority and inheritance rules, ultimate/current/time-only horizons, verified-fact/frozen-decision/hypothesis/experiment registers, recoverable three-failure design review, bidirectional promise/evidence links, and an auditable A/B/C Git seal; retain tested v2/v3 parsing compatibility.
+- Add a versioned routing lifecycle plus 19 machine-readable behavior contracts, including hash-bound one-turn and multi-turn Long Goal Forge replays, deterministic route explanations, project-context gates, and an MCP route tool.
+- Add disposable external-project Long Goal lifecycle and empty-HOME Git-clone install simulators with machine-readable receipts, restart checks, clean-install verification, and explicit public-network/user-value boundaries.
 - Add `scripts/check_behavior_replay.py` to bind reviewed live observations to evidence files and SHA-256 hashes.
 - Add `scripts/codex_extractor.py` with cwd/time-window/thread-source/keyword/role filters, deduplication, inventory mode, bounded output, statistics, and credential/home-path redaction.
 - Add Long Goal control-pack schema v3 with stable IDs, promise coverage, replay classes, version-bound approvals, delegation ownership/BASE/report/review/convergence contracts, and artifact-hash-bound completion evidence; retain v2 parsing compatibility.
@@ -17,6 +23,11 @@
 
 ### Changed
 
+- Change 12 optional ecosystem entries from documentation-only pointers into source-pinned `external_candidates`; they cannot enter built-in selected routes or activate before source, installation, security, and action-specific authorization gates.
+- Strengthen product, human-voice, software-advisor, security-gate, book-distiller, SOP, and ecosystem contracts so facts, assumptions, rewrite drift, catalog provenance, scan receipts, source locations, and discoverability remain auditable.
+- Strengthen seven Skills from real output-review failures: provisional acceptance criteria, closed-world documentation facts, unverified ecosystem metadata, measured context baselines and stop conditions, media checksums and provenance, unresolved audio decisions, and four-state deployment evidence.
+- Give Guyue an evidence-bound independent-judgment contract: challenge user-proposed means and its own prior control plan when they conflict with the user outcome, while requiring facts, impact, a recommendation, and a falsification condition instead of performative disagreement.
+- Separate the published v1.3.0 proof from the unreleased Long Goal v4 candidate across the README, release evidence, checklist, showcase, and installation claims so historical green gates cannot masquerade as current proof.
 - Calibrate Guyue autonomy by evidence level and reversibility: bounded repository work proceeds without duplicate approval, while public, paid, destructive, permission-changing, or irreversible actions require action-specific authorization.
 - Reduce routed description size from 7234 to 5790 characters and define positive/negative routes for ambiguous and project-specific skills.
 - Replace per-command Trace logging with one takeover trace plus meaningful state/risk transitions.
@@ -32,6 +43,8 @@
 
 ### Fixed
 
+- Fix the 54-prompt suite passing without sending its broad prompts through the deterministic router, and fix natural-language misses across all 26 built-in Skills.
+- Fix negated project context such as “无 NexusFlow/EAC 标记” activating project-specific workflows, and fix EAC's own `Demo/index.html` trigger being rejected by its context gate.
 - Fix a duplicate `replay` dictionary key in the CI validator.
 - Fix Long Goal's previous false-green self-test that accepted blank ledger, evidence, and phase files.
 - Fix memory writer/GC directory disagreement and prevent GC from truncating archived lessons.
@@ -39,6 +52,7 @@
 - Fix `video-extractor` requiring `video.mp4` even in metadata-only mode.
 - Fix the context-budget gate counting UTF-8 bytes as characters for Chinese root instructions.
 - Fix Long Goal completion evidence accepting a fresh label without recomputing the referenced artifact SHA-256.
+- Fix the Long Goal CLI being bound to the Guyue repository by adding a validated `--repo-root` target, and allow honest `dirty@...` ATTEMPT provenance while continuing to require `clean@A` for completed FINAL evidence.
 - Fix the full-package receipt omitting the router and context modules required by the public first-run command.
 - Fix showcase examples that still encoded blanket research, blanket refusal, multi-question interrogation, and fabricated memory output from earlier Guyue behavior.
 - Fix route-contract validation accepting any one expected route instead of requiring the complete expected route set.
@@ -47,6 +61,9 @@
 ### Verification
 
 - Pass the expanded 15-stage local suite, Ruff, strict Claude marketplace validation, all 26 official `skills-ref` child validations, security failure injection, Long Goal delegation/staleness/hash failure injection, memory/MCP route tests, Codex extractor tests, deterministic route tests, context-budget tests, and behavior-replay checker tests.
+- Pass 26/26 retained Codex activation canaries and 26/26 independently reviewed synthetic output tasks after preserving 18/26 and 24/26 failed attempts and repairing their concrete causes.
+- Pass a continuous external-repository Long Goal simulation covering ready state, three differentiated failures, design-review blocking, approved revision recovery, A/B/C sealing, restart replay, and rejection of post-seal mutation.
+- Pass a real local bare-remote Git clone into an empty HOME, installed-package validation, first run, lifecycle execution, restart identity, and clean-worktree verification; public-network installation and real-user feedback remain unverified.
 - Record the initial post-upgrade Codex replay as `blocked_before_model` due account usage limits and the Claude fallback as `blocked_before_model` because the local CLI was not logged in.
 - After quota became available, pass a fresh Codex read-only route-audit replay, use it to expose and fix incomplete expected-route validation plus project-name meta-question pollution, then bind the reviewed evidence to SHA-256. This covers 1 of 17 behavior contracts, not all model behavior or every runtime.
 

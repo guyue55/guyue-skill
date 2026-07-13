@@ -21,6 +21,8 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
 
 ### 1. 调研与横纵对比 (Search & Classification)
 无论用户提供的是模糊需求还是明确链接（如“收纳 xxx”、“整合 xxx”），**强制第一步必须是 `search_web` 联网检索**。
+- 用户口述的许可证、提交日期、文件构成、维护状态和安全特征只是 `user-provided / unverified` 输入；在没有 URL、固定 ref、原文或本地快照时，不得写成已核验事实，也不得据此声称许可证允许集成或项目仍在维护。
+- 若当前任务明确禁止联网，保留这些输入的来源标签，给出条件性比较和最小补证清单，不把无法执行联网检索伪装成完成调研。
 - **搜什么**：项目口碑、是否有更轻量的竞品、是否长期不更新、它的核心依赖是什么。
 - **意图分类**：通过检索分析，判断该工具属于哪一类：
   - **类型 A：Agent 技能 / 插件 (Skill/Plugin)** (例如：包含 `SKILL.md`，MCP Server，或专为大模型打造的工具)。
@@ -28,6 +30,7 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
 
 ### 1.5 生态防冲突与去重审查 (Conflict & Redundancy Check)
 在确认收纳对象后，**必须强制查阅 `skills_manifest.json` 和 `.guyue_memory/local_skills_index.json`**，评估古月内部是否已经存在功能相似的技能。
+- 只有实际执行过本地检索并记录命令、目标文件、结果与时间，才可声称“已去重”；缺少候选功能描述时，即使名称未命中也只能标为“未发现同名项，语义去重未完成”。
 - **若发现相似技能**，必须进行价值裁决：
   - **冗余 (Redundant)**：新技能毫无优势，直接终止收纳，并告知用户已有更好的替代品。
   - **互补 (Complementary)**：两者侧重点不同（如一个是底层约束，一个是高级编排），可搭配使用。在战报中说明组合使用方式。
@@ -69,7 +72,7 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
 // 在 external_dependencies 节点中追加：
 {
     "name": "技能或项目名",
-    "description": "20字以内的极限摘要",
+    "description": "足以让 Agent 判断做什么、何时用、何时不用的精炼描述",
     "package_id": "仓库ID或包名",
     "trigger_intent": ["联想词1", "联想词2"], // 仅针对 Agent Skill
     "command": "标准安装/调用指令（如 npx skills add xxx）",
@@ -95,4 +98,4 @@ python3 scripts/discover_local_skills.py
 
 ## Anti-Slop 与防注入规范 (Anti-Slop & Security)
 - **禁止无脑执行 (No Blind Eval)**：遇到 `curl -sL <url> | bash` 的第三方项目，严禁自动执行。必须转录为受限的文本展示，要求用户人工审查。
-- **极简 JSON 准则**：向 `skills_manifest.json` 写入时，严格执行极简摘要（描述必须控制在 20 字符以内），严禁直接粘贴项目的完整 description 以防止 Context 污染。
+- **有效发现准则**：description 受全局 discovery budget 约束，但必须说明能力、适用意图和边界；不能用固定 20 字上限制造不可发现条目，也不能直接粘贴上游长文污染 Context。

@@ -1,0 +1,493 @@
+#!/usr/bin/env python3
+"""Verify Guyue capability discovery, routing, evidence, and external gates."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+sys.dont_write_bytecode = True
+
+from src.skill_router import resolve_routes  # noqa: E402
+
+
+def load_json(path: Path) -> object:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def routing_sha256(manifest: dict[str, object]) -> str:
+    skill_fields = (
+        "name", "path", "trigger_intent", "negative_intent",
+        "required_any_context", "routing_priority", "description",
+        "root_exposure", "activation_policy",
+    )
+    external_fields = (
+        "name", "trigger_intent", "negative_intent", "description",
+        "url", "ref", "root_exposure", "activation_policy",
+    )
+    payload = {
+        "routing_contract": manifest["routing_contract"],
+        "skills": [
+            {key: skill[key] for key in skill_fields if key in skill}
+            for skill in manifest["skills"]
+        ],
+        "external_dependencies": [
+            {key: item[key] for key in external_fields if key in item}
+            for item in manifest["external_dependencies"]
+        ],
+    }
+    encoded = json.dumps(
+        payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def build_receipt(root: Path = ROOT) -> dict[str, object]:
+    manifest = load_json(root / "skills_manifest.json")
+    prompts = load_json(root / "test-prompts.json")
+    route_contract = load_json(root / "evals/capability-routing.json")
+    near_miss_contract = load_json(root / "evals/capability-near-misses.json")
+    if not isinstance(manifest, dict) or not isinstance(prompts, list):
+        raise AssertionError("manifest and prompts must have their documented shapes")
+    if not isinstance(route_contract, dict) or not isinstance(
+        route_contract.get("cases"), list
+    ):
+        raise AssertionError("capability-routing.json must contain a cases list")
+
+    skills = manifest.get("skills", [])
+    external = manifest.get("external_dependencies", [])
+    if not isinstance(skills, list) or not isinstance(external, list):
+        raise AssertionError("manifest capability collections must be lists")
+    skill_names = {str(skill.get("name", "")) for skill in skills}
+    evidence_contract = manifest.get("evidence_contract", {})
+    envelope_fields = set(evidence_contract.get("envelope_fields", []))
+    evidence_profiles = evidence_contract.get("profiles", {})
+    if evidence_contract.get("version") != 1:
+        raise AssertionError("evidence_contract.version must be 1")
+    if not isinstance(evidence_profiles, dict) or not envelope_fields:
+        raise AssertionError("evidence contract profiles and fields are required")
+    for profile, required_fields in evidence_profiles.items():
+        if not isinstance(required_fields, list) or not set(required_fields) <= envelope_fields:
+            raise AssertionError(f"invalid evidence profile fields: {profile}")
+    prompts_by_name = {
+        str(prompt.get("name", "")): prompt
+        for prompt in prompts
+        if isinstance(prompt, dict)
+    }
+
+    errors: list[str] = []
+    route_passed = 0
+    bound_prompt_names: set[str] = set()
+    case_ids: set[str] = set()
+    for case in route_contract["cases"]:
+        if not isinstance(case, dict):
+            errors.append("capability route cases must be objects")
+            continue
+        case_id = str(case.get("id", "")).strip()
+        prompt_name = str(case.get("prompt_name", "")).strip()
+        if not case_id or case_id in case_ids:
+            errors.append(f"missing or duplicate capability case id: {case_id!r}")
+            continue
+        case_ids.add(case_id)
+        if prompt_name in bound_prompt_names:
+            errors.append(f"duplicate prompt binding: {prompt_name}")
+        bound_prompt_names.add(prompt_name)
+        prompt = prompts_by_name.get(prompt_name)
+        if prompt is None:
+            errors.append(f"unknown prompt binding: {prompt_name}")
+            continue
+        expected = set(case.get("expected_routes", []))
+        forbidden = set(case.get("forbidden_routes", []))
+        unknown = (expected | forbidden) - skill_names
+        if unknown:
+            errors.append(f"{case_id} references unknown routes: {sorted(unknown)}")
+            continue
+        if expected & forbidden:
+            errors.append(f"{case_id} expects and forbids the same route")
+            continue
+        decision = resolve_routes(manifest, str(prompt.get("prompt", "")), limit=8)
+        selected = {str(item.get("name", "")) for item in decision["selected"]}
+        missing = expected - selected
+        leaked = forbidden & selected
+        if missing:
+            errors.append(f"{case_id} missed expected routes: {sorted(missing)}")
+        if leaked:
+            errors.append(f"{case_id} selected forbidden routes: {sorted(leaked)}")
+        if not missing and not leaked:
+            route_passed += 1
+
+    unbound = set(prompts_by_name) - bound_prompt_names
+    if unbound:
+        errors.append(f"unbound test prompts: {sorted(unbound)}")
+
+    trigger_total = 0
+    trigger_passed = 0
+    profile_counts: dict[str, int] = {}
+    for skill in skills:
+        if not isinstance(skill, dict):
+            errors.append("manifest skills must be objects")
+            continue
+        name = str(skill.get("name", ""))
+        profile = str(skill.get("evidence_profile", ""))
+        profile_counts[profile] = profile_counts.get(profile, 0) + 1
+        if profile not in evidence_profiles:
+            errors.append(f"{name} references unknown evidence profile: {profile}")
+        skill_path = root / str(skill.get("path", ""))
+        try:
+            frontmatter = yaml.safe_load(
+                skill_path.read_text(encoding="utf-8").split("---", 2)[1]
+            )
+        except (OSError, IndexError, yaml.YAMLError) as exc:
+            errors.append(f"{name} frontmatter is unreadable: {exc}")
+            continue
+        description = str((frontmatter or {}).get("description", "")).strip()
+        if not 80 <= len(description) <= 1024:
+            errors.append(
+                f"{name} public description must be 80-1024 characters, got {len(description)}"
+            )
+        for trigger in skill.get("trigger_intent", []):
+            trigger_total += 1
+            selected = {
+                item["name"]
+                for item in resolve_routes(manifest, str(trigger), limit=len(skills))[
+                    "selected"
+                ]
+            }
+            if name in selected:
+                trigger_passed += 1
+            else:
+                errors.append(f"{name} cannot select itself from trigger: {trigger}")
+
+    external_trigger_total = 0
+    external_trigger_passed = 0
+    for dependency in external:
+        if not isinstance(dependency, dict):
+            errors.append("external dependencies must be objects")
+            continue
+        name = str(dependency.get("name", ""))
+        for field in ("url", "ref", "package_id", "command", "evidence_profile"):
+            if not str(dependency.get(field, "")).strip():
+                errors.append(f"external dependency {name} is missing {field}")
+        triggers = dependency.get("trigger_intent", [])
+        if not isinstance(triggers, list) or not triggers:
+            errors.append(f"external dependency {name} has no trigger_intent")
+            continue
+        for trigger in triggers:
+            external_trigger_total += 1
+            decision = resolve_routes(manifest, str(trigger), limit=len(external))
+            selected = {item["name"] for item in decision["selected"]}
+            candidates = {item["name"] for item in decision["external_candidates"]}
+            if name in candidates and name not in selected:
+                external_trigger_passed += 1
+            else:
+                errors.append(
+                    f"external dependency {name} did not remain a candidate for: {trigger}"
+                )
+
+    near_miss_total = 0
+    near_miss_passed = 0
+    near_miss_cases = (
+        near_miss_contract.get("cases", [])
+        if isinstance(near_miss_contract, dict)
+        else []
+    )
+    minimum_near_misses = (
+        near_miss_contract.get("minimum_per_skill", 0)
+        if isinstance(near_miss_contract, dict)
+        else 0
+    )
+    covered_near_miss_skills: set[str] = set()
+    for case in near_miss_cases:
+        if not isinstance(case, dict):
+            errors.append("near-miss cases must be objects")
+            continue
+        name = str(case.get("skill", ""))
+        prompts_for_skill = case.get("prompts", [])
+        if name not in skill_names:
+            errors.append(f"near-miss case references unknown skill: {name}")
+            continue
+        if name in covered_near_miss_skills:
+            errors.append(f"duplicate near-miss skill: {name}")
+            continue
+        covered_near_miss_skills.add(name)
+        if not isinstance(prompts_for_skill, list) or len(prompts_for_skill) < minimum_near_misses:
+            errors.append(
+                f"{name} requires at least {minimum_near_misses} near-miss prompts"
+            )
+            continue
+        for prompt in prompts_for_skill:
+            near_miss_total += 1
+            selected = {
+                item["name"]
+                for item in resolve_routes(manifest, str(prompt), limit=len(skills))[
+                    "selected"
+                ]
+            }
+            if name not in selected:
+                near_miss_passed += 1
+            else:
+                errors.append(f"{name} false-triggered for near miss: {prompt}")
+    missing_near_miss_skills = skill_names - covered_near_miss_skills
+    if missing_near_miss_skills:
+        errors.append(
+            f"skills missing near-miss coverage: {sorted(missing_near_miss_skills)}"
+        )
+
+    live_path = root / "evals/evidence/capability-live-canaries-2026-07-13.json"
+    model_activation_verified = False
+    live_passed = 0
+    live_total = 0
+    if live_path.is_file():
+        live = load_json(live_path)
+        if not isinstance(live, dict):
+            errors.append("capability live evidence must be an object")
+        else:
+            live_results = live.get("results", [])
+            if not isinstance(live_results, list):
+                errors.append("capability live evidence results must be a list")
+                live_results = []
+            live_total = len(live_results)
+            live_names: set[str] = set()
+            for result in live_results:
+                if not isinstance(result, dict):
+                    errors.append("capability live evidence result must be an object")
+                    continue
+                name = str(result.get("skill", ""))
+                live_names.add(name)
+                passed = (
+                    result.get("status") == "pass"
+                    and result.get("target_skill_file_read") is True
+                    and result.get("observed_final") == f"ACTIVATED:{name}"
+                    and result.get("exit_code") == 0
+                )
+                artifact_path = root / str(result.get("audit_artifact", ""))
+                artifact_valid = False
+                if artifact_path.is_file():
+                    try:
+                        artifact = load_json(artifact_path)
+                    except (OSError, json.JSONDecodeError):
+                        artifact = None
+                    commands = artifact.get("commands", []) if isinstance(artifact, dict) else []
+                    artifact_valid = (
+                        result.get("audit_artifact_sha256")
+                        == file_sha256(artifact_path)
+                        and artifact.get("skill") == name
+                        and artifact.get("observed_final") == f"ACTIVATED:{name}"
+                        and any(
+                            f"skills/{name}/SKILL.md" in str(command.get("command", ""))
+                            for command in commands
+                            if isinstance(command, dict)
+                        )
+                    )
+                passed = passed and artifact_valid
+                if passed:
+                    live_passed += 1
+                else:
+                    errors.append(f"invalid live activation evidence for {name}")
+            if live_names != skill_names:
+                errors.append(
+                    "live activation evidence must cover every manifest skill exactly once"
+                )
+            if live.get("routing_sha256") != routing_sha256(manifest):
+                errors.append("live activation evidence is stale for routing semantics")
+            model_activation_verified = (
+                live.get("status") == "pass"
+                and live.get("claims", {}).get("model_activation_verified") is True
+                and live_passed == len(skills)
+                and live_total == len(skills)
+            )
+    else:
+        errors.append("missing capability live activation evidence")
+
+    profile_replay_path = (
+        root / "evals/evidence/capability-evidence-profile-replay-2026-07-13.json"
+    )
+    profile_output_quality_verified = False
+    if not profile_replay_path.is_file():
+        errors.append("missing evidence-profile output replay")
+    else:
+        profile_replay = load_json(profile_replay_path)
+        if not isinstance(profile_replay, dict):
+            errors.append("evidence-profile output replay must be an object")
+        else:
+            replay_results = profile_replay.get("results", [])
+            replay_profiles = set()
+            for result in replay_results if isinstance(replay_results, list) else []:
+                if not isinstance(result, dict):
+                    continue
+                replay_profiles.add(str(result.get("profile", "")))
+                skill_path = root / "skills" / str(result.get("skill", "")) / "SKILL.md"
+                if (
+                    result.get("status") != "pass"
+                    or not skill_path.is_file()
+                    or result.get("skill_sha256") != file_sha256(skill_path)
+                ):
+                    errors.append(
+                        f"stale or failed evidence-profile replay: {result.get('profile')}"
+                    )
+            attempts = profile_replay.get("attempts", [])
+            final_attempt = attempts[-1] if isinstance(attempts, list) and attempts else {}
+            for artifact_field, hash_field in (
+                ("output_artifact", "output_sha256"),
+                ("independent_review_artifact", "independent_review_sha256"),
+            ):
+                artifact = root / str(final_attempt.get(artifact_field, ""))
+                if (
+                    not artifact.is_file()
+                    or final_attempt.get(hash_field) != file_sha256(artifact)
+                ):
+                    errors.append(
+                        f"missing or stale evidence-profile artifact: {artifact_field}"
+                    )
+            profile_output_quality_verified = (
+                profile_replay.get("status") == "pass"
+                and replay_profiles == set(evidence_profiles)
+                and profile_replay.get("claims", {}).get(
+                    "profile_output_quality_verified"
+                )
+                is True
+            )
+            if not profile_output_quality_verified:
+                errors.append("evidence-profile output replay is incomplete")
+
+    output_quality_path = (
+        root / "evals/evidence/capability-output-quality-2026-07-13.json"
+    )
+    all_skill_output_quality_verified = False
+    if not output_quality_path.is_file():
+        errors.append("missing all-Skill output-quality evidence")
+    else:
+        output_quality = load_json(output_quality_path)
+        quality_results = (
+            output_quality.get("results", [])
+            if isinstance(output_quality, dict)
+            else []
+        )
+        quality_names: set[str] = set()
+        valid_quality_results = 0
+        for result in quality_results if isinstance(quality_results, list) else []:
+            if not isinstance(result, dict):
+                continue
+            name = str(result.get("skill", ""))
+            quality_names.add(name)
+            artifact_pairs = (
+                ("producer_artifact", "producer_artifact_sha256"),
+                ("output_artifact", "output_sha256"),
+                ("review_artifact", "review_artifact_sha256"),
+            )
+            artifacts_valid = all(
+                (root / str(result.get(path_field, ""))).is_file()
+                and result.get(hash_field)
+                == file_sha256(root / str(result.get(path_field, "")))
+                for path_field, hash_field in artifact_pairs
+            )
+            review_path = root / str(result.get("review_artifact", ""))
+            producer_path = root / str(result.get("producer_artifact", ""))
+            review = load_json(review_path) if review_path.is_file() else None
+            producer = load_json(producer_path) if producer_path.is_file() else None
+            parsed_review = (
+                review.get("parsed_review") if isinstance(review, dict) else None
+            )
+            valid = (
+                result.get("status") == "pass"
+                and artifacts_valid
+                and isinstance(producer, dict)
+                and producer.get("skill_file_read") is True
+                and isinstance(parsed_review, dict)
+                and parsed_review.get("status") == "pass"
+            )
+            if valid:
+                valid_quality_results += 1
+            else:
+                errors.append(f"invalid output-quality evidence for {name}")
+        all_skill_output_quality_verified = (
+            isinstance(output_quality, dict)
+            and output_quality.get("status") == "pass"
+            and output_quality.get("claims", {}).get(
+                "all_skill_synthetic_output_quality_verified"
+            )
+            is True
+            and quality_names == skill_names
+            and valid_quality_results == len(skills)
+        )
+        if not all_skill_output_quality_verified:
+            errors.append("all-Skill output-quality evidence is incomplete")
+
+    return {
+        "schema_version": 1,
+        "status": "pass" if not errors else "fail",
+        "skill_count": len(skills),
+        "capability_route_checks": {
+            "passed": route_passed,
+            "total": len(route_contract["cases"]),
+        },
+        "internal_trigger_checks": {
+            "passed": trigger_passed,
+            "total": trigger_total,
+        },
+        "external_candidate_trigger_checks": {
+            "passed": external_trigger_passed,
+            "total": external_trigger_total,
+        },
+        "near_miss_checks": {
+            "passed": near_miss_passed,
+            "total": near_miss_total,
+        },
+        "live_activation_checks": {
+            "passed": live_passed,
+            "total": live_total,
+        },
+        "evidence_profiles": dict(sorted(profile_counts.items())),
+        "external_dependency_count": len(external),
+        "claims": {
+            "deterministic_routing_verified": not errors,
+            "model_activation_verified": model_activation_verified,
+            "profile_output_quality_verified": profile_output_quality_verified,
+            "all_skill_synthetic_output_quality_verified": (
+                all_skill_output_quality_verified
+            ),
+            "output_quality_verified": all_skill_output_quality_verified,
+            "public_network_verified": False,
+        },
+        "errors": errors,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--json", action="store_true")
+    args = parser.parse_args()
+    receipt = build_receipt()
+    if args.json:
+        print(json.dumps(receipt, ensure_ascii=False, indent=2))
+    else:
+        route = receipt["capability_route_checks"]
+        internal = receipt["internal_trigger_checks"]
+        external = receipt["external_candidate_trigger_checks"]
+        near_miss = receipt["near_miss_checks"]
+        print(
+            "Capability chain: "
+            f"routes {route['passed']}/{route['total']}, "
+            f"internal triggers {internal['passed']}/{internal['total']}, "
+            f"external candidates {external['passed']}/{external['total']}, "
+            f"near misses {near_miss['passed']}/{near_miss['total']}"
+        )
+        for error in receipt["errors"]:
+            print(f"ERROR: {error}", file=sys.stderr)
+    return 0 if receipt["status"] == "pass" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -16,7 +16,9 @@ Create a dedicated folder only when the user asks for an actual extraction. Do n
 | `transcript` | metadata assets plus `transcript.txt` | audio intermediate, removed after verification unless requested |
 | `source-media` | metadata assets plus the downloaded source file | `transcript.txt` when separately requested |
 
-`metadata.json` records source URL, platform, extraction time, selected mode, field provenance, authorization basis, and planned/generated/failed asset counts.
+`metadata.json` records source URL, platform, extraction time, selected mode, field provenance, authorization basis, and planned/generated/failed asset counts. Every known field maps to its concrete source (`user_input`, platform metadata, caption file, ASR, or derivation); do not provide an empty generic provenance schema when values are already known.
+
+Every downloaded or generated file records `sha256`, byte size, and verification status. For planning-only or blocked assets, use `sha256: null` with an explicit status; never omit the checksum field or invent a digest before a file exists.
 
 ## Authorization Boundary
 - Only extract media the user owns, is authorized to process, or that is explicitly licensed for download and reuse.

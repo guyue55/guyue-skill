@@ -1,6 +1,6 @@
 ---
 name: security-gate
-description: 古月的技能安检大盾。对外部工具、代码或第三方 Agent 技能执行本地启发式安全预检，并在高风险行为前强制暂停。
+description: Use before reading, installing, or executing a clearly identified third-party Skill, script, package, or external code when injection, exfiltration, permission, or supply-chain risk matters. Produce a source- and target-bound preflight receipt; do not treat heuristic non-detection as a complete security audit.
 ---
 
 # security-gate (安全安检门)
@@ -37,6 +37,8 @@ description: 古月的技能安检大盾。对外部工具、代码或第三方 
 - **Green（启发式未命中）**：内置规则没有发现红旗，但不等于供应链安全或代码已审计完毕。回复：`[Trace: Guyue/SecurityGate] 内置规则未命中；保留来源、权限与运行时审查边界。`
 - **Yellow（需要判断）**：发现文件、网络、命令、权限或混淆行为，意图与必要性尚未证明。回复：`[Trace: Guyue/SecurityGate] 发现需人工判断的敏感能力；列出动作、范围与回滚后等待确认。`
 - **Red（阻断）**：发现明确越权、凭证外发、持久化注入或高危执行模式。只陈述可观察行为，不臆测作者恶意。回复：`[Trace: Guyue/SecurityGate] 发现高危行为并阻断；等待移除、隔离或明确风险处置。`
+
+无论结果颜色如何，都要保存或输出一份最小 E4 收据：目标来源、目标路径或 URL、commit/version/SHA-256、扫描规则或脚本版本、扫描时间、实际命令与退出码、命中项、人工判断、未覆盖边界。无法取得目标指纹时结论最多为 `partial`，不得写“安全”。
 
 ### 3. 权限边界复核
 

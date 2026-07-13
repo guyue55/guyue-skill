@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "runtime": "codex-cli 0.144.1",
+  "model": "gpt-5.6-sol",
+  "observed_at": "2026-07-13T03:10:30Z",
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "fail",
+      "findings": [
+        "E1 used the Skill name as if it were a fact source and omitted a falsification condition.",
+        "E2 did not prove facts, sources, and risks stayed unchanged.",
+        "E3 rejected unsourced recommendations but omitted activity, time, derivation, and not-applicable fields.",
+        "E4 correctly blocked when no scan target was supplied."
+      ]
+    },
+    {
+      "attempt": 2,
+      "status": "fail",
+      "findings": [
+        "E1 still mixed confirmed facts, hypotheses, and the decision.",
+        "E2 claimed a no-drift check without an auditable baseline.",
+        "E3 found a catalog conflict but omitted the local catalog fingerprint and replay command.",
+        "E4 remained correct."
+      ]
+    },
+    {
+      "attempt": 3,
+      "status": "pass",
+      "output_artifact": "evals/evidence/artifacts/capability-evidence-profile-output-v3.md",
+      "output_sha256": "2890ecf5a041df2a41121c7b51ca1a3912dbf60d323f19e7e3cd9e56eae805e0",
+      "recovered_source_output_sha256": "601e76d20e3bf3fecc6dfe0e692492b5aad9b29007d0a6890cbb0ea1b21f60af",
+      "independent_review_artifact": "evals/evidence/artifacts/capability-evidence-profile-review-v3.json",
+      "independent_review_sha256": "f513b6a5b6905c7a5fabe3fb6fb34aacdbe3c3c9ea039fd919344a2527f18371",
+      "recovered_source_review_sha256": "1f64f2b4c3c098859cf266463177a427a10636e2a0cc2af72d1b93060df66ea6",
+      "normalization": "Tracked artifacts add one final newline; content is otherwise byte-identical to the recovered temporary outputs."
+    }
+  ],
+  "results": [
+    {
+      "profile": "E1-decision",
+      "skill": "product-sense",
+      "status": "pass",
+      "skill_sha256": "c5d6c45de2b07788ce2f8f864720b436f8beae13db270422020813013d37e896",
+      "evidence": "Confirmed facts, hypotheses, decision, unknowns, minimum experiment, and falsification condition were explicitly separated."
+    },
+    {
+      "profile": "E2-change",
+      "skill": "human-voice",
+      "status": "pass",
+      "skill_sha256": "ee4b6a44170e8cd481e19d18a842e7f9e24f974d44508d8e1d46db440e914ec3",
+      "evidence": "The rewrite retained an identifiable input baseline and an auditable no-drift check for facts, numbers, sources, and risk."
+    },
+    {
+      "profile": "E3-lineage",
+      "skill": "software-advisor",
+      "status": "pass",
+      "skill_sha256": "49d50cffdbdff865a7a085cc31f5f3dcc86089569f2a7d154e8be2cddf62f7f6",
+      "evidence": "The run challenged the claimed catalog miss, recorded four local matches, a replay command, observation time, catalog SHA-256, and unverified external boundaries."
+    },
+    {
+      "profile": "E4-audit",
+      "skill": "security-gate",
+      "status": "pass",
+      "skill_sha256": "5885ab2ce9d7aba9cacbbc7b100d19b7bccb4f72e20883f11c0340c1595fe5c2",
+      "evidence": "The run blocked before scanning, did not choose a local target, recorded non-execution, and made no security claim."
+    }
+  ],
+  "claims": {
+    "profile_output_quality_verified": true,
+    "all_skill_output_quality_verified": false,
+    "real_user_value_verified": false,
+    "cross_runtime_verified": false
+  },
+  "boundary": "This is a failure-first synthetic replay covering one representative output per evidence profile. It does not replace real domain inputs or user outcomes for all 26 Skills."
+}

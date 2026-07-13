@@ -1,9 +1,9 @@
 {
     "name": "guyue-digital-twin",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "routing_contract": {
-        "version": 1,
+        "version": 2,
         "lifecycle": [
             "discovered",
             "selected",
@@ -18,6 +18,89 @@
             "state",
             "evidence",
             "boundary"
+        ],
+        "external_lifecycle": [
+            "external_candidate",
+            "source_checked",
+            "installed",
+            "security_checked",
+            "authorized",
+            "activated",
+            "blocked"
+        ]
+    },
+    "evidence_contract": {
+        "version": 1,
+        "envelope_fields": [
+            "claim_status",
+            "source_ref",
+            "source_version",
+            "observed_at",
+            "activity",
+            "artifact_ref",
+            "artifact_sha256",
+            "verification",
+            "result",
+            "boundary",
+            "falsification_condition",
+            "derivation"
+        ],
+        "profiles": {
+            "E1-decision": [
+                "claim_status",
+                "source_ref",
+                "observed_at",
+                "verification",
+                "result",
+                "boundary",
+                "falsification_condition"
+            ],
+            "E2-change": [
+                "claim_status",
+                "source_ref",
+                "source_version",
+                "observed_at",
+                "activity",
+                "artifact_ref",
+                "verification",
+                "result",
+                "boundary",
+                "derivation"
+            ],
+            "E3-lineage": [
+                "claim_status",
+                "source_ref",
+                "source_version",
+                "observed_at",
+                "activity",
+                "artifact_ref",
+                "artifact_sha256",
+                "verification",
+                "result",
+                "boundary",
+                "derivation"
+            ],
+            "E4-audit": [
+                "claim_status",
+                "source_ref",
+                "source_version",
+                "observed_at",
+                "activity",
+                "artifact_ref",
+                "artifact_sha256",
+                "verification",
+                "result",
+                "boundary",
+                "derivation"
+            ]
+        },
+        "trigger_conditions": [
+            "external_fact",
+            "important_decision",
+            "file_change",
+            "security_claim",
+            "completion_claim",
+            "reusable_artifact"
         ]
     },
     "skills": [
@@ -28,13 +111,21 @@
                 "summarize",
                 "create tutorial",
                 "write sop",
+                "操作手册",
+                "标准作业程序",
+                "团队照着做",
+                "整理成 SOP",
                 "循环工程",
                 "loop engineering",
                 "动态工作流",
                 "可重复工作流",
                 "Loop Contract"
             ],
-            "description": "Post-success SOP extraction for repeatable operations and Loop Contract packaging with stable inputs, loop bodies, checkers, stop conditions, budgets, and validation assets; not for general documentation or skill creation."
+            "description": "Post-success SOP extraction for repeatable operations and Loop Contract packaging with stable inputs, loop bodies, checkers, stop conditions, budgets, and validation assets; not for general documentation or skill creation.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "frontend-expert",
@@ -52,9 +143,16 @@
                 "Refero",
                 "Figma 设计参考",
                 "前端设计参考",
-                "Impeccable"
+                "Impeccable",
+                "登录注册页面",
+                "前端代码实现",
+                "实现页面"
             ],
-            "description": "Front-end implementation skill for UI, interaction, a11y, responsive behavior, product-type-first design, safe DESIGN.md/Figma/Refero reference intake, existing-stack alignment, conditional motion tooling, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique."
+            "description": "Front-end implementation skill for UI, interaction, a11y, responsive behavior, product-type-first design, safe DESIGN.md/Figma/Refero reference intake, existing-stack alignment, conditional motion tooling, and reuse-first UI standardization for components, dialogs, toasts, and design tokens; use taste-aesthetics for review-only anti-slop critique.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "product-sense",
@@ -65,14 +163,23 @@
                 "business requirement",
                 "vague idea",
                 "业务价值",
-                "业务侧方案"
+                "业务侧方案",
+                "值不值得做",
+                "分销裂变",
+                "裂变拉新",
+                "彻底重做",
+                "全自动 AI 平台"
             ],
             "negative_intent": [
                 "implementation already approved and bounded",
                 "read-only implementation audit",
                 "active bug with logs"
             ],
-            "description": "Business-readable value, ROI, user impact, role, and compliance interrogation before requirement analysis or system design."
+            "description": "Business-readable value, ROI, user impact, role, and compliance interrogation before requirement analysis or system design.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E1-decision",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "research-and-sourcing",
@@ -86,7 +193,10 @@
                 "explicit research request",
                 "当前版本",
                 "官方 API",
-                "废弃项"
+                "废弃项",
+                "最新方案",
+                "最新开源库",
+                "开源库推荐"
             ],
             "negative_intent": [
                 "stable local repository fact",
@@ -94,7 +204,11 @@
                 "local file explanation",
                 "external Skill intake"
             ],
-            "description": "Current primary-source research for unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical facts; use local inspection for stable repository facts and ecosystem-scout for external Skill intake."
+            "description": "Current primary-source research for unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical facts; use local inspection for stable repository facts and ecosystem-scout for external Skill intake.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "requirement-analysis",
@@ -110,14 +224,25 @@
                 "模糊长线目标",
                 "准备长期 Goal",
                 "只给一行提示词",
-                "long goal forge"
+                "long goal forge",
+                "新加一个功能",
+                "积分商城",
+                "大型功能模块",
+                "彻底重做",
+                "全自动 AI 平台",
+                "决定需求和架构",
+                "先判断值不值得做"
             ],
             "negative_intent": [
                 "方案已经确认",
                 "需求已经确认",
                 "implementation already approved and bounded"
             ],
-            "description": "Requirement convergence with business-readable outputs for vague requests, feature requests stated only as something to build, ambiguous business logic, and vague long-running goals that need scoped acceptance criteria, cost/risk boundaries, or a one-line execution handoff before design or implementation."
+            "description": "Requirement convergence with business-readable outputs for vague requests, feature requests stated only as something to build, ambiguous business logic, and vague long-running goals that need scoped acceptance criteria, cost/risk boundaries, or a one-line execution handoff before design or implementation.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E1-decision",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "system-design",
@@ -135,14 +260,23 @@
                 "后端控制权限",
                 "权限管理",
                 "权限模型替换",
-                "不可逆迁移"
+                "不可逆迁移",
+                "重构底层",
+                "鉴权模块",
+                "底层权限"
             ],
             "negative_intent": [
                 "language-only rewrite",
                 "read-only reality audit",
-                "small bounded implementation with established contract"
+                "small bounded implementation with established contract",
+                "先判断值不值得做",
+                "不要马上设计系统"
             ],
-            "description": "DEPTH framework for business-readable architecture, refactoring plans, backend-owned permission boundaries, frontend permission presentation, and single-source contracts for models, tables, parameters, permissions, and APIs after value and requirement boundaries are clear."
+            "description": "DEPTH framework for business-readable architecture, refactoring plans, backend-owned permission boundaries, frontend permission presentation, and single-source contracts for models, tables, parameters, permissions, and APIs after value and requirement boundaries are clear.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "coding-discipline",
@@ -176,9 +310,16 @@
                 "当前分支",
                 "未提交修改",
                 "修这个仓库",
-                "可回滚的小问题"
+                "可回滚的小问题",
+                "切成两个组件",
+                "git 提交",
+                "提交 git"
             ],
-            "description": "Full-stack implementation and commit discipline for frontend, backend, data, scripts, configuration, infrastructure, and documentation changes, including best practices, necessary comments, high cohesion, low coupling, modularity, loop contracts for long-running agent workflows, backend-owned permission checks with frontend permission presentation, build/lint/test validation gates, Chinese conventional commits, dirty-worktree commit slicing, and reuse-first checks for functions, models, tables, parameters, API contracts, permissions, components, constants, dialogs, prompts, scripts, and shared logic; use frontend-expert only when UI work is involved, and use code-minimalism when the primary job is reducing overdesign."
+            "description": "Full-stack implementation and commit discipline for frontend, backend, data, scripts, configuration, infrastructure, and documentation changes, including best practices, necessary comments, high cohesion, low coupling, modularity, loop contracts for long-running agent workflows, backend-owned permission checks with frontend permission presentation, build/lint/test validation gates, Chinese conventional commits, dirty-worktree commit slicing, and reuse-first checks for functions, models, tables, parameters, API contracts, permissions, components, constants, dialogs, prompts, scripts, and shared logic; use frontend-expert only when UI work is involved, and use code-minimalism when the primary job is reducing overdesign.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "debugging-mindset",
@@ -186,9 +327,19 @@
             "trigger_intent": [
                 "test failure",
                 "production bug",
-                "error stack"
+                "error stack",
+                "线上接口",
+                "500 错误",
+                "报了500",
+                "排查根因",
+                "代码坏了",
+                "页面没看到新脚本"
             ],
-            "description": "RCA diagnostic matrix for active bugs, failures, and error stacks; use reality-auditor for post-implementation truth review."
+            "description": "RCA diagnostic matrix for active bugs, failures, and error stacks; use reality-auditor for post-implementation truth review.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "documentation",
@@ -202,9 +353,21 @@
                 "项目摸底",
                 "了解项目",
                 "repo orientation",
-                "architecture overview"
+                "architecture overview",
+                "写个文档",
+                "整理文档"
             ],
-            "description": "RTFD framework for business-readable reports, README, ADR, PRD, and code-backed project orientation maps; not post-success SOP or skill creation."
+            "negative_intent": [
+                "不要重写成 README",
+                "不是普通 README",
+                "不是普通文档",
+                "不是任务复盘 SOP"
+            ],
+            "description": "RTFD framework for business-readable reports, README, ADR, PRD, and code-backed project orientation maps; not post-success SOP or skill creation.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "human-voice",
@@ -227,7 +390,11 @@
                 "plain language",
                 "human voice"
             ],
-            "description": "Plain-language, business-readable, and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, language intent, and risk boundaries while avoiding unnecessary Chinese-English mixing."
+            "description": "Plain-language, business-readable, and anti-AI-slop editing gate for replies, reports, technical explanations, release notes, and product-facing text; preserve facts, evidence, language intent, and risk boundaries while avoiding unnecessary Chinese-English mixing.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "skill-crafting",
@@ -241,9 +408,18 @@
                 "循环工程",
                 "Agent 工作循环",
                 "Custom subagent",
-                "CI gate"
+                "CI gate",
+                "Agent 技能",
+                "新的 Agent 技能",
+                "可复用的 Skill",
+                "Skill 升级流程",
+                "动态工作流"
             ],
-            "description": "Workflow for creating, upgrading, auditing, and validating Agent Skills, plus packaging repeatable loops into Skill, Custom subagent, Hook, Automation, or CI gate when stable inputs, verifiers, stop conditions, and budgets exist; not ordinary docs or task SOPs."
+            "description": "Workflow for creating, upgrading, auditing, and validating Agent Skills, plus packaging repeatable loops into Skill, Custom subagent, Hook, Automation, or CI gate when stable inputs, verifiers, stop conditions, and budgets exist; not ordinary docs or task SOPs.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "memory-bank",
@@ -251,9 +427,18 @@
             "trigger_intent": [
                 "remember this",
                 "recall issue",
-                "what did we learn"
+                "what did we learn",
+                "记下来",
+                "记住这个坑",
+                "踩的坑",
+                "上次怎么修",
+                "记录这次教训"
             ],
-            "description": "Persistent memory storage and retrieval for continuous growth."
+            "description": "Persistent memory storage and retrieval for continuous growth.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "ecosystem-scout",
@@ -272,9 +457,21 @@
                 "收纳",
                 "整合",
                 "ingest",
-                "integrate"
+                "integrate",
+                "找一个适合接入",
+                "图表渲染 Agent 技能",
+                "第三方工具"
             ],
-            "description": "External skill, plugin, and tool discovery, intake, or quick-install assistance with source checks, explicit approval, security-gate handoff, smoke tests, and anti-bloat boundaries; not local catalog software advice."
+            "negative_intent": [
+                "优先查古月本地精选库",
+                "不要收纳第三方 skill",
+                "本地精选库"
+            ],
+            "description": "External skill, plugin, and tool discovery, intake, or quick-install assistance with source checks, explicit approval, security-gate handoff, smoke tests, and anti-bloat boundaries; not local catalog software advice.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "ai-website-cloner",
@@ -288,9 +485,15 @@
                 "html.to.design",
                 "Web to Figma",
                 "授权页面迁移",
-                "丢失源码恢复"
+                "丢失源码恢复",
+                "ai-website-cloner",
+                "重建这个我自己公司的落地页"
             ],
-            "description": "Authorized website reconstruction and reference extraction workflow for owned, permitted, or public pages, with no login bypass, no phishing, no brand-asset copying, and explicit separation between learnable layout/token patterns and protected identity assets."
+            "description": "Authorized website reconstruction and reference extraction workflow for owned, permitted, or public pages, with no login bypass, no phishing, no brand-asset copying, and explicit separation between learnable layout/token patterns and protected identity assets.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "software-advisor",
@@ -300,14 +503,22 @@
                 "recommend tool",
                 "推荐软件",
                 "开源工具推荐",
-                "what is a good tool for"
+                "what is a good tool for",
+                "本地精选库",
+                "开源 CRM",
+                "开源知识库工具",
+                "推荐开源软件"
             ],
             "negative_intent": [
                 "Agent Skill intake",
                 "plugin installation",
                 "known project dependency"
             ],
-            "description": "Local curated software and open-source tool advisor; if the task is external Skill intake, route to ecosystem-scout."
+            "description": "Local curated software and open-source tool advisor; if the task is external Skill intake, route to ecosystem-scout.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "taste-aesthetics",
@@ -328,9 +539,14 @@
             "negative_intent": [
                 "implement the UI",
                 "fix frontend code",
-                "backend-only task"
+                "backend-only task",
+                "不是审 UI"
             ],
-            "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique, product-type classification, deterministic UI checks, design-reference boundaries, and dial-based design direction; use frontend-expert to write the UI."
+            "description": "Review-only or pre-implementation aesthetic constraint engine for anti-slop UI critique, product-type classification, deterministic UI checks, design-reference boundaries, and dial-based design direction; use frontend-expert to write the UI.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "code-minimalism",
@@ -341,9 +557,16 @@
                 "减少冗余代码",
                 "ponytail",
                 "重复代码",
-                "二次使用即抽象"
+                "二次使用即抽象",
+                "code-minimalism",
+                "过度设计",
+                "能砍就砍"
             ],
-            "description": "YAGNI, reuse-first, duplicate-code, and dependency-reduction critique for code and designs; not a full implementation or commit workflow."
+            "description": "YAGNI, reuse-first, duplicate-code, and dependency-reduction critique for code and designs; not a full implementation or commit workflow.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "book-distiller",
@@ -352,9 +575,17 @@
                 "知识蒸馏",
                 "仓颉",
                 "沉淀书本知识",
-                "turn book into skill"
+                "turn book into skill",
+                "book-distiller",
+                "方法论文档",
+                "提炼成可复用技能",
+                "提取决策框架"
             ],
-            "description": "Distill books and long-form methodologies into skill-shaped workflows; not a normal summary or project document."
+            "description": "Distill books and long-form methodologies into skill-shaped workflows; not a normal summary or project document.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "video-extractor",
@@ -363,9 +594,17 @@
                 "下载视频",
                 "视频抓取",
                 "提取视频脚本",
-                "video downloader"
+                "video downloader",
+                "视频元数据",
+                "提取字幕",
+                "视频转录",
+                "分析视频链接"
             ],
-            "description": "Methodologies for extracting normalized metadata, post captions, transcripts, and source media from video platforms."
+            "description": "Methodologies for extracting normalized metadata, post captions, transcripts, and source media from video platforms.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "video-creation-sop",
@@ -395,7 +634,11 @@
                 "Seedance",
                 "FFmpeg"
             ],
-            "description": "Auditable AI video creation workflow for briefs, scripts, storyboards, short-drama stage gates, structured brief JSON with field provenance and required confirmations, style retrieval, audio plans, keyframe and shot-video manifests, continuity evidence, compose/export plans, run audits, production dossiers, capability resolution, native media tools, provider configuration gates, render/edit routing, asset manifests with permission evidence and publication status, and QA reports."
+            "description": "Auditable AI video creation workflow for briefs, scripts, storyboards, short-drama stage gates, structured brief JSON with field provenance and required confirmations, style retrieval, audio plans, keyframe and shot-video manifests, continuity evidence, compose/export plans, run audits, production dossiers, capability resolution, native media tools, provider configuration gates, render/edit routing, asset manifests with permission evidence and publication status, and QA reports.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "context-compressor",
@@ -417,9 +660,16 @@
                 "headroom",
                 "Serena",
                 "Repomix",
-                "Context7"
+                "Context7",
+                "context-compressor",
+                "日志太长",
+                "动态工作流"
             ],
-            "description": "Context budget manager for diagnosing token waste across files, code maps, MCP tool schemas, tool outputs, docs, long sessions, loop budgets, and subagent budgets; chooses minimal-context tactics and can recommend controlled third-party quick installs with traceability and measured-or-marked token savings."
+            "description": "Context budget manager for diagnosing token waste across files, code maps, MCP tool schemas, tool outputs, docs, long sessions, loop budgets, and subagent budgets; chooses minimal-context tactics and can recommend controlled third-party quick installs with traceability and measured-or-marked token savings.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "security-gate",
@@ -431,9 +681,19 @@
                 "审核技能",
                 "第三方 Agent Skill",
                 "评估技能",
-                "security scan"
+                "security scan",
+                "security-gate",
+                "权限安全",
+                "越权风险",
+                "注入风险",
+                "需要权限先说清楚",
+                "安装第三方工具"
             ],
-            "description": "Local safety preflight for third-party skills, scripts, and external code before use or intake."
+            "description": "Local safety preflight for third-party skills, scripts, and external code before use or intake.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E4-audit",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "reality-auditor",
@@ -457,9 +717,17 @@
                 "检查这个实现",
                 "循环验证",
                 "动态工作流审查",
-                "subagent evidence"
+                "subagent evidence",
+                "权限安全",
+                "MODEL_NAME",
+                "新配置",
+                "功能已经改完"
             ],
-            "description": "Read-only truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, deployment/release reality, loop output audit, dynamic workflow stop conditions, subagent evidence, and unproven claims."
+            "description": "Read-only truth audit for fake data, frontend-only filters, missing backend wiring, permission boundaries, deployment/release reality, loop output audit, dynamic workflow stop conditions, subagent evidence, and unproven claims.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E4-audit",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         },
         {
             "name": "nexusflow-governance-workflow",
@@ -476,16 +744,25 @@
                 "NexusFlow",
                 "permissionSnapshot",
                 "tenant governance",
-                "GCP import"
+                "GCP import",
+                "NexusFlow 权限",
+                "NexusFlow 租户",
+                "NexusFlow 审计日志",
+                "NexusFlow 角色"
             ],
             "negative_intent": [
                 "generic permission management",
                 "unrelated tenant system",
                 "是否触发",
                 "是否应触发",
-                "repository without a NexusFlow marker"
+                "repository without a NexusFlow marker",
+                "无 NexusFlow 标记"
             ],
-            "description": "Project-specific NexusFlow workflow for permission, tenant governance, platform visibility, dashboard, GCP import, audit-log, and Chinese commit work."
+            "description": "Project-specific NexusFlow workflow for permission, tenant governance, platform visibility, dashboard, GCP import, audit-log, and Chinese commit work.",
+            "root_exposure": "contextual",
+            "evidence_profile": "E4-audit",
+            "activation_policy": "context-gated",
+            "live_canary_required": true
         },
         {
             "name": "eac-demo-hardening",
@@ -496,7 +773,8 @@
                 "EAC Demo",
                 "EAC B2B Site Auditor",
                 "EAC repository marker",
-                "known EAC Demo/index.html"
+                "known EAC Demo/index.html",
+                "Demo/index.html"
             ],
             "trigger_intent": [
                 "EAC",
@@ -504,16 +782,23 @@
                 "EAC B2B Site Auditor",
                 "Demo/index.html",
                 "EAC report export",
-                "EAC tutorial fallback"
+                "EAC tutorial fallback",
+                "EAC 静态 Demo",
+                "EAC 报告导出"
             ],
             "negative_intent": [
                 "generic static demo",
                 "unrelated PDF export",
                 "是否触发",
                 "是否应触发",
-                "repository without an EAC marker"
+                "repository without an EAC marker",
+                "无 EAC 标记"
             ],
-            "description": "Project-specific EAC static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, and demo-only boundaries."
+            "description": "Project-specific EAC static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, and demo-only boundaries.",
+            "root_exposure": "contextual",
+            "evidence_profile": "E3-lineage",
+            "activation_policy": "context-gated",
+            "live_canary_required": true
         },
         {
             "name": "ai-cost-grounding-measurement",
@@ -525,56 +810,121 @@
                 "billable search queries",
                 "Gemini cost",
                 "CSV 中文",
-                "标准 深度"
+                "标准 深度",
+                "实际计费搜索 Query"
             ],
-            "description": "Evidence-first real AI report-cost measurement for model tokens, Grounding/search metadata, billable query counts, CSV localization, and estimate-vs-real separation."
+            "description": "Evidence-first real AI report-cost measurement for model tokens, Grounding/search metadata, billable query counts, CSV localization, and estimate-vs-real separation.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E4-audit",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
         }
     ],
     "external_dependencies": [
         {
             "name": "luban",
-            "description": "Skill打磨工坊",
+            "description": "Complements skill-crafting with public Skill productization review.",
             "package_id": "LearnPrompt/luban-skill",
             "command": "python3 scripts/install_optional_dependencies.py --install --only luban",
             "url": "https://github.com/LearnPrompt/luban-skill",
             "ref": "89b1f0dd338345d036232e24046eabad5a64205c",
-            "required": false
+            "required": false,
+            "trigger_intent": [
+                "Skill 打磨",
+                "优化 Skill",
+                "审查 Skill",
+                "鲁班"
+            ],
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "huashu-nuwa",
-            "description": "提示词蒸馏与规范化",
+            "description": "Complements skill-crafting for researched persona or perspective Skills.",
             "package_id": "alchaincyf/nuwa-skill",
             "command": "python3 scripts/install_optional_dependencies.py --install --only huashu-nuwa",
             "url": "https://github.com/alchaincyf/nuwa-skill",
             "ref": "72857dc720f4d1dd3e68a40a544341dfc65ea33e",
-            "required": false
+            "required": false,
+            "trigger_intent": [
+                "人物 Skill",
+                "人格 Skill",
+                "女娲造人",
+                "人物视角"
+            ],
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "superpowers",
-            "description": "高级 Agent 工作流",
+            "description": "Optional workflow library; invoke only through a specific matched workflow, never as a generic catch-all.",
             "package_id": "obra/superpowers",
             "command": "python3 scripts/install_optional_dependencies.py --install --only superpowers",
             "url": "https://github.com/obra/superpowers",
             "ref": "d884ae04edebef577e82ff7c4e143debd0bbec99",
-            "required": false
+            "required": false,
+            "trigger_intent": [
+                "执行计划",
+                "系统化调试",
+                "测试驱动开发",
+                "并行子任务"
+            ],
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "ui-ux-pro-max",
-            "description": "极致的前端与交互美学设计规范",
+            "description": "Optional reference for frontend-expert after product type and existing design system are known.",
             "package_id": "nextlevelbuilder/ui-ux-pro-max-skill",
             "command": "python3 scripts/install_optional_dependencies.py --install --only ui-ux-pro-max",
             "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
             "ref": "12b486b22e67f5d887962ef8351c1ac863bfaeb9",
-            "required": false
+            "required": false,
+            "trigger_intent": [
+                "UI UX 设计规范",
+                "前端设计系统",
+                "交互美学",
+                "响应式设计"
+            ],
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "gsap-core",
-            "description": "前端动画与交互核心库",
+            "description": "Optional animation reference for frontend-expert when motion is justified and GSAP is already suitable.",
             "package_id": "greensock/gsap-skills",
             "command": "python3 scripts/install_optional_dependencies.py --install --only gsap-core",
             "url": "https://github.com/greensock/gsap-skills",
             "ref": "aed9cfd3277740755f6bfc1155c7aa645403b760",
-            "required": false
+            "required": false,
+            "trigger_intent": [
+                "GSAP 动画",
+                "复杂前端动效",
+                "时间轴动画",
+                "滚动动画"
+            ],
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "find-skills",
@@ -589,7 +939,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only find-skills",
             "url": "https://github.com/vercel-labs/skills/tree/main/skills/find-skills",
             "ref": "4ce6d48ac44c8b637db87b2102fea3baca719df1",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "taste-skill",
@@ -605,7 +961,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only taste-skill",
             "url": "https://github.com/Leonxlnx/taste-skill",
             "ref": "b17742737e796305d829b3ad39eda3add0d79060",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "headroom",
@@ -620,7 +982,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only headroom",
             "url": "https://github.com/chopratejas/headroom",
             "ref": "1d2b76e72e16eaf532326d9e75a481e18bde1ab7",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "ponytail",
@@ -635,7 +1003,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only ponytail",
             "url": "https://github.com/DietrichGebert/ponytail",
             "ref": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "cangjie-skill",
@@ -650,7 +1024,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only cangjie-skill",
             "url": "https://github.com/kangarooking/cangjie-skill",
             "ref": "78899a9ec906451c1d1685cb0c248fe2441bbb89",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "medium",
+            "relationship": "complements-built-in"
         },
         {
             "name": "video-downloader",
@@ -664,7 +1044,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only video-downloader",
             "url": "https://github.com/kangarooking/kangarooking-skills/tree/main/video-downloader",
             "ref": "528b53c1005812b1203a9abe5a1f6b9b01f1ed98",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E3-lineage",
+            "risk_level": "high",
+            "relationship": "complements-built-in"
         },
         {
             "name": "skillspector",
@@ -679,7 +1065,13 @@
             "command": "python3 scripts/install_optional_dependencies.py --install --only skillspector",
             "url": "https://github.com/NVIDIA/SkillSpector",
             "ref": "c2d09df019e358d3dc12d980b82c798b87cb9f56",
-            "required": false
+            "required": false,
+            "type": "agent-skill",
+            "root_exposure": "external-candidate",
+            "activation_policy": "external-candidate",
+            "evidence_profile": "E4-audit",
+            "risk_level": "high",
+            "relationship": "complements-built-in"
         }
     ]
 }

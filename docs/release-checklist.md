@@ -3,9 +3,33 @@
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
 > [!WARNING]
-> The working tree after the 2026-07-10 comprehensive upgrade and 2026-07-11 first-run polish is **Unreleased**. The checked v1.3.0 snapshot below remains historical release evidence, not authorization to reuse its tag, public-install result, or live replay as proof for the next version. See [guyue-upgrade-audit-2026-07-10.md](guyue-upgrade-audit-2026-07-10.md) and [guyue-first-run-polish-2026-07-11.md](guyue-first-run-polish-2026-07-11.md).
+> The v1.4.0 evidence below is version-specific. The checked v1.3.0 snapshot remains historical evidence and does not prove v1.4.0 public installation, Claude activation, or user outcomes.
 
-## Current Candidate Snapshot
+## v1.4.0 Release Evidence
+
+Date: 2026-07-13
+Candidate version: `1.4.0`
+
+- [x] All 54 broad capability prompts now carry machine route contracts and pass the actual router; 345 internal triggers and 208 near-miss negatives pass without weakening project context gates.
+- [x] All 26 child Skills have E1-E4 evidence profiles and one hash-bound Codex CLI activation canary proving the target `SKILL.md` was actually read.
+- [x] All 26 activation canaries retain compact sanitized command/final-message artifacts; the capability gate recomputes each artifact hash and confirms the target Skill read.
+- [x] All 26 child Skills pass one realistic synthetic output task and an independent review. Failure history remains visible: 18/26, then 24/26, then 26/26 after seven rule repairs and one reviewer retry.
+- [x] Twelve external enhancements remain source-pinned candidates; 48/48 triggers never promote them to built-in selected routes before installation, security, and action authorization.
+- [x] E1-E4 representative output replay failed twice, drove concrete repairs, and passed a third independent failure-first review; it does not claim all-domain user value.
+- [x] Long Goal v4 separates schema version from append-only Goal control revisions and supports approved recovery after preserved three-failure design blocks.
+- [x] `FINAL` and `ATTEMPT` evidence have distinct semantics; promise/evidence references, completed phase state, escaped Markdown pipes, and active control-document limits have regression coverage.
+- [x] A real temporary Git repository proves the direct A implementation -> B evidence -> C seal chain, allows unrelated descendant commits, and rejects forbidden evidence-commit paths or post-seal evidence mutation.
+- [x] The exact candidate diff passes the full local suite 15/15 with 35 Long Goal tests; three final fresh read-only reviews found four issues, verified their repairs, and ended with `NO_P0_P2`.
+- [x] The 236-file exact candidate is assembled through a temporary Git index, contains no `.git` directory, and passes the full suite 15/15 under an empty `HOME`; strict index-mode birth certification validates the same 236 release files, and all optional ecosystem Skills may be absent without weakening required gates.
+- [x] The eighteenth and nineteenth behavior contracts bind one-turn and multi-turn Long Goal Forge evidence to SHA-256; they prove bounded clarification, interruption recovery from persisted decisions, external-target ready validation, independent semantic review, and an exact one-line handoff.
+- [x] The Long Goal CLI accepts a validated external `--repo-root`; a continuous disposable repository proves ready, three failures, design-review blocking, approved recovery, A/B/C sealing, restart replay, and post-seal mutation rejection.
+- [x] A real `file://` bare-remote clone into an empty HOME proves full installed payload, first run, lifecycle execution, restart identity and a clean installed worktree without pretending that local transport is a public-network install.
+- [x] README, Showcase and historical release evidence now distinguish published v1.3.0 proof from the unreleased v4 candidate and answer the six Luban install questions without relying on the historical release card.
+- [x] A post-fix independent read-only new-user audit returns `PASS` on all six Luban questions and preserves the boundary between one live replay, complete multi-turn behavior, and long-term user value.
+- [x] The expanded eight-question audit initially returned `FAIL`; v1.4.0 repairs artifact reversibility, count drift, retained activation evidence, and one reviewed output per Skill. Controlled comparative advantage, arbitrary domain inputs, other runtimes, and real-user value remain explicit boundaries.
+- [x] This candidate does not reuse v1.3.0 public-install, tag, remote CI, or replay evidence as current proof.
+
+## Historical v1.3.0 Snapshot
 
 Date: 2026-07-10
 Candidate version: `1.3.0`

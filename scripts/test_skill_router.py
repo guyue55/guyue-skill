@@ -103,6 +103,41 @@ def main() -> int:
         "explicit negative intent must prevent route selection",
     )
 
+    external = resolve_routes(
+        manifest,
+        "先用古月压缩上下文，并评估 headroom 是否值得作为可选增强。",
+        limit=8,
+    )
+    selected_names = [item["name"] for item in external["selected"]]
+    candidate_names = [item["name"] for item in external["external_candidates"]]
+    require(
+        "context-compressor" in selected_names,
+        "built-in capability must remain the selected route",
+    )
+    require(
+        "headroom" not in selected_names and "headroom" in candidate_names,
+        "external dependencies must remain candidates rather than selected routes",
+    )
+    headroom = next(
+        item for item in external["external_candidates"] if item["name"] == "headroom"
+    )
+    require(
+        headroom["state"] == "external_candidate"
+        and headroom["ref"]
+        and headroom["url"],
+        "external candidates must retain pinned source provenance",
+    )
+    require(
+        headroom["requires"]
+        == [
+            "source_check",
+            "installation_check",
+            "security_check",
+            "action_specific_authorization",
+        ],
+        "external candidates must expose every activation gate",
+    )
+
     print(f"Skill router tests passed: {len(contracts)} behavior contracts.")
     return 0
 

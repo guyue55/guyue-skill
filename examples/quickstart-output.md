@@ -849,3 +849,74 @@ Prompt:
 - Forbidden side effects: none. The model made no repository writes and did not use network research, commit, push, or the full suite; the harness wrote only its requested last-message evidence under `/tmp`.
 - Hash-bound evidence: [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md) and `evals/observations-2026-07-11.json`.
 - Residual boundary: this is one newly successful contract, not complete live coverage of all 17 contracts or every runtime. Codex still warned that globally enabled Skill descriptions exceeded its shared 2% discovery budget.
+
+## Replay 28: Long Goal v4 Meta-Control Attack Review
+
+- Date: 2026-07-11 (Asia/Shanghai).
+- Runtime: Codex CLI `0.144.1`, model reported as `gpt-5.6-sol`, ephemeral read-only sandbox.
+- Prompt focus: challenge a falsified master control, separate ultimate/current/time-only outcomes, enforce the three-experiment design gate, and distinguish checker integrity from product completion.
+- First verdict: `fail_then_fixed`. The reviewer found that `BLOCKED_DESIGN_REVIEW_REQUIRED` was documented but absent from legal states, and that the checker only searched for the number `3` plus a status string.
+- First repair: add the legal state and approved-new-version recovery transition; require a structured ledger with gate, hypothesis, experiment, difference, evidence, and verdict fields; add failure injection proving that three differentiated failures force the blocked state.
+- Second verdict: `partial_fail_then_fixed`. The reviewer found that `未通过`, undeclared experiment IDs, and arbitrary evidence text could bypass the gate.
+- Second repair: accept only canonical `通过`/`失败`; require every attempt to reference declared `GATE-`, `HYP-`, `EXP-`, and `EVID-` IDs; reject duplicate attempt IDs and unbound references.
+- Time-horizon repair: version 4 requires a completion boundary limited to the current Goal and explicitly excluding ultimate vision and time-only outcomes.
+- Scope: this replay proves two adversarial review loops influenced the implementation. It does not prove real product experience, user value, or outcomes that require elapsed time.
+
+## Replay 29: Long Goal v4 Seal And Recovery Hardening
+
+- Date: 2026-07-12 (Asia/Shanghai).
+- Runtime: three fresh Codex CLI `0.144.1` sessions in read-only mode; review was separated from local test execution.
+- Review 1 verdict: `fail_then_fixed`. A failed `ATTEMPT` could authorize a recovery revision, `external@` FINAL evidence could bypass `clean@A`, and evidence changed after B then restored before HEAD could bypass a net-diff-only seal check.
+- Repair 1: approved actions now require a referenced, fresh, passing, exit-code-valid `FINAL` decision record; completed v4 evidence must use `clean@A`; seal validation searches the full B-to-HEAD history for any touch to immutable FINAL evidence paths.
+- Review 2 verdict: `fail_then_fixed`. The freshness check used substring membership, so `不新鲜` incorrectly contained the accepted token `新鲜`.
+- Repair 2: freshness is now a leading canonical status with explicit negative states. Recovery and completion both use the same parser.
+- Review 3 verdict: `NO_P0_P2`. A targeted static audit rechecked authorization, evidence indexing, failure recovery, active control documents, A/B/C ancestry, post-seal history, and matching regression tests. It found no reproducible P0-P2 issue.
+- Regression result: 31 independent Long Goal tests pass. They include failed and stale authorization, negated freshness, fake seals, `external@` FINAL state, post-seal mutation, mutate-then-restore history, role swaps, unregistered control documents, revision forks, and v2/v3 compatibility.
+- Exact-candidate result: an isolated one-time Git index passed the complete local suite 15/15, including Zero-Leakage, Ruff, route/context, replay, Long Goal, full-install, marketplace, MCP, Doctor, CI, evaluation, and birth-certificate gates.
+- Candidate-pack lesson: the full suite correctly rejected generated caches and an untracked test that was absent from the candidate index. Validation therefore uses an isolated one-time Git index so the exact candidate can be tested without staging the user's working tree.
+- Test-isolation lesson: nested temporary Git repositories initially inherited the outer `GIT_INDEX_FILE`; the fixture now clears and restores Git repository/index environment variables, preventing test paths from contaminating the candidate package.
+- Residual boundary: canonical freshness proves the declared status, not the semantic truth of an arbitrary prose explanation. Real user value and time-dependent outcomes remain outside this deterministic gate.
+
+## Replay 30: Long Goal Forge Live Proof And New-User Graduation
+
+- Date: 2026-07-12 (Asia/Shanghai).
+- Forge runtime: Codex CLI `0.144.1`, model reported as `gpt-5.5`, ephemeral read-only sandbox.
+- Forge result: `pass`. The session used four targeted reads/searches plus one status probe, grounded “industry best” in current repository evidence, asked exactly one question about the first victory definition, and did not run tests, scan security, use network research, modify files, or emit a Goal handoff.
+- Evidence binding: [`long-goal-forge-live-2026-07-12.md`](../evals/evidence/long-goal-forge-live-2026-07-12.md) is registered by `evals/observations-2026-07-12.json`; the suite verifies its SHA-256. This raises the behavior-contract set to 18/18.
+- New-user baseline verdict: `PARTIAL`. A fresh read-only Codex audit found six public-entrypoint issues: current and historical release states were mixed, the old release-candidate card looked current, audience and adjacent-form differentiation were implicit, proof entrypoints were scattered, and root discovery metadata lacked Chinese intent words.
+- Repair: README now separates published v1.3.0 from the unreleased v4 candidate, answers the six install questions, and labels proof limits; the v1.3.0 release document is frozen as historical evidence; Showcase uses v4 evidence/seal language; root metadata includes concise Chinese discovery intents.
+- Post-fix Codex retry: `blocked_before_model` because the account usage limit was reached. It did not read repository files and is not counted as a pass or failure.
+- Independent post-fix verdict: `PASS`. A separate read-only subagent using `gpt-5.6-luna` verified all six questions, historical-evidence isolation, v4 Showcase consistency, and the one-turn evidence boundary. Evidence: [`new-user-six-question-audit-2026-07-12.md`](../evals/evidence/new-user-six-question-audit-2026-07-12.md).
+- Exact-package result: a temporary Git index exported the full candidate without `.git`; under an empty `HOME`, the 118-file package passed the complete suite 15/15 with 26 Skills, 18 behavior contracts, 31 Long Goal tests, no required external Skills, and required-payload SHA-256 `1ab15329d7137fe6443b6b967bce906e3c9971617bc85945a43d595336331d51`.
+- Residual boundary: this proves local package integrity, one real Forge clarification turn, and public comprehensibility. It does not prove a complete multi-turn Forge, another runtime, public-source installation of the unreleased candidate, or long-term user value.
+
+## Replay 31: Multi-Turn Forge, External Lifecycle, And Install Journey
+
+- Date: 2026-07-12 (Asia/Shanghai).
+- Forge result: `pass_with_real_failures`. Three real model turns closed outcome, data-semantics and corruption-safety decisions. An implementation agent then stalled and was stopped; the durable decision packet allowed a fresh executor to continue without reopening closed decisions.
+- Semantic review: the first external ready pack passed the structural checker but failed independent review because it mislabeled ready evidence as FINAL, claimed a clean worktree, pointed a risk gate at the wrong evidence and omitted the frozen-decision audit file. All four findings were repaired before the reviewer emitted exactly one legal Goal handoff line.
+- Checker repair: `check_long_goal_pack.py --repo-root <target-repo>` now validates external repositories. Honest ready evidence may declare `dirty@...` as ATTEMPT provenance; complete FINAL evidence still requires `clean@A`.
+- Lifecycle result: a disposable external Git repository passed ready validation, three differentiated failures, mandatory design-review blocking, approved `REV-0002` recovery, implementation/evidence/seal commits, restart replay, and rejection of post-seal evidence mutation.
+- Install result: an exact candidate was installed through a real local bare Git remote into an empty HOME, passed full-install validation and first run, executed the lifecycle simulator, reproduced the same payload SHA after restart, and left the installed worktree clean.
+- Behavior result: 19/19 deterministic contracts pass; two Long Goal observations are SHA-256-bound to one-turn and multi-turn evidence.
+- Exact-package result: a temporary Git index exported 117 files without `.git`; under an empty HOME, the complete suite passed 15/15 with 121 birth-certificate release entries, 26 Skills, 54 prompts, 19 behavior contracts and 35 Long Goal tests. The complete-install required payload SHA-256 is `beb3f0742b3cc9d970d802808862de2fa68fd27126fb273ccae722b6f6834dfa`; the Codex install-journey runtime payload SHA-256 is `62004e9330fe86e616f95f20b86f1d15a28cd22b406ad0877c4a08aa0df773c1`.
+- Residual boundary: local `file://` Git transport is not a public-network install, simulations are not real user adoption, and no local test can prove time-dependent value. Those boundaries remain explicit.
+
+## Replay 32: Full Capability Discovery And Evidence Chain
+
+- Date: 2026-07-13 (Asia/Shanghai).
+- Baseline: only 25/54 broad prompts passed the actual deterministic router even though the previous structural evaluation was green.
+- Deterministic repair: 54/54 broad routes, 345/345 internal should-trigger cases, 208/208 adjacent should-not-trigger cases, and 48/48 external-candidate triggers pass. Near-miss failures exposed and fixed negated NexusFlow/EAC context leakage.
+- External boundary: all 12 optional dependencies retain URL and reviewed commit provenance but remain `external_candidate`; source, installation, security, and action-specific authorization gates are explicit.
+- Live result: Codex CLI `0.144.1` ran one fresh read-only canary per child Skill. All 26 event streams actually read the expected `skills/<name>/SKILL.md` and ended with the expected activation line. The receipt keeps per-run exit code, token usage, and raw-event SHA-256.
+- Evidence result: E1-E4 representative outputs failed two independent reviews, drove fixes to fact/hypothesis separation, rewrite drift, catalog fingerprinting, and blocked security receipts, then passed the third review.
+- Runtime boundary: Codex reported that globally installed Skill descriptions were shortened to fit its shared 2% discovery budget. One successful activation per Skill is not a repeated-rate study, cross-runtime proof, or real user outcome.
+
+## Replay 33: Retained Activation And All-Skill Output Review
+
+- Date: 2026-07-13 (Asia/Shanghai).
+- Activation result: 26/26 fresh Codex CLI canaries read the expected child `SKILL.md` and returned the expected activation line. Each run now retains a compact sanitized command/final-message artifact whose SHA-256 is checked by `check_capability_chain.py`; full model reasoning and raw event streams remain unpublished.
+- Output attempt 1: 18/26 passed. Seven content failures exposed missing provisional acceptance criteria, closed-world fact drift, unverified ecosystem metadata, absent media checksum/provenance, unlabelled context baselines, collapsed audio uncertainty, and overclaimed server authorization absence. One book reviewer session failed before producing JSON.
+- Output attempt 2: 24/26 passed. The repairs revealed two deeper gaps: context optimization had no finite stop condition, and deployment audit omitted the required local-config -> artifact -> remote-acceptance -> runtime-behavior matrix.
+- Output attempt 3: 26/26 passed. Every Skill has a retained output, sanitized producer receipt, independent review receipt, and recomputed hashes. Non-blocking reviewer findings remain visible.
+- Scope boundary: this proves one realistic synthetic task per Skill in Codex, not arbitrary-input quality, other runtimes, controlled comparative advantage, public-network installation, or real-user value.

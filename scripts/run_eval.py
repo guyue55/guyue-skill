@@ -21,6 +21,7 @@ from src.skill_router import resolve_routes  # noqa: E402
 PROMPTS_PATH = ROOT / "test-prompts.json"
 MANIFEST_PATH = ROOT / "skills_manifest.json"
 CONTRACTS_PATH = ROOT / "evals" / "behavior-contracts.json"
+CAPABILITY_ROUTES_PATH = ROOT / "evals" / "capability-routing.json"
 
 SAFETY_KEYWORDS = {
     "trace": ["trace", "[Trace", "轨迹"],
@@ -52,6 +53,7 @@ def main() -> int:
     prompts = load_json(PROMPTS_PATH)
     manifest = load_json(MANIFEST_PATH)
     contracts = load_json(CONTRACTS_PATH)
+    capability_routes = load_json(CAPABILITY_ROUTES_PATH)
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -117,6 +119,7 @@ def main() -> int:
     }
     contract_ids: set[str] = set()
     deterministic_routes_passed = 0
+    capability_routes_passed = 0
     evidence_levels = {"L0", "L1", "L2", "L3", "L4"}
     if not isinstance(contracts, list):
         errors.append("evals/behavior-contracts.json must contain a list")
@@ -202,6 +205,113 @@ def main() -> int:
                 if not missing_expected and not selected_forbidden:
                     deterministic_routes_passed += 1
 
+    capability_cases = (
+        capability_routes.get("cases", [])
+        if isinstance(capability_routes, dict)
+        else []
+    )
+    if not isinstance(capability_routes, dict):
+        errors.append("evals/capability-routing.json must contain an object")
+    elif capability_routes.get("schema_version") != 1:
+        errors.append("evals/capability-routing.json must use schema_version 1")
+    if not isinstance(capability_cases, list):
+        errors.append("evals/capability-routing.json field 'cases' must be a list")
+        capability_cases = []
+
+    prompts_by_name = {
+        str(entry.get("name", "")).strip(): entry
+        for entry in prompts
+        if isinstance(entry, dict) and str(entry.get("name", "")).strip()
+    }
+    capability_ids: set[str] = set()
+    capability_prompt_names: set[str] = set()
+    for index, raw_case in enumerate(capability_cases, start=1):
+        if not isinstance(raw_case, dict):
+            errors.append(f"capability route case #{index} must be an object")
+            continue
+        case_id = str(raw_case.get("id", "")).strip()
+        case_label = case_id or str(index)
+        prompt_name = str(raw_case.get("prompt_name", "")).strip()
+        if not case_id:
+            errors.append(f"capability route case #{index} is missing id")
+        elif case_id in capability_ids:
+            errors.append(f"duplicate capability route case id: {case_id}")
+        else:
+            capability_ids.add(case_id)
+        if not prompt_name:
+            errors.append(f"capability route case '{case_label}' is missing prompt_name")
+            continue
+        if prompt_name in capability_prompt_names:
+            errors.append(f"duplicate capability route prompt binding: {prompt_name}")
+        capability_prompt_names.add(prompt_name)
+        prompt_entry = prompts_by_name.get(prompt_name)
+        if prompt_entry is None:
+            errors.append(
+                f"capability route case '{case_label}' references unknown prompt: {prompt_name}"
+            )
+            continue
+
+        route_sets: dict[str, set[str]] = {}
+        for field in ("expected_routes", "forbidden_routes"):
+            values = raw_case.get(field)
+            if not isinstance(values, list):
+                errors.append(
+                    f"capability route case '{case_label}' field '{field}' must be a list"
+                )
+                values = []
+            normalized = {
+                normalize_skill_name(str(value).strip())
+                for value in values
+                if str(value).strip()
+            }
+            unknown = normalized - manifest_names
+            if unknown:
+                errors.append(
+                    f"capability route case '{case_label}' has unknown {field}: "
+                    + ", ".join(sorted(unknown))
+                )
+            route_sets[field] = normalized
+        overlap = route_sets["expected_routes"] & route_sets["forbidden_routes"]
+        if overlap:
+            errors.append(
+                f"capability route case '{case_label}' expects and forbids: "
+                + ", ".join(sorted(overlap))
+            )
+
+        prompt = str(prompt_entry.get("prompt", "")).strip()
+        try:
+            decision = resolve_routes(manifest, prompt, limit=8)
+        except ValueError as exc:
+            errors.append(
+                f"capability route case '{case_label}' route check failed: {exc}"
+            )
+            continue
+        selected = {
+            normalize_skill_name(str(item.get("name", "")))
+            for item in decision["selected"]
+        }
+        missing_expected = route_sets["expected_routes"] - selected
+        selected_forbidden = route_sets["forbidden_routes"] & selected
+        if missing_expected:
+            errors.append(
+                f"capability route case '{case_label}' missed expected routes: "
+                + ", ".join(sorted(missing_expected))
+            )
+        if selected_forbidden:
+            errors.append(
+                f"capability route case '{case_label}' selected forbidden routes: "
+                + ", ".join(sorted(selected_forbidden))
+            )
+        if not missing_expected and not selected_forbidden:
+            capability_routes_passed += 1
+
+    unbound_prompts = set(prompts_by_name) - capability_prompt_names
+    if unbound_prompts:
+        errors.append(
+            "test prompts missing capability route bindings: "
+            + ", ".join(sorted(unbound_prompts))
+        )
+
     for safety_name, keywords in SAFETY_KEYWORDS.items():
         if not any(keyword.lower() in combined_text for keyword in keywords):
             warnings.append(f"weak safety coverage: {safety_name}")
@@ -212,6 +322,9 @@ def main() -> int:
     print(f"prompts: {len(prompts)}")
     print(f"behavior contracts: {len(contracts)}")
     print(f"deterministic route checks: {deterministic_routes_passed}/{len(contracts)}")
+    print(
+        f"capability route checks: {capability_routes_passed}/{len(capability_cases)}"
+    )
     print(f"manifest skills: {len(manifest_skills)}")
 
     if warnings:

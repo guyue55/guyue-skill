@@ -1,8 +1,11 @@
-# Release Candidate Evidence
+# Historical Release Evidence: Guyue v1.3.0
 
 Date: 2026-07-10
-Status: v1.3.0 passed public-source installation and remote CI verification; approved for tag and GitHub Release
-Scope: release-preparation evidence and boundary fixes. The current release operation has explicit user authorization for commit, push, tag, and GitHub Release; marketplace listing outside this repository and deployment remain separate actions.
+Status: historical snapshot; v1.3.0 passed public-source installation and remote CI verification and was released
+Scope: evidence for the completed v1.3.0 release operation. Its authorization, tag, public installation and remote CI results do not authorize or prove the current unreleased candidate.
+
+> [!WARNING]
+> This document is frozen historical evidence. For current work, use [release-checklist.md](release-checklist.md#unreleased-candidate-work) and [guyue-long-goal-meta-control-polish-2026-07-11.md](guyue-long-goal-meta-control-polish-2026-07-11.md). Do not reuse the result card below as current release readiness.
 
 ## 2026-07-10 Comprehensive Luban Audit
 
@@ -60,7 +63,7 @@ A release candidate is eligible only when every item below is true:
 - `examples/showcase.md` or the README links to visible evidence of what Guyue produces.
 - Known deviations are listed with a next action, not hidden in the release notes.
 
-## Current Evidence
+## Evidence At The v1.3.0 Freeze
 
 | Area | Current evidence | Result | Release impact |
 |---|---|---|---|
@@ -321,19 +324,19 @@ python3 scripts/check_birth_certificate.py
 bash scripts/test_suite.sh
 ```
 
-The local and public-source release gates pass on the intended v1.3.0 lineage. The user explicitly authorized commit, push, tag, and GitHub Release for this release operation; marketplace listing outside this repository and deployment remain separately gated.
+The local and public-source release gates passed on the intended v1.3.0 lineage before that release. The authorization recorded here was consumed by that operation and grants no permission for a later commit, push, tag, release, marketplace listing, or deployment.
 
 ## Result Card
 
 ```text
 ┌─────────────────────────────────────┐
-│  Release Ready · Guyue v1.3.0       │
+│  Historical Release · Guyue v1.3.0  │
 │                                     │
-│  Status: local + public gates passed│
+│  Status: released historical proof  │
 │  Focus: skill expansion boundaries  │
 │  Verified: Codex + Claude install   │
-│  Current blocker: none              │
-│  Next step: tag and GitHub Release  │
+│  Current use: historical only        │
+│  Next step: none                     │
 │                                     │
 │  Reviewer: Luban                    │
 └─────────────────────────────────────┘

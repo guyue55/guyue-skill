@@ -51,17 +51,18 @@ python3 scripts/try_guyue.py \
 |---|---|---|
 | 新需求一律联网 | 稳定本地事实直接检查；只有不稳定、陌生、高风险或明确要求的外部事实查当前一手来源 | `stable-local-fact-avoids-web-research`、`current-api-uses-primary-research` |
 | 没有用户贴日志就一律拒绝排障 | Agent 先读取当前可得的错误、测试、日志和活体产物；证据仍不足时才请求最小缺口，不用猜测性补丁 | `debugging-mindset`、Replay 3 |
-| 模糊长目标直接交给执行 Agent 猜 | Forge 先做项目摸底，每轮只关闭一个最高影响问题；v3 控制包绑定委派、收束和文件哈希 | Long Goal Forge prompts、`check_long_goal_pack.py --self-test` |
+| 模糊长目标直接交给执行 Agent 猜 | Forge 先做项目摸底，每轮只关闭一个最高影响问题；中断后从持久决定恢复，v4 再用控制修订、纵向风险门和批准恢复约束方向变化 | Long Goal Forge one-turn/multi-turn replay、`check_long_goal_pack.py --self-test` |
 | 方案已确认仍重复要授权 | 仓库内可逆且边界明确的改动主动完成；只为公开、付费、破坏性、权限或不可逆动作保留版本化授权 | `bounded-reversible-work-does-not-reask-approval` |
-| 一次绿色检查被写成全部完成 | 阶段、MVP、local-only、release candidate、production-ready 和 Goal complete 分开；旧证据与哈希不符会失败 | Long Goal v3 evidence gate |
+| 一次绿色检查被写成全部完成 | 阶段、MVP、local-only、release candidate、production-ready 和 Goal complete 分开；FINAL 证据必须绑定 `clean@A`，并通过 A/B/C Git 封账 | Long Goal v4 evidence and seal gates |
+| Skill 文件存在就算能力可用 | 分开验证原生发现、确定性选择、目标 body 实际加载、逐 Skill 输出、证据档位和安装载荷；外部依赖只进入候选态 | `check_capability_chain.py`、26 Skill live canaries、26 output reviews |
 
-机器可读合同见 [`evals/behavior-contracts.json`](../evals/behavior-contracts.json)。确定性路由执行 17 条正负合同，并要求每条合同列出的全部期望路由都出现；真实观察还必须绑定独立证据文件和 SHA-256。
+机器可读合同见 [`evals/behavior-contracts.json`](../evals/behavior-contracts.json)。当前执行 19 条正负行为合同；有期望子路由的合同必须完整命中，根编排合同可以不伪造子路由，但真实观察仍必须绑定独立证据文件和 SHA-256。
 
 ## 3. 真实模型回放
 
 [`quickstart-output.md`](quickstart-output.md) 保留了真实 Codex 只读回放的通过、偏差、修复和阻断记录。它不会把 `partial_pass` 改写成成功，也不会把模型执行前的额度或登录阻断算作行为通过。
 
-2026-07-11 的新 Codex 回放已证明只读元审查会优先进入 `reality-auditor`，保留需求收敛、设计和实现候选，并阻止问题文本中的 NexusFlow/EAC 名称自触发项目能力。证据见 [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md)。诚实边界仍然是：这只覆盖 17 条合同中的 1 条，不能替代其余合同或其他运行时的活体回放。
+2026-07-11 的 Codex 回放证明只读元审查会优先进入 `reality-auditor`，并阻止问题文本中的 NexusFlow/EAC 名称自触发项目能力。2026-07-12 的 one-turn 回放证明模糊 Long Goal 会在读取预算内收敛到一个最高影响问题；multi-turn 回放又真实保留了澄清、执行 Agent 停滞、结构失败、独立语义审查失败、修复与最终一行交接。证据见 [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md)、[`long-goal-forge-live-2026-07-12.md`](../evals/evidence/long-goal-forge-live-2026-07-12.md) 与 [`long-goal-forge-multiturn-simulation-2026-07-12.md`](../evals/evidence/long-goal-forge-multiturn-simulation-2026-07-12.md)。诚实边界仍然是：这些回放不能替代其他运行时、公开网络安装或真实长期用户结果。
 
 ## 4. 可复现方式
 

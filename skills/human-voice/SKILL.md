@@ -170,6 +170,10 @@ For rewrite requests, output this structure unless the user asks for a different
 - 未改动的风险/边界：...
 ```
 
+Before sending, explicitly verify that every fact, number, source status, permission caveat, and risk boundary in the input still exists with the same meaning. A fluent rewrite without this no-drift check is incomplete E2 evidence.
+
+For an evidence-sensitive rewrite, include a compact auditable check: quote or precisely identify the input claim as the baseline, list the preserved confirmed and unverified clauses, and state `无漂移核对：事实/数字/来源/风险均未新增、删除或升格`. If any item changed, list the exact change instead of claiming no drift.
+
 For normal task answers, do not add a heavy comparison block. Apply the gate silently after the trace and keep the final answer tight.
 
 ## Quality Checklist

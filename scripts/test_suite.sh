@@ -28,6 +28,7 @@ python3 scripts/test_codex_extractor.py
 echo ""
 echo "[4/15] Running Routing And Context Budget Gates..."
 python3 scripts/test_skill_router.py
+python3 scripts/check_capability_chain.py --json
 python3 scripts/test_context_budget.py
 python3 scripts/check_context_budget.py
 python3 scripts/test_try_guyue.py
@@ -43,10 +44,12 @@ done
 echo ""
 echo "[6/15] Running Long Goal Control-Pack Checker..."
 python3 scripts/check_long_goal_pack.py --self-test
+python3 scripts/simulate_long_goal_lifecycle.py --json
 
 echo ""
 echo "[7/15] Running Full Install Payload Checker..."
 python3 scripts/check_full_install.py --self-test
+python3 scripts/simulate_install_journey.py --json
 
 echo ""
 echo "[8/15] Running Claude Marketplace Validation..."

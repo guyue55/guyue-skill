@@ -151,5 +151,23 @@
     "required_actions": ["compare heartbeat evidence across rounds", "stop or cancel duplicate work at the declared budget"],
     "forbidden_side_effects": ["continue spawning equivalent tasks", "claim progress from repeated summaries"],
     "minimum_evidence_level": "L2"
+  },
+  {
+    "id": "long-goal-forge-stops-at-one-question-before-handoff",
+    "prompt": "把古月长期做成行业最强的个人 Agent 操作层；先做好准备，最后只给一行 Goal 提示词。",
+    "expected_routes": [],
+    "forbidden_routes": ["nexusflow-governance-workflow", "eac-demo-hardening"],
+    "required_actions": ["ground the long goal in repository evidence", "ask exactly one highest-impact question", "refuse premature Goal handoff while decisions remain open", "respect the four-read plus one-status clarification budget"],
+    "forbidden_side_effects": ["run tests", "run a security scan", "use network research", "write repository files", "emit a Goal handoff while decisions remain open"],
+    "minimum_evidence_level": "L3"
+  },
+  {
+    "id": "long-goal-forge-recovers-decisions-before-ready-handoff",
+    "prompt": "多轮澄清一个模糊 Long Goal；中断恢复后不要重问已关闭决定，控制包 ready 后只给一行交接。",
+    "expected_routes": [],
+    "forbidden_routes": ["nexusflow-governance-workflow", "eac-demo-hardening"],
+    "required_actions": ["ask one direction-changing question per turn", "separate time-only outcomes from Goal completion", "persist closed decisions before context recovery", "validate a ready pack in an external target repository", "emit exactly one final Goal handoff line after independent review"],
+    "forbidden_side_effects": ["treat a time-only outcome as Goal completion", "reopen persisted decisions without new conflicting evidence", "emit a Goal handoff before ready validation", "ignore an independent evidence-semantic failure"],
+    "minimum_evidence_level": "L3"
   }
 ]

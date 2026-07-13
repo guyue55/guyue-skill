@@ -182,6 +182,44 @@ def resolve_routes(
         ),
         key=lambda item: (item["reason"], item["name"]),
     )
+    external_decisions = [
+        _score_skill(dependency, intent, markers)
+        for dependency in manifest.get("external_dependencies", [])
+        if isinstance(dependency, dict)
+        and str(dependency.get("name", "")).strip()
+    ]
+    external_by_name = {
+        str(item.get("name", "")): item
+        for item in manifest.get("external_dependencies", [])
+        if isinstance(item, dict)
+    }
+    external_candidates = []
+    for decision in sorted(
+        (item for item in external_decisions if item["reason"] == "matched"),
+        key=lambda item: (-item["score"], item["name"]),
+    )[:limit]:
+        dependency = external_by_name[decision["name"]]
+        external_candidates.append(
+            {
+                **decision,
+                "state": "external_candidate",
+                "url": str(dependency.get("url", "")),
+                "ref": str(dependency.get("ref", "")),
+                "package_id": str(dependency.get("package_id", "")),
+                "relationship": str(dependency.get("relationship", "")),
+                "evidence_profile": str(dependency.get("evidence_profile", "")),
+                "requires": [
+                    "source_check",
+                    "installation_check",
+                    "security_check",
+                    "action_specific_authorization",
+                ],
+                "boundary": (
+                    "Candidate only; this result does not prove installation, "
+                    "safety, authorization, or activation."
+                ),
+            }
+        )
     contract = manifest.get("routing_contract", {})
     return {
         "routing_contract_version": (
@@ -189,6 +227,7 @@ def resolve_routes(
         ),
         "lifecycle_state": "selected" if selected else "failed",
         "selected": selected,
+        "external_candidates": external_candidates,
         "rejected": rejected,
         "context_markers": markers,
     }

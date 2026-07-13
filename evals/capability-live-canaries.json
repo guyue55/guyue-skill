@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"skill":"sop-maker","prompt_name":"Trigger SOP Maker"},
+    {"skill":"frontend-expert","prompt_name":"Trigger Frontend Expert"},
+    {"skill":"product-sense","prompt_name":"Trigger Product Sense"},
+    {"skill":"research-and-sourcing","prompt_name":"Trigger Research and Sourcing"},
+    {"skill":"requirement-analysis","prompt_name":"Trigger Root Orchestrator (Implicit)"},
+    {"skill":"system-design","prompt_name":"Trigger System Design (HITL)"},
+    {"skill":"coding-discipline","prompt_name":"Trigger Coding Discipline"},
+    {"skill":"debugging-mindset","prompt_name":"Trigger Debugging Mindset"},
+    {"skill":"documentation","prompt_name":"Trigger Documentation"},
+    {"skill":"human-voice","prompt_name":"Trigger Human Voice"},
+    {"skill":"skill-crafting","prompt_name":"Trigger Skill Crafting"},
+    {"skill":"memory-bank","prompt_name":"Trigger Memory Bank"},
+    {"skill":"ecosystem-scout","prompt_name":"Trigger Ecosystem Scout"},
+    {"skill":"ai-website-cloner","prompt_name":"Trigger AI Website Cloner"},
+    {"skill":"software-advisor","prompt_name":"Trigger Software Advisor"},
+    {"skill":"taste-aesthetics","prompt_name":"Trigger Taste Aesthetics"},
+    {"skill":"code-minimalism","prompt_name":"Trigger Code Minimalism"},
+    {"skill":"book-distiller","prompt_name":"Trigger Book Distiller"},
+    {"skill":"video-extractor","prompt_name":"Trigger Video Extractor"},
+    {"skill":"video-creation-sop","prompt_name":"Trigger Video Creation SOP"},
+    {"skill":"context-compressor","prompt_name":"Trigger Context Compressor"},
+    {"skill":"security-gate","prompt_name":"Trigger Security Gate"},
+    {"skill":"reality-auditor","prompt_name":"Trigger Reality Auditor"},
+    {"skill":"nexusflow-governance-workflow","prompt_name":"Trigger NexusFlow Governance Workflow"},
+    {"skill":"eac-demo-hardening","prompt_name":"Trigger EAC Demo Hardening"},
+    {"skill":"ai-cost-grounding-measurement","prompt_name":"Trigger AI Cost Grounding Measurement"}
+  ]
+}

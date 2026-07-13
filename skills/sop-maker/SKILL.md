@@ -1,6 +1,6 @@
 ---
 name: sop-maker
-description: 古月视角的标准作业程序生成器。在任务成功闭环后触发，自动提取最佳实践，生成可沉淀复用的 SOP 文档。
+description: Use after a task or incident has genuinely succeeded and the user wants a reusable SOP, runbook, checklist, or team procedure. Extract steps from actual evidence, inputs, failures, verification, and boundaries; do not invent procedures for unproven work or replace general documentation.
 ---
 
 # 古月 / SOP 生成器 (SOP Maker)
