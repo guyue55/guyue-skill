@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "d31fdd9e4d9a9ef2b3408e1962d7f6dc5778eea43580fc60bb6d5c49ee7b3543"
+      "sha256": "0708f01655b07b1eb0c8c4902d2ebbb6bc02960b46b849ae2acacc2a4d97dc13"
     },
     {
       "path": "RTK.md",
@@ -35,7 +35,7 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "ac9dd2a1d207472f2166aac3a3d68386b5fc99f18e4819043f18f86201f570e7"
+      "sha256": "6d35d823259bab269ad9ac4be3847133a53626dcb5ad0135a97b835470852fd4"
     },
     {
       "path": "assets/demo.gif",
@@ -47,7 +47,7 @@
     },
     {
       "path": "docs/evaluation.md",
-      "sha256": "3dd098e9e5a99dab7520a4401a8cb5a02bf78aa7c9d461cc15e33e9aa6ea0f16"
+      "sha256": "bb4c360d103a74f7bb68504fe9981b2747f0296b4d63033c80dd85ed8640f2d5"
     },
     {
       "path": "docs/guyue-capability-discovery-evidence-audit-plan-2026-07-12.md",
@@ -108,6 +108,10 @@
     {
       "path": "evals/behavior-contracts.json",
       "sha256": "173747afaa6ce1f47d18ce636b3b4e83ffd5fea52a0f491284fe8965b3d7964f"
+    },
+    {
+      "path": "evals/capability-collaboration.json",
+      "sha256": "057aac315556f19745a5053b2de4c7b4c1fb235f4dea9235fa6edf16b6770955"
     },
     {
       "path": "evals/capability-live-canaries.json",
@@ -599,7 +603,7 @@
     },
     {
       "path": "examples/quickstart-output.md",
-      "sha256": "d570dd8cdc0164145ec9965d014c7961d037dc2de88df11126c033e5fe824d03"
+      "sha256": "4f76487fe0cceb4598f52943bd88c686aeeeb978e405778e2f36a2a4abf8758b"
     },
     {
       "path": "examples/saas-conversion-demo/index.html",
@@ -635,7 +639,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "d1b0d61f44d02d4ecc7549fe45799f57496e6193dd8447a45e0321feebc3ce92"
+      "sha256": "e931005f1a1fa38a8decd11c7c93f00cf89f6a8e03a53f23ce364ac82de5631e"
     },
     {
       "path": "requirements.txt",
@@ -659,7 +663,7 @@
     },
     {
       "path": "scripts/check_capability_chain.py",
-      "sha256": "df5700d37f025ee39724bd9e6522505cc1187a20a1e959bc94c32839cbe33cf4"
+      "sha256": "b1ff1247ac14fee5c67f56f855a49934fbd3bd7c676cd32999346e10b05fddd9"
     },
     {
       "path": "scripts/check_context_budget.py",
@@ -699,7 +703,7 @@
     },
     {
       "path": "scripts/explain_route.py",
-      "sha256": "8f2a226c02db8958a43a6b09ccf9d19ad428d4bf6cdb97fe749efba2ddd75f15"
+      "sha256": "cfaebc066a002bf07f7f067bcb389dd7222ac4f815bc0aa4203fe8602fa371fb"
     },
     {
       "path": "scripts/extract_software_box.py",
@@ -795,7 +799,7 @@
     },
     {
       "path": "scripts/test_skill_router.py",
-      "sha256": "6b4527b7150ccf86d4206cf77d3eff6bd2dd9e3a0ae753d38c458f89803cc7b7"
+      "sha256": "fbed06f29b755ac12eb1fd51b243d4415a8e3a5905a0317fab62a13267267dce"
     },
     {
       "path": "scripts/test_suite.sh",
@@ -943,7 +947,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "afcd08c3afa126bcb76e3be9d74bb9f6f4e79e866fba12689a75fbdf7cb5944e"
+      "sha256": "5c6577bb2f9596b3462a2bbb4191bec5d28f63573194e5516a1dd9a12dd99772"
     },
     {
       "path": "src/context_budget.py",
@@ -971,7 +975,7 @@
     },
     {
       "path": "src/skill_router.py",
-      "sha256": "bc9e641ec080205ada7204728a23eddffb93b0ec21f118bbdb7ae3144bdb7987"
+      "sha256": "8b3fb5b2b22c575d37f0578b0e5a2ba53cf1c082ede2e817a2e2da0f3eb89a2e"
     },
     {
       "path": "test-prompts.json",

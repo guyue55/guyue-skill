@@ -38,6 +38,7 @@
         "src/mcp_server.py",
         "src/release_payload.py",
         "evals/capability-routing.json",
+        "evals/capability-collaboration.json",
         "evals/capability-near-misses.json",
         "evals/capability-live-canaries.json",
         "evals/capability-output-quality.json",

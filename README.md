@@ -2,7 +2,7 @@
 
 > 一句话钩子：让 Agent 在复杂任务里先定边界、再执行、用证据收尾。
 
-古月是从真实 AI 协作记录中蒸馏出来的 Personal Agent Operating Layer。它把需求判断、工程纪律、长任务恢复、记忆、安全和验收组织成一套可安装、可解释、可复跑的工作方式。
+古月是从真实 AI 协作记录中蒸馏出来的 Personal Agent Operating Layer。它把需求判断、工程纪律、长任务恢复、记忆、安全和验收组织成一套可安装、可解释、可复跑的工作方式，并用机器可检的协作合同约束相邻能力何时串联、何时独立复验、何时必须停在授权边界前。
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)

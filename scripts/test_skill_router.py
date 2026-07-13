@@ -25,6 +25,11 @@ def main() -> int:
     contracts = json.loads(
         (ROOT / "evals" / "behavior-contracts.json").read_text(encoding="utf-8")
     )
+    collaboration_contracts = json.loads(
+        (ROOT / "evals" / "capability-collaboration.json").read_text(
+            encoding="utf-8"
+        )
+    )["cases"]
 
     for contract in contracts:
         result = resolve_routes(manifest, contract["prompt"], limit=8)
@@ -138,7 +143,51 @@ def main() -> int:
         "external candidates must expose every activation gate",
     )
 
-    print(f"Skill router tests passed: {len(contracts)} behavior contracts.")
+    for contract in collaboration_contracts:
+        result = resolve_routes(
+            manifest,
+            contract["prompt"],
+            context_markers=contract.get("context_markers", []),
+            limit=8,
+        )
+        candidates = result["collaboration_candidates"]
+        candidate_ids = [item["id"] for item in candidates]
+        expected = contract.get("expected_workflow")
+        forbidden = set(contract.get("forbidden_workflows", []))
+        if expected:
+            require(
+                candidate_ids and candidate_ids[0] == expected,
+                f"{contract['id']} expected {expected} first: {candidate_ids}",
+            )
+            candidate = candidates[0]
+            require(
+                candidate["state"] == "collaboration_candidate"
+                and candidate["requires"]
+                == [
+                    "stage_entry_evidence",
+                    "action_specific_authorization",
+                    "independent_completion_gate",
+                ],
+                f"{contract['id']} lost collaboration boundary gates",
+            )
+            require(
+                "never treat this as authorization" in candidate["boundary"],
+                f"{contract['id']} must not imply authorization",
+            )
+            require(
+                result["lifecycle_state"] in {"selected", "collaboration_candidate"},
+                f"{contract['id']} must expose a non-failed collaboration state",
+            )
+        require(
+            forbidden.isdisjoint(candidate_ids),
+            f"{contract['id']} proposed forbidden workflows: {candidate_ids}",
+        )
+
+    print(
+        "Skill router tests passed: "
+        f"{len(contracts)} behavior contracts, "
+        f"{len(collaboration_contracts)} collaboration contracts."
+    )
     return 0
 
 

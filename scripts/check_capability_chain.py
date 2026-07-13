@@ -59,12 +59,17 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
     prompts = load_json(root / "test-prompts.json")
     route_contract = load_json(root / "evals/capability-routing.json")
     near_miss_contract = load_json(root / "evals/capability-near-misses.json")
+    collaboration_eval = load_json(root / "evals/capability-collaboration.json")
     if not isinstance(manifest, dict) or not isinstance(prompts, list):
         raise AssertionError("manifest and prompts must have their documented shapes")
     if not isinstance(route_contract, dict) or not isinstance(
         route_contract.get("cases"), list
     ):
         raise AssertionError("capability-routing.json must contain a cases list")
+    if not isinstance(collaboration_eval, dict) or not isinstance(
+        collaboration_eval.get("cases"), list
+    ):
+        raise AssertionError("capability-collaboration.json must contain a cases list")
 
     skills = manifest.get("skills", [])
     external = manifest.get("external_dependencies", [])
@@ -88,6 +93,72 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
     }
 
     errors: list[str] = []
+    collaboration_contract = manifest.get("collaboration_contract", {})
+    collaboration_workflows = (
+        collaboration_contract.get("workflows", [])
+        if isinstance(collaboration_contract, dict)
+        else []
+    )
+    collaboration_modes = set(
+        collaboration_contract.get("stage_modes", [])
+        if isinstance(collaboration_contract, dict)
+        else []
+    )
+    if not isinstance(collaboration_contract, dict) or (
+        collaboration_contract.get("version") != 1
+    ):
+        errors.append("collaboration_contract.version must be 1")
+    if not isinstance(collaboration_workflows, list) or not collaboration_workflows:
+        errors.append("collaboration contract workflows are required")
+        collaboration_workflows = []
+    workflow_ids: set[str] = set()
+    collaboration_skill_coverage: set[str] = set()
+    for workflow in collaboration_workflows:
+        if not isinstance(workflow, dict):
+            errors.append("collaboration workflows must be objects")
+            continue
+        workflow_id = str(workflow.get("id", "")).strip()
+        if not workflow_id or workflow_id in workflow_ids:
+            errors.append(f"missing or duplicate collaboration workflow id: {workflow_id!r}")
+            continue
+        workflow_ids.add(workflow_id)
+        if not str(workflow.get("description", "")).strip():
+            errors.append(f"{workflow_id} is missing description")
+        if not workflow.get("trigger_intent") or not workflow.get("entry_skills"):
+            errors.append(f"{workflow_id} requires triggers and entry skills")
+        if not str(workflow.get("completion_gate", "")).strip():
+            errors.append(f"{workflow_id} is missing completion_gate")
+        stages = workflow.get("stages", [])
+        if not isinstance(stages, list) or not stages:
+            errors.append(f"{workflow_id} requires collaboration stages")
+            continue
+        referenced = set(workflow.get("entry_skills", []))
+        for stage in stages:
+            if not isinstance(stage, dict):
+                errors.append(f"{workflow_id} stages must be objects")
+                continue
+            mode = str(stage.get("mode", ""))
+            if mode not in collaboration_modes:
+                errors.append(f"{workflow_id} uses unknown stage mode: {mode}")
+            stage_skills = set(stage.get("skills", []))
+            if not stage_skills:
+                errors.append(f"{workflow_id} has an empty stage: {stage.get('id')}")
+            referenced.update(stage_skills)
+        unknown_skills = referenced - skill_names
+        if unknown_skills:
+            errors.append(
+                f"{workflow_id} references unknown skills: {sorted(unknown_skills)}"
+            )
+        collaboration_skill_coverage.update(referenced & skill_names)
+    minimum_collaboration_coverage = int(
+        collaboration_eval.get("minimum_skill_coverage", len(skills))
+    )
+    if len(collaboration_skill_coverage) < minimum_collaboration_coverage:
+        errors.append(
+            "collaboration workflows cover only "
+            f"{len(collaboration_skill_coverage)}/{minimum_collaboration_coverage} skills"
+        )
+
     route_passed = 0
     bound_prompt_names: set[str] = set()
     case_ids: set[str] = set()
@@ -131,6 +202,46 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
     unbound = set(prompts_by_name) - bound_prompt_names
     if unbound:
         errors.append(f"unbound test prompts: {sorted(unbound)}")
+
+    collaboration_passed = 0
+    for case in collaboration_eval["cases"]:
+        if not isinstance(case, dict):
+            errors.append("collaboration eval cases must be objects")
+            continue
+        case_id = str(case.get("id", "")).strip()
+        expected = case.get("expected_workflow")
+        forbidden = set(case.get("forbidden_workflows", []))
+        referenced_workflows = forbidden | ({str(expected)} if expected else set())
+        unknown_workflows = referenced_workflows - workflow_ids
+        if unknown_workflows:
+            errors.append(
+                f"{case_id} references unknown workflows: {sorted(unknown_workflows)}"
+            )
+            continue
+        decision = resolve_routes(
+            manifest,
+            str(case.get("prompt", "")),
+            context_markers=[str(item) for item in case.get("context_markers", [])],
+            limit=8,
+        )
+        candidate_ids = [
+            str(item.get("id", ""))
+            for item in decision.get("collaboration_candidates", [])
+        ]
+        wrong_first = bool(expected) and (
+            not candidate_ids or candidate_ids[0] != expected
+        )
+        leaked = forbidden & set(candidate_ids)
+        if wrong_first:
+            errors.append(
+                f"{case_id} expected {expected} first, got {candidate_ids}"
+            )
+        if leaked:
+            errors.append(
+                f"{case_id} proposed forbidden workflows: {sorted(leaked)}"
+            )
+        if not wrong_first and not leaked:
+            collaboration_passed += 1
 
     trigger_total = 0
     trigger_passed = 0
@@ -433,6 +544,15 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
             "passed": route_passed,
             "total": len(route_contract["cases"]),
         },
+        "collaboration_route_checks": {
+            "passed": collaboration_passed,
+            "total": len(collaboration_eval["cases"]),
+        },
+        "collaboration_workflow_count": len(workflow_ids),
+        "collaboration_skill_coverage": {
+            "covered": len(collaboration_skill_coverage),
+            "total": len(skills),
+        },
         "internal_trigger_checks": {
             "passed": trigger_passed,
             "total": trigger_total,
@@ -453,6 +573,10 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
         "external_dependency_count": len(external),
         "claims": {
             "deterministic_routing_verified": not errors,
+            "collaboration_routing_verified": (
+                collaboration_passed == len(collaboration_eval["cases"])
+                and len(collaboration_skill_coverage) == len(skills)
+            ),
             "model_activation_verified": model_activation_verified,
             "profile_output_quality_verified": profile_output_quality_verified,
             "all_skill_synthetic_output_quality_verified": (
@@ -474,12 +598,14 @@ def main() -> int:
         print(json.dumps(receipt, ensure_ascii=False, indent=2))
     else:
         route = receipt["capability_route_checks"]
+        collaboration = receipt["collaboration_route_checks"]
         internal = receipt["internal_trigger_checks"]
         external = receipt["external_candidate_trigger_checks"]
         near_miss = receipt["near_miss_checks"]
         print(
             "Capability chain: "
             f"routes {route['passed']}/{route['total']}, "
+            f"collaboration {collaboration['passed']}/{collaboration['total']}, "
             f"internal triggers {internal['passed']}/{internal['total']}, "
             f"external candidates {external['passed']}/{external['total']}, "
             f"near misses {near_miss['passed']}/{near_miss['total']}"

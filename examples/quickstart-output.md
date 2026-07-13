@@ -920,3 +920,12 @@ Prompt:
 - Output attempt 2: 24/26 passed. The repairs revealed two deeper gaps: context optimization had no finite stop condition, and deployment audit omitted the required local-config -> artifact -> remote-acceptance -> runtime-behavior matrix.
 - Output attempt 3: 26/26 passed. Every Skill has a retained output, sanitized producer receipt, independent review receipt, and recomputed hashes. Non-blocking reviewer findings remain visible.
 - Scope boundary: this proves one realistic synthetic task per Skill in Codex, not arbitrary-input quality, other runtimes, controlled comparative advantage, public-network installation, or real-user value.
+# Collaboration Contract Live Replay (2026-07-13)
+
+- Mode: fresh `codex exec --ephemeral` session with a read-only sandbox.
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-collaboration-contract-live.md "<prompt>"`
+- Probe: run `scripts/explain_route.py` for a Skill release-preparation request after reading the repository entrypoints.
+- Observed state: `collaboration_candidate`.
+- Observed workflow: `skill-release` with `craft -> secure -> verify -> publishable` stages.
+- Boundary result: the fresh model explicitly rejected automatic commit, merge, tag, or release because a collaboration candidate is sequencing evidence, not action-specific authorization.
+- Environment note: unrelated remote-plugin synchronization warnings and a read-only shell-snapshot warning appeared before the repository command completed successfully.

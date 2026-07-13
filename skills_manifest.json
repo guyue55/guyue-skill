@@ -29,6 +29,212 @@
             "blocked"
         ]
     },
+    "collaboration_contract": {
+        "version": 1,
+        "selection_rule": "Route first, then propose only the narrowest matching collaboration workflow. A workflow is a candidate sequence, not automatic activation or authorization.",
+        "stage_modes": [
+            "sequence",
+            "as-needed",
+            "primary-plus-conditional",
+            "independent"
+        ],
+        "workflows": [
+            {
+                "id": "product-delivery",
+                "description": "Turn a vague or valuable product request into a bounded, implemented, independently verified, and readable delivery.",
+                "trigger_intent": [
+                    "从需求到交付",
+                    "产品规划并开发",
+                    "模糊需求完整落地"
+                ],
+                "entry_skills": [
+                    "product-sense",
+                    "requirement-analysis"
+                ],
+                "stages": [
+                    {"id": "shape", "mode": "sequence", "skills": ["product-sense", "requirement-analysis"]},
+                    {"id": "design", "mode": "as-needed", "skills": ["system-design"]},
+                    {"id": "implement", "mode": "primary-plus-conditional", "skills": ["coding-discipline", "code-minimalism", "frontend-expert", "taste-aesthetics"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "communicate", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
+                ],
+                "completion_gate": "The approved requirement is implemented, current evidence passes, and known limits remain visible."
+            },
+            {
+                "id": "incident-to-learning",
+                "description": "Move from an observed failure through root cause, repair, independent verification, and reusable prevention.",
+                "trigger_intent": [
+                    "排障修复并复盘",
+                    "故障闭环",
+                    "修复后沉淀"
+                ],
+                "entry_skills": [
+                    "debugging-mindset"
+                ],
+                "stages": [
+                    {"id": "diagnose", "mode": "sequence", "skills": ["debugging-mindset"]},
+                    {"id": "repair", "mode": "as-needed", "skills": ["coding-discipline", "code-minimalism"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "retain", "mode": "as-needed", "skills": ["memory-bank", "sop-maker", "documentation"]}
+                ],
+                "completion_gate": "The root cause is supported by evidence, the repair is replayed, and prevention is retained only when reusable."
+            },
+            {
+                "id": "long-goal-delivery",
+                "description": "Forge, execute, recover, and seal a multi-stage Goal without relying on conversation memory or stale evidence.",
+                "trigger_intent": [
+                    "长线目标完整执行",
+                    "准备长线 Goal",
+                    "持续执行直到完成"
+                ],
+                "entry_skills": [
+                    "context-compressor",
+                    "product-sense",
+                    "requirement-analysis"
+                ],
+                "stages": [
+                    {"id": "forge", "mode": "primary-plus-conditional", "skills": ["context-compressor", "product-sense", "requirement-analysis", "research-and-sourcing", "system-design"]},
+                    {"id": "execute", "mode": "sequence", "skills": ["coding-discipline", "code-minimalism"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "seal", "mode": "as-needed", "skills": ["documentation", "sop-maker", "memory-bank"]}
+                ],
+                "completion_gate": "The control pack, ledger, stop conditions, FINAL evidence, and A/B/C seal all agree on completion."
+            },
+            {
+                "id": "external-capability-intake",
+                "description": "Evaluate an external Skill or tool as a bounded candidate before any installation, execution, or integration.",
+                "trigger_intent": [
+                    "寻找并接入外部技能",
+                    "评估第三方工具",
+                    "外部能力接入"
+                ],
+                "entry_skills": [
+                    "context-compressor",
+                    "ecosystem-scout",
+                    "security-gate"
+                ],
+                "stages": [
+                    {"id": "need", "mode": "sequence", "skills": ["context-compressor"]},
+                    {"id": "source", "mode": "primary-plus-conditional", "skills": ["ecosystem-scout", "research-and-sourcing"]},
+                    {"id": "trust", "mode": "sequence", "skills": ["security-gate"]},
+                    {"id": "package", "mode": "as-needed", "skills": ["skill-crafting"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                ],
+                "completion_gate": "Source, version, permissions, installation state, safety limits, and action-specific authorization are explicit."
+            },
+            {
+                "id": "skill-release",
+                "description": "Audit and prepare a public Skill release with bounded claims, reproducible installation, security checks, and release evidence.",
+                "trigger_intent": [
+                    "Skill 发布准备",
+                    "技能打磨并发布",
+                    "审查 Skill 准备发版"
+                ],
+                "entry_skills": [
+                    "skill-crafting",
+                    "security-gate",
+                    "reality-auditor"
+                ],
+                "stages": [
+                    {"id": "craft", "mode": "sequence", "skills": ["skill-crafting"]},
+                    {"id": "secure", "mode": "sequence", "skills": ["security-gate"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "publishable", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
+                ],
+                "completion_gate": "The exact payload, live install, public claims, rollback path, and release authorization boundary are verified."
+            },
+            {
+                "id": "media-production",
+                "description": "Turn source material into a traceable video production package with source rights, cost, rendering, and review boundaries.",
+                "trigger_intent": [
+                    "从内容到视频",
+                    "书籍改编视频",
+                    "视频生产包"
+                ],
+                "entry_skills": [
+                    "book-distiller",
+                    "video-extractor",
+                    "video-creation-sop"
+                ],
+                "stages": [
+                    {"id": "source", "mode": "primary-plus-conditional", "skills": ["book-distiller", "video-extractor", "research-and-sourcing"]},
+                    {"id": "produce", "mode": "sequence", "skills": ["video-creation-sop"]},
+                    {"id": "measure", "mode": "as-needed", "skills": ["ai-cost-grounding-measurement", "frontend-expert"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "document", "mode": "as-needed", "skills": ["documentation"]}
+                ],
+                "completion_gate": "Every source, permission, generated asset, cost claim, render result, and publication state is traceable."
+            },
+            {
+                "id": "website-reconstruction",
+                "description": "Reconstruct or redesign a website through bounded source capture, architecture, implementation, visual judgment, and live comparison.",
+                "trigger_intent": [
+                    "网站复刻完整交付",
+                    "重建设计并实现网站",
+                    "网站重构验收"
+                ],
+                "entry_skills": [
+                    "ai-website-cloner",
+                    "frontend-expert"
+                ],
+                "stages": [
+                    {"id": "scope", "mode": "primary-plus-conditional", "skills": ["product-sense", "ai-website-cloner"]},
+                    {"id": "design", "mode": "as-needed", "skills": ["system-design"]},
+                    {"id": "implement", "mode": "primary-plus-conditional", "skills": ["frontend-expert", "coding-discipline", "code-minimalism"]},
+                    {"id": "taste", "mode": "independent", "skills": ["taste-aesthetics"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                ],
+                "completion_gate": "The approved source scope, responsive rendering, interaction, content fidelity, and non-infringement boundaries pass live review."
+            },
+            {
+                "id": "software-decision",
+                "description": "Recommend software from local and current evidence, then gate any external installation through source and security review.",
+                "trigger_intent": [
+                    "软件选型并安装",
+                    "推荐工具并评估",
+                    "开源软件决策"
+                ],
+                "entry_skills": [
+                    "software-advisor",
+                    "ecosystem-scout"
+                ],
+                "stages": [
+                    {"id": "shortlist", "mode": "primary-plus-conditional", "skills": ["software-advisor", "research-and-sourcing", "ecosystem-scout"]},
+                    {"id": "trust", "mode": "as-needed", "skills": ["security-gate"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "communicate", "mode": "as-needed", "skills": ["documentation"]}
+                ],
+                "completion_gate": "Recommendation evidence is current, tradeoffs are explicit, and installation is separately authorized and verified."
+            },
+            {
+                "id": "project-governance",
+                "description": "Handle project-specific governance, demo hardening, and measured AI evidence without leaking those assumptions into generic routes.",
+                "required_any_context": [
+                    "NexusFlow",
+                    "permissionSnapshot",
+                    "EAC",
+                    "Grounding"
+                ],
+                "trigger_intent": [
+                    "项目治理完整验收",
+                    "NexusFlow 权限治理",
+                    "EAC 演示加固"
+                ],
+                "entry_skills": [
+                    "nexusflow-governance-workflow",
+                    "eac-demo-hardening",
+                    "ai-cost-grounding-measurement"
+                ],
+                "stages": [
+                    {"id": "project", "mode": "primary-plus-conditional", "skills": ["nexusflow-governance-workflow", "eac-demo-hardening", "ai-cost-grounding-measurement"]},
+                    {"id": "repair", "mode": "as-needed", "skills": ["debugging-mindset", "frontend-expert"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
+                    {"id": "report", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
+                ],
+                "completion_gate": "Project markers, server-side boundaries, measured evidence, live behavior, and public report claims agree."
+            }
+        ]
+    },
     "evidence_contract": {
         "version": 1,
         "envelope_fields": [

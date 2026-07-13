@@ -8,6 +8,7 @@ from collections.abc import Iterable
 
 
 MIN_ROUTE_SCORE = 10.0
+MIN_COLLABORATION_SCORE = 20.0
 LATIN_TOKEN_RE = re.compile(r"[a-z0-9][a-z0-9+_.-]*")
 HAN_RUN_RE = re.compile(r"[\u3400-\u9fff]+")
 
@@ -142,6 +143,79 @@ def _score_skill(skill: dict, intent: str, context_markers: list[str]) -> dict:
     }
 
 
+def _workflow_skill_names(workflow: dict) -> set[str]:
+    names: set[str] = set()
+    for stage in workflow.get("stages", []):
+        if isinstance(stage, dict):
+            names.update(_string_list(stage.get("skills")))
+    return names
+
+
+def _resolve_collaborations(
+    manifest: dict,
+    intent: str,
+    context_markers: list[str],
+    selected: list[dict],
+    *,
+    limit: int,
+) -> tuple[int | None, list[dict]]:
+    contract = manifest.get("collaboration_contract")
+    if not isinstance(contract, dict):
+        return None, []
+    workflows = contract.get("workflows")
+    if not isinstance(workflows, list):
+        return contract.get("version"), []
+
+    combined_context = "\n".join([intent, *context_markers])
+    selected_names = {str(item.get("name", "")) for item in selected}
+    candidates: list[dict] = []
+    for workflow in workflows:
+        if not isinstance(workflow, dict):
+            continue
+        workflow_id = str(workflow.get("id", "")).strip()
+        triggers = _string_list(workflow.get("trigger_intent"))
+        entry_skills = set(_string_list(workflow.get("entry_skills")))
+        workflow_skills = _workflow_skill_names(workflow)
+        required_context = _string_list(workflow.get("required_any_context"))
+        matched_context = _direct_matches(required_context, combined_context)
+        if required_context and not matched_context:
+            continue
+        matched_triggers = _direct_matches(triggers, combined_context)
+        entry_matches = sorted(entry_skills & selected_names)
+        selected_matches = sorted(workflow_skills & selected_names)
+        if not matched_triggers and not entry_matches:
+            continue
+        score = sum(30.0 + min(len(normalize_text(item)), 12) for item in matched_triggers)
+        score += 8.0 * len(entry_matches) + 3.0 * len(selected_matches)
+        if score < MIN_COLLABORATION_SCORE:
+            continue
+        candidates.append(
+            {
+                "id": workflow_id,
+                "state": "collaboration_candidate",
+                "score": round(score, 3),
+                "description": str(workflow.get("description", "")),
+                "matched_triggers": matched_triggers,
+                "matched_context": matched_context,
+                "matched_entry_skills": entry_matches,
+                "matched_selected_skills": selected_matches,
+                "stages": workflow.get("stages", []),
+                "completion_gate": str(workflow.get("completion_gate", "")),
+                "requires": [
+                    "stage_entry_evidence",
+                    "action_specific_authorization",
+                    "independent_completion_gate",
+                ],
+                "boundary": (
+                    "Candidate sequence only; activate the minimum necessary stages, "
+                    "preserve each Skill boundary, and never treat this as authorization."
+                ),
+            }
+        )
+    ranked = sorted(candidates, key=lambda item: (-item["score"], item["id"]))
+    return contract.get("version"), ranked[:limit]
+
+
 def resolve_routes(
     manifest: dict,
     intent: str,
@@ -221,12 +295,24 @@ def resolve_routes(
             }
         )
     contract = manifest.get("routing_contract", {})
+    collaboration_version, collaboration_candidates = _resolve_collaborations(
+        manifest,
+        intent,
+        markers,
+        selected,
+        limit=limit,
+    )
+    lifecycle_state = "selected" if selected else "failed"
+    if not selected and collaboration_candidates:
+        lifecycle_state = "collaboration_candidate"
     return {
         "routing_contract_version": (
             contract.get("version") if isinstance(contract, dict) else None
         ),
-        "lifecycle_state": "selected" if selected else "failed",
+        "lifecycle_state": lifecycle_state,
         "selected": selected,
+        "collaboration_contract_version": collaboration_version,
+        "collaboration_candidates": collaboration_candidates,
         "external_candidates": external_candidates,
         "rejected": rejected,
         "context_markers": markers,

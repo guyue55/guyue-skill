@@ -42,22 +42,39 @@ def main() -> int:
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        return 0 if result["selected"] else 2
+        return 0 if result["lifecycle_state"] != "failed" else 2
 
-    if not result["selected"]:
+    collaborations = result.get("collaboration_candidates", [])
+    if not result["selected"] and not collaborations:
         print("No route reached the local evidence threshold.")
         return 2
-    print("Guyue route candidates:")
-    for index, route in enumerate(result["selected"], start=1):
-        trigger_evidence = ", ".join(
-            item["trigger"] for item in route["matched_triggers"]
-        ) or "description similarity"
-        context_evidence = ", ".join(route["matched_context"])
-        suffix = f"; context={context_evidence}" if context_evidence else ""
+    if result["selected"]:
+        print("Guyue route candidates:")
+        for index, route in enumerate(result["selected"], start=1):
+            trigger_evidence = ", ".join(
+                item["trigger"] for item in route["matched_triggers"]
+            ) or "description similarity"
+            context_evidence = ", ".join(route["matched_context"])
+            suffix = f"; context={context_evidence}" if context_evidence else ""
+            print(
+                f"{index}. {route['name']} score={route['score']:.3f}; "
+                f"evidence={trigger_evidence}{suffix}"
+            )
+    else:
+        print("No direct Skill route matched; showing a bounded workflow candidate.")
+    if collaborations:
+        workflow = collaborations[0]
         print(
-            f"{index}. {route['name']} score={route['score']:.3f}; "
-            f"evidence={trigger_evidence}{suffix}"
+            f"Collaboration candidate: {workflow['id']} "
+            f"score={workflow['score']:.3f}"
         )
+        for stage in workflow["stages"]:
+            print(
+                f"- {stage['id']} [{stage['mode']}]: "
+                f"{', '.join(stage['skills'])}"
+            )
+        print(f"Completion gate: {workflow['completion_gate']}")
+        print(f"Boundary: {workflow['boundary']}")
     return 0
 
 
