@@ -1,7 +1,7 @@
-# Guyue v1.5.0 Release Candidate
+# Guyue v1.5.0 Release
 
 Date: 2026-07-13
-State: `release-candidate`
+State: `released`
 Base tag: `v1.4.0`
 Candidate parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
 
@@ -32,22 +32,20 @@ v1.4.0 proved that 26 child Skills could be discovered, activated and reviewed. 
 - Claude marketplace schema validation: pass.
 - Zero-Leakage and Ruff: pass.
 - Remote `dev` collaboration baseline: commit `2916a4b`, doubled CI run `29229209401`, pass.
+- Release candidate `1abeb2a`: doubled `dev` CI run `29230196872` and doubled `main` CI run `29230447741`, pass.
+- Public HTTPS clone of `main@1abeb2a` in an empty HOME: complete 247-file payload, first-run proof and strict 15-stage suite pass with candidate payload SHA-256 `4090c1de483f3466269f8f58f265f3757c61e1fdc74c195e532e95dca385a5a6`.
 
 ## Boundaries
 
-This candidate does not prove `main` integration, tag existence, GitHub Release publication, public-network installation, current Claude model activation, arbitrary-domain quality or long-term user value. The parent commit identifies the green collaboration baseline; the final release-preparation commit and remote CI run belong in the external release receipt so the tree does not claim its own future identity.
+This release proves the local and remote gates listed above, including public-source installation. It does not prove GitHub Release publication, current Claude model activation, arbitrary-domain quality or long-term user value. The final release commit, annotated tag object and remote tag ref belong in the external release receipt so the tree does not claim its own future identity.
 
-## Tag Preparation
+## Tag Operation
 
-After explicit authorization, and only after `dev` remote CI is green:
+After explicit authorization, and only after the final release commit passes `main` CI and public-source replay:
 
 ```bash
-git switch main
-git merge --ff-only dev
-git push origin main
-gh run watch <main-run-id> --exit-status
 git tag -a v1.5.0 -m "release: 古月 v1.5.0"
 git push origin v1.5.0
 ```
 
-Before creating the tag, verify the public `main` install in an empty HOME and record the exact main commit, run URL, installed payload SHA-256 and tag object ID. Do not run these commands from this document alone; merge, push, tag and release each remain action-specific authorization boundaries.
+Record the exact main commit, run URL, installed payload SHA-256 and tag object ID outside the tagged tree. Do not run these commands from this document alone; tag and GitHub Release remain separate action-specific authorization boundaries.

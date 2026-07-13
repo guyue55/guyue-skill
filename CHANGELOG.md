@@ -2,7 +2,7 @@
 
 ## v1.5.0 - 2026-07-13
 
-Status: Release Candidate
+Status: Released
 
 ### Added
 
@@ -14,7 +14,7 @@ Status: Release Candidate
 
 - Distinguish direct Skill selection, bounded collaboration candidates and routing failure in the deterministic router and CLI output.
 - Keep project-specific collaboration behind verified NexusFlow, EAC or measured-grounding context markers.
-- Prepare exact `v1.5.0` release metadata, release notes, Luban audit and candidate checklist without treating preparation as tag or publication authorization.
+- Finalize exact `v1.5.0` release metadata, release notes, Luban audit and checklist while preserving action-specific tag and publication authorization.
 - Define legacy `.guyue_memory` read compatibility through `v1.6.x`; any later removal remains evidence- and authorization-gated.
 
 ### Fixed
@@ -28,7 +28,7 @@ Status: Release Candidate
 - Pass 54/54 broad routes, 10/10 collaboration cases, 26/26 collaboration coverage, 345/345 internal triggers, 208/208 near misses and 48/48 external-candidate triggers.
 - Pass a fresh read-only Codex replay that selects `skill-release`, preserves stage order and rejects automatic commit, merge, tag or release.
 - Pass the complete 15-stage local suite, empty-HOME file-Git install/restart, Long Goal lifecycle, strict Claude marketplace schema validation, Ruff and Zero-Leakage.
-- Public-network installation, `main` integration, tag creation, GitHub Release publication and real-user outcomes remain unverified for this candidate.
+- Pass doubled `dev` and `main` CI plus a public HTTPS empty-HOME clone whose complete payload and strict 15-stage suite match the release line. GitHub Release publication, other runtime activation and real-user outcomes remain unverified.
 
 ## v1.4.0 - 2026-07-13
 

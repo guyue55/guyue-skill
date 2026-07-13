@@ -32,7 +32,7 @@
 - GC dry-run 零副作用，到期记录进入 `needs_review`，只有超大详情自动无损归档；
 - `scripts/migrate_guyue_data.py` 提供 `plan`、`migrate`、`verify`、`rollback`、`doctor`；
 - `release-manifest.json` 统一载荷规则，`release-payload.lock.json` 绑定精确文件哈希；
-- 当前候选显式标记为基于 `v1.4.0` 的 `release-candidate` 状态，不冒充原正式发布包；
+- v1.5.0 发布载荷显式标记为基于 `v1.4.0` 演进的 `released` 状态，候选与正式发布证据分开记录；
 - 空 HOME、无源码工作树依赖的 Git archive 候选通过安装、首次运行、重启和 Long Goal 生命周期模拟。
 
 以下仍是后续能力，不能写成当前已完成：
@@ -57,7 +57,7 @@
 | 完整安装检查未要求 MCP 与记忆核心文件 | `scripts/check_full_install.py` 的 `BASE_REQUIRED_PATHS` | 可能出现安装检查通过但记忆能力缺失 |
 | 发布文件要求存在多份手写清单 | `scripts/check_full_install.py`、`scripts/check_birth_certificate.py`、`.gitattributes` | 清单容易漂移，缺少共同事实源 |
 
-原讨论中“当前有大量 staged 修改”的判断已经过时。实施从 `v1.4.0` 的干净基线开始；当前 `dev` 已包含数据治理与能力协作升级，领先仍停在 `v1.4.0` 的 `main`。发布前必须先复验 `dev` 候选，再经单独授权线性合并，不能把分支曾经同线误写成当前事实。
+原讨论中“当前有大量 staged 修改”的判断已经过时。实施从 `v1.4.0` 的干净基线开始，经 `dev` 候选复验、单独授权和 `main` 快进完成发布；发布后再把 `dev` 快进到同一提交，持续保持单线历史。不能把某一时刻的分支关系写成永久事实。
 
 ## 需要修正的讨论结论
 

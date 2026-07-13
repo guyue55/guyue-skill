@@ -2,7 +2,7 @@
   "schema_version": 1,
   "package": "guyue-digital-twin",
   "version": "1.5.0",
-  "release_state": "release-candidate",
+  "release_state": "released",
   "base_tag": "v1.4.0",
   "files": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "63739e0e233bc1b73070136dfd678a3a56988cc4612dfbc5fc58f2cfb3e271d4"
+      "sha256": "e89e8b0eedf59fcca4b10f07ff53f6f30eccd307f70b9e8c34a0a61bb2d7f4db"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "b0ace55bcc42348d86a38ae44219ed584a79e80e0c0cc4da2ccbfc6ebafd639f"
+      "sha256": "6a4c822cb0dc17d3f2b66d8bfdf41337a2d5d565506dae66836844b35d2d6ed0"
     },
     {
       "path": "RTK.md",
@@ -47,7 +47,7 @@
     },
     {
       "path": "docs/evaluation.md",
-      "sha256": "bb4c360d103a74f7bb68504fe9981b2747f0296b4d63033c80dd85ed8640f2d5"
+      "sha256": "e41f8110c4038d4c69d3d38665b762dbb6ae746bcd6157cfded083ebaa989133"
     },
     {
       "path": "docs/guyue-capability-discovery-evidence-audit-plan-2026-07-12.md",
@@ -55,7 +55,7 @@
     },
     {
       "path": "docs/guyue-data-and-release-architecture-review-2026-07-13.md",
-      "sha256": "e7761ce414fa1883213254f0258114c76953345a5436fee254c21b1c3a92d98e"
+      "sha256": "35666d3810f63ad2f6c37d35e41cf1c33b8e844af0d2e66f0812b3a4d4e0adcd"
     },
     {
       "path": "docs/guyue-first-run-polish-2026-07-11.md",
@@ -83,15 +83,15 @@
     },
     {
       "path": "docs/luban-report-v1.5.0.md",
-      "sha256": "d8124e3e78f90cc85f2ecd073ac1392709f45dce0e157f4473fa9ea846a61257"
+      "sha256": "eb2196927f5a3c75e3090570bdc1df6c110945e95d0bf3886e4737b71113d3e8"
     },
     {
       "path": "docs/release-candidate.md",
-      "sha256": "d60575f84bde80dad77490936a6653dcd5a3a3b9d9008a8dcb629c2848b86fe8"
+      "sha256": "b4207815b8f8f1fc38e05a969075f24c8e9389324062e78325402e68b4da2c31"
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "287d08aad846a8472b0b3ec0bec8443bd2355a918b43ce9c34192acdd3e4759f"
+      "sha256": "2ff8770694430ade7f98dcc1c0c0a89e758f5c236d35824972b9bacd47bf070f"
     },
     {
       "path": "docs/release-v1.4.0.md",
@@ -99,7 +99,7 @@
     },
     {
       "path": "docs/release-v1.5.0.md",
-      "sha256": "4b2f7ed33c6a8f61720878085596db0305a101e387669248ca20af53bfe040a8"
+      "sha256": "34a8e5ca48c89e7980cfcb40330998ab9c59035afa254a8b934b4ad17d54baca"
     },
     {
       "path": "docs/runtime-adapters.md",
@@ -647,7 +647,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "41109c6ff94f6c0f1188203b68a42acb66f69c49a578e15aa7a7d7aab61bddc3"
+      "sha256": "a87d5557f03098586772365e508c4008ea913745facfe6a41f55dc9f1d4a228b"
     },
     {
       "path": "requirements.txt",

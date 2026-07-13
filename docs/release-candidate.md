@@ -1,13 +1,13 @@
-# Guyue v1.5.0 Release Candidate
+# Guyue v1.5.0 Candidate Lineage
 
 Date: 2026-07-13
-State: release preparation on `dev`; not tagged or published
+State: candidate gates complete and promoted into the authorized release operation
 Base tag: `v1.4.0`
 Green collaboration parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
 
 ## Current Baseline
 
-The candidate combines two commits after v1.4.0: `794a883` establishes durable data, knowledge and installed-payload ownership; `2916a4b` adds machine-readable collaboration for all 26 capabilities. Release metadata is prepared as `1.5.0` with `release_state=release-candidate`. The final preparation commit and its remote run are recorded externally after commit so the candidate tree does not claim its own future object ID.
+The candidate combines two commits after v1.4.0: `794a883` establishes durable data, knowledge and installed-payload ownership; `2916a4b` adds machine-readable collaboration for all 26 capabilities. `010647a` prepares v1.5.0 metadata and `1abeb2a` repairs fresh `GUYUE_HOME` initialization after installation-state replay. The final release commit, tag object and remote refs are recorded externally so this lineage document does not claim its own future identity.
 
 ## Current Evidence
 
@@ -19,21 +19,21 @@ The candidate combines two commits after v1.4.0: `794a883` establishes durable d
 - Claude marketplace metadata passes strict schema validation. This is metadata proof, not current Claude model activation proof.
 - Collaboration baseline `2916a4b` passes doubled `dev` CI run `29229209401`.
 
-## Remaining Blockers
+## Closed Release Gates
 
-1. The final release-preparation commit must pass the doubled remote CI on `dev`.
-2. `main` still points to v1.4.0 and requires explicit authorization for a fast-forward merge and push.
-3. The resulting `main` must pass doubled remote CI and a public-network empty-HOME installation before tag creation.
-4. Creating and pushing annotated tag `v1.5.0` requires explicit action-specific authorization.
-5. GitHub Release publication is a separate action and is not implied by tag preparation.
+1. `1abeb2a` passed doubled `dev` CI run `29230196872`.
+2. The user authorized and `main` fast-forwarded to `1abeb2a` without divergence.
+3. `main` passed doubled CI run `29230447741`.
+4. A public HTTPS empty-HOME clone matched the 247-file payload and passed the strict 15-stage suite.
+5. The user authorized annotated tag `v1.5.0` and tag push. GitHub Release publication remains a separate, ungranted action.
 
-## Next Work Plan
+## Release Operation
 
-1. Freeze and push the exact v1.5.0 candidate on `dev`; record commit, CI run and payload SHA-256.
-2. Stop and obtain explicit authorization for `main` fast-forward and push.
-3. Verify doubled `main` CI and public-network empty-HOME installation against the frozen payload.
-4. Stop and obtain explicit authorization for annotated tag `v1.5.0` and tag push.
-5. Publish a GitHub Release only under separate authorization, then record the release URL and final install replay.
+1. Commit and push the final `released` metadata on `main`.
+2. Re-run doubled `main` CI and public HTTPS empty-HOME verification.
+3. Create and push annotated tag `v1.5.0`, then record commit and tag object IDs externally.
+4. Fast-forward `dev` to the same release commit to preserve one line.
+5. Publish a GitHub Release only under separate authorization.
 
 The historical evidence below is retained for provenance. It does not grant current authorization or prove the v1.5.0 candidate.
 

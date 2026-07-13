@@ -3,9 +3,9 @@
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
 > [!WARNING]
-> v1.5.0 is a release candidate on `dev`. Historical v1.4.0/v1.3.0 evidence does not prove current `main` integration, public installation, tag creation, runtime activation, or user outcomes.
+> v1.5.0 has current local, `dev`, `main` and public-source evidence. Historical v1.4.0/v1.3.0 evidence does not prove the final tag object, GitHub Release publication, other runtime activation, or user outcomes.
 
-## v1.5.0 Release Candidate Evidence
+## v1.5.0 Release Evidence
 
 Date: 2026-07-13
 Candidate version: `1.5.0`
@@ -21,11 +21,11 @@ Green collaboration parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
 - [x] Legacy `.guyue_memory` read compatibility is explicit through `v1.6.x`; removal cannot happen before `v1.7.0` or without evidence and authorization.
 - [x] The complete local 15-stage suite, Ruff, Zero-Leakage, Claude marketplace schema validation, empty-HOME file-Git install/restart and Long Goal lifecycle pass.
 - [x] Collaboration baseline `2916a4b` is pushed to `origin/dev`; doubled GitHub CI run `29229209401` passes both complete release-gate executions.
-- [ ] The final release-preparation commit has passed doubled `dev` CI.
-- [ ] The user has explicitly authorized fast-forwarding `main` to the exact candidate commit.
-- [ ] The resulting `main` commit has passed doubled GitHub CI.
-- [ ] A public-network install from `main` in an empty HOME matches the candidate payload SHA-256.
-- [ ] The user has explicitly authorized annotated tag `v1.5.0` and tag push.
+- [x] Release candidate `1abeb2a` passes doubled `dev` CI run `29230196872`.
+- [x] The user explicitly authorized fast-forwarding `main` to the exact release line.
+- [x] `main@1abeb2a` passes doubled GitHub CI run `29230447741`.
+- [x] A public HTTPS clone from `main` in an empty HOME matches the 247-file candidate payload SHA-256 `4090c1de483f3466269f8f58f265f3757c61e1fdc74c195e532e95dca385a5a6` and passes the strict 15-stage suite.
+- [x] The user explicitly authorized annotated tag `v1.5.0` and tag push; final object IDs are recorded outside the tagged tree.
 - [ ] GitHub Release publication, if desired, has separate authorization and a recorded URL.
 
 ## v1.4.0 Release Evidence
