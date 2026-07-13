@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 import json
+import os
+import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from src.paths import discovery_cache_file, ensure_private_directory  # noqa: E402
 
 # 定义可能存在技能的本地扩展目录。这里只保存可移植的家目录写法。
 SEARCH_DIRS = [
@@ -13,7 +18,22 @@ SEARCH_DIRS = [
     "~/skills"
 ]
 
-def discover():
+def write_index_atomic(output_file: Path, index: dict[str, str]) -> None:
+    ensure_private_directory(output_file.parent)
+    temporary = output_file.with_name(f".{output_file.name}.{os.getpid()}.tmp")
+    try:
+        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(json.dumps(index, indent=2, ensure_ascii=False) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        temporary.replace(output_file)
+        output_file.chmod(0o600)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def discover(output_file: Path | None = None):
     index = {}
     for d in SEARCH_DIRS:
         p = Path(d).expanduser()
@@ -27,15 +47,11 @@ def discover():
                 if skill_name not in index:
                     index[skill_name] = str(skill_dir)
 
-    memory_dir = REPO_ROOT / ".guyue_memory"
-    memory_dir.mkdir(exist_ok=True)
+    destination = output_file or discovery_cache_file()
+    write_index_atomic(destination, index)
 
-    output_file = memory_dir / "local_skills_index.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(index, f, indent=4, ensure_ascii=False)
-        f.write("\n")
-
-    print(f"✅ 成功发现并沉淀了 {len(index)} 个本地技能到知识库: {output_file}")
+    print(f"✅ 成功发现 {len(index)} 个本地技能并写入可重建缓存: {destination}")
+    return destination
 
 if __name__ == "__main__":
     discover()

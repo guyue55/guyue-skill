@@ -120,7 +120,11 @@ A release candidate passes evaluation when:
 - the full `bash scripts/test_suite.sh` exits with status code `0`;
 - `scripts/check_birth_certificate.py` confirms the public release assets are present and synchronized;
 - `scripts/check_full_install.py --self-test` rejects a root-only install and accepts the complete repository payload;
-- `scripts/test_mcp_server.py` proves explainable project-context routing plus public/private memory separation, schema-v2 lifecycle metadata, secret rejection, supersession, retrieval, and lossless GC;
+- `scripts/test_guyue_paths.py` proves private data is owned by `GUYUE_HOME`, discovery data is cache, and legacy install paths remain read-only;
+- `scripts/test_memory_concurrency.py` proves concurrent index writers do not lose rows;
+- `scripts/test_memory_migration.py` proves explicit planning, idempotent migration, hash verification, sensitive-data blocking, and rollback;
+- `scripts/test_release_payload.py` proves payload hash tampering and legacy private-state leakage are rejected;
+- `scripts/test_mcp_server.py` proves explainable project-context routing plus public/private memory separation, real detail retrieval, schema-v2 lifecycle metadata, secret rejection, supersession, `needs_review`, and zero-side-effect dry-run;
 - `scripts/test_codex_extractor.py` proves user/final extraction excludes developer/tool payloads, redacts common secrets and personal home roots, and enforces cwd/time-window/thread-source/keyword/deduplication/inventory filters;
 - `scripts/test_context_budget.py` proves Unicode characters are not confused with UTF-8 bytes and rejects overlong descriptions, missing bodies, and route collisions;
 - all child skills pass the official `skills-ref` validator, and the root passes when staged under its install name `guyue`;

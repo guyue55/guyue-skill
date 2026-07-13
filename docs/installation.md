@@ -156,6 +156,37 @@ Use the MCP server when you want the agent to read the skill manifest, explain c
 
 Replace `/path/to/guyue/src` with the absolute path to your checkout's `src` directory.
 
+## Private Data And Migration
+
+Guyue keeps installable code and private runtime data separate:
+
+```text
+~/.guyue/
+├── knowledge/memory/   # verified private lessons
+├── cache/discovery/    # rebuildable local Skill paths
+└── state/migrations/   # sanitized migration receipts
+```
+
+Set `GUYUE_HOME` when you need a portable or policy-controlled root. `GUYUE_MEMORY_DIR` remains supported only as a memory-specific compatibility override. Public curated knowledge stays inside the active Skill package and is not copied into HOME.
+
+Older installations may contain `.guyue_memory/local/`, while the earliest releases wrote runtime entries directly under `.guyue_memory/`. The new runtime can read both layouts but never writes to either. Inspect and migrate explicitly; use `--legacy-dir /path/to/old/.guyue_memory` when migrating an early installation from a different checkout:
+
+```bash
+python3 scripts/migrate_guyue_data.py plan
+python3 scripts/migrate_guyue_data.py migrate
+python3 scripts/migrate_guyue_data.py verify --receipt <receipt.json>
+```
+
+Migration refuses damaged, conflicting, or sensitive entries. It preserves the legacy source and writes a receipt that can be used with `rollback`. Do not delete the legacy directory until verification and a later backup are complete.
+
+Do not symlink the complete `~/.guyue` directory into a project. That would expose global private state to project-scoped tools and increase accidental commit, backup, and cross-project access risk. Configure `GUYUE_HOME` only when a managed external location is required.
+
+The installation payload is governed by `release-manifest.json` and hash-bound by `release-payload.lock.json`. Verify it with:
+
+```bash
+python3 scripts/check_full_install.py --runtime codex --json
+```
+
 ## VS Code And GitHub Copilot
 
 Agent Skills are directory-based. The skill directory must contain `SKILL.md`, and the frontmatter `name` should match the directory name. For a workspace-level setup, copy or link this repository into the workspace skill directory supported by your VS Code/Copilot configuration.

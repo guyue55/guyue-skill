@@ -48,6 +48,7 @@ python3 scripts/simulate_long_goal_lifecycle.py --json
 
 echo ""
 echo "[7/15] Running Full Install Payload Checker..."
+python3 scripts/test_release_payload.py
 python3 scripts/check_full_install.py --self-test
 python3 scripts/simulate_install_journey.py --json
 
@@ -61,6 +62,9 @@ fi
 
 echo ""
 echo "[9/15] Running MCP Route And Memory Safety Tests..."
+python3 scripts/test_guyue_paths.py
+python3 scripts/test_memory_concurrency.py
+python3 scripts/test_memory_migration.py
 python3 scripts/test_mcp_server.py
 
 echo ""

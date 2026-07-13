@@ -1,5 +1,4 @@
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -10,8 +9,11 @@ try:
         CONFIDENCE_LEVELS,
         SCHEMA_VERSION,
         default_review_after,
-        empty_index,
+        find_sensitive_memory_content,
+        index_lock,
         isoformat,
+        legacy_runtime_memory_dir,
+        legacy_runtime_memory_dirs,
         load_index,
         new_memory_id,
         runtime_memory_dir,
@@ -19,6 +21,7 @@ try:
         utc_now,
         validate_entry,
         write_index_atomic,
+        write_text_atomic,
     )
     from src.skill_router import resolve_routes
 except ModuleNotFoundError:
@@ -27,8 +30,11 @@ except ModuleNotFoundError:
         CONFIDENCE_LEVELS,
         SCHEMA_VERSION,
         default_review_after,
-        empty_index,
+        find_sensitive_memory_content,
+        index_lock,
         isoformat,
+        legacy_runtime_memory_dir,
+        legacy_runtime_memory_dirs,
         load_index,
         new_memory_id,
         runtime_memory_dir,
@@ -36,6 +42,7 @@ except ModuleNotFoundError:
         utc_now,
         validate_entry,
         write_index_atomic,
+        write_text_atomic,
     )
     from skill_router import resolve_routes  # type: ignore[no-redef]
 
@@ -43,45 +50,35 @@ except ModuleNotFoundError:
 mcp = FastMCP("guyue")
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
-CURATED_MEMORY_DIR = WORKSPACE_ROOT / ".guyue_memory"
+CURATED_MEMORY_DIR = WORKSPACE_ROOT / "skills" / "memory-bank" / "references" / "curated"
 CURATED_INDEX_FILE = CURATED_MEMORY_DIR / "index.json"
 MEMORY_DIR = runtime_memory_dir(WORKSPACE_ROOT)
 ACTIVE_DIR = MEMORY_DIR / "active"
 INDEX_FILE = MEMORY_DIR / "index.json"
+LEGACY_MEMORY_DIR = legacy_runtime_memory_dir(WORKSPACE_ROOT)
+LEGACY_INDEX_FILE = LEGACY_MEMORY_DIR / "index.json"
+LEGACY_MEMORY_DIRS = legacy_runtime_memory_dirs(WORKSPACE_ROOT)
 MANIFEST_FILE = WORKSPACE_ROOT / "skills_manifest.json"
 MAX_MEMORY_RESULTS = 20
-
-SENSITIVE_MEMORY_PATTERNS = [
-    (
-        "API key or token",
-        re.compile(r"(?i)(?:api[_ -]?key|access[_ -]?token|secret)\s*[:=]\s*[^\s,;]+"),
-    ),
-    ("bearer token", re.compile(r"(?i)bearer\s+[a-z0-9._~+/-]{12,}")),
-    (
-        "provider credential",
-        re.compile(
-            r"(?:sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})"
-        ),
-    ),
-    (
-        "personal absolute path",
-        re.compile(r"(?:/(?:Users|home)/[^/\s]+/|[A-Za-z]:\\Users\\[^\\\s]+\\)"),
-    ),
-]
-
+MAX_MEMORY_DETAIL_BYTES = 64 * 1024
 
 def load_memory_index() -> dict:
     """Load the private runtime index, normalizing legacy rows if encountered."""
     return load_index(INDEX_FILE)
 
 
-def load_search_indexes() -> list[tuple[str, dict]]:
-    indexes: list[tuple[str, dict]] = []
+def load_search_indexes() -> list[tuple[str, Path, dict]]:
+    indexes: list[tuple[str, Path, dict]] = []
     if CURATED_INDEX_FILE.exists():
-        indexes.append(("curated", load_index(CURATED_INDEX_FILE)))
+        indexes.append(("curated", CURATED_MEMORY_DIR, load_index(CURATED_INDEX_FILE)))
     if INDEX_FILE.exists():
-        indexes.append(("local", load_index(INDEX_FILE)))
-    for source, index in indexes:
+        indexes.append(("local", MEMORY_DIR, load_index(INDEX_FILE)))
+    for position, legacy_dir in enumerate(LEGACY_MEMORY_DIRS):
+        legacy_index = legacy_dir / "index.json"
+        if legacy_index.exists() and legacy_index != INDEX_FILE:
+            source = "legacy-local" if position == 0 else "legacy-root"
+            indexes.append((source, legacy_dir, load_index(legacy_index)))
+    for source, _, index in indexes:
         for entry in index.get("memories", []):
             errors = validate_entry(entry)
             if errors:
@@ -91,13 +88,13 @@ def load_search_indexes() -> list[tuple[str, dict]]:
     return indexes
 
 
-def find_sensitive_memory_content(values: list[str]) -> str | None:
-    """Return the first sensitive-content category found in memory input."""
-    content = "\n".join(values)
-    for label, pattern in SENSITIVE_MEMORY_PATTERNS:
-        if pattern.search(content):
-            return label
-    return None
+def read_memory_detail(memory_dir: Path, entry: dict) -> str:
+    detail_path = safe_detail_path(memory_dir, str(entry.get("filename", "")))
+    if not detail_path.is_file():
+        raise ValueError(f"missing memory detail: {entry.get('filename', '')}")
+    if detail_path.stat().st_size > MAX_MEMORY_DETAIL_BYTES:
+        raise ValueError(f"memory detail exceeds {MAX_MEMORY_DETAIL_BYTES} bytes")
+    return detail_path.read_text(encoding="utf-8")
 
 
 @mcp.tool()
@@ -147,9 +144,13 @@ def guyue_read_memory(query: str) -> str:
         return "No memory bank index found."
 
     results = []
-    for source, index in indexes:
+    seen_ids: set[str] = set()
+    for source, memory_dir, index in indexes:
         for memory in index.get("memories", []):
-            if memory.get("status") != "active":
+            if memory.get("status") not in {"active", "needs_review"}:
+                continue
+            memory_id = str(memory.get("id", ""))
+            if memory_id in seen_ids:
                 continue
             searchable = " ".join(
                 [
@@ -160,7 +161,19 @@ def guyue_read_memory(query: str) -> str:
                 ]
             ).casefold()
             if normalized_query in searchable:
-                results.append({**memory, "source": source})
+                try:
+                    detail = read_memory_detail(memory_dir, memory)
+                except (OSError, UnicodeError, ValueError) as exc:
+                    return f"Failed to read memory detail for {memory_id}: {exc}"
+                results.append(
+                    {
+                        **memory,
+                        "source": source,
+                        "requires_review": memory.get("status") == "needs_review",
+                        "detail": detail,
+                    }
+                )
+                seen_ids.add(memory_id)
                 if len(results) >= MAX_MEMORY_RESULTS:
                     return json.dumps(results, ensure_ascii=False, indent=2)
 
@@ -246,7 +259,6 @@ def guyue_write_memory(
     if validation_errors:
         return "Refused invalid memory metadata: " + "; ".join(validation_errors)
 
-    ACTIVE_DIR.mkdir(parents=True, exist_ok=True)
     filepath = safe_detail_path(MEMORY_DIR, filename)
     detail = (
         f"# Memory {memory_id}\n\n"
@@ -261,25 +273,35 @@ def guyue_write_memory(
         f"## Solution\n{solution.strip()}\n\n"
         f"## Prevention\n{prevention.strip()}\n"
     )
-    filepath.write_text(detail, encoding="utf-8")
-
     try:
-        index_data = load_memory_index()
-    except (json.JSONDecodeError, ValueError):
-        index_data = empty_index()
-    existing_ids = {item.get("id") for item in index_data.get("memories", [])}
-    unknown_superseded = set(normalized_supersedes) - existing_ids
-    if unknown_superseded:
-        filepath.unlink(missing_ok=True)
-        return "Refused unknown supersedes IDs: " + ", ".join(
-            sorted(unknown_superseded)
-        )
-    for item in index_data.get("memories", []):
-        if item.get("id") in normalized_supersedes:
-            item["status"] = "superseded"
-    index_data.setdefault("memories", []).append(entry)
-    index_data["schema_version"] = SCHEMA_VERSION
-    write_index_atomic(INDEX_FILE, index_data)
+        with index_lock(INDEX_FILE):
+            try:
+                index_data = load_memory_index()
+            except (json.JSONDecodeError, ValueError) as exc:
+                return f"Refused to write because the private memory index is invalid: {exc}"
+            existing_ids = {item.get("id") for item in index_data.get("memories", [])}
+            unknown_superseded = set(normalized_supersedes) - existing_ids
+            if unknown_superseded:
+                return "Refused unknown supersedes IDs: " + ", ".join(
+                    sorted(unknown_superseded)
+                )
+            if memory_id in existing_ids:
+                return f"Refused duplicate memory ID: {memory_id}"
+            if filepath.exists():
+                return f"Refused existing unindexed memory detail: {filename}"
+            for item in index_data.get("memories", []):
+                if item.get("id") in normalized_supersedes:
+                    item["status"] = "superseded"
+            index_data.setdefault("memories", []).append(entry)
+            index_data["schema_version"] = SCHEMA_VERSION
+            write_text_atomic(filepath, detail)
+            try:
+                write_index_atomic(INDEX_FILE, index_data)
+            except OSError:
+                filepath.unlink(missing_ok=True)
+                raise
+    except (OSError, TimeoutError) as exc:
+        return f"Failed to save private memory safely: {exc}"
     return f"Successfully saved private memory {memory_id} to {filename}."
 
 

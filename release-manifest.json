@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "package": "guyue-digital-twin",
+  "version": "1.4.0",
+  "release_state": "development",
+  "base_tag": "v1.4.0",
+  "lock_file": "release-payload.lock.json",
+  "profiles": {
+    "install": {
+      "required_paths": [
+        "SKILL.md",
+        "GUYUE_PRINCIPLES.md",
+        "skills_manifest.json",
+        "RTK.md",
+        "release-manifest.json",
+        "release-payload.lock.json",
+        "docs/installation.md",
+        "docs/security.md",
+        "docs/release-v1.4.0.md",
+        "skills/memory-bank/SKILL.md",
+        "skills/memory-bank/references/curated/index.json",
+        "scripts/check_full_install.py",
+        "scripts/check_long_goal_pack.py",
+        "scripts/check_capability_chain.py",
+        "scripts/run_capability_live_canaries.py",
+        "scripts/run_capability_output_quality.py",
+        "scripts/memory_gc.py",
+        "scripts/migrate_guyue_data.py",
+        "scripts/discover_local_skills.py",
+        "scripts/doctor.py",
+        "scripts/security_scanner.py",
+        "scripts/try_guyue.py",
+        "src/context_budget.py",
+        "src/skill_router.py",
+        "src/paths.py",
+        "src/memory_store.py",
+        "src/memory_migration.py",
+        "src/mcp_server.py",
+        "src/release_payload.py",
+        "evals/capability-routing.json",
+        "evals/capability-near-misses.json",
+        "evals/capability-live-canaries.json",
+        "evals/capability-output-quality.json",
+        "evals/evidence/capability-live-canaries-2026-07-13.json",
+        "evals/evidence/capability-evidence-profile-replay-2026-07-13.json",
+        "evals/evidence/capability-output-quality-2026-07-13.json",
+        "evals/evidence/artifacts/capability-evidence-profile-output-v3.md",
+        "evals/evidence/artifacts/capability-evidence-profile-review-v3.json",
+        "evals/evidence/new-user-eight-question-audit-2026-07-13.md",
+        "scripts/test_long_goal_pack.py",
+        "scripts/simulate_long_goal_lifecycle.py",
+        "scripts/simulate_install_journey.py",
+        "scripts/test_guyue_paths.py",
+        "scripts/test_memory_concurrency.py",
+        "scripts/test_memory_migration.py",
+        "scripts/test_release_payload.py",
+        "scripts/test_mcp_server.py"
+      ]
+    },
+    "birth_certificate": {
+      "extends": "install",
+      "required_paths": [
+        "README.md",
+        "skills.json",
+        "test-prompts.json",
+        "CHANGELOG.md",
+        "docs/evaluation.md",
+        "docs/release-checklist.md",
+        "docs/runtime-adapters.md",
+        "docs/long-goal-protocol.md",
+        "docs/luban-report-v1.3.0.md",
+        "docs/templates/long-goal-control-pack.md",
+        "docs/guyue-data-and-release-architecture-review-2026-07-13.md",
+        "scripts/check_birth_certificate.py",
+        "scripts/check_behavior_replay.py",
+        "scripts/test_codex_extractor.py",
+        "examples/quickstart-output.md",
+        "examples/showcase.md",
+        ".claude-plugin/marketplace.json"
+      ]
+    }
+  },
+  "runtime_required": {
+    "generic": [],
+    "codex": [
+      "AGENTS.md"
+    ],
+    "claude": [
+      ".claude-plugin/marketplace.json"
+    ]
+  },
+  "forbidden_patterns": [
+    ".git/**",
+    ".guyue_memory/**",
+    ".serena/**",
+    "**/__pycache__/**",
+    "**/*.pyc",
+    "**/.DS_Store",
+    ".env",
+    ".env.*",
+    "*.log",
+    "dist/**",
+    "build/**",
+    "node_modules/**",
+    "references/sources/**",
+    "references/research/private-*"
+  ]
+}

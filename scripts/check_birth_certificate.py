@@ -9,6 +9,7 @@ trigger, verify, and trust the skill suite from the tracked release files.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -16,47 +17,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+sys.dont_write_bytecode = True
 
-REQUIRED_RELEASE_FILES = [
-    "SKILL.md",
-    "README.md",
-    "GUYUE_PRINCIPLES.md",
-    "skills.json",
-    "skills_manifest.json",
-    "test-prompts.json",
-    "docs/installation.md",
-    "docs/security.md",
-    "docs/evaluation.md",
-    "docs/release-checklist.md",
-    "docs/runtime-adapters.md",
-    "docs/long-goal-protocol.md",
-    "docs/release-v1.4.0.md",
-    "docs/luban-report-v1.3.0.md",
-    "docs/templates/long-goal-control-pack.md",
-    "scripts/check_birth_certificate.py",
-    "scripts/check_long_goal_pack.py",
-    "scripts/check_capability_chain.py",
-    "scripts/run_capability_live_canaries.py",
-    "scripts/run_capability_output_quality.py",
-    "evals/capability-routing.json",
-    "evals/capability-near-misses.json",
-    "evals/capability-live-canaries.json",
-    "evals/capability-output-quality.json",
-    "evals/evidence/capability-live-canaries-2026-07-13.json",
-    "evals/evidence/capability-evidence-profile-replay-2026-07-13.json",
-    "evals/evidence/capability-output-quality-2026-07-13.json",
-    "evals/evidence/artifacts/capability-evidence-profile-output-v3.md",
-    "evals/evidence/artifacts/capability-evidence-profile-review-v3.json",
-    "evals/evidence/new-user-eight-question-audit-2026-07-13.md",
-    "scripts/test_long_goal_pack.py",
-    "scripts/simulate_long_goal_lifecycle.py",
-    "scripts/simulate_install_journey.py",
-    "scripts/check_full_install.py",
-    "scripts/test_mcp_server.py",
-    "examples/quickstart-output.md",
-    "examples/showcase.md",
-    ".claude-plugin/marketplace.json",
-]
+from src.release_payload import load_manifest, profile_paths  # noqa: E402
+
+
+REQUIRED_RELEASE_FILES = profile_paths(
+    load_manifest(ROOT), "birth_certificate", "generic"
+)
 
 README_NEEDLES = [
     "一句话钩子",
@@ -107,8 +76,11 @@ PROMPT_NAMES = [
 
 def release_files() -> set[str]:
     try:
+        args = ["git", "-C", str(ROOT), "ls-files", "--cached"]
+        if os.getenv("GUYUE_RELEASE_STRICT") != "1":
+            args.extend(["--others", "--exclude-standard"])
         output = subprocess.check_output(
-            ["git", "-C", str(ROOT), "ls-files", "--cached"],
+            args,
             text=True,
             stderr=subprocess.STDOUT,
         )

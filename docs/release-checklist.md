@@ -124,9 +124,12 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/check_birth_certificate.py` passes.
 - [ ] `python3 scripts/check_long_goal_pack.py --self-test` passes.
 - [ ] `python3 scripts/check_full_install.py --self-test` passes.
+- [ ] `python3 scripts/test_release_payload.py` rejects hash tampering and private-state leakage.
 - [ ] `python3 scripts/check_full_install.py --runtime <target> --json` returns a complete payload receipt and the recorded SHA-256 matches the installed candidate.
+- [ ] `python3 scripts/build_release_lock.py` has been run after the final source change, and the manifest-backed lock matches the exact archive candidate.
 - [ ] `claude plugin validate --strict .` passes when preparing a Claude marketplace release.
 - [ ] `python3 scripts/test_mcp_server.py` passes.
+- [ ] `python3 scripts/test_guyue_paths.py`, `scripts/test_memory_concurrency.py`, and `scripts/test_memory_migration.py` pass.
 - [ ] `python3 scripts/test_codex_extractor.py` passes.
 - [ ] `python3 scripts/check_behavior_replay.py --self-test` passes, every `evals/observations-*.json` file is hash-checked, and release-critical live observations use `--require-all` only when complete coverage is claimed.
 - [ ] `ruff check scripts src` passes.
@@ -142,7 +145,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] External skill intake requires `ecosystem-scout` assessment and approval.
 - [ ] Unknown install scripts are not auto-executed.
 - [ ] Existing optional Skill directories are verified against the manifest's reviewed origin and exact commit; presence alone is not accepted.
-- [ ] Private runtime memory remains under ignored storage, while the public schema-v2 index contains only curated, existing release files.
+- [ ] Private runtime memory remains under `GUYUE_HOME`; legacy `.guyue_memory/**`, machine discovery cache, migration receipts and user state are absent from the release payload.
 - [ ] Publishing, marketplace submission, tag creation, and deployment require explicit user authorization.
 
 ## Showcase

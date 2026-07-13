@@ -9,9 +9,9 @@ description: Record or recall verified decisions, fixes, lessons, and prevention
 
 ## 存储边界
 
-- `.guyue_memory/index.json` 是随包发布的**公共精选索引**，默认可以为空；不得把私有运行记录写入这里。
-- `.guyue_memory/local/index.json` 与 `.guyue_memory/local/active/` 是默认的**本地私有运行存储**，由 Git 忽略并从发布归档排除。可用 `GUYUE_MEMORY_DIR` 指向其他私有目录。
-- `.guyue_memory/local/archive/` 保存无损归档详情。归档改变状态和路径，不截断原始教训。
+- `skills/memory-bank/references/curated/index.json` 是随 Skill 发布的**公共精选索引**，默认可以为空；普通运行时不得写入。
+- `~/.guyue/knowledge/memory/index.json` 与 `active/` 是默认的**本地私有运行存储**；`GUYUE_HOME` 可覆盖统一用户根目录，`GUYUE_MEMORY_DIR` 只保留为窄兼容覆盖。
+- `~/.guyue/knowledge/memory/archive/` 保存无损归档详情。旧安装目录中的 `.guyue_memory/local/` 及更早的 `.guyue_memory/` 根布局只读发现，不再写入。
 - 索引是定位入口，Markdown 是详情；先查索引，命中后只读相关详情。
 
 ## 何时使用
@@ -32,18 +32,18 @@ description: Record or recall verified decisions, fixes, lessons, and prevention
 - `scope`：适用项目、模块或通用范围；
 - `evidence`：支持根因和解法的测试、日志、产物或人工确认；
 - `confidence`：`low`、`medium` 或 `high`；
-- `status`：`active`、`superseded` 或 `archived`；
+- `status`：`active`、`needs_review`、`superseded` 或 `archived`；
 - `supersedes`：被本条替代的记忆 ID；
 - `review_after`：需要重新验证的日期；
 - `tags`、一句话 `summary` 和 UTC `timestamp`。
 
-只记录已验证教训。仍在猜测的根因应留在排障记录，不写成高置信记忆。写入前扫描密钥、Token、私有地址、个人绝对路径和敏感日志；发现后先脱敏。索引使用临时文件原子替换，不能对 JSON 做无锁字符串追加。
+只记录已验证教训。仍在猜测的根因应留在排障记录，不写成高置信记忆。写入前扫描密钥、Token、私有地址、个人绝对路径和敏感日志；发现后先脱敏。索引更新必须取得排他锁并使用临时文件原子替换；锁超时或索引损坏时拒绝覆盖，不能对 JSON 做无锁字符串追加。
 
 ## 检索契约
 
 1. 把查询收敛为项目、模块、错误、决定或风险关键词。
 2. 先检索公共精选索引和本地私有索引的 `tags`、`summary`、`scope`、`evidence`。
-3. 默认只返回 `active`；`superseded` 和 `archived` 仅在追溯历史时读取。
+3. 默认返回 `active` 和带 `requires_review` 标记的 `needs_review`；`superseded` 和 `archived` 仅在追溯历史时读取。
 4. 命中后核对 `scope`、`confidence`、`review_after` 和证据是否仍适用于当前版本。
 5. 只有高相关且未过期的记录才影响当前决定；否则把它标成历史线索并重新验证。
 6. 未命中时明确输出 `[Trace: 未命中本地记忆]`，严禁编造“我们上次处理过”。
@@ -51,8 +51,9 @@ description: Record or recall verified decisions, fixes, lessons, and prevention
 ## 生命周期与 GC
 
 - 新结论替代旧结论时，写新记忆并用 `supersedes` 把旧条目标成 `superseded`，保留审计链。
-- 到达 `review_after`、超过年龄上限或详情过大时，运行 `python3 scripts/memory_gc.py --dry-run` 预览，再运行无 `--dry-run` 的命令归档。
+- 到达 `review_after` 或超过年龄上限时，运行 `python3 scripts/memory_gc.py --dry-run` 预览；实际执行只把条目标为 `needs_review`。详情超过大小上限时才无损归档。
 - GC 必须移动完整详情、原子更新索引并保留 `archived_at` 与原因；缺文件、非法路径或坏索引要报告，不能静默删除。
+- 旧数据迁移使用 `python3 scripts/migrate_guyue_data.py plan` 先检查，再显式执行 `migrate`；跨安装迁移用 `--legacy-dir` 指定旧目录。收据支持 `verify` 与 `rollback`，迁移不双写、不删除旧目录。
 - 记忆不是完成证据。发布、权限和架构结论仍需对当前源码与活体产物重新核验。
 
 ## Trace 与边界

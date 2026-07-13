@@ -7,6 +7,7 @@ import ast
 import importlib.util
 import re
 import subprocess
+from pathlib import Path
 
 ALLOWED_SKILL_FRONTMATTER_FIELDS = {
     'name',
@@ -113,6 +114,8 @@ def check_project_config(repo_root):
     manifest_path = os.path.join(repo_root, 'skills_manifest.json')
     marketplace_path = os.path.join(repo_root, '.claude-plugin', 'marketplace.json')
     skills_json_path = os.path.join(repo_root, 'skills.json')
+    release_manifest_path = os.path.join(repo_root, 'release-manifest.json')
+    release_lock_path = os.path.join(repo_root, 'release-payload.lock.json')
     requirements_path = os.path.join(repo_root, 'requirements.txt')
     workflow_path = os.path.join(repo_root, '.github', 'workflows', 'ci.yml')
     root_skill_path = os.path.join(repo_root, 'SKILL.md')
@@ -122,6 +125,10 @@ def check_project_config(repo_root):
     marketplace, ok = load_json_file(marketplace_path, 'CONFIG')
     passed = passed and ok
     skills_json, ok = load_json_file(skills_json_path, 'CONFIG')
+    passed = passed and ok
+    release_manifest, ok = load_json_file(release_manifest_path, 'CONFIG')
+    passed = passed and ok
+    release_lock, ok = load_json_file(release_lock_path, 'CONFIG')
     passed = passed and ok
 
     if not passed:
@@ -144,6 +151,36 @@ def check_project_config(repo_root):
         print(
             f"❌ [CONFIG ERROR] version mismatch: skills_manifest.json={manifest.get('version')} "
             f"marketplace.json={marketplace.get('version')}",
+            file=sys.stderr,
+        )
+        passed = False
+
+    release_versions = {
+        'skills_manifest.json': manifest.get('version'),
+        'release-manifest.json': release_manifest.get('version'),
+        'release-payload.lock.json': release_lock.get('version'),
+    }
+    if len(set(release_versions.values())) != 1:
+        print(
+            f"❌ [CONFIG ERROR] release payload version mismatch: {release_versions}",
+            file=sys.stderr,
+        )
+        passed = False
+    if release_manifest.get('lock_file') != 'release-payload.lock.json':
+        print(
+            "❌ [CONFIG ERROR] release-manifest.json must name release-payload.lock.json",
+            file=sys.stderr,
+        )
+        passed = False
+    if release_manifest.get('release_state') != release_lock.get('release_state'):
+        print(
+            "❌ [CONFIG ERROR] release manifest and lock release_state must match",
+            file=sys.stderr,
+        )
+        passed = False
+    if release_manifest.get('base_tag') != release_lock.get('base_tag'):
+        print(
+            "❌ [CONFIG ERROR] release manifest and lock base_tag must match",
             file=sys.stderr,
         )
         passed = False
@@ -366,8 +403,8 @@ def check_source_archive_export_rules(repo_root):
         'SKILL.md',
         'README.md',
         'skills_manifest.json',
-        '.guyue_memory/index.json',
-        '.guyue_memory/global_context.md',
+        'release-manifest.json',
+        'skills/memory-bank/references/curated/index.json',
         'references/research/14-permacomputing-lindy.md',
         'references/research/15-zero-leakage-security.md',
         'references/research/16-ecosystem-study-2026-q2.md',
@@ -689,11 +726,15 @@ def check_mcp_server_paths(repo_root):
         return False
 
     expected_manifest = os.path.join(repo_root, 'skills_manifest.json')
-    expected_memory = os.path.join(repo_root, '.guyue_memory', 'local')
-    expected_curated_memory = os.path.join(repo_root, '.guyue_memory')
+    expected_memory = os.fspath(module.runtime_memory_dir(Path(repo_root)))
+    expected_curated_memory = os.path.join(
+        repo_root, 'skills', 'memory-bank', 'references', 'curated'
+    )
+    expected_legacy_memory = os.path.join(repo_root, '.guyue_memory', 'local')
     actual_manifest = os.fspath(module.MANIFEST_FILE)
     actual_memory = os.fspath(module.MEMORY_DIR)
     actual_curated_memory = os.fspath(module.CURATED_MEMORY_DIR)
+    actual_legacy_memory = os.fspath(module.LEGACY_MEMORY_DIR)
 
     if actual_manifest != expected_manifest:
         print(f"❌ [MCP ERROR] MANIFEST_FILE points to {actual_manifest}, expected {expected_manifest}", file=sys.stderr)
@@ -706,6 +747,13 @@ def check_mcp_server_paths(repo_root):
     if actual_curated_memory != expected_curated_memory:
         print(
             f"❌ [MCP ERROR] CURATED_MEMORY_DIR points to {actual_curated_memory}, expected {expected_curated_memory}",
+            file=sys.stderr,
+        )
+        return False
+
+    if actual_legacy_memory != expected_legacy_memory:
+        print(
+            f"❌ [MCP ERROR] LEGACY_MEMORY_DIR points to {actual_legacy_memory}, expected {expected_legacy_memory}",
             file=sys.stderr,
         )
         return False
@@ -1928,7 +1976,7 @@ def check_long_goal_forge_contract(repo_root):
         ],
         'install_simulator': [
             'file_git_remote',
-            'temporary_git_index',
+            'temporary_git_tree_archive',
             'release_tree_copy',
             'empty_home_verified',
             'restart_same_payload',
@@ -2280,12 +2328,14 @@ def main():
             else:
                 print(f"✅ {jf} valid.")
 
-    memory_index = os.path.join(repo_root, '.guyue_memory', 'index.json')
+    memory_index = os.path.join(
+        repo_root, 'skills', 'memory-bank', 'references', 'curated', 'index.json'
+    )
     if os.path.exists(memory_index):
         if not check_memory_index(memory_index):
             all_passed = False
         else:
-            print("✅ .guyue_memory/index.json valid.")
+            print("✅ curated memory index valid.")
 
     if check_project_config(repo_root):
         print("✅ project configuration files valid.")

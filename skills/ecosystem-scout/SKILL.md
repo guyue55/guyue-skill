@@ -29,7 +29,7 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
   - **类型 B：普通开源项目 / 库 / 外部工具 (Library/Tool)**。
 
 ### 1.5 生态防冲突与去重审查 (Conflict & Redundancy Check)
-在确认收纳对象后，**必须强制查阅 `skills_manifest.json` 和 `.guyue_memory/local_skills_index.json`**，评估古月内部是否已经存在功能相似的技能。
+在确认收纳对象后，**必须强制查阅 `skills_manifest.json` 和 `~/.guyue/cache/discovery/skills-index.json`**，评估古月内部是否已经存在功能相似的技能。
 - 只有实际执行过本地检索并记录命令、目标文件、结果与时间，才可声称“已去重”；缺少候选功能描述时，即使名称未命中也只能标为“未发现同名项，语义去重未完成”。
 - **若发现相似技能**，必须进行价值裁决：
   - **冗余 (Redundant)**：新技能毫无优势，直接终止收纳，并告知用户已有更好的替代品。
@@ -41,7 +41,7 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
 #### 【分支 A：如果目标是 Agent 技能 / 插件】
 这是古月需要“同化”的同类，采取**零冗余映射与精神吸收策略**：
 1. **理解、掌握与受控调用 (Controlled Invocation)**：**查阅并分析**该技能的使用方式（如 `SKILL.md`）。一旦收纳，古月只能将其视作“可发现的候选能力”；如果当前用户的需求能够用该技能解决，必须先说明将读取/执行的动作，经过 `security-gate` 预检，并在涉及 CLI、网络请求、安装、写入或下载时等待用户明确授权。
-2. **零冗余挂载与记忆索引**：**绝对不要**在 `skills_manifest.json` 中硬编码本机的绝对路径。在 `manifest` 中仅登记其官方项目地址或安装口令（如 `url: https://skills.sh`）。对于它在本地的具体位置，请调用 `scripts/discover_local_skills.py`，古月会自动扫描全局技能目录并将该技能的本地路径沉淀到知识/记忆中 (`.guyue_memory/local_skills_index.json`)。下次使用时，古月会查阅记忆库进行动态寻址，告别本地盲目瞎找。
+2. **零冗余挂载与发现缓存**：**绝对不要**在 `skills_manifest.json` 中硬编码本机的绝对路径。在 `manifest` 中仅登记其官方项目地址或安装口令（如 `url: https://skills.sh`）。对于它在本地的具体位置，请调用 `scripts/discover_local_skills.py`，古月会扫描全局技能目录并将路径写入可删除重建的 `~/.guyue/cache/discovery/skills-index.json`。它是机器相关缓存，不是长期知识，也不得进入发布包。
 3. **提炼与吸收 (可选)**：调用 `luban` 技能，如果该外部技能中有极其优秀的思路、工作流或方法论，提取 1-2 条精华经验，将其吸收到古月的 `GUYUE_PRINCIPLES.md` 或核心心智中，实现“不占其身，但得其神”。
 4. **输出战报**：向用户展示收纳情况，以及古月现在学会了用它能做什么事。
 
@@ -85,7 +85,7 @@ description: Find, compare, intake, or install external Agent Skills, plugins, l
 ```bash
 python3 scripts/discover_local_skills.py
 ```
-这会在 `.guyue_memory/local_skills_index.json` 中生成一张本地地址映射表。
+这会在 `~/.guyue/cache/discovery/skills-index.json` 中生成一张本地地址映射表。
 
 ## 测试样例 (Test Prompts)
 * `dry_run`

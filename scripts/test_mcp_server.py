@@ -77,17 +77,22 @@ def main() -> int:
         "INDEX_FILE": mcp_server.INDEX_FILE,
         "CURATED_MEMORY_DIR": mcp_server.CURATED_MEMORY_DIR,
         "CURATED_INDEX_FILE": mcp_server.CURATED_INDEX_FILE,
+        "LEGACY_MEMORY_DIR": mcp_server.LEGACY_MEMORY_DIR,
+        "LEGACY_INDEX_FILE": mcp_server.LEGACY_INDEX_FILE,
     }
 
     with tempfile.TemporaryDirectory(prefix="guyue-mcp-test-") as temp_dir:
         root = Path(temp_dir)
-        memory_dir = root / ".guyue_memory" / "local"
-        curated_dir = root / ".guyue_memory"
+        memory_dir = root / ".guyue" / "knowledge" / "memory"
+        curated_dir = root / "skill" / "references" / "curated"
+        legacy_dir = root / "legacy-install" / ".guyue_memory" / "local"
         mcp_server.MEMORY_DIR = memory_dir
         mcp_server.ACTIVE_DIR = memory_dir / "active"
         mcp_server.INDEX_FILE = memory_dir / "index.json"
         mcp_server.CURATED_MEMORY_DIR = curated_dir
         mcp_server.CURATED_INDEX_FILE = curated_dir / "index.json"
+        mcp_server.LEGACY_MEMORY_DIR = legacy_dir
+        mcp_server.LEGACY_INDEX_FILE = legacy_dir / "index.json"
 
         try:
             empty_result = mcp_server.guyue_read_memory("   ")
@@ -216,29 +221,65 @@ def main() -> int:
                 all(entry["source"] == "local" for entry in read_entries),
                 "runtime results must identify their source",
             )
+            require(
+                all("## Root Cause" in entry["detail"] for entry in read_entries),
+                "lookup must return the verified Markdown detail, not only index metadata",
+            )
 
-            archived, messages = memory_gc.run_gc(
+            dry_run_dir = root / "dry-run-must-not-exist"
+            changed, messages = memory_gc.run_gc(dry_run_dir, dry_run=True)
+            require(changed == 0 and not messages, "empty dry-run must report no work")
+            require(
+                not dry_run_dir.exists(), "dry-run must not create storage directories"
+            )
+
+            changed, messages = memory_gc.run_gc(
                 memory_dir,
                 now=dt.datetime(2026, 7, 10, tzinfo=dt.timezone.utc),
             )
             require(
-                archived == 1,
-                f"one due memory must be archived, got {archived}: {messages}",
+                changed == 1,
+                f"one due memory must require review, got {changed}: {messages}",
             )
             index = json.loads(mcp_server.INDEX_FILE.read_text(encoding="utf-8"))
-            archived_entry = index["memories"][0]
+            review_entry = index["memories"][0]
             require(
-                archived_entry["status"] == "archived",
-                "GC must update lifecycle status",
+                review_entry["status"] == "needs_review",
+                "an expired review date must require review, not archive the lesson",
+            )
+            normalized_review = mcp_server.load_memory_index()["memories"][0]
+            require(
+                "review_reason" in normalized_review,
+                "schema normalization must preserve lifecycle extension fields",
             )
             require(
-                archived_entry["filename"].startswith("archive/"),
-                "GC must update the detail path",
+                review_entry["filename"].startswith("active/"),
+                "review-required memory must keep its active detail path",
             )
             require(
-                (memory_dir / archived_entry["filename"]).is_file(),
-                "GC must preserve the full detail file",
+                (memory_dir / review_entry["filename"]).is_file(),
+                "review-required memory must preserve the full detail file",
             )
+            review_result = json.loads(mcp_server.guyue_read_memory("stale-artifact"))
+            due_result = next(
+                item for item in review_result if item["id"] == review_entry["id"]
+            )
+            require(
+                due_result["requires_review"] is True,
+                "lookup must disclose stale evidence instead of treating it as current",
+            )
+
+            future_index = root / "future-index.json"
+            future_index.write_text(
+                json.dumps({"schema_version": 99, "memories": []}),
+                encoding="utf-8",
+            )
+            try:
+                mcp_server.load_index(future_index)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError("unknown future memory schema must fail safe")
         finally:
             for name, value in originals.items():
                 setattr(mcp_server, name, value)

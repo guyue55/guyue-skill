@@ -10,6 +10,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Local runtime indexes can contain machine-specific paths.
+# Legacy local runtime state. New private data lives under GUYUE_HOME.
 .guyue_memory/
+# Never bind or copy the user-owned Guyue home into a project checkout.
+.guyue
 .serena

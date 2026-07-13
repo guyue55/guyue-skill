@@ -87,7 +87,7 @@
   {
     "name": "Trigger Memory Bank",
     "prompt": "把我们今天踩的关于 React Hydration 的坑记下来。",
-    "expected_behavior": "Should trigger `memory-bank`. Agent must store the verified lesson in private runtime memory under `.guyue_memory/local/`, not mutate the curated public index. The schema-v2 index and Markdown detail must include Symptom, Root Cause, Solution, Prevention, provenance, scope, evidence, confidence, lifecycle status, supersedes, and review_after; secrets and personal paths must be rejected. It should emit one takeover trace and must not claim a historical match without an indexed record."
+    "expected_behavior": "Should trigger `memory-bank`. Agent must store the verified lesson under `~/.guyue/knowledge/memory/` or the configured `GUYUE_HOME`, not mutate the curated public index. The schema-v2 index and Markdown detail must include Symptom, Root Cause, Solution, Prevention, provenance, scope, evidence, confidence, lifecycle status, supersedes, and review_after; secrets and personal paths must be rejected. Due records become `needs_review` instead of being silently archived. It should emit one takeover trace and must not claim a historical match without an indexed record."
   },
   {
     "name": "Trigger Product Sense",

@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import os
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 from pathlib import Path
 
@@ -72,19 +74,26 @@ def export_candidate(source: Path, destination: Path, temp_root: Path) -> str:
     env["GIT_INDEX_FILE"] = str(index_path)
     run(["git", "read-tree", "HEAD"], cwd=source, env=env)
     run(["git", "add", "-A"], cwd=source, env=env)
-    destination.mkdir(parents=True)
-    run(
-        [
-            "git",
-            "checkout-index",
-            "--all",
-            "--force",
-            f"--prefix={destination}/",
-        ],
+    tree = run(["git", "write-tree"], cwd=source, env=env).stdout.strip()
+    archive = subprocess.run(
+        ["git", "archive", "--format=tar", tree],
         cwd=source,
         env=env,
+        check=True,
+        capture_output=True,
     )
-    return "temporary_git_index"
+    destination.mkdir(parents=True)
+    with tarfile.open(fileobj=io.BytesIO(archive.stdout), mode="r:") as bundle:
+        for member in bundle.getmembers():
+            if member.issym() or member.islnk():
+                raise AssertionError(f"archive link is not allowed: {member.name}")
+            target = (destination / member.name).resolve()
+            try:
+                target.relative_to(destination.resolve())
+            except ValueError as exc:
+                raise AssertionError(f"archive path escapes candidate: {member.name}") from exc
+        bundle.extractall(destination)
+    return "temporary_git_tree_archive"
 
 
 def parse_json_command(
