@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "package": "guyue-digital-twin",
-  "version": "1.4.0",
-  "release_state": "development",
+  "version": "1.5.0",
+  "release_state": "release-candidate",
   "base_tag": "v1.4.0",
   "files": [
     {
       "path": ".claude-plugin/marketplace.json",
-      "sha256": "6dcc7f085d4b656f84d90bc3cdc23de871bb1315b5559ad9e766d08b2f807eb6"
+      "sha256": "9122a788a696e0ae7c51e3d2abf2ff0ea025b5caa90523792f2468ae2f77c837"
     },
     {
       "path": "AGENTS.md",
@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "ed5d7dae650903a39b0318243b8029f941588a51d2927dfe15751ce17ab8d9d4"
+      "sha256": "2b7ca219ca0afa11d4baa748c3ab9ca1a9590398d368ba6eb5441b1189b337cd"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "0708f01655b07b1eb0c8c4902d2ebbb6bc02960b46b849ae2acacc2a4d97dc13"
+      "sha256": "b0ace55bcc42348d86a38ae44219ed584a79e80e0c0cc4da2ccbfc6ebafd639f"
     },
     {
       "path": "RTK.md",
@@ -55,7 +55,7 @@
     },
     {
       "path": "docs/guyue-data-and-release-architecture-review-2026-07-13.md",
-      "sha256": "ef47d83afa7ffee162ebdf0b57c55acb883108a78ac4853e4d9edf553d1a0615"
+      "sha256": "e7761ce414fa1883213254f0258114c76953345a5436fee254c21b1c3a92d98e"
     },
     {
       "path": "docs/guyue-first-run-polish-2026-07-11.md",
@@ -82,16 +82,24 @@
       "sha256": "7544ac697bc89f9d56171cef1e592782a2328d1d44054238402dbe4a893d699c"
     },
     {
+      "path": "docs/luban-report-v1.5.0.md",
+      "sha256": "d8124e3e78f90cc85f2ecd073ac1392709f45dce0e157f4473fa9ea846a61257"
+    },
+    {
       "path": "docs/release-candidate.md",
-      "sha256": "d259c36206365c794e465758676eb52dab430875abf3734f620a61414109afc2"
+      "sha256": "d60575f84bde80dad77490936a6653dcd5a3a3b9d9008a8dcb629c2848b86fe8"
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "124aa295b360637cdeadc1c1caba3be2159889faf5c458c224148ba3334e81f2"
+      "sha256": "287d08aad846a8472b0b3ec0bec8443bd2355a918b43ce9c34192acdd3e4759f"
     },
     {
       "path": "docs/release-v1.4.0.md",
       "sha256": "537587548bb8f9620c20f7ae8a2342766c27e7db8d4d851aee9602dba4622348"
+    },
+    {
+      "path": "docs/release-v1.5.0.md",
+      "sha256": "4b2f7ed33c6a8f61720878085596db0305a101e387669248ca20af53bfe040a8"
     },
     {
       "path": "docs/runtime-adapters.md",
@@ -639,7 +647,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "e931005f1a1fa38a8decd11c7c93f00cf89f6a8e03a53f23ce364ac82de5631e"
+      "sha256": "41109c6ff94f6c0f1188203b68a42acb66f69c49a578e15aa7a7d7aab61bddc3"
     },
     {
       "path": "requirements.txt",
@@ -659,7 +667,7 @@
     },
     {
       "path": "scripts/check_birth_certificate.py",
-      "sha256": "57b737c527328cac759929ba36803d98a306464c57cc4062372e8ac155569ace"
+      "sha256": "05aab97e6a5cef76a8818f0b2b097db73a90a62c015560277258bda5e6f7141d"
     },
     {
       "path": "scripts/check_capability_chain.py",
@@ -947,7 +955,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "5c6577bb2f9596b3462a2bbb4191bec5d28f63573194e5516a1dd9a12dd99772"
+      "sha256": "b43c5e49589dca5a7f1f49ca217c97e3645cbf68b98c3b249db0d37caf7ef9ce"
     },
     {
       "path": "src/context_budget.py",

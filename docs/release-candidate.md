@@ -1,3 +1,44 @@
+# Guyue v1.5.0 Release Candidate
+
+Date: 2026-07-13
+State: release preparation on `dev`; not tagged or published
+Base tag: `v1.4.0`
+Green collaboration parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
+
+## Current Baseline
+
+The candidate combines two commits after v1.4.0: `794a883` establishes durable data, knowledge and installed-payload ownership; `2916a4b` adds machine-readable collaboration for all 26 capabilities. Release metadata is prepared as `1.5.0` with `release_state=release-candidate`. The final preparation commit and its remote run are recorded externally after commit so the candidate tree does not claim its own future object ID.
+
+## Current Evidence
+
+- 15/15 local release stages pass.
+- 54/54 broad routes, 10/10 collaboration cases and 26/26 workflow Skill coverage pass.
+- 345/345 internal triggers, 208/208 near misses, 48/48 external candidates and 26/26 retained activation/output evidence pass.
+- A fresh read-only Codex session returns `collaboration_candidate`, selects `skill-release`, preserves four-stage order and rejects automatic commit, merge, tag or release.
+- Empty-HOME file-Git installation, restart identity, installed payload checks, private-memory lifecycle and Long Goal recovery/sealing pass.
+- Claude marketplace metadata passes strict schema validation. This is metadata proof, not current Claude model activation proof.
+- Collaboration baseline `2916a4b` passes doubled `dev` CI run `29229209401`.
+
+## Remaining Blockers
+
+1. The final release-preparation commit must pass the doubled remote CI on `dev`.
+2. `main` still points to v1.4.0 and requires explicit authorization for a fast-forward merge and push.
+3. The resulting `main` must pass doubled remote CI and a public-network empty-HOME installation before tag creation.
+4. Creating and pushing annotated tag `v1.5.0` requires explicit action-specific authorization.
+5. GitHub Release publication is a separate action and is not implied by tag preparation.
+
+## Next Work Plan
+
+1. Freeze and push the exact v1.5.0 candidate on `dev`; record commit, CI run and payload SHA-256.
+2. Stop and obtain explicit authorization for `main` fast-forward and push.
+3. Verify doubled `main` CI and public-network empty-HOME installation against the frozen payload.
+4. Stop and obtain explicit authorization for annotated tag `v1.5.0` and tag push.
+5. Publish a GitHub Release only under separate authorization, then record the release URL and final install replay.
+
+The historical evidence below is retained for provenance. It does not grant current authorization or prove the v1.5.0 candidate.
+
+---
+
 # Historical Release Evidence: Guyue v1.3.0
 
 Date: 2026-07-10

@@ -3,7 +3,30 @@
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
 > [!WARNING]
-> The v1.4.0 evidence below is version-specific. The checked v1.3.0 snapshot remains historical evidence and does not prove v1.4.0 public installation, Claude activation, or user outcomes.
+> v1.5.0 is a release candidate on `dev`. Historical v1.4.0/v1.3.0 evidence does not prove current `main` integration, public installation, tag creation, runtime activation, or user outcomes.
+
+## v1.5.0 Release Candidate Evidence
+
+Date: 2026-07-13
+Candidate version: `1.5.0`
+Base tag: `v1.4.0`
+Green collaboration parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
+
+- [x] The manifest declares 9 collaboration workflows covering all 26 built-in Skills.
+- [x] Ten collaboration cases pass, including a generic permission near miss that must not propose project governance.
+- [x] The route CLI exposes `collaboration_candidate` instead of failing when an explicit workflow phrase has no separate direct Skill match.
+- [x] Every candidate exposes stage order, completion gate and action-specific authorization boundary.
+- [x] A fresh read-only Codex replay selects `skill-release`, preserves `craft -> secure -> verify -> publishable`, and rejects automatic commit, merge, tag or release.
+- [x] Installed payload, private `GUYUE_HOME`, rebuildable cache and migration receipts have separate ownership and lifecycle tests.
+- [x] Legacy `.guyue_memory` read compatibility is explicit through `v1.6.x`; removal cannot happen before `v1.7.0` or without evidence and authorization.
+- [x] The complete local 15-stage suite, Ruff, Zero-Leakage, Claude marketplace schema validation, empty-HOME file-Git install/restart and Long Goal lifecycle pass.
+- [x] Collaboration baseline `2916a4b` is pushed to `origin/dev`; doubled GitHub CI run `29229209401` passes both complete release-gate executions.
+- [ ] The final release-preparation commit has passed doubled `dev` CI.
+- [ ] The user has explicitly authorized fast-forwarding `main` to the exact candidate commit.
+- [ ] The resulting `main` commit has passed doubled GitHub CI.
+- [ ] A public-network install from `main` in an empty HOME matches the candidate payload SHA-256.
+- [ ] The user has explicitly authorized annotated tag `v1.5.0` and tag push.
+- [ ] GitHub Release publication, if desired, has separate authorization and a recorded URL.
 
 ## v1.4.0 Release Evidence
 
@@ -113,7 +136,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 
 ## Verification
 
-- [ ] `docs/release-candidate.md` names the current baseline commit, blockers, live replay coverage, and next work plan.
+- [x] `docs/release-candidate.md` names the current baseline commit, blockers, live replay coverage, and next work plan.
 - [ ] `python3 scripts/security_scanner.py` passes.
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
