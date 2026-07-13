@@ -21,6 +21,7 @@ Status: Release Candidate
 
 - Fix complete workflow phrases being hidden by the route CLI when no direct child Skill crossed its separate score threshold.
 - Fix stale architecture text claiming `dev`, `main`, remote branches and `v1.4.0` still pointed to one commit.
+- Fix first write to a new nested `GUYUE_HOME` failing when its parent directories do not yet exist.
 
 ### Verification
 

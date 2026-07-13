@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "2b7ca219ca0afa11d4baa748c3ab9ca1a9590398d368ba6eb5441b1189b337cd"
+      "sha256": "63739e0e233bc1b73070136dfd678a3a56988cc4612dfbc5fc58f2cfb3e271d4"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -779,7 +779,7 @@
     },
     {
       "path": "scripts/test_guyue_paths.py",
-      "sha256": "2222cca51c535873fcfee0b8a3f1fbf140e1095146c8d4b373b928e5978699e8"
+      "sha256": "433d0e7ce2faa5cedf25e897ff8da0388b2fab2df2d072b02bae8b0a97900077"
     },
     {
       "path": "scripts/test_long_goal_pack.py",
@@ -975,7 +975,7 @@
     },
     {
       "path": "src/paths.py",
-      "sha256": "1b756f8899fc99d5b82a1b9415b334ea676be51dfc06e74cce31a5bd1daed424"
+      "sha256": "835a6424d39c55094f8836f461bf301eb91861703ca567d7c24817c8c2721c09"
     },
     {
       "path": "src/release_payload.py",

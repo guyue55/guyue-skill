@@ -77,6 +77,21 @@ def main() -> int:
             ),
             "new external private path components must use mode 0700",
         )
+        fresh_root = root / "missing-parent" / "portable"
+        fresh_leaf = fresh_root / "knowledge" / "memory"
+        ensure_private_directory(fresh_leaf, private_root=fresh_root)
+        require(
+            all(
+                (path.stat().st_mode & 0o777) == 0o700
+                for path in (
+                    root / "missing-parent",
+                    fresh_root,
+                    fresh_root / "knowledge",
+                    fresh_leaf,
+                )
+            ),
+            "a new nested GUYUE_HOME must initialize with private permissions",
+        )
         memory_override = root / "memory-only"
         require(
             private_memory_dir(

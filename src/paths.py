@@ -67,11 +67,10 @@ def ensure_private_directory(path: Path, *, private_root: Path | None = None) ->
     """Create a private directory and harden every component below its root."""
     destination = _resolved(path)
     root = _resolved(private_root) if private_root is not None else guyue_home()
-    try:
-        relative = destination.relative_to(root)
-    except ValueError:
+
+    def create_missing(target: Path) -> None:
         missing: list[Path] = []
-        current = destination
+        current = target
         while not current.exists():
             missing.append(current)
             if current.parent == current:
@@ -80,9 +79,15 @@ def ensure_private_directory(path: Path, *, private_root: Path | None = None) ->
         for directory in reversed(missing):
             directory.mkdir(exist_ok=True, mode=0o700)
             directory.chmod(0o700)
+
+    try:
+        relative = destination.relative_to(root)
+    except ValueError:
+        create_missing(destination)
         destination.chmod(0o700)
         return
 
+    create_missing(root)
     current = root
     for component in (Path(), *relative.parts):
         current = root if component == Path() else current / component
