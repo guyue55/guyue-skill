@@ -1,4 +1,41 @@
-# Guyue v1.5.0 Candidate Lineage
+# Guyue v1.5.1 Release Candidate
+
+Date: 2026-07-13
+State: hotfix candidate on `dev`; not integrated into `main`, tagged or released
+Base tag: `v1.5.0`
+Released parent: `8938cb837e1751a383c9d0a4880e4d9c022956c1`
+
+## Trigger
+
+The published v1.5.0 tag passed local and remote Git-checkout gates plus a public HTTPS clone. A later audit downloaded GitHub's generated tag archive, which has no `.git` directory, and ran the complete suite in an empty HOME. Ruff created `.ruff_cache` at stage 2; the stage-4 first-run proof then correctly rejected those undeclared files and stopped the suite.
+
+## Root Cause
+
+The release gate required a payload-clean worktree but invoked cache-writing Ruff. Git checkouts hid the generated directory through ignore rules, while the no-Git archive fallback inspected every file. Zero-Leakage also omitted `.ruff_cache` from its generated-cache rule, so the contradiction was detected only by the later payload check.
+
+## Candidate Fix
+
+1. Run `ruff check --no-cache scripts src` inside the complete release gate.
+2. Make Zero-Leakage reject `.ruff_cache` explicitly.
+3. Freeze both behaviors in the security-scanner regression suite.
+4. Align `RTK.md` and the reusable release checklist with the same command and cache inventory.
+
+## Evidence And Boundaries
+
+- The v1.5.0 tag and GitHub Release remain immutable historical objects.
+- The failure does not show missing required payload files or runtime-memory corruption; it shows a non-idempotent verification workflow in no-Git source archives.
+- The focused regression failed before the fix and passes after it.
+- The strict local suite and a staged no-Git archive pass without leaving `.ruff_cache`; remote `dev`, `main`, tag and Release evidence must still be collected separately. None is inherited automatically from v1.5.0.
+
+## Remaining Gates
+
+1. Commit and push only to `dev`, then require doubled remote CI.
+2. Re-run the no-Git archive gate from the committed object rather than borrowing staged-tree evidence.
+3. Obtain explicit authorization before `main`, annotated tag `v1.5.1`, or GitHub Release actions.
+
+---
+
+# Historical Guyue v1.5.0 Candidate Lineage
 
 Date: 2026-07-13
 State: candidate gates complete and promoted into the authorized release operation

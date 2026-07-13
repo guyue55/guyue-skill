@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.5.1 - 2026-07-13
+
+Status: Release Candidate
+
+### Fixed
+
+- Run Ruff without its persistent cache inside the release gate so GitHub-generated source archives remain payload-clean throughout the complete suite.
+- Treat `.ruff_cache` as generated worktree pollution in Zero-Leakage and freeze the behavior with a regression test.
+- Align repository runtime instructions and the reusable release checklist with the cacheless Ruff command.
+
+### Verification
+
+- Reproduce the v1.5.0 failure only after Ruff creates `.ruff_cache` in a source archive without `.git`.
+- Require the focused regression, exact payload lock, strict local suite and a fresh no-Git source-archive replay before promotion.
+
 ## v1.5.0 - 2026-07-13
 
 Status: Released

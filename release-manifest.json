@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "package": "guyue-digital-twin",
-  "version": "1.5.0",
-  "release_state": "released",
-  "base_tag": "v1.4.0",
+  "version": "1.5.1",
+  "release_state": "release-candidate",
+  "base_tag": "v1.5.0",
   "lock_file": "release-payload.lock.json",
   "profiles": {
     "install": {
@@ -16,7 +16,7 @@
         "release-payload.lock.json",
         "docs/installation.md",
         "docs/security.md",
-        "docs/release-v1.5.0.md",
+        "docs/release-v1.5.1.md",
         "skills/memory-bank/SKILL.md",
         "skills/memory-bank/references/curated/index.json",
         "scripts/check_full_install.py",
@@ -94,6 +94,7 @@
     ".git/**",
     ".guyue_memory/**",
     ".serena/**",
+    "**/.ruff_cache/**",
     "**/__pycache__/**",
     "**/*.pyc",
     "**/.DS_Store",

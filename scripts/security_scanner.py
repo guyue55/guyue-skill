@@ -74,7 +74,10 @@ def run_security_scan():
     for path_obj in Path('.').rglob('*'):
         if workspace_exclusions.intersection(path_obj.parts):
             continue
-        if path_obj.name == '__pycache__' or path_obj.name == '.DS_Store' or path_obj.suffix == '.pyc':
+        if (
+            path_obj.name in {'__pycache__', '.ruff_cache', '.DS_Store'}
+            or path_obj.suffix == '.pyc'
+        ):
             generated_bloat.append(path_obj)
     for path_obj in sorted(generated_bloat):
         print_status(f"Generated cache present in worktree: {path_obj.as_posix()}", is_error=True)

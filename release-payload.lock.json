@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "package": "guyue-digital-twin",
-  "version": "1.5.0",
-  "release_state": "released",
-  "base_tag": "v1.4.0",
+  "version": "1.5.1",
+  "release_state": "release-candidate",
+  "base_tag": "v1.5.0",
   "files": [
     {
       "path": ".claude-plugin/marketplace.json",
-      "sha256": "9122a788a696e0ae7c51e3d2abf2ff0ea025b5caa90523792f2468ae2f77c837"
+      "sha256": "a9b60188b825c0760c14fdfd85de44f5551ec41f288e44979747d0a171e6c0da"
     },
     {
       "path": "AGENTS.md",
@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "e89e8b0eedf59fcca4b10f07ff53f6f30eccd307f70b9e8c34a0a61bb2d7f4db"
+      "sha256": "4197a2399819d83b5e77a30a2469ca84cae21624917e7b66cee75797e4973f9f"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -27,11 +27,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "6a4c822cb0dc17d3f2b66d8bfdf41337a2d5d565506dae66836844b35d2d6ed0"
+      "sha256": "8a860187b02fa0cf7750d3ece41b70e282174f8c2cbc2b1582be087824a1c695"
     },
     {
       "path": "RTK.md",
-      "sha256": "006271cacb702898c0063efa8ed574f602e28b8d10a220ca71cfeb5bf10649fc"
+      "sha256": "42d84d04315cbe93864968df36d65725d9b252e8cf087a4e59da0af3f167ee62"
     },
     {
       "path": "SKILL.md",
@@ -87,11 +87,11 @@
     },
     {
       "path": "docs/release-candidate.md",
-      "sha256": "b4207815b8f8f1fc38e05a969075f24c8e9389324062e78325402e68b4da2c31"
+      "sha256": "0636466313661e7daa305b445fe0cb1e4a5ed4c4c24d17412d105d3940709ff7"
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "2ff8770694430ade7f98dcc1c0c0a89e758f5c236d35824972b9bacd47bf070f"
+      "sha256": "1beef73761ea02d2cc168f7dc4c582f6b22507afa5708aa875b194fee2ff961e"
     },
     {
       "path": "docs/release-v1.4.0.md",
@@ -100,6 +100,10 @@
     {
       "path": "docs/release-v1.5.0.md",
       "sha256": "34a8e5ca48c89e7980cfcb40330998ab9c59035afa254a8b934b4ad17d54baca"
+    },
+    {
+      "path": "docs/release-v1.5.1.md",
+      "sha256": "5bccaba3b8d26b09b19a65727e49e4dd803c8fd25f6b24b14fd6b25a92c0393e"
     },
     {
       "path": "docs/runtime-adapters.md",
@@ -647,7 +651,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "a87d5557f03098586772365e508c4008ea913745facfe6a41f55dc9f1d4a228b"
+      "sha256": "72475dff2be115f3633de259a3d5ac6225efd392ce1c0070dd84549f589c1a0d"
     },
     {
       "path": "requirements.txt",
@@ -759,7 +763,7 @@
     },
     {
       "path": "scripts/security_scanner.py",
-      "sha256": "b22d2974280d66d7fefbdc32a55c2903df6107913b5ecb291066c651bd9d0142"
+      "sha256": "efe87bd839a3df342d80436f5e4e0e8bbfacf1ed6f5aa07b04fc70d192139f90"
     },
     {
       "path": "scripts/simulate_install_journey.py",
@@ -803,7 +807,7 @@
     },
     {
       "path": "scripts/test_security_scanners.py",
-      "sha256": "1f5ac71de6c721d3c379214623acf6bc32682a115e6424c40c44f68a208db66e"
+      "sha256": "de6a3374a4f49cd48405b92203850160baa2a9da4140be7ddbfec6f4db1498f6"
     },
     {
       "path": "scripts/test_skill_router.py",
@@ -811,7 +815,7 @@
     },
     {
       "path": "scripts/test_suite.sh",
-      "sha256": "fbcc5d7bca7be08063ed241a14a3de9f424cf49880a26b2c20beb3d4bd11685a"
+      "sha256": "230012981cdef89e2a0bcfef4f86bc638b24f78f528d4e351bbf30763bef6bc2"
     },
     {
       "path": "scripts/test_try_guyue.py",
@@ -955,7 +959,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "b43c5e49589dca5a7f1f49ca217c97e3645cbf68b98c3b249db0d37caf7ef9ce"
+      "sha256": "481af393b8d15510a2f7dd6da5f5ed57ff7686070c064037a42fac5f8d77e9d1"
     },
     {
       "path": "src/context_budget.py",

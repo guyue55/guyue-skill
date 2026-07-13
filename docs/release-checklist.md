@@ -3,7 +3,21 @@
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
 > [!WARNING]
-> v1.5.0 has current local, `dev`, `main` and public-source evidence. Historical v1.4.0/v1.3.0 evidence does not prove the final tag object, GitHub Release publication, other runtime activation, or user outcomes.
+> v1.5.1 is a hotfix candidate on `dev`. The published v1.5.0 evidence proves its tagged payload and public clone, but does not prove that the new cacheless release gate or a future v1.5.1 tag passes.
+
+## v1.5.1 Release Candidate Evidence
+
+Date: 2026-07-13
+Candidate version: `1.5.1`
+Base tag: `v1.5.0`
+
+- [x] The GitHub-generated v1.5.0 source archive reproduces the failure after Ruff creates `.ruff_cache` and before the first-run proof regression runs.
+- [x] A failure-first regression requires cacheless Ruff and requires Zero-Leakage to reject `.ruff_cache`.
+- [x] The exact v1.5.1 payload lock is rebuilt after all source and documentation changes.
+- [x] The strict local 15-stage suite passes without creating `.ruff_cache`.
+- [x] A no-Git archive assembled from the exact candidate passes first-run proof and the strict 15-stage suite under an empty HOME.
+- [ ] The candidate commit passes doubled remote CI on `dev`.
+- [ ] The user explicitly authorizes fast-forwarding `main`, creating annotated tag `v1.5.1`, and publishing its GitHub Release.
 
 ## v1.5.0 Release Evidence
 
@@ -26,7 +40,7 @@ Green collaboration parent: `2916a4bfda8fb64bb4434b9238ae752d7652075e`
 - [x] `main@1abeb2a` passes doubled GitHub CI run `29230447741`.
 - [x] A public HTTPS clone from `main` in an empty HOME matches the 247-file candidate payload SHA-256 `4090c1de483f3466269f8f58f265f3757c61e1fdc74c195e532e95dca385a5a6` and passes the strict 15-stage suite.
 - [x] The user explicitly authorized annotated tag `v1.5.0` and tag push; final object IDs are recorded outside the tagged tree.
-- [ ] GitHub Release publication, if desired, has separate authorization and a recorded URL.
+- [x] GitHub Release publication received separate authorization and is recorded at `https://github.com/guyue55/guyue-skill/releases/tag/v1.5.0`.
 
 ## v1.4.0 Release Evidence
 
@@ -79,7 +93,7 @@ Baseline commit before this deep release audit: `995072c feat(goal): 完善长�
 - [x] Release source archives keep curated memory entrypoints (`.guyue_memory/index.json`, `.guyue_memory/global_context.md`) but exclude `.guyue_memory/local/**`, legacy active memory, and archives.
 - [x] `git archive` release bundle can run `scripts/test_suite.sh` without a `.git` directory.
 - [x] Release bundle must be created from GitHub source archives, `git archive`, or the target source-package mechanism, not by zipping the working directory with ignored private files.
-- [x] Validation scripts do not leave `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
+- [x] Validation scripts do not leave `.ruff_cache`, `__pycache__`, `.pyc`, or `.DS_Store` artifacts after `bash scripts/test_suite.sh`.
 - [x] MCP server resolves manifest and memory paths from the repository root even when launched from `src/`.
 - [x] `SKILL.md` distinguishes required dependency blockers from optional ecosystem enhancement warnings.
 - [x] Public/tracked Markdown internal links are validated by `scripts/ci_validate_skills.py`.
@@ -155,7 +169,7 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 - [ ] `python3 scripts/test_guyue_paths.py`, `scripts/test_memory_concurrency.py`, and `scripts/test_memory_migration.py` pass.
 - [ ] `python3 scripts/test_codex_extractor.py` passes.
 - [ ] `python3 scripts/check_behavior_replay.py --self-test` passes, every `evals/observations-*.json` file is hash-checked, and release-critical live observations use `--require-all` only when complete coverage is claimed.
-- [ ] `ruff check scripts src` passes.
+- [ ] `ruff check --no-cache scripts src` passes.
 - [ ] Official `skills-ref` validation passes for every child skill and for the root staged under a directory named `guyue`.
 - [ ] `bash scripts/test_suite.sh` passes.
 - [ ] After staging the exact release candidate, `GUYUE_RELEASE_STRICT=1 bash scripts/test_suite.sh` passes so untracked files cannot masquerade as archive payload.

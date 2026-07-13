@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import subprocess
 import tempfile
 import sys
 from pathlib import Path
@@ -13,12 +14,39 @@ import run_security_scan  # noqa: E402
 from security_patterns import find_secret_matches  # noqa: E402
 
 
+ROOT = Path(__file__).resolve().parent
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise AssertionError(message)
 
 
 def main() -> int:
+    suite = (ROOT / "test_suite.sh").read_text(encoding="utf-8")
+    require(
+        "ruff check --no-cache scripts src" in suite,
+        "the release gate must not create a Ruff cache inside source archives",
+    )
+
+    with tempfile.TemporaryDirectory(prefix="guyue-zero-leakage-test-") as temp_dir:
+        root = Path(temp_dir)
+        cache_dir = root / ".ruff_cache"
+        cache_dir.mkdir()
+        (cache_dir / "CACHEDIR.TAG").write_text("generated cache\n", encoding="utf-8")
+        scanner = subprocess.run(
+            [sys.executable, str(ROOT / "security_scanner.py")],
+            cwd=root,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        require(scanner.returncode != 0, ".ruff_cache must fail Zero-Leakage")
+        require(
+            "Generated cache present" in scanner.stdout,
+            "Zero-Leakage must explain the Ruff cache failure",
+        )
+
     with tempfile.TemporaryDirectory(prefix="guyue-security-test-") as temp_dir:
         root = Path(temp_dir)
         for index in range(204):

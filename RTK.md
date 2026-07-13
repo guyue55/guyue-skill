@@ -45,9 +45,9 @@ Before committing a repository change, run:
 
 ```bash
 bash scripts/test_suite.sh
-ruff check scripts src
+ruff check --no-cache scripts src
 git diff --check
-find . \( -name '__pycache__' -o -name '*.pyc' -o -name '.DS_Store' \) -print
+find . \( -name '__pycache__' -o -name '.ruff_cache' -o -name '*.pyc' -o -name '.DS_Store' \) -print
 python3 scripts/security_scanner.py
 ```
 
