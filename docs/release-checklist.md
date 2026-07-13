@@ -3,9 +3,9 @@
 This project should not be released just because the repository is clean. Release only when installation, verification, safety, and examples are all understandable to a new user.
 
 > [!WARNING]
-> v1.5.1 is a hotfix candidate on `dev`. The published v1.5.0 evidence proves its tagged payload and public clone, but does not prove that the new cacheless release gate or a future v1.5.1 tag passes.
+> v1.5.1 release actions are explicitly authorized. This tagged tree records failure-first, local, committed-archive and candidate `dev` evidence; final release commit, `main` CI, public tag archive, tag object and GitHub Release URL are recorded externally because the tree cannot name its own future identity.
 
-## v1.5.1 Release Candidate Evidence
+## v1.5.1 Release Evidence Lineage
 
 Date: 2026-07-13
 Candidate version: `1.5.1`
@@ -16,8 +16,9 @@ Base tag: `v1.5.0`
 - [x] The exact v1.5.1 payload lock is rebuilt after all source and documentation changes.
 - [x] The strict local 15-stage suite passes without creating `.ruff_cache`.
 - [x] A no-Git archive assembled from the exact candidate passes first-run proof and the strict 15-stage suite under an empty HOME.
-- [ ] The candidate commit passes doubled remote CI on `dev`.
-- [ ] The user explicitly authorizes fast-forwarding `main`, creating annotated tag `v1.5.1`, and publishing its GitHub Release.
+- [x] Candidate commit `078b12e` passes doubled remote CI run `29232267355` on `dev`.
+- [x] A no-Git archive from committed object `078b12e` passes the strict 15-stage suite with 248 files, no cache residue and payload SHA-256 `ec564284133512cbcbef4c5ecd2659b29c34049dcc46df35283ce3ff02ca2364`.
+- [x] The user explicitly authorizes fast-forwarding `main`, creating annotated tag `v1.5.1`, and publishing its GitHub Release.
 
 ## v1.5.0 Release Evidence
 

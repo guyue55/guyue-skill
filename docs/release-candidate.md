@@ -1,7 +1,7 @@
-# Guyue v1.5.1 Release Candidate
+# Guyue v1.5.1 Candidate Lineage
 
 Date: 2026-07-13
-State: hotfix candidate on `dev`; not integrated into `main`, tagged or released
+State: candidate gates complete and promoted into the authorized release operation
 Base tag: `v1.5.0`
 Released parent: `8938cb837e1751a383c9d0a4880e4d9c022956c1`
 
@@ -25,13 +25,16 @@ The release gate required a payload-clean worktree but invoked cache-writing Ruf
 - The v1.5.0 tag and GitHub Release remain immutable historical objects.
 - The failure does not show missing required payload files or runtime-memory corruption; it shows a non-idempotent verification workflow in no-Git source archives.
 - The focused regression failed before the fix and passes after it.
-- The strict local suite and a staged no-Git archive pass without leaving `.ruff_cache`; remote `dev`, `main`, tag and Release evidence must still be collected separately. None is inherited automatically from v1.5.0.
+- The strict local suite, staged archive and committed-object archive pass without leaving `.ruff_cache`.
+- Candidate commit `078b12e` passes doubled `dev` CI run `29232267355`.
+- The user explicitly authorized `main`, annotated tag `v1.5.1` and GitHub Release publication. Final object evidence is still collected separately rather than inherited from v1.5.0.
 
-## Remaining Gates
+## Release Operation
 
-1. Commit and push only to `dev`, then require doubled remote CI.
-2. Re-run the no-Git archive gate from the committed object rather than borrowing staged-tree evidence.
-3. Obtain explicit authorization before `main`, annotated tag `v1.5.1`, or GitHub Release actions.
+1. Commit and push the final `released` metadata on `dev`, then require doubled remote CI.
+2. Fast-forward `main` to the exact final commit and require doubled `main` CI.
+3. Re-run public HTTPS and no-Git archive checks against the promoted object.
+4. Create and push annotated tag `v1.5.1`, publish the GitHub Release, then fast-forward `dev` if any release-only commit was made on `main`.
 
 ---
 

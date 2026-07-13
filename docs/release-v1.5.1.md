@@ -1,7 +1,7 @@
-# Guyue v1.5.1 Release Candidate
+# Guyue v1.5.1 Release
 
 Date: 2026-07-13
-State: `release-candidate`
+State: `released`
 Base tag: `v1.5.0`
 
 ## Purpose
@@ -30,9 +30,10 @@ This sequence matters: `python3 scripts/try_guyue.py` passes before Ruff runs, a
 - Exact manifest-backed payload lock: pass for the frozen candidate tree.
 - Strict local 15-stage suite: pass without generated cache residue.
 - Fresh staged no-Git source archive, empty HOME, first-run proof and strict 15-stage suite: pass.
-- Doubled `dev` and `main` CI for the exact promoted commit.
-- Public tag archive replay after an authorized tag is created.
+- Committed no-Git archive `078b12e`, 248-file payload SHA-256 `ec564284133512cbcbef4c5ecd2659b29c34049dcc46df35283ce3ff02ca2364`: pass.
+- Doubled candidate `dev` CI run `29232267355`: pass.
+- Final release commit, `main` CI, public tag archive and GitHub Release receipts: recorded outside the frozen tree.
 
 ## Boundaries
 
-The candidate does not authorize `main`, tag creation or GitHub Release publication. Passing the archive gate proves verification idempotence and payload integrity for this workflow; it does not prove other runtime activation, arbitrary-domain quality or long-term user value.
+The user separately authorized `main`, annotated tag and GitHub Release actions for v1.5.1. Passing the archive gate proves verification idempotence and payload integrity for this workflow; it does not prove other runtime activation, arbitrary-domain quality or long-term user value.

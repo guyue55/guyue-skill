@@ -2,7 +2,7 @@
 
 ## v1.5.1 - 2026-07-13
 
-Status: Release Candidate
+Status: Released
 
 ### Fixed
 
@@ -13,7 +13,7 @@ Status: Release Candidate
 ### Verification
 
 - Reproduce the v1.5.0 failure only after Ruff creates `.ruff_cache` in a source archive without `.git`.
-- Require the focused regression, exact payload lock, strict local suite and a fresh no-Git source-archive replay before promotion.
+- Pass the focused regression, exact payload lock, strict local suite, committed no-Git source-archive replay and doubled `dev` CI before promotion.
 
 ## v1.5.0 - 2026-07-13
 

@@ -6,10 +6,10 @@
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Candidate-v1.5.1-orange)
+![Status](https://img.shields.io/badge/Release-v1.5.1-brightgreen)
 
 > [!WARNING]
-> `v1.5.0` 已正式发布，但 GitHub 自动生成的无 `.git` 源码归档在运行完整套件时会被 Ruff 新建的 `.ruff_cache` 污染，导致后续载荷检查失败。`v1.5.1` 候选修复这个顺序问题；候选通过定向与归档复验前，不继承 v1.5.0 的发布结论，也不冒充新 tag 已存在。
+> `v1.5.1` 修复了 v1.5.0 在 GitHub 自动生成的无 `.git` 源码归档中被 Ruff `.ruff_cache` 污染的问题。正式载荷已通过失败优先回归、本地严格套件、提交对象无 Git 归档和候选 `dev` 双跑 CI；最终 `main`、tag、公开归档与 Release 收据在冻结对象之外记录，不把历史绿灯借给新对象。
 
 > [!IMPORTANT]
 > 古月不是“完整的人”或万能自动化系统。它会主动完成边界明确、仓库内可逆的工作；公开发布、付费、凭证、权限扩大、不可逆迁移等高影响动作仍需绑定具体版本的授权。它不会把 AI 参与伪装成人工来源，也不会为了好听删除证据缺口或风险。
@@ -74,14 +74,14 @@ python3 scripts/try_guyue.py
 
 ## 安装到 Agent
 
-### v1.5.0 已发布；v1.5.1 热修候选
+### v1.5.1：GitHub 源与 Claude Code Marketplace 元数据
 
 ```bash
 claude plugin marketplace add guyue55/guyue-skill
 claude plugin install guyue@guyue
 ```
 
-安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。公开 tag `v1.5.0` 保持不可变；`dev` 上的 Marketplace 元数据已同步为 `v1.5.1` 候选。Claude 模型激活、Marketplace 提交和候选发布仍是独立证据面，不能由结构校验或历史安装证据替代。
+安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。公开 tag `v1.5.1` 固定本次热修载荷，Marketplace 元数据与版本一致。Claude 模型激活和 Marketplace 提交仍是独立证据面，不能由结构校验、GitHub Release 或历史安装证据替代。
 
 **Codex 完整安装：**
 
@@ -114,7 +114,7 @@ bash scripts/test_suite.sh
 
 更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
 
-运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前候选证据见 [v1.5.1 热修说明](docs/release-v1.5.1.md) 和 [发布清单](docs/release-checklist.md#v151-release-candidate-evidence)；[v1.5.0 发布说明](docs/release-v1.5.0.md) 与[鲁班审查](docs/luban-report-v1.5.0.md)保留为已发布版本证据，但不替代当前候选复验。
+运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前证据见 [v1.5.1 热修说明](docs/release-v1.5.1.md) 和 [发布清单](docs/release-checklist.md#v151-release-evidence-lineage)；[v1.5.0 发布说明](docs/release-v1.5.0.md) 与[鲁班审查](docs/luban-report-v1.5.0.md)保留为历史证据，但不替代当前版本复验。
 
 ## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
 
@@ -353,14 +353,14 @@ guyue/
     └── video-extractor/
 ```
 
-## v1.5.1 热修候选证书
+## v1.5.1 热修证书
 
 ```text
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.5.1-rc)             │
-│  状态：Release Candidate，等待独立发布授权           │
+│  作品：guyue (古月数字分身 v1.5.1)                │
+│  状态：Released Payload，发布对象由 tag 固定          │
 │  打磨前：单项能力可验，但跨能力协作主要靠文字约定   │
 │  打磨后：26 项能力可路由、可协作、可安装态验收      │
 │  定位：Personal Agent Operating Layer            │

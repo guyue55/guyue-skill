@@ -2,7 +2,7 @@
   "schema_version": 1,
   "package": "guyue-digital-twin",
   "version": "1.5.1",
-  "release_state": "release-candidate",
+  "release_state": "released",
   "base_tag": "v1.5.0",
   "files": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "4197a2399819d83b5e77a30a2469ca84cae21624917e7b66cee75797e4973f9f"
+      "sha256": "65831a7be2b1ea505dab166ef417459d722c1ff7b6800d1050ae3e9bda07b077"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "8a860187b02fa0cf7750d3ece41b70e282174f8c2cbc2b1582be087824a1c695"
+      "sha256": "26a84bda8d9178829e53c239d3ac51f44a0bdc24acaaca03417ec8a0cdaeeb4e"
     },
     {
       "path": "RTK.md",
@@ -87,11 +87,11 @@
     },
     {
       "path": "docs/release-candidate.md",
-      "sha256": "0636466313661e7daa305b445fe0cb1e4a5ed4c4c24d17412d105d3940709ff7"
+      "sha256": "4426e0ef16655d1ae9786c3dfd1f281d74f19de9443e7cb305a4d26f9d92f9f9"
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "1beef73761ea02d2cc168f7dc4c582f6b22507afa5708aa875b194fee2ff961e"
+      "sha256": "f78c69f41595859e84d21e51e7be57b9668fd353732dd7aff80409e4d23d7f79"
     },
     {
       "path": "docs/release-v1.4.0.md",
@@ -103,7 +103,7 @@
     },
     {
       "path": "docs/release-v1.5.1.md",
-      "sha256": "5bccaba3b8d26b09b19a65727e49e4dd803c8fd25f6b24b14fd6b25a92c0393e"
+      "sha256": "589c7b79c7b8a06db533071f677b113c76ed117c3f816c8ba68240f229514c13"
     },
     {
       "path": "docs/runtime-adapters.md",
@@ -651,7 +651,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "72475dff2be115f3633de259a3d5ac6225efd392ce1c0070dd84549f589c1a0d"
+      "sha256": "5782179658f9fd853beb5a7be9026a38295e9c7cff4b141d38573d7fad408abc"
     },
     {
       "path": "requirements.txt",
