@@ -26,6 +26,7 @@
     {"skill":"reality-auditor","prompt_name":"Trigger Reality Auditor"},
     {"skill":"nexusflow-governance-workflow","prompt_name":"Trigger NexusFlow Governance Workflow"},
     {"skill":"eac-demo-hardening","prompt_name":"Trigger EAC Demo Hardening"},
-    {"skill":"ai-cost-grounding-measurement","prompt_name":"Trigger AI Cost Grounding Measurement"}
+    {"skill":"ai-cost-grounding-measurement","prompt_name":"Trigger AI Cost Grounding Measurement"},
+    {"skill":"cognitive-expansion","prompt_name":"Trigger Cognitive Expansion"}
   ]
 }

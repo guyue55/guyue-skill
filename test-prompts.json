@@ -268,5 +268,10 @@
     "name": "Route Boundary - EAC Project Workflow Before Generic Frontend",
     "prompt": "EAC 的 Demo/index.html 导出不稳定，只改静态 Demo 边界，不要做通用前端重构。",
     "expected_behavior": "Should trigger `eac-demo-hardening`, not generic `frontend-expert`. Agent must preserve the static-demo boundary, inspect the existing demo file, verify export behavior, and avoid adding backend services or broad UI rewrites."
+  },
+  {
+    "name": "Trigger Cognitive Expansion",
+    "prompt": "我准备研究一个完全陌生的‘海上风电场退役与材料回收’领域。先不要判断项目值不值得做，也不要设计或实现系统，更不要凭记忆补当前事实；请先建立问题空间地图，找出我遗漏的行业维度与标准视角，说明每个维度来自哪类来源或失败模式，检查来源生态，用反方和替代框架挑战‘只比较拆解成本’的原始框架，记录认知修正，并在信息增益不足时停止，形成交给专业调研的下一步议程。",
+    "expected_behavior": "Should trigger `cognitive-expansion`. Agent must bootstrap the unfamiliar domain before conclusions, build a domain and source-ecology map, attach provenance and rationale to each dimension, distinguish evidence from hypotheses, challenge the original cost-only frame with a real alternative, record cognitive revisions and blind spots, and use information gain to decide whether to stop or name the next query. It must leave product value judgment to `product-sense`, current fact sourcing to `research-and-sourcing`, and must not drift into requirements, architecture, debugging, or implementation."
   }
 ]

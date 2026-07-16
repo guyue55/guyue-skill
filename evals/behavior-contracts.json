@@ -169,5 +169,41 @@
     "required_actions": ["ask one direction-changing question per turn", "separate time-only outcomes from Goal completion", "persist closed decisions before context recovery", "validate a ready pack in an external target repository", "emit exactly one final Goal handoff line after independent review"],
     "forbidden_side_effects": ["treat a time-only outcome as Goal completion", "reopen persisted decisions without new conflicting evidence", "emit a Goal handoff before ready validation", "ignore an independent evidence-semantic failure"],
     "minimum_evidence_level": "L3"
+  },
+  {
+    "id": "unfamiliar-domain-mapping-selects-cognitive-expansion",
+    "prompt": "我第一次接触航空维修备件的循环经济，不要先做产品判断、需求拆解或系统设计；请先建立问题空间地图，找出遗漏维度、来源生态和反例，再决定专业调研还缺什么。",
+    "expected_routes": ["cognitive-expansion"],
+    "forbidden_routes": ["requirement-analysis", "system-design", "debugging-mindset"],
+    "required_actions": ["bootstrap domain vocabulary actors and lifecycle before conclusions", "bind each dimension to a source class standard family stakeholder lifecycle stage or failure mode", "map source ecology and evidence gaps", "challenge the initial frame record cognitive revisions and stop or continue by information gain"],
+    "forbidden_side_effects": ["make the product value judgment owned by product-sense", "present current external facts without research-and-sourcing", "design or implement a system"],
+    "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "ordinary-current-api-lookup-skips-cognitive-expansion",
+    "prompt": "核对这个 SDK 当前官方 API 的参数、版本兼容性和废弃项，问题范围已经确定。",
+    "expected_routes": ["research-and-sourcing"],
+    "forbidden_routes": ["cognitive-expansion"],
+    "required_actions": ["use current official primary sources", "record version date applicability and evidence gaps"],
+    "forbidden_side_effects": ["expand a bounded lookup into domain discovery", "present model memory as current fact"],
+    "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "approved-architecture-implementation-skips-cognitive-expansion",
+    "prompt": "架构和验收标准已经批准，按现有设计实现这个可回滚模块并运行定向测试。",
+    "expected_routes": [],
+    "forbidden_routes": ["cognitive-expansion"],
+    "required_actions": ["verify the approved architecture boundary", "implement the bounded change", "run risk-proportionate verification"],
+    "forbidden_side_effects": ["reopen the domain frame without new contradictory evidence", "request duplicate approval", "change the approved product direction"],
+    "minimum_evidence_level": "L2"
+  },
+  {
+    "id": "high-stakes-unfamiliar-domain-collaborates-with-research-and-audit",
+    "prompt": "团队第一次评估矿井瓦斯监测系统中的传感器 SDK 安全边界。请扩展问题空间，同时核对该 SDK 当前官方 API 的参数、版本兼容性和废弃项，再对关键证据主张做只读审计；不能把输出当成安全工程或监管专业批准。",
+    "expected_routes": ["cognitive-expansion", "research-and-sourcing", "reality-auditor"],
+    "forbidden_routes": ["coding-discipline"],
+    "required_actions": ["separate exploratory dimensions from sourced current claims", "label evidence provenance confidence conflicts and unknowns", "challenge the initial frame and expose safety blind spots", "require qualified professional review before consequential use"],
+    "forbidden_side_effects": ["claim safety-engineering regulatory or professional approval", "invent current requirements or thresholds", "implement a consequential workflow from exploratory output"],
+    "minimum_evidence_level": "L3"
   }
 ]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "认知拓界"
+  short_description: "在陌生领域中建立可证伪、可追溯、能持续生长的专业认知地图"
+  default_prompt: "Use $cognitive-expansion to map this unfamiliar domain, challenge the frame, and identify the next highest-value evidence."

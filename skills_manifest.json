@@ -232,6 +232,31 @@
                     {"id": "report", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
                 ],
                 "completion_gate": "Project markers, server-side boundaries, measured evidence, live behavior, and public report claims agree."
+            },
+            {
+                "id": "cognitive-expansion-loop",
+                "description": "Build and challenge a living map of an unfamiliar domain before bounded research, requirements, or design.",
+                "trigger_intent": [
+                    "cognitive expansion loop",
+                    "unfamiliar domain map",
+                    "完全陌生",
+                    "启动领域地图",
+                    "追溯每个分析维度",
+                    "检查来源生态",
+                    "认知修正",
+                    "按信息增益决定"
+                ],
+                "entry_skills": [
+                    "cognitive-expansion"
+                ],
+                "stages": [
+                    {"id": "map", "mode": "sequence", "skills": ["cognitive-expansion"]},
+                    {"id": "source", "mode": "as-needed", "skills": ["research-and-sourcing"]},
+                    {"id": "budget", "mode": "as-needed", "skills": ["context-compressor"]},
+                    {"id": "apply", "mode": "as-needed", "skills": ["requirement-analysis", "system-design"]},
+                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                ],
+                "completion_gate": "The map, evidence states, contradiction/unknown ledger, downstream handoff, and stop reason agree."
             }
         ]
     },
@@ -1022,6 +1047,53 @@
             "description": "Evidence-first real AI report-cost measurement for model tokens, Grounding/search metadata, billable query counts, CSV localization, and estimate-vs-real separation.",
             "root_exposure": "explicit",
             "evidence_profile": "E4-audit",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
+        },
+        {
+            "name": "cognitive-expansion",
+            "path": "skills/cognitive-expansion/SKILL.md",
+            "routing_priority": 35,
+            "trigger_intent": [
+                "unfamiliar-domain cognition",
+                "unfamiliar domain",
+                "problem-space mapping",
+                "problem space map",
+                "unknown unknowns",
+                "information-cocoon breaking",
+                "omitted perspectives",
+                "professional research preparation",
+                "完全陌生",
+                "第一次接触",
+                "第一次评估",
+                "陌生领域",
+                "问题空间地图",
+                "扩展问题空间",
+                "遗漏维度",
+                "未知的未知",
+                "打破信息茧房",
+                "来源生态",
+                "认知修正",
+                "专业调研准备"
+            ],
+            "negative_intent": [
+                "simple fact",
+                "ordinary latest-doc lookup",
+                "bounded requirements",
+                "approved implementation",
+                "active debugging",
+                "editing",
+                "简单事实查询",
+                "问题范围已经确定",
+                "需求边界已经确定",
+                "架构已经批准",
+                "线上故障正在排查",
+                "只做编辑改写",
+                "研究范围已限定"
+            ],
+            "description": "Upstream unfamiliar-domain cognition for problem-space maps, unknown unknowns, omitted perspectives, source ecology, adversarial reframing, cognitive revision, professional research preparation, and defensible stopping.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E3-lineage",
             "activation_policy": "model-or-explicit",
             "live_canary_required": true
         }

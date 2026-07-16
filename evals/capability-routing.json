@@ -54,6 +54,7 @@
     {"id":"boundary-local-software","prompt_name":"Route Boundary - Local Software Advice Before Ecosystem Intake","expected_routes":["software-advisor"],"forbidden_routes":["ecosystem-scout"]},
     {"id":"boundary-skill-crafting","prompt_name":"Route Boundary - Skill Crafting Before SOP Or Documentation","expected_routes":["skill-crafting"],"forbidden_routes":["sop-maker","documentation"]},
     {"id":"boundary-reality-before-debugging","prompt_name":"Route Boundary - Reality Audit Before Debugging","expected_routes":["reality-auditor"],"forbidden_routes":["debugging-mindset"]},
-    {"id":"boundary-eac-before-frontend","prompt_name":"Route Boundary - EAC Project Workflow Before Generic Frontend","expected_routes":["eac-demo-hardening"],"forbidden_routes":["frontend-expert"]}
+    {"id":"boundary-eac-before-frontend","prompt_name":"Route Boundary - EAC Project Workflow Before Generic Frontend","expected_routes":["eac-demo-hardening"],"forbidden_routes":["frontend-expert"]},
+    {"id":"cognitive-expansion-unfamiliar-domain","prompt_name":"Trigger Cognitive Expansion","expected_routes":["cognitive-expansion"],"forbidden_routes":["requirement-analysis","system-design","debugging-mindset"]}
   ]
 }
