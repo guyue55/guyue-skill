@@ -15,3 +15,6 @@ __pycache__/
 # Never bind or copy the user-owned Guyue home into a project checkout.
 .guyue
 .serena
+
+# Local isolated implementation worktrees
+.worktrees/
