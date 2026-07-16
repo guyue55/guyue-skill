@@ -174,7 +174,7 @@
     "id": "unfamiliar-domain-mapping-selects-cognitive-expansion",
     "prompt": "我第一次接触航空维修备件的循环经济，不要先做产品判断、需求拆解或系统设计；请先建立问题空间地图，找出遗漏维度、来源生态和反例，再决定专业调研还缺什么。",
     "expected_routes": ["cognitive-expansion"],
-    "forbidden_routes": ["requirement-analysis", "system-design", "debugging-mindset"],
+    "forbidden_routes": ["product-sense", "requirement-analysis", "system-design", "debugging-mindset"],
     "required_actions": ["bootstrap domain vocabulary actors and lifecycle before conclusions", "bind each dimension to a source class standard family stakeholder lifecycle stage or failure mode", "map source ecology and evidence gaps", "challenge the initial frame record cognitive revisions and stop or continue by information gain"],
     "forbidden_side_effects": ["make the product value judgment owned by product-sense", "present current external facts without research-and-sourcing", "design or implement a system"],
     "minimum_evidence_level": "L1"

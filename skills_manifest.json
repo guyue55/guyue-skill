@@ -404,7 +404,8 @@
             "negative_intent": [
                 "implementation already approved and bounded",
                 "read-only implementation audit",
-                "active bug with logs"
+                "active bug with logs",
+                "先不要判断项目值不值得做"
             ],
             "description": "Business-readable value, ROI, user impact, role, and compliance interrogation before requirement analysis or system design.",
             "root_exposure": "explicit",
