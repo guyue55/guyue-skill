@@ -58,6 +58,26 @@ Before requiring a third-party provider, probe the current runtime and configure
    - HyperFrames and Remotion render deterministic compositions from HTML/React/assets; they do not automatically solve missing footage, voice, or music.
    - Editing tools package, cut, caption, and export existing media.
 
+## Model Capability And Seven-Axis Continuity Gate
+
+Select the model before optimizing prompts. Add `model_capability_profile.json` to any narrative, reference-driven, or consistency-sensitive generation package. Record provider, model, exact version, supported input modes, first/last-frame or multi-image conditioning, maximum bounded duration, output dimensions, fixed-camera controls, local edit or mask support, seed/version reproducibility, completed-output retrieval, queue/access state, cost, and evidence. Keep these statuses distinct: `proven`, `documented_not_executed`, `supported_but_output_failed`, `unknown`, and `unsupported`.
+
+Do not select a model merely because it is popular or already configured. Select it only when every hard capability required by the shot is neither `unknown` nor `unsupported`. A native capability still stays first when it meets the same contract; otherwise compare already configured or explicitly approved providers. Documentation proves routing eligibility, not output quality or queue availability.
+
+For each generated shot, create `frame_qa.json` and assign every decoded frame to exactly one acceptance interval. Evaluate these seven axes without collapsing them into a single similarity score:
+
+1. character or subject identity;
+2. scene and world geometry;
+3. prop identity and state;
+4. expression and micro-expression, including nonhuman state cues such as indicator lights and hesitation timing;
+5. action causality and physical contact;
+6. background continuity and occlusion;
+7. camera, lens, crop, horizon, scale, and motion continuity.
+
+Every failure receives one primary axis, a stable failure code, frame or time range, evidence, and the smallest allowed repair scope. Prefer reference rebinding, keyframe edit, masked local repair, deterministic crop/normalization, or bounded temporal-segment regeneration. Do not jump directly to whole-shot regeneration when a smaller repair can preserve accepted regions.
+
+After any local repair, require a full-shot replay from first decoded frame to last. Re-run all seven axes, verify that the repaired failure is gone and that no accepted axis regressed, then update `stage_gate_report.md`. A machine-clean replay remains a candidate until the declared human reviewers approve it; do not claim natural performance, micro-expression quality, popularity, or final acceptance from machine checks alone.
+
 ## Route Matrix
 
 Choose one main route, then add supporting routes only when the artifact contract requires them.

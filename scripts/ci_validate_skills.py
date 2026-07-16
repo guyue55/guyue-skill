@@ -887,6 +887,13 @@ def check_video_creation_sop_contract(repo_root):
             'field_sources',
             'permission evidence',
             'references/short-drama-example-learnings.md',
+            '## Model Capability And Seven-Axis Continuity Gate',
+            '`model_capability_profile.json`',
+            '`frame_qa.json`',
+            'character or subject',
+            'expression and micro-expression',
+            'local repair',
+            'full-shot replay',
         ],
         'contract': [
             '## `brief.json`',
