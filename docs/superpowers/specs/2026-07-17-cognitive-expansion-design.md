@@ -259,3 +259,18 @@
 设计吸收但不复制以下方法：领域分析与知识组织、概念图与分面分析、JBI/Campbell/PRISMA 证据综合、结构化情报分析、地平线扫描、认知任务分析与认知学徒制、信息价值、STORM/Co-STORM、多步与多 Agent Deep Research、FINDER/DEFT 失败分类和 Deep Research 安全边界。
 
 这些来源是设计依据，不是运行时依赖。实现阶段只保留能够改变行为、可测试且与古月边界兼容的机制。
+
+| 方法谱系 | 一手或官方来源 | 访问日期 | 采用的机制 | 刻意不复制 |
+|---|---|---|---|---|
+| 领域分析 | [Hjørland, “Domain analysis in information science: eleven approaches” (University of Copenhagen record, DOI 10.1108/00220410210431136)](https://researchprofiles.ku.dk/da/publications/domain-analysis-in-information-science-eleven-approaches-traditio/) | 2026-07-17 | 通过话语共同体、文献、机构、实践和知识组织理解领域，而不是只取通用主题标签 | 不强制每次运行机械套用十一种路径 |
+| 分面分析与知识组织 | [“Facet Analysis: The Evolution of an Idea” (UCL Discovery)](https://discovery.ucl.ac.uk/id/eprint/10225595/) | 2026-07-17 | 把视角视为可分离的观察轴，并显式说明分类假设 | 不提供万能分面词表 |
+| 证据综合 | [JBI Manual for Evidence Synthesis, 2024 PDF](https://jbi-global-wiki.refined.site/download/attachments/355599504/JBI%20Manual%20for%20Evidence%20Synthesis%20Nov%202024.pdf?download=true)；[PRISMA 2020 statement](https://www.bmj.com/content/372/bmj.n71) | 2026-07-17 | 让方法匹配问题和证据类型，并记录检索、纳入、来源与局限 | 不把普通调研宣称为系统综述，也不机械要求 PRISMA |
+| 结构化分析挑战 | [CIA, A Tradecraft Primer: Structured Analytic Techniques](https://www.cia.gov/resources/csi/books-monographs/a-tradecraft-primer/) | 2026-07-17 | 外显假设、比较竞争解释、使用指标和信号，并主动挑战当前框架 | 不模仿情报评分，也不暴露隐藏推理 |
+| 地平线扫描 | [UK Government Office for Science, Futures Toolkit (2024)](https://www.gov.uk/government/publications/futures-toolkit-for-policy-makers-and-analysts/the-futures-toolkit-html) | 2026-07-17 | 扩展时间尺度、来源和文化范围，寻找弱信号与遗漏变化 | 不把 PESTLE、Delphi 或情景法硬编码成通用维度 |
+| 认知任务分析 | [Militello & Hutton, ACTA practitioner toolkit, DOI 10.1080/001401398186108](https://doi.org/10.1080/001401398186108) | 2026-07-17 | 从从业者处寻找默会线索、困难判断、失败点和专业工作产物 | 不把访谈当作已验证外部事实，也不要求每次都做 ACTA 访谈 |
+| 多视角知识整理 | [STORM paper](https://arxiv.org/abs/2402.14207)；[Co-STORM paper](https://arxiv.org/abs/2408.15232) | 2026-07-17 | 用视角引导问题、维护动态地图，并从竞争话语中暴露未知未知 | 不要求多 Agent 执行或维基百科式长报告 |
+| 生产级深度研究与安全 | [OpenAI Deep Research System Card](https://openai.com/index/deep-research-system-card/)；[Anthropic multi-agent research engineering report](https://www.anthropic.com/engineering/multi-agent-research-system) | 2026-07-17 | 采用迭代搜索与转向、编排、评测、提示注入防护和操作边界 | 不内置某个研究 Agent 框架，也不假设并行 Agent 总是更好 |
+| 深度研究评测 | [DeepResearch Bench](https://arxiv.org/abs/2506.11763)；[FINDER/DEFT](https://arxiv.org/abs/2512.01948)；[Deep Research Bench II](https://arxiv.org/abs/2601.08536) | 2026-07-17 | 按任务评估覆盖、引用正确性、证据整合、推理韧性和细粒度失败 | 不用单一分数或报告长度证明专业质量 |
+| 信息价值与自我修正边界 | [On the Value of Information Across Decision Problems](https://pubsonline.informs.org/doi/abs/10.1287/deca.2024.0187)；[ICLR 2024: Large Language Models Cannot Self-Correct Reasoning Yet](https://proceedings.iclr.cc/paper_files/paper/2024/hash/8b4add8b0aa8749d80a34ca5d941c355-Abstract-Conference.html) | 2026-07-17 | 只有新证据可能改变决定或地图时才继续，并用外部反馈约束模型自我反思 | 不制造伪精确的信息价值分数，也不声称所有场景的自我批评都无效 |
+
+表中来源只解释方法谱系，不参与运行时加载，也不授权复制完整框架。

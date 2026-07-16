@@ -26,7 +26,7 @@ cd guyue-skill
 python3 scripts/try_guyue.py
 ```
 
-你会直接看到类似结果：
+下面保留 `v1.5.1` 的历史验货样例：
 
 ```text
 [PASS] 包体 complete | 26 Skills
@@ -38,7 +38,7 @@ python3 scripts/try_guyue.py
 [PASS] 本地验货通过
 ```
 
-这个入口复用真实的包体收据、路由解释器和上下文预算器，只读、不写文件。它证明本地包体与确定性路由可用，但不冒充目标运行时已经激活，也不冒充模型行为回放通过。入口源码见 [scripts/try_guyue.py](scripts/try_guyue.py)，完整场景见 [examples/showcase.md](examples/showcase.md)，历史活体回放见 [examples/quickstart-output.md](examples/quickstart-output.md)。
+这个入口复用真实的包体收据、路由解释器和上下文预算器，只读、不写文件。上面的 26 Skill 输出是 `v1.5.1` 历史证据；当前开发分支会按当前 manifest 重算。两者都不能证明目标运行时已经激活或模型行为回放通过。入口源码见 [scripts/try_guyue.py](scripts/try_guyue.py)，完整场景见 [examples/showcase.md](examples/showcase.md)，历史活体回放见 [examples/quickstart-output.md](examples/quickstart-output.md)。
 
 ### 证明口径
 
@@ -46,8 +46,11 @@ python3 scripts/try_guyue.py
 |---|---|---|
 | `scripts/try_guyue.py` | 当前载荷、确定性路由、项目边界和上下文预算 | 目标运行时已激活，或模型一定遵守合同 |
 | 哈希绑定的只读回放 | 指定提示词在指定运行时中的真实行为 | 其余行为合同、其他运行时或长期结果 |
-| 26 项输出质量收据 | 每个 Skill 的一个合成任务已读取正文、产生产物并通过独立准则审查 | 任意输入都高质量、真实用户价值或其他运行时表现 |
+| `v1.5.1` 的 26 项历史输出质量收据 | 每个已发布 Skill 的一个合成任务已读取正文、产生产物并通过独立准则审查 | 当前开发分支新增 Skill、任意输入质量、真实用户价值或其他运行时表现 |
 | 当前发布套件与发布清单 | 精确载荷的本地结构、安全、远程 CI 和公开源安装完整性 | 其他运行时、GitHub Release 或长期用户价值 |
+
+> [!NOTE]
+> 当前开发分支已定义 27 个子 Skill、55 个路由用例、23 个行为合同、12 个协作用例、216 个近邻负例和 10 个工作流。这是当前确定性合同，不是 27 项活体激活或输出质量证明；这两类新收据尚未刷新，现有历史证据仍只覆盖 `v1.5.1` 的 26 个 Skill。
 
 ## 适合谁
 
@@ -64,13 +67,27 @@ python3 scripts/try_guyue.py
 
 古月的底盘是三件事：**验料**，先判断什么值得做；**造镜子**，把经验沉淀成可复用判断；**活体对账**，能运行就运行，能打开就打开，不让绿色状态灯替代真实结果。
 
+## 认知拓界：先找到该看什么
+
+“多维度分析”或“全面分析”只表达了想看得更广，却没有说明分析服务什么决定、边界在哪里、维度从何而来、哪些事实需要更新、何时可以停止。直接回答通常只会得到熟悉框架和更长的列表。
+
+`cognitive-expansion` 默认交付可继续修订的认知地图，而不是长报告：先标出领域术语、对象、关系、参与者、标准、证据状态、冲突和未知，再按当前目的保留真正有信息价值的维度。新证据可以改写这张地图。
+
+可以这样触发：
+
+- “我对量子传感完全陌生，先帮我画出这个领域的问题空间和专业判断标准。”
+- “不要直接套 SWOT，帮我找出新能源汽车出海最容易漏掉的维度、反例和未知。”
+- “先全面理解这个公共政策争议，给出可修订的认知地图，再告诉我最值得补证的问题。”
+
+边界也很明确：模型记忆只用于生成候选线索，不能冒充外部事实；涉及当前变化时转 `research-and-sourcing` 查一手来源；医疗、法律、金融等高风险结论需要具名专业人士或正式机构复核；安装、发布、付费、外部写入、权限扩大和不可逆动作仍需针对具体动作授权。
+
 ## 为什么不只是临时问 Agent
 
 | 形态 | 擅长 | 缺少什么 |
 |---|---|---|
 | 临时提示 | 一次性回答和局部执行 | 没有版本化路由、恢复账本、证据合同和回归门 |
 | 单一任务 Skill | 固化一个领域的稳定步骤 | 通常不负责跨任务仲裁、长线控制修订和终局封账 |
-| Guyue | 用 26 个窄能力组织需求、实现、恢复、审查和沉淀 | 仍依赖目标运行时执行；不替代用户价值判断或时间型结果 |
+| Guyue（当前开发清单） | 用 27 个窄能力组织认知建图、需求、实现、恢复、审查和沉淀；`v1.5.1` 发布版为 26 个 | 仍依赖目标运行时执行；新增能力尚无 27 项活体与输出质量收据，也不替代用户价值判断或时间型结果 |
 
 ## 安装到 Agent
 
@@ -116,11 +133,15 @@ bash scripts/test_suite.sh
 
 运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前证据见 [v1.5.1 热修说明](docs/release-v1.5.1.md) 和 [发布清单](docs/release-checklist.md#v151-release-evidence-lineage)；[v1.5.0 发布说明](docs/release-v1.5.0.md) 与[鲁班审查](docs/luban-report-v1.5.0.md)保留为历史证据，但不替代当前版本复验。
 
-## 核心心智矩阵：1 个核心分身 + 13 个基础能力 + 13 个扩展能力
+## 核心心智矩阵：1 个核心分身 + 14 个基础能力 + 13 个扩展能力
 
 本系统采用类似操作系统的技能路由架构（Digital Twin Orchestrator）。当运行时加载根 `SKILL.md` 后，主干根据意图选择最窄的内部能力模块：
 
+> [!NOTE]
+> 这里描述当前开发分支的 27 个子 Skill 和确定性合同。`v1.5.1` 的 26 项活体激活与输出质量收据仍是历史发布证据，不能升格为 27 项证明。
+
 - 🚦 **核心分身 (guyue)**：接管意图，强制注入模块化解耦、全局规划、规范化纪律的底层思维 SOP。
+- 🗺️ **认知拓界 (cognitive-expansion)**：面对陌生领域或尚未定界的“全面分析”，先发现问题空间、领域结构和高价值维度，形成可被新证据修订的认知地图；不默认写长报告，也不替代事实检索、需求拆解或架构设计。
 - 🔍 **证据型调研 (research-and-sourcing)**：外部事实不稳定、陌生、高风险、用户明确要求或会改变决定时，查当前一手来源；稳定的本地事实直接检查仓库与运行产物，不为仪式感联网。
 - 🤔 **需求反问 (requirement-analysis)**：拒绝单向接受模糊需求，优先从项目证据补齐事实，再只追问会改变目标、范围、成本或验收的事项。
 - 🎯 **价值拷问 (product-sense)**：在进入系统设计前，强制剥离技术滤镜，审视需求的 ROI 和商业逻辑。
@@ -134,7 +155,7 @@ bash scripts/test_suite.sh
 - 📒 **长线目标铸造与长程自治**：Long Goal v4 在 v3 的稳定 ID、委派收束和哈希证据上，增加三层时间尺度、事实/决定/假设/实验台账、可追溯控制修订、先纵切后扩张和 A/B/C Git 封账。检查器可通过 `--repo-root` 验证任意目标仓库；连续模拟覆盖三次失败、设计复核、批准恢复、封账、重启与篡改拒绝。承诺与 `FINAL/ATTEMPT` 证据双向对账，检查器通过仍只证明控制结构完整。v2/v3 仅保留历史解析兼容。
 - 🧠 **证据型双轨记忆 (memory-bank)**：公共精选索引与本地私有运行记忆分离；每条教训记录来源、证据、作用域、置信度、替代关系和复查日期，避免把过期经验当成当前事实。
 - 🛠️ **技能制作 (skill-crafting)**：先验证重复价值、稳定输入、可复用步骤和验证标准，再选择 Skill、Custom subagent、SOP、脚本、Hook、Automation 或 CI gate；用无 Skill 基线、留出样本、重复回放和安装验真取代评分表自嗨。
-- 📡 **能力链验真**：26 个内置 Skill 统一声明发现策略和 E1-E4 证据档位；54 条宽路由、345 条正触发、208 条近邻负例、48 条外部候选触发与 26 条 Codex 活体激活共同证明“可发现/可选择/可激活”。12 个外部增强只能进入候选态，未完成来源、安装、安检和动作授权前不能冒充已激活能力。
+- 📡 **能力链验真**：当前开发 manifest 的 27 个子 Skill、55 个路由用例、23 个行为合同、12 个协作用例、216 个近邻负例和 10 个工作流证明确定性发现与选择合同；`v1.5.1` 的 26 项 Codex 活体激活与输出质量收据只证明历史发布集合。12 个外部增强只能进入候选态，未完成来源、安装、安检和动作授权前不能冒充已激活能力。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册；确实适合第三方工具时，先给安装计划和安全边界，获明确授权后再快速接入。
 
 扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
@@ -160,6 +181,7 @@ bash scripts/test_suite.sh
 | 容易混淆的能力 | 路由边界 |
 |---|---|
 | 长线目标铸造 / Long Goal Protocol | 前者负责项目调查、逐项澄清、方案与治理资产准备，准备完成前不实现；后者只负责按已经就绪的总控和账本持续执行。 |
+| `cognitive-expansion` / `research-and-sourcing` / `requirement-analysis` / `system-design` | 尚不知道该看什么时先建问题与领域地图；地图指出需核验的当前事实后再调研；要做产品或业务交付时收敛需求；需求有界后才设计架构。各阶段按需进入，不固定全串。 |
 | `product-sense` / `requirement-analysis` / `system-design` | 先判断值不值得做，再拆需求边界，最后才做架构方案。 |
 | `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
 | `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
@@ -188,7 +210,7 @@ bash scripts/test_suite.sh
    - **Human-in-the-Loop**: 审批绑定具体动作、参数、版本和失效条件；方向改变后旧授权不自动延续。
    - **Loop Engineering**: 把重复手工提示转成有目标、稳定输入、循环体、检查器、停止条件、预算和验证资产的工作流；不把动态工作流理解成无限循环或无限子 Agent。
 
-2. **能力契约**：26 个内部路由技能都必须有公开规范兼容的 `name` / `description`，并能说清触发边界、可重复步骤、验证方式和越权死线；具体章节按技能复杂度取舍，不为形式统一复制空模板。
+2. **能力契约**：当前开发 manifest 的 27 个内部路由技能都必须有公开规范兼容的 `name` / `description`，并能说清触发边界、可重复步骤、验证方式和越权死线；具体章节按技能复杂度取舍，不为形式统一复制空模板。
 
 ## MCP 接入
 
@@ -270,7 +292,7 @@ python3 scripts/check_context_budget.py
 - **可复用的判断镜片**：在复盘、技能制作和复杂项目审计后，提炼心智模型、决策启发式、反模式和诚实边界，避免只留下流水账。
 - **长程任务执行骨架**：为多阶段目标准备总控文档、执行账本、否定清单和活体证据要求，确保恢复时能从项目事实继续，而不是从聊天上下文猜进度。
 - **会话证据提取器**：`scripts/codex_extractor.py` 流式提取 Codex JSONL 中的 user/final 证据，支持项目、起止时间、主任务/子任务、关键词、角色、去重、统计、清单和限长，并排除开发者/工具载荷、脱敏常见凭证与个人主目录。
-- **分层行为评测**：54 个结构 prompt、19 个正负路由行为契约、确定性候选路由，以及绑定证据文件 SHA-256 的真实回放观察检查器；结构和路由全绿不会冒充模型行为已通过。
+- **分层行为评测**：当前开发合同包含 55 个路由用例、23 个行为合同、12 个协作用例、216 个近邻负例和 10 个工作流，并保留绑定证据文件 SHA-256 的真实回放观察检查器；确定性门全绿不会冒充模型行为已通过。
 - **安装收据**：`release-manifest.json` 定义载荷规则，`release-payload.lock.json` 绑定精确文件哈希；`scripts/check_full_install.py --runtime <runtime> --json` 输出载荷、Skill 数、来源提交和工作区状态。安装成功仍需真实激活回放。
 - **双轨长时记忆引擎 (Structured Memory Bank)**：公共精选条目随 `memory-bank` Skill 发布；私有运行记忆默认写入 `~/.guyue/knowledge/memory/`，不再绑定安装目录。检索会读取命中的 Markdown 详情并标出待复查记录；写入使用排他锁和原子替换，空查询、常见密钥、令牌和个人绝对路径会被拒绝。旧 `.guyue_memory/local/` 仅只读兼容，可通过显式迁移工具对账和回滚。
 - **可选 MCP 接口**：`src/mcp_server.py` 可通过 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) 暴露技能清单、可解释路由和本地记忆工具；它是完整仓库上的可选运行层，不代表所有 Agent Skills 运行时都会自动加载 MCP。
@@ -308,7 +330,7 @@ guyue/
 │   ├── check_context_budget.py # 发现面、根入口与碰撞预算
 │   ├── check_behavior_replay.py # 回放观察与证据哈希检查
 │   ├── check_capability_chain.py # 发现、路由、证据档位与活体激活门
-│   ├── run_capability_live_canaries.py # 26 Skill Codex 只读激活探针
+│   ├── run_capability_live_canaries.py # Codex 只读激活探针；v1.5.1 历史收据覆盖 26 Skill
 │   ├── check_long_goal_pack.py  # Long Goal v2/v3/v4 控制包门禁
 │   ├── test_long_goal_pack.py   # Long Goal 兼容、反例与真实 Git 封账测试
 │   ├── simulate_long_goal_lifecycle.py # 外部项目失败、恢复、封账与重启模拟
@@ -330,6 +352,7 @@ guyue/
     ├── book-distiller/
     ├── code-minimalism/
     ├── context-compressor/
+    ├── cognitive-expansion/
     ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/

@@ -59,6 +59,7 @@ If the long-goal decision gate is still open, the first read must be exactly `se
 6. **Dispatch**:
    - 优先用 MCP `guyue_explain_route` 或 `python3 scripts/explain_route.py <意图>` 获取带触发词、负向意图和项目上下文门的候选；不可用时再用结构化查询或 `rg` 定位 manifest。只读取命中的子技能，不加载全部正文。
    - 若路由返回 `collaboration_candidates`，只把首个候选视为最小协作顺序：`sequence` 按序进入，`as-needed` 有证据才进入，`primary-plus-conditional` 只启用一个主能力和必要补充，`independent` 必须由未参与产出判断的视角复验。协作候选不代表自动激活、写入授权、安装授权或发布授权；每一阶段仍需满足自身入口与完成门。
+   - **认知拓界 (Cognitive Expansion)**: 面对陌生领域，或用户只要求“多维度、全面分析”而尚无有界调研或交付任务时，先用 `cognitive-expansion` 发现问题空间、领域结构和高价值维度；已有明确事实查询、需求边界或架构任务时不抢路由。
    - **[新增] 泛生态受控调度 (Controlled Ecosystem Invocation)**: 对于记录在 `~/.guyue/cache/discovery/skills-index.json` 或 `skills_manifest.json` 中的外部技能，只能视作“可发现的候选能力”。一旦用户意图匹配，先读取其公开说明和本地 `SKILL.md`（如存在）掌握边界，再按 `security-gate` 做安全预检；涉及 CLI、网络请求、安装、写入或下载时，必须展示将执行的动作并等待用户明确授权。
    - **生态安检 (Security Gate)**: 若涉及第三方技能包的执行、收纳或代码读取，必须首先调用 `skills/security-gate`。目标必须由用户明确提供为路径、URL、包名或压缩包路径；目标不明确时先询问，禁止自动挑选本机随机技能目录。目标明确后再运行 `python3 scripts/run_security_scan.py` 进行本地启发式预检；预检不是完整供应链审计，见红旗即拦截，见黄旗则等待人工确认。
    - **生态寻猎拦截 (Ecosystem Routing)**: 若用户提供未知 GitHub/工具链接，或提出模糊的技能需求（如“推荐个做图表的工具”、“收纳 xxx”），必须路由至 `ecosystem-scout` 进行联网调研、防臃肿评估与轻量化依赖注册。
@@ -83,6 +84,7 @@ If the long-goal decision gate is still open, the first read must be exactly `se
 |---|---|---|
 | 把模糊愿景准备成长期 Goal，逐项确认后只要一行执行提示词 | 根路由先执行 Long Goal Forge，按需调用 `product-sense` / `requirement-analysis` / `research-and-sourcing` / `system-design` / `reality-auditor` | 这是执行前的目标铸造，不是立即编码，也不把未决问题留给执行 Goal |
 | 持续执行多阶段 Goal、恢复长任务、维护执行账本 | 根路由先执行 Long Goal Intake，再按阶段转 `coding-discipline` / `reality-auditor` / `sop-maker` | 不是单次文档，也不是普通排障；必须先锁总控、账本、门禁和完成定义 |
+| 从陌生领域建图，再核验当前事实、收敛产品需求并设计架构 | `cognitive-expansion` -> `research-and-sourcing` -> `requirement-analysis` -> `system-design` | 先发现该看什么；后续每一跳只在前一步形成边界且任务确有需要时进入，不固定串成重流程 |
 | 判断需求值不值得做、ROI/合规是否成立 | `product-sense` | 不是需求拆解或架构设计 |
 | 拆边界、验收标准、异常流和业务规则 | `requirement-analysis` | 不是商业价值审判，也不是技术方案 |
 | 设计架构、重构核心模块、定技术路线 | `system-design` | 未过需求边界前不得抢跑 |
