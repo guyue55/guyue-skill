@@ -140,7 +140,7 @@ Do not commit the red-only state.
 Run the system `skill-creator` initializer with `--resources references` and explicit interface values:
 
 ```bash
-python3 /Users/guyue/.codex/skills/.system/skill-creator/scripts/init_skill.py cognitive-expansion --path skills --resources references --interface 'display_name=认知拓界' --interface 'short_description=在陌生领域中建立可证伪、可追溯的专业认知地图' --interface 'default_prompt=Use $cognitive-expansion to map this unfamiliar domain, challenge the frame, and identify the next highest-value evidence.'
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/init_skill.py" cognitive-expansion --path skills --resources references --interface 'display_name=认知拓界' --interface 'short_description=在陌生领域中建立可证伪、可追溯的专业认知地图' --interface 'default_prompt=Use $cognitive-expansion to map this unfamiliar domain, challenge the frame, and identify the next highest-value evidence.'
 ```
 
 Delete generated placeholders instead of leaving TODO/example text.
@@ -195,7 +195,7 @@ The completion gate requires the map, evidence states, contradiction/unknown led
 **Step 5: Validate GREEN**
 
 ```bash
-python3 /Users/guyue/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/cognitive-expansion
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" skills/cognitive-expansion
 python3 scripts/run_eval.py
 python3 scripts/test_skill_router.py
 python3 scripts/test_context_budget.py
