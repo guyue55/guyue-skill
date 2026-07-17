@@ -151,12 +151,14 @@ The checklist below remains the reusable release gate. Re-run it after any addit
 
 ## Verification
 
+- [ ] Current deterministic contract contains 56 structural prompts; update this count whenever `test-prompts.json` changes.
 - [x] `docs/release-candidate.md` names the current baseline commit, blockers, live replay coverage, and next work plan.
 - [ ] `python3 scripts/security_scanner.py` passes.
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.
 - [ ] `python3 scripts/run_eval.py` passes.
 - [ ] `python3 scripts/test_skill_router.py` passes all positive/negative route contracts.
+- [ ] `python3 scripts/check_capability_chain.py --strict --json` has no stale or incomplete live-evidence warning before release; ordinary development may retain those items as visible non-green claims.
 - [ ] `python3 scripts/test_context_budget.py` and `python3 scripts/check_context_budget.py` pass without budget or collision errors.
 - [ ] `python3 scripts/test_try_guyue.py` passes and the JSON proof reports a complete payload with at least one evidence-backed route.
 - [ ] `python3 scripts/check_birth_certificate.py` passes.

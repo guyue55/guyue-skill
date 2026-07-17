@@ -28,6 +28,8 @@ python3 scripts/test_codex_extractor.py
 echo ""
 echo "[4/15] Running Routing And Context Budget Gates..."
 python3 scripts/test_skill_router.py
+python3 scripts/test_cognitive_expansion_contract.py
+python3 scripts/test_cognitive_expansion_output_audit.py
 python3 scripts/check_capability_chain.py --json
 python3 scripts/test_context_budget.py
 python3 scripts/check_context_budget.py

@@ -33,7 +33,7 @@ def main() -> int:
     require(proof["status"] == "pass", "the default local proof must pass")
     require(
         proof["package"]["payload_status"] == "complete"
-        and proof["package"]["skill_count"] == 26,
+        and proof["package"]["skill_count"] == 27,
         "the proof must expose full-package truth",
     )
     require(

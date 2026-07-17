@@ -9,6 +9,7 @@
 # Local runtime/generated state.
 .serena/** export-ignore
 .guyue_memory/** export-ignore
+.superpowers/** export-ignore
 
 # Private/raw research inputs. Keep curated public references below.
 references/sources/** export-ignore

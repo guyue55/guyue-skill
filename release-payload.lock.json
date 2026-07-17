@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "26a84bda8d9178829e53c239d3ac51f44a0bdc24acaaca03417ec8a0cdaeeb4e"
+      "sha256": "c9295e8c1c29ba505462c22783435ca4ff9a143af66b957497f42f7e54f8093a"
     },
     {
       "path": "RTK.md",
@@ -35,7 +35,7 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "6d35d823259bab269ad9ac4be3847133a53626dcb5ad0135a97b835470852fd4"
+      "sha256": "9a4971cd892155f1495170b510c5dea6e979cf65579831fbd66197d7d4022af4"
     },
     {
       "path": "assets/demo.gif",
@@ -47,7 +47,7 @@
     },
     {
       "path": "docs/evaluation.md",
-      "sha256": "e41f8110c4038d4c69d3d38665b762dbb6ae746bcd6157cfded083ebaa989133"
+      "sha256": "773eddbd9e95a5174e45bfa7e759b45f66825db5f2ca42813f1dd42052f59e66"
     },
     {
       "path": "docs/guyue-capability-discovery-evidence-audit-plan-2026-07-12.md",
@@ -91,7 +91,7 @@
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "f78c69f41595859e84d21e51e7be57b9668fd353732dd7aff80409e4d23d7f79"
+      "sha256": "a711ed5076d6c62bf858cd6c57da44341dd6b45a2cdd9872905a4d041a390e74"
     },
     {
       "path": "docs/release-v1.4.0.md",
@@ -114,32 +114,40 @@
       "sha256": "e8612bb96ed8140fa533514c843ba62bdaef09dd6ce81e00b9e906a99f3ab62b"
     },
     {
+      "path": "docs/superpowers/plans/2026-07-17-cognitive-expansion.md",
+      "sha256": "6e0bd4e01b7fc4abaf82cf6375ef29994b4c315c785dd9b7ad9ebbfe0658fb7f"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-17-cognitive-expansion-design.md",
+      "sha256": "bf44aac99f44c36098c19aa127d292071303a719041ece09fab6a9c2926263e7"
+    },
+    {
       "path": "docs/templates/long-goal-control-pack.md",
       "sha256": "1077863fda40043b851a717944b7cec7d6f5e59257d726877ee7627255492ae4"
     },
     {
       "path": "evals/behavior-contracts.json",
-      "sha256": "173747afaa6ce1f47d18ce636b3b4e83ffd5fea52a0f491284fe8965b3d7964f"
+      "sha256": "2ee6e56253bbb45d5f45ed89005413c89f3f611482e6b771edb15b206292bef5"
     },
     {
       "path": "evals/capability-collaboration.json",
-      "sha256": "057aac315556f19745a5053b2de4c7b4c1fb235f4dea9235fa6edf16b6770955"
+      "sha256": "7ecfc19013e75660b57a43b64b212caca2209c1823cc58f6e3eee6b0b4754d9b"
     },
     {
       "path": "evals/capability-live-canaries.json",
-      "sha256": "46a082b07406d8a727afc0337c30696c8c5a902deb7de676aab63a32b11749da"
+      "sha256": "06371cdc020602e487fe89a331c470405866c7f54ca96bcf0d3290639e33fb06"
     },
     {
       "path": "evals/capability-near-misses.json",
-      "sha256": "bc158dc1b8c37a88db54e4bb141369f7cd0b79d4a3b8c2d2a67e9cc5a625d970"
+      "sha256": "3d53a800bc7c88e0732cc33dc7aa049faf1d6ae5e448598b7109408665140d9a"
     },
     {
       "path": "evals/capability-output-quality.json",
-      "sha256": "f7f367602a3ced3f567cb2fe39c2d71bd4d46c80fbd164e707dde5e13c6fe01c"
+      "sha256": "207816499bca31416feb63c433113b0572edbfb3d39aa7eba31f896ad64dbe1c"
     },
     {
       "path": "evals/capability-routing.json",
-      "sha256": "4a54140c277a35920b3ee71dc1baa67d6661fd74190d19b2712fabff271a671d"
+      "sha256": "3210a97f2fe62a0cf45e20e006516ac740a93ed518cd031a359de0890ea2dac6"
     },
     {
       "path": "evals/evidence/aesthetic-review-2026-07-02.md",
@@ -582,6 +590,10 @@
       "sha256": "6df1da1680fc1d1142929138b665a2d17a2c0fedd13e313613855edd94e16065"
     },
     {
+      "path": "evals/evidence/cognitive-expansion-comparison-2026-07-17.md",
+      "sha256": "a677b1b0ae0f92394efd507532d3933b116ece7ada27263c2f72713d63bc155a"
+    },
+    {
       "path": "evals/evidence/long-goal-forge-live-2026-07-12.md",
       "sha256": "6baa638e7ab1774cd27c907fe1c0e0a78960c476e87db1e10a7624dc0ff2f001"
     },
@@ -615,7 +627,7 @@
     },
     {
       "path": "examples/quickstart-output.md",
-      "sha256": "4f76487fe0cceb4598f52943bd88c686aeeeb978e405778e2f36a2a4abf8758b"
+      "sha256": "a7eae7964e2fd9d05f7394e75512d750b78e4b4f894f2e2d3b6860fc134434bc"
     },
     {
       "path": "examples/saas-conversion-demo/index.html",
@@ -662,6 +674,10 @@
       "sha256": "55ab27a1515b5f9c2ad4d29b49721486cf9f1c3d329d806ee20e0fab1be8f904"
     },
     {
+      "path": "scripts/audit_cognitive_expansion_output.py",
+      "sha256": "27a80100cc7b71b3106f0888f6f223b22f27e3e353355530617a0f611e80e015"
+    },
+    {
       "path": "scripts/build_release_lock.py",
       "sha256": "541d00b2d4f086c088a7ea0b286933d02d213b1ac576185b0615255a4d511656"
     },
@@ -675,7 +691,7 @@
     },
     {
       "path": "scripts/check_capability_chain.py",
-      "sha256": "b1ff1247ac14fee5c67f56f855a49934fbd3bd7c676cd32999346e10b05fddd9"
+      "sha256": "4da72fd441b74e1675667a150f10590e63688ce38c62ad5435ca775870cda90e"
     },
     {
       "path": "scripts/check_context_budget.py",
@@ -691,7 +707,7 @@
     },
     {
       "path": "scripts/ci_validate_skills.py",
-      "sha256": "a2771f8ace84308da2e315049d1ab9f8e804f67a4506e7735e0b33becc1bc6de"
+      "sha256": "2e01da0f9885a81bdc78afcc906f2482f167a8cbf122b67a5fae2a1d024a0eed"
     },
     {
       "path": "scripts/claude_extractor.py",
@@ -743,11 +759,11 @@
     },
     {
       "path": "scripts/run_capability_live_canaries.py",
-      "sha256": "0900dc7a914f53b854c027a27c98dfb0f66dcab0e2700dbf71526842b68adc5f"
+      "sha256": "bc02e752474ee29a3e5cd3e790089f699e425d4d557201240f3843df513cfe22"
     },
     {
       "path": "scripts/run_capability_output_quality.py",
-      "sha256": "6f4e21dfa8d2ee9f44c5d54be24ab88b8931ac0b89755c41158900ff594a9901"
+      "sha256": "7cbdbe1f6eb6ecb741facc8f9386297a20f01b37dd58627d1129987c18c98ca5"
     },
     {
       "path": "scripts/run_eval.py",
@@ -776,6 +792,14 @@
     {
       "path": "scripts/test_codex_extractor.py",
       "sha256": "6c925bdcf0abce92a97a6babe7658594de6edc79b2dbde5fe44ca0079f926748"
+    },
+    {
+      "path": "scripts/test_cognitive_expansion_contract.py",
+      "sha256": "67c407863e42e6b85a4eb16676a946af382ad534484bdaeaba55579cf6522836"
+    },
+    {
+      "path": "scripts/test_cognitive_expansion_output_audit.py",
+      "sha256": "7d6f8c8d9ecd87d010ac40915796f36184b9f908a59391b4d21de450953040f4"
     },
     {
       "path": "scripts/test_context_budget.py",
@@ -815,11 +839,11 @@
     },
     {
       "path": "scripts/test_suite.sh",
-      "sha256": "230012981cdef89e2a0bcfef4f86bc638b24f78f528d4e351bbf30763bef6bc2"
+      "sha256": "21e85fe4ce17c9b03c3c7d5a0f141f4f4c1153b51279ed0ec9452a8efec657bf"
     },
     {
       "path": "scripts/test_try_guyue.py",
-      "sha256": "1f406a5a9aa1b766c53a55101038912ed1a40a882a84e2f36223fc3fb7c7e34b"
+      "sha256": "85fdb31a76c14007beeb703494b345b149895adfa9fe5dbef8ab1a23418ef690"
     },
     {
       "path": "scripts/try_guyue.py",
@@ -848,6 +872,30 @@
     {
       "path": "skills/coding-discipline/SKILL.md",
       "sha256": "c8ae8808cd9a8946fe645d6ca865e928d7d0d71fece3a49a5000cdd09fdc6f39"
+    },
+    {
+      "path": "skills/cognitive-expansion/SKILL.md",
+      "sha256": "aadcf2aa64dee13383a9a3fcc9fca238aa7411d14f5026180a21057932529cb8"
+    },
+    {
+      "path": "skills/cognitive-expansion/agents/openai.yaml",
+      "sha256": "6193633332e1f98e6f05a02c15873aad36f64df49c1166f457f0d460bcd1e2d0"
+    },
+    {
+      "path": "skills/cognitive-expansion/references/cognitive-loop.md",
+      "sha256": "abc3b57533539c12da887ff60b79bf055010b9e092ec103ca41aa46d3819b9c9"
+    },
+    {
+      "path": "skills/cognitive-expansion/references/domain-bootstrap.md",
+      "sha256": "e60faddbe53366f6a5b730712b594ebe578765b349043660f2d808dc91189413"
+    },
+    {
+      "path": "skills/cognitive-expansion/references/evidence-and-challenge.md",
+      "sha256": "8fa90fd06dd7642f8caf82b74d48d76df0c5e5d758aaa831170f80ee4ec4cc59"
+    },
+    {
+      "path": "skills/cognitive-expansion/references/output-contract.md",
+      "sha256": "79c9ad7913f8854b75d7738df740f8f0f2308e1b78800b8727515ca877cd2059"
     },
     {
       "path": "skills/context-compressor/SKILL.md",
@@ -935,7 +983,7 @@
     },
     {
       "path": "skills/video-creation-sop/SKILL.md",
-      "sha256": "575f7149a9ef4c08a386088484dccb2f66e51856882a5bfcd562219de147f5b8"
+      "sha256": "a11c42c7ab27b71166f18749adc1147ddfd4098dd51c452746d5650085dd426d"
     },
     {
       "path": "skills/video-creation-sop/agents/openai.yaml",
@@ -959,7 +1007,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "481af393b8d15510a2f7dd6da5f5ed57ff7686070c064037a42fac5f8d77e9d1"
+      "sha256": "27e676f443eabe6ebef5556f60bf17722ff8a143b9afad2f93e9f40dfb22931f"
     },
     {
       "path": "src/context_budget.py",
@@ -991,7 +1039,7 @@
     },
     {
       "path": "test-prompts.json",
-      "sha256": "8685adfd264eb0e9ee9e7b9cb24be21d9a06804d6357a70401fd6c4ae033f5ce"
+      "sha256": "f976b61d049c5667cdff9e32e24fa55863b9102d6440389afd05f8a5507b9997"
     }
   ]
 }

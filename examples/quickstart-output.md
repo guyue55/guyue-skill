@@ -34,6 +34,16 @@ Runtime-entrypoint regression:
 - Observed behavior: Codex read `RTK.md`, then loaded `SKILL.md`, `GUYUE_PRINCIPLES.md`, `skills_manifest.json`, and the relevant `requirement-analysis` child skill. The run did not report `RTK.md missing`.
 - Remaining environment noise: unrelated global skill load errors and skills context budget warnings still appeared.
 
+Runtime-entrypoint regression after adding cognitive expansion:
+
+- Date: 2026-07-17
+- Command pattern: `codex exec --ephemeral -C <repo-root> --sandbox read-only -o /tmp/guyue-cognitive-holdout-heat-risk-v33.md "<fixed unfamiliar-domain prompt>"`
+- Entrypoint result: pass. The event stream shows that Codex read `RTK.md`, selected `skills/cognitive-expansion/SKILL.md`, then loaded the references chosen by that Skill; the repository remained read-only.
+- Output-quality result: fail. Independent review returned `CHANGES_REQUESTED`, and a full-artifact recount found 12,652 Unicode characters and 27,469 bytes, so the conservative 13,734.5 proxy exceeded the 10,000 hard cap while the answer incorrectly reported that it stayed within budget.
+- Additional observed gaps: design provenance, construct-to-action comparison compatibility, action-specific effect/adoption/capacity/rights closure, omission-to-data field closure, evidence consumers, mechanism-discriminating challenge, versioned professional review, and the single highest-value input contract.
+- Control response: no further model replay was started. The same prompt had already been reused enough to contaminate it as a holdout; subsequent work was limited to deterministic contract, auditor, and routing tests under a frozen cross-run budget.
+- Evidence boundary: this replay proves the new runtime path can activate the Skill and that the current gates can identify a failed high-risk output. It does not prove that the high-risk mode is live-GREEN or domain-general.
+
 ## Replay 1: Points Mall, "Write All Code Now"
 
 Prompt:

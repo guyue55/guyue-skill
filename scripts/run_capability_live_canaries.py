@@ -136,7 +136,7 @@ def write_audit_artifact(
 
 
 def run_case(
-    case: dict[str, str], timeout: int, artifact_dir: Path
+    case: dict[str, str], timeout: int, artifact_dir: Path, model: str | None
 ) -> dict[str, object]:
     skill = case["skill"]
     child_path = f"skills/{skill}/SKILL.md"
@@ -152,18 +152,21 @@ def run_case(
     )
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    command = [
+        "codex",
+        "exec",
+        "--ephemeral",
+        "--json",
+        "-C",
+        str(ROOT),
+        "--sandbox",
+        "read-only",
+    ]
+    if model:
+        command.extend(["--model", model])
+    command.append(prompt)
     result = subprocess.run(
-        [
-            "codex",
-            "exec",
-            "--ephemeral",
-            "--json",
-            "-C",
-            str(ROOT),
-            "--sandbox",
-            "read-only",
-            prompt,
-        ],
+        command,
         cwd=ROOT,
         env=env,
         check=False,
@@ -234,6 +237,11 @@ def main() -> int:
         default=Path("evals/evidence/artifacts/capability-live-canaries-2026-07-13"),
     )
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument(
+        "--model",
+        default=os.getenv("GUYUE_EVAL_MODEL"),
+        help="Codex model identifier, for example the locally configured Terra 5.6 alias",
+    )
     args = parser.parse_args()
     cases = load_cases(args.skill)
     artifact_dir = (
@@ -244,7 +252,7 @@ def main() -> int:
     results = []
     for index, case in enumerate(cases, start=1):
         print(f"[{index}/{len(cases)}] live canary: {case['skill']}", flush=True)
-        results.append(run_case(case, args.timeout, artifact_dir))
+        results.append(run_case(case, args.timeout, artifact_dir, args.model))
         print(f"  {results[-1]['status']}: {results[-1]['observed_final']}", flush=True)
     passed = sum(item["status"] == "pass" for item in results)
     receipt = {
@@ -254,6 +262,7 @@ def main() -> int:
         "runtime_version": subprocess.run(
             ["codex", "--version"], capture_output=True, text=True, check=False
         ).stdout.strip(),
+        "requested_model": args.model or "runtime-default",
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "source_commit": git_output("rev-parse", "HEAD"),
         "worktree_state": "dirty" if git_output("status", "--porcelain") else "clean",

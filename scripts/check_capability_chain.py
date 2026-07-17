@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -17,6 +18,13 @@ sys.path.insert(0, str(ROOT))
 sys.dont_write_bytecode = True
 
 from src.skill_router import resolve_routes  # noqa: E402
+
+
+DEVELOPMENT_EVIDENCE_WARNINGS = {
+    "live activation evidence must cover every manifest skill exactly once",
+    "live activation evidence is stale for routing semantics",
+    "all-Skill output-quality evidence is incomplete",
+}
 
 
 def load_json(path: Path) -> object:
@@ -572,7 +580,13 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
         "evidence_profiles": dict(sorted(profile_counts.items())),
         "external_dependency_count": len(external),
         "claims": {
-            "deterministic_routing_verified": not errors,
+            "deterministic_routing_verified": (
+                route_passed == len(route_contract["cases"])
+                and collaboration_passed == len(collaboration_eval["cases"])
+                and trigger_passed == trigger_total
+                and external_trigger_passed == external_trigger_total
+                and near_miss_passed == near_miss_total
+            ),
             "collaboration_routing_verified": (
                 collaboration_passed == len(collaboration_eval["cases"])
                 and len(collaboration_skill_coverage) == len(skills)
@@ -589,11 +603,41 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
     }
 
 
+def apply_evidence_policy(receipt: dict[str, object], *, strict: bool) -> dict[str, object]:
+    """Keep stale live evidence visible without blocking ordinary development checks."""
+    raw_errors = [str(item) for item in receipt.get("errors", [])]
+    if strict:
+        receipt["evidence_policy"] = "release_strict"
+        receipt["warnings"] = []
+        receipt["status"] = "pass" if not raw_errors else "fail"
+        return receipt
+
+    warnings = [
+        error for error in raw_errors if error in DEVELOPMENT_EVIDENCE_WARNINGS
+    ]
+    errors = [
+        error for error in raw_errors if error not in DEVELOPMENT_EVIDENCE_WARNINGS
+    ]
+    receipt["evidence_policy"] = "development_advisory"
+    receipt["warnings"] = warnings
+    receipt["errors"] = errors
+    receipt["status"] = "pass_with_warnings" if warnings and not errors else (
+        "pass" if not errors else "fail"
+    )
+    return receipt
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="treat stale or incomplete all-Skill live evidence as release-blocking",
+    )
     args = parser.parse_args()
-    receipt = build_receipt()
+    strict = args.strict or os.getenv("GUYUE_RELEASE_STRICT") == "1"
+    receipt = apply_evidence_policy(build_receipt(), strict=strict)
     if args.json:
         print(json.dumps(receipt, ensure_ascii=False, indent=2))
     else:
@@ -610,9 +654,11 @@ def main() -> int:
             f"external candidates {external['passed']}/{external['total']}, "
             f"near misses {near_miss['passed']}/{near_miss['total']}"
         )
+        for warning in receipt["warnings"]:
+            print(f"WARNING: {warning}", file=sys.stderr)
         for error in receipt["errors"]:
             print(f"ERROR: {error}", file=sys.stderr)
-    return 0 if receipt["status"] == "pass" else 1
+    return 0 if receipt["status"] in {"pass", "pass_with_warnings"} else 1
 
 
 if __name__ == "__main__":

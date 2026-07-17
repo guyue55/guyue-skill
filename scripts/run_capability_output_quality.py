@@ -62,21 +62,24 @@ def parse_events(raw: str) -> tuple[list[dict[str, object]], list[str], dict[str
     return commands, messages, usage
 
 
-def run_codex(prompt: str, timeout: int) -> dict[str, object]:
+def run_codex(prompt: str, timeout: int, model: str | None) -> dict[str, object]:
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    command = [
+        "codex",
+        "exec",
+        "--ephemeral",
+        "--json",
+        "-C",
+        str(ROOT),
+        "--sandbox",
+        "read-only",
+    ]
+    if model:
+        command.extend(["--model", model])
+    command.append(prompt)
     result = subprocess.run(
-        [
-            "codex",
-            "exec",
-            "--ephemeral",
-            "--json",
-            "-C",
-            str(ROOT),
-            "--sandbox",
-            "read-only",
-            prompt,
-        ],
+        command,
         cwd=ROOT,
         env=env,
         capture_output=True,
@@ -129,7 +132,9 @@ def artifact_ref(path: Path) -> str:
         return str(path)
 
 
-def run_case(case: dict[str, object], artifact_dir: Path, timeout: int) -> dict[str, object]:
+def run_case(
+    case: dict[str, object], artifact_dir: Path, timeout: int, model: str | None
+) -> dict[str, object]:
     skill = str(case["skill"])
     skill_path = f"skills/{skill}/SKILL.md"
     output_path = artifact_dir / f"{skill}.output.md"
@@ -142,7 +147,7 @@ def run_case(case: dict[str, object], artifact_dir: Path, timeout: int) -> dict[
         "正确输出应明确阻断、缺口和最小下一步，禁止编造。不要解释验收流程，直接交付用户产物。\n\n"
         f"用户任务：{case['prompt']}"
     )
-    producer = run_codex(producer_prompt, timeout)
+    producer = run_codex(producer_prompt, timeout, model)
     messages = producer.pop("messages")
     output = sanitize(messages[-1].strip()) if messages else ""
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -173,7 +178,7 @@ def run_case(case: dict[str, object], artifact_dir: Path, timeout: int) -> dict[
         '"findings":["..."],"boundary":"..."}。'
         "只有全部标准通过且无重大真实性问题时总状态才是 pass。"
     )
-    reviewer = run_codex(reviewer_prompt, timeout)
+    reviewer = run_codex(reviewer_prompt, timeout, model)
     review_messages = reviewer.pop("messages")
     review_message = sanitize(review_messages[-1].strip()) if review_messages else ""
     parsed_review = parse_review(review_message)
@@ -224,6 +229,11 @@ def main() -> int:
     parser.add_argument("--skill", action="append", dest="skills")
     parser.add_argument("--timeout", type=int, default=300)
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument(
+        "--model",
+        default=os.getenv("GUYUE_EVAL_MODEL"),
+        help="Codex model identifier, for example the locally configured Terra 5.6 alias",
+    )
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--artifact-dir", type=Path, default=DEFAULT_ARTIFACT_DIR)
     parser.add_argument("--merge-existing", action="store_true")
@@ -244,7 +254,9 @@ def main() -> int:
     results_by_skill: dict[str, dict[str, object]] = {}
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = {
-            executor.submit(run_case, case, artifact_dir, args.timeout): str(case["skill"])
+            executor.submit(
+                run_case, case, artifact_dir, args.timeout, args.model
+            ): str(case["skill"])
             for case in cases
         }
         for completed, future in enumerate(as_completed(futures), 1):
@@ -276,6 +288,7 @@ def main() -> int:
         "runtime_version": subprocess.run(
             ["codex", "--version"], capture_output=True, text=True, check=False
         ).stdout.strip(),
+        "requested_model": args.model or "runtime-default",
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "passed": passed,
         "total": len(results),

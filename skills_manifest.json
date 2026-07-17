@@ -1075,7 +1075,19 @@
                 "打破信息茧房",
                 "来源生态",
                 "认知修正",
-                "专业调研准备"
+                "专业调研准备",
+                "多维度分析",
+                "多角度分析",
+                "多维度",
+                "多角度",
+                "全面一点",
+                "有没有遗漏",
+                "第一次使用",
+                "不懂这个产品",
+                "还有哪些",
+                "全面一点还有哪些",
+                "第一次使用不懂这个产品",
+                "还有哪些相关维度"
             ],
             "negative_intent": [
                 "simple fact",
@@ -1090,9 +1102,12 @@
                 "架构已经批准",
                 "线上故障正在排查",
                 "只做编辑改写",
-                "研究范围已限定"
+                "研究范围已限定",
+                "严格限于",
+                "就这几项",
+                "不要扩展"
             ],
-            "description": "Upstream unfamiliar-domain cognition for problem-space maps, unknown unknowns, omitted perspectives, source ecology, adversarial reframing, cognitive revision, professional research preparation, and defensible stopping.",
+            "description": "Ambient micro-expansion for multi-angle, open-ended, first-use, and omitted-perspective cues plus formal unfamiliar-domain maps, source ecology, adversarial reframing, cognitive revision, professional research preparation, and defensible stopping; micro mode does not browse or steal a bounded primary route.",
             "root_exposure": "explicit",
             "evidence_profile": "E3-lineage",
             "activation_policy": "model-or-explicit",
