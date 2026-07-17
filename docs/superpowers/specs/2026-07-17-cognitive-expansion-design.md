@@ -274,3 +274,15 @@
 | 信息价值与自我修正边界 | [On the Value of Information Across Decision Problems](https://pubsonline.informs.org/doi/abs/10.1287/deca.2024.0187)；[ICLR 2024: Large Language Models Cannot Self-Correct Reasoning Yet](https://proceedings.iclr.cc/paper_files/paper/2024/hash/8b4add8b0aa8749d80a34ca5d941c355-Abstract-Conference.html) | 2026-07-17 | 只有新证据可能改变决定或地图时才继续，并用外部反馈约束模型自我反思 | 不制造伪精确的信息价值分数，也不声称所有场景的自我批评都无效 |
 
 表中来源只解释方法谱系，不参与运行时加载，也不授权复制完整框架。
+
+## 16. 2026-07-17 实现修订：默认微量、按需加深
+
+本节记录已批准设计在鲁班打磨后的实现收敛，不回写或伪造实现前基线。
+
+- 运行入口改为四档：**微量拓界、轻量地图、专业地图、高风险交接**。微量是普通开放列举与第一次使用场景的默认形态；它只从模型已有认知新增 1–3 个会改变判断的遗漏，连同必要种子、反向面或时效提醒，最终呈现 2–5 个任务特异视角。
+- 微量不读取 references、不联网、不打 Trace、不建立 E0/B0 或正式账本；只有当前性、来源、争议、陌生性或高风险门命中，才按预算和授权升级。
+- 主 `SKILL.md` 只保留深度选择、升级门、E0/B0 前置、资源路由、协作边界与停止；`references/output-contract.md` 是专业/高风险的 P/K/A/G/C/S/E/I/R/U、挑战、专业复核与严格序列化的唯一规范来源。
+- 实测只证明一个低风险微量任务的渐进加载改进：主入口从 208 行降至 83 行，指定 Terra 回放的 gross tokens 从 37,821 降至 14,268。完整提示、输出、哈希和边界见[微量回放证据](../../../evals/evidence/cognitive-expansion-luban-micro-2026-07-17.md)。
+- 这不是高风险模式通过证明。高风险活体留出题已冻结，严格能力链仍缺第 27 个 Skill 的活体覆盖、当前路由收据与全 Skill 输出质量收据；这些必须在独立、预算明确的发布验证周期处理。
+
+实施对标、评分和回炉项见[鲁班打磨报告](../../luban-report-cognitive-expansion-2026-07-17.md)。

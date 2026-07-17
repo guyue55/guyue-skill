@@ -30,6 +30,9 @@ def main() -> int:
     root_skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
     skill_path = ROOT / "skills/cognitive-expansion/SKILL.md"
     skill = skill_path.read_text(encoding="utf-8")
+    agent_metadata = (
+        ROOT / "skills/cognitive-expansion/agents/openai.yaml"
+    ).read_text(encoding="utf-8")
     output_contract = (
         ROOT / "skills/cognitive-expansion/references/output-contract.md"
     ).read_text(encoding="utf-8")
@@ -48,6 +51,7 @@ def main() -> int:
             "## 默认运行微量拓界",
             "多维度/多角度/全面一点/有没有遗漏/第一次用/不懂这个产品",
             "种子集合",
+            "新增遗漏数和最终视角数不是同一口径",
             "仅、只、严格限于、就这几项、不要扩展",
             "不读本 Skill 的 references",
             "不联网",
@@ -143,6 +147,8 @@ def main() -> int:
         (
             "开放列举与微量拓界",
             "种子而非闭集",
+            "只新增会改变当前答案的 1–3 个关键遗漏",
+            "最终通常呈现 2–5 个视角",
             "仅、只、严格限于、就这几项、不要扩展",
             "发布日、事实发生期/数据期、版本/更正/撤回和访问日",
             "预计超过 10 分钟",
@@ -150,6 +156,16 @@ def main() -> int:
             "额度/usage limit",
         ),
         "root SKILL.md",
+    )
+
+    require_all(
+        agent_metadata,
+        (
+            "日常微量补盲；陌生或高风险领域建立可追溯认知地图",
+            "surface a few decision-changing omissions",
+            "map an unfamiliar domain when deeper evidence is needed",
+        ),
+        "cognitive-expansion agent metadata",
     )
 
     behavior = next(

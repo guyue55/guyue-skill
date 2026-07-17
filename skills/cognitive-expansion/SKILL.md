@@ -1,6 +1,6 @@
 ---
 name: cognitive-expansion
-description: Ambient cognitive coverage for multidimensional, multi-angle, comprehensive, omitted-perspective, first-time-use, unfamiliar-product, or unfamiliar-domain requests. By default, add only 2–5 decision-changing views from model knowledge without browsing; treat “等/等等/之类” as open-set seeds unless the user closes the list. Escalate deliberately for current, disputed, sourced, professional, or high-risk claims. Do not use for simple facts, bounded implementation, active debugging, editing, or a list the user explicitly limits.
+description: Ambient cognitive coverage for multidimensional, multi-angle, comprehensive, omitted-perspective, first-time-use, unfamiliar-product, or unfamiliar-domain requests. By default, add only 1–3 decision-changing omissions, presented as 2–5 task-specific views from model knowledge without browsing; treat “等/等等/之类” as open-set seeds unless the user closes the list. Escalate deliberately for current, disputed, sourced, professional, or high-risk claims. Do not use for simple facts, bounded implementation, active debugging, editing, or a list the user explicitly limits.
 ---
 
 # 认知拓界
@@ -26,7 +26,7 @@ description: Ambient cognitive coverage for multidimensional, multi-angle, compr
 
 1. 保持当前主任务，不另起报告。
 2. 把“例如、等、等等、之类、包括但不限于”视为种子集合：识别上位类别，只补 1–3 个会改变答案的相邻成员；“仅、只、严格限于、就这几项、不要扩展”才关闭扩展。
-3. 在内部扫描 `目标/对象 → 机制或生命周期 → 角色/尺度 → 失败/反向 → 遗漏`，只呈现 2–5 个任务特异视角，并区分用户给出的种子与模型候选。
+3. 在内部扫描 `目标/对象 → 机制或生命周期 → 角色/尺度 → 失败/反向 → 遗漏`，只呈现 2–5 个任务特异视角，并区分用户给出的种子与模型候选。新增遗漏数和最终视角数不是同一口径：后者可以包含必要的种子、反向面或时效提醒。
 4. 只使用模型已有认知；不读本 Skill 的 references、不激活相邻取证 Skill、不联网、不输出 Trace、E0、B0、ID 或正式账本。控制在约 300 tokens 内，结束后继续原任务。
 
 微量输出不承诺完整或最新。若一个遗漏只是“也可以看看”而不会改变理解、设计或决定，就不输出。

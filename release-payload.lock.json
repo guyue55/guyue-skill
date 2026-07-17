@@ -15,7 +15,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "65831a7be2b1ea505dab166ef417459d722c1ff7b6800d1050ae3e9bda07b077"
+      "sha256": "263f1851876bb7c1f7864fc0502305b6df239e0c0d9c812cef48b616714aa41c"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "c489c80841ee2b541f9749962a555672e515718eeae0014e0f629b1f470c16fe"
+      "sha256": "35e9269f0f2d2609debb426b6b5b361b7752880e6730f2ec325f9fee3a1142a8"
     },
     {
       "path": "RTK.md",
@@ -35,7 +35,7 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "9a4971cd892155f1495170b510c5dea6e979cf65579831fbd66197d7d4022af4"
+      "sha256": "c04fa084af173f3692bc37361eb397f207103404c45dd3e1e666e96dffb6605c"
     },
     {
       "path": "assets/demo.gif",
@@ -123,7 +123,7 @@
     },
     {
       "path": "docs/superpowers/specs/2026-07-17-cognitive-expansion-design.md",
-      "sha256": "bf44aac99f44c36098c19aa127d292071303a719041ece09fab6a9c2926263e7"
+      "sha256": "7e6d76f7aa6d66d54e7013c3eb1b24f0ee6364c8b28e200cb22901b0a370d4b5"
     },
     {
       "path": "docs/templates/long-goal-control-pack.md",
@@ -602,6 +602,10 @@
       "sha256": "e2b24e2bc67ec787e1ca1e6f93bc0955b3242a631c435ecf4c237b84c4815d94"
     },
     {
+      "path": "evals/evidence/cognitive-expansion-metadata-replay-2026-07-17.md",
+      "sha256": "4e7ec15876d7b158ced2117e212b0f86e9ddec165f4a2b046d35da9594b5acc4"
+    },
+    {
       "path": "evals/evidence/long-goal-forge-live-2026-07-12.md",
       "sha256": "6baa638e7ab1774cd27c907fe1c0e0a78960c476e87db1e10a7624dc0ff2f001"
     },
@@ -635,7 +639,7 @@
     },
     {
       "path": "examples/quickstart-output.md",
-      "sha256": "f6233a2588cb2bd92e78bff8df8b8921cc5074a3fa66cf4b951f1411f78d0a1d"
+      "sha256": "c93b1e96dbeb5f1a2453feefd3649e661b79f14cc40e1358d5d06ecce5cbaada"
     },
     {
       "path": "examples/saas-conversion-demo/index.html",
@@ -803,7 +807,7 @@
     },
     {
       "path": "scripts/test_cognitive_expansion_contract.py",
-      "sha256": "963a8c9a768af08c94007e7659da8dab37bff7ff52129e5c8d6575294ccfbdac"
+      "sha256": "4cdc012813d5868e6d6beb596343024189fe17e20ce40d0a251dd3bc87dc5459"
     },
     {
       "path": "scripts/test_cognitive_expansion_output_audit.py",
@@ -883,11 +887,11 @@
     },
     {
       "path": "skills/cognitive-expansion/SKILL.md",
-      "sha256": "a40d8e63921727566f48597a7ea017bb6898fce7010c44a2ec31625f8a59d3af"
+      "sha256": "121fe06ec3c3d4c0cc0d42db076d2fe8cfed11eaee2fecab51d9f33e4ad26aa7"
     },
     {
       "path": "skills/cognitive-expansion/agents/openai.yaml",
-      "sha256": "6193633332e1f98e6f05a02c15873aad36f64df49c1166f457f0d460bcd1e2d0"
+      "sha256": "df6faa4ddb44be92c30b1c055c03e032f391dc608cabae4cfd6e79e8cb16d188"
     },
     {
       "path": "skills/cognitive-expansion/references/cognitive-loop.md",

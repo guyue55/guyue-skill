@@ -54,6 +54,13 @@ Micro-mode progressive-loading replay:
 - Evidence: prompts, exact outputs, hashes and limitations are recorded in [the Luban micro replay](../evals/evidence/cognitive-expansion-luban-micro-2026-07-17.md).
 - Boundary: this supports the progressive-loading change for one micro task. It does not make the high-risk mode pass and does not justify another replay of the contaminated holdout.
 
+Post-metadata micro smoke replay:
+
+- Date/runtime/model: 2026-07-17, Codex CLI 0.144.1, `gpt-5.6-terra`, ephemeral read-only sandbox.
+- Result: a fresh reimbursement-page review produced three task-specific omission views with no Trace, E0/B0, formal ledger or external material.
+- Boundary: after emitting the final message, the CLI reported `Reading additional input from stdin` and the launcher did not return a recordable exit code. The retained final artifact confirms the micro shape but is not counted as an activation canary or output-quality receipt.
+- Evidence: prompt, current Skill hash, final-message hash and full boundary are in [the metadata smoke replay](../evals/evidence/cognitive-expansion-metadata-replay-2026-07-17.md).
+
 ## Replay 1: Points Mall, "Write All Code Now"
 
 Prompt:

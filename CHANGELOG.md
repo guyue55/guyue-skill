@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased
+
+Status: Development only; not a release or a claim that the historical v1.5.1 evidence covers this change.
+
+### Added
+
+- Add `cognitive-expansion`, a 27th built-in Skill for ambient cognitive coverage, unfamiliar-domain mapping, evidence-aware escalation and bounded stopping.
+- Add deterministic route, behavior, collaboration, near-miss and output-contract checks plus retained baseline, failed high-risk and micro-mode replay evidence.
+
+### Changed
+
+- Treat open-list cues such as “等/等等/之类” as seeds: add 1–3 decision-changing omissions and present 2–5 task-specific views only when they remain useful to the active task.
+- Keep micro mode local to model knowledge and move professional/high-risk serialization into a single on-demand output contract.
+- Distinguish development warnings from release blockers: stale all-Skill live evidence stays visible with non-green claims during ordinary development and becomes blocking under strict release verification.
+
+### Verification
+
+- The complete local suite, deterministic routing, progressive-contract, payload, safety and context-budget gates pass for the current development line.
+- One Terra micro-mode before/after replay and an independent contract review are retained; neither proves high-risk readiness, all-domain output quality or real-user value.
+
+### Remaining release boundary
+
+- Before any release, refresh the 27-Skill activation evidence, routing receipt and all-Skill synthetic output-quality evidence with a frozen model/runtime budget and strict capability-chain gate.
+
 ## v1.5.1 - 2026-07-13
 
 Status: Released
