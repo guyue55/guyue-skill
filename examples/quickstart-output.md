@@ -44,6 +44,16 @@ Runtime-entrypoint regression after adding cognitive expansion:
 - Control response: no further model replay was started. The same prompt had already been reused enough to contaminate it as a holdout; subsequent work was limited to deterministic contract, auditor, and routing tests under a frozen cross-run budget.
 - Evidence boundary: this replay proves the new runtime path can activate the Skill and that the current gates can identify a failed high-risk output. It does not prove that the high-risk mode is live-GREEN or domain-general.
 
+Micro-mode progressive-loading replay:
+
+- Date: 2026-07-17
+- Runtime/model: Codex CLI 0.144.1, `gpt-5.6-terra`, ephemeral read-only sandbox.
+- Method: one baseline run and one candidate run of the same previously unused low-risk prompt; no automatic retry, no external materials, and no reuse of the contaminated high-risk holdout.
+- Result: both final messages stayed short, added task-specific omission views, and emitted no Trace, E0, B0 or formal ledger. The candidate kept three views while the main Skill shrank from 208 to 83 lines.
+- Runtime consumption: Codex CLI reported 37,821 baseline gross tokens and 14,268 candidate gross tokens, a 62.3% reduction. Gross tokens include root routing and local Skill reads; they are not the final-message length or cached-input-adjusted effective Token count.
+- Evidence: prompts, exact outputs, hashes and limitations are recorded in [the Luban micro replay](../evals/evidence/cognitive-expansion-luban-micro-2026-07-17.md).
+- Boundary: this supports the progressive-loading change for one micro task. It does not make the high-risk mode pass and does not justify another replay of the contaminated holdout.
+
 ## Replay 1: Points Mall, "Write All Code Now"
 
 Prompt:

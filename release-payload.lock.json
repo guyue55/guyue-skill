@@ -27,7 +27,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "c9295e8c1c29ba505462c22783435ca4ff9a143af66b957497f42f7e54f8093a"
+      "sha256": "c489c80841ee2b541f9749962a555672e515718eeae0014e0f629b1f470c16fe"
     },
     {
       "path": "RTK.md",
@@ -76,6 +76,10 @@
     {
       "path": "docs/long-goal-protocol.md",
       "sha256": "a1277520f3b14ffd6dc2909f9613267e986f63b8fea0983ed389c409bdc1f776"
+    },
+    {
+      "path": "docs/luban-report-cognitive-expansion-2026-07-17.md",
+      "sha256": "056139017e4d060e9243c5c89370e6380877f3e0c687f9db9fadad3d0b47868d"
     },
     {
       "path": "docs/luban-report-v1.3.0.md",
@@ -594,6 +598,10 @@
       "sha256": "a677b1b0ae0f92394efd507532d3933b116ece7ada27263c2f72713d63bc155a"
     },
     {
+      "path": "evals/evidence/cognitive-expansion-luban-micro-2026-07-17.md",
+      "sha256": "e2b24e2bc67ec787e1ca1e6f93bc0955b3242a631c435ecf4c237b84c4815d94"
+    },
+    {
       "path": "evals/evidence/long-goal-forge-live-2026-07-12.md",
       "sha256": "6baa638e7ab1774cd27c907fe1c0e0a78960c476e87db1e10a7624dc0ff2f001"
     },
@@ -627,7 +635,7 @@
     },
     {
       "path": "examples/quickstart-output.md",
-      "sha256": "a7eae7964e2fd9d05f7394e75512d750b78e4b4f894f2e2d3b6860fc134434bc"
+      "sha256": "f6233a2588cb2bd92e78bff8df8b8921cc5074a3fa66cf4b951f1411f78d0a1d"
     },
     {
       "path": "examples/saas-conversion-demo/index.html",
@@ -795,7 +803,7 @@
     },
     {
       "path": "scripts/test_cognitive_expansion_contract.py",
-      "sha256": "67c407863e42e6b85a4eb16676a946af382ad534484bdaeaba55579cf6522836"
+      "sha256": "963a8c9a768af08c94007e7659da8dab37bff7ff52129e5c8d6575294ccfbdac"
     },
     {
       "path": "scripts/test_cognitive_expansion_output_audit.py",
@@ -875,7 +883,7 @@
     },
     {
       "path": "skills/cognitive-expansion/SKILL.md",
-      "sha256": "aadcf2aa64dee13383a9a3fcc9fca238aa7411d14f5026180a21057932529cb8"
+      "sha256": "a40d8e63921727566f48597a7ea017bb6898fce7010c44a2ec31625f8a59d3af"
     },
     {
       "path": "skills/cognitive-expansion/agents/openai.yaml",
@@ -895,7 +903,7 @@
     },
     {
       "path": "skills/cognitive-expansion/references/output-contract.md",
-      "sha256": "79c9ad7913f8854b75d7738df740f8f0f2308e1b78800b8727515ca877cd2059"
+      "sha256": "d345a00098b4a9789f8f1a911f7eb938eb8df04a61ef1ca8c2ee0746e59add11"
     },
     {
       "path": "skills/context-compressor/SKILL.md",
