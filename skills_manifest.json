@@ -1,6 +1,6 @@
 {
     "name": "guyue-digital-twin",
-    "version": "1.5.1",
+    "version": "1.60",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "routing_contract": {
         "version": 2,
@@ -208,30 +208,30 @@
             },
             {
                 "id": "project-governance",
-                "description": "Handle project-specific governance, demo hardening, and measured AI evidence without leaking those assumptions into generic routes.",
+                "description": "Handle context-gated governance, static-demo hardening, and measured AI evidence without leaking those assumptions into generic routes.",
                 "required_any_context": [
                     "NexusFlow",
                     "permissionSnapshot",
-                    "EAC",
+                    "static demo",
                     "Grounding"
                 ],
                 "trigger_intent": [
                     "项目治理完整验收",
                     "NexusFlow 权限治理",
-                    "EAC 演示加固"
+                    "静态 Demo 演示加固"
                 ],
                 "entry_skills": [
                     "nexusflow-governance-workflow",
-                    "eac-demo-hardening",
+                    "static-demo-hardening",
                     "ai-cost-grounding-measurement"
                 ],
                 "stages": [
-                    {"id": "project", "mode": "primary-plus-conditional", "skills": ["nexusflow-governance-workflow", "eac-demo-hardening", "ai-cost-grounding-measurement"]},
+                    {"id": "project", "mode": "primary-plus-conditional", "skills": ["nexusflow-governance-workflow", "static-demo-hardening", "ai-cost-grounding-measurement"]},
                     {"id": "repair", "mode": "as-needed", "skills": ["debugging-mindset", "frontend-expert"]},
                     {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
                     {"id": "report", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
                 ],
-                "completion_gate": "Project markers, server-side boundaries, measured evidence, live behavior, and public report claims agree."
+                "completion_gate": "Context markers, server-side boundaries, measured evidence, live behavior, and public report claims agree."
             },
             {
                 "id": "cognitive-expansion-loop",
@@ -997,36 +997,35 @@
             "live_canary_required": true
         },
         {
-            "name": "eac-demo-hardening",
-            "path": "skills/eac-demo-hardening/SKILL.md",
+            "name": "static-demo-hardening",
+            "path": "skills/static-demo-hardening/SKILL.md",
             "routing_priority": 100,
             "required_any_context": [
-                "EAC",
-                "EAC Demo",
-                "EAC B2B Site Auditor",
-                "EAC repository marker",
-                "known EAC Demo/index.html",
+                "static demo",
+                "静态 Demo",
+                "static demo surface",
+                "static demo repository signal",
+                "known Demo/index.html",
                 "Demo/index.html"
             ],
             "trigger_intent": [
-                "EAC",
-                "EAC Demo",
-                "EAC B2B Site Auditor",
+                "static demo",
+                "静态 Demo",
+                "static demo surface",
                 "Demo/index.html",
-                "EAC report export",
-                "EAC tutorial fallback",
-                "EAC 静态 Demo",
-                "EAC 报告导出"
+                "static demo report export",
+                "static demo tutorial fallback",
+                "静态 Demo",
+                "静态 Demo 报告导出"
             ],
             "negative_intent": [
-                "generic static demo",
-                "unrelated PDF export",
                 "是否触发",
                 "是否应触发",
-                "repository without an EAC marker",
-                "无 EAC 标记"
+                "backend PDF service",
+                "unrelated frontend rewrite",
+                "tutorial request without a static demo surface"
             ],
-            "description": "Project-specific EAC static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, and demo-only boundaries.",
+            "description": "Generic static-demo workflow for report export, GSAP interactions, tutorial fallbacks, official resources, local assets, print safety, and demo-only boundaries.",
             "root_exposure": "contextual",
             "evidence_profile": "E3-lineage",
             "activation_policy": "context-gated",

@@ -105,7 +105,7 @@ The repository checkout is named `guyue-skill`, while the installed root skill i
 - context compression, context budget management, and third-party quick-install gates;
 - reality auditing;
 - NexusFlow governance workflow;
-- EAC demo hardening;
+- static demo hardening;
 - AI cost and Grounding measurement.
 
 `ecosystem-scout` must stay covered because it controls external dependency intake.
@@ -176,7 +176,7 @@ Runtime adapter changes must follow [runtime-adapters.md](runtime-adapters.md):
 
 ## Release Evidence Template
 
-Candidate lineage is tracked in [release-candidate.md](release-candidate.md), while the current release gates and remaining boundaries live in [release-checklist.md](release-checklist.md). Update both before a release tag or marketplace submission.
+Current release lineage is tracked in [release-v1.60.md](release-v1.60.md), while the reusable release gates and remaining boundaries live in [release-checklist.md](release-checklist.md). Update both before a release tag or marketplace submission.
 
 Use this template when preparing a release:
 

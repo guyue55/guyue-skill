@@ -25,12 +25,36 @@ SECRET_PATTERNS = [
     (re.compile(r"[A-Za-z]:\\Users\\[^\\\s]+\\"), "Windows personal path"),
 ]
 
+PROJECT_FINGERPRINT_PATTERNS = [
+    (
+        re.compile(r"\b" + "E" + r"AC\b"),
+        "redacted project marker",
+    ),
+    (
+        re.compile("eac" + r"-demo-hardening"),
+        "redacted project skill id",
+    ),
+    (
+        re.compile("B2B" + r"\s+Site\s+Auditor"),
+        "redacted project product name",
+    ),
+]
+
 
 def find_secret_matches(line: str, *, allow_example: bool = False) -> list[str]:
     """Return unique secret categories found in a line."""
     if allow_example and ALLOW_MARKER in line:
         return []
     return [label for pattern, label in SECRET_PATTERNS if pattern.search(line)]
+
+
+def find_project_fingerprint_matches(line: str) -> list[str]:
+    """Return project/client fingerprints that must not ship in public payloads."""
+    return [
+        label
+        for pattern, label in PROJECT_FINGERPRINT_PATTERNS
+        if pattern.search(line)
+    ]
 
 
 def redact_sensitive_text(text: str) -> str:

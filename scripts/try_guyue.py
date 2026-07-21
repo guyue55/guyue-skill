@@ -180,7 +180,7 @@ def main() -> int:
         "--context-marker",
         action="append",
         default=[],
-        help="verified project marker; repeat as needed",
+        help="verified context marker; repeat as needed",
     )
     parser.add_argument("--runtime", choices=RUNTIMES, default="generic")
     parser.add_argument("--limit", type=int, default=3)

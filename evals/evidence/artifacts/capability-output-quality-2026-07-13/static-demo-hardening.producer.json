@@ -1,38 +1,38 @@
 {
   "schema_version": 1,
-  "skill": "eac-demo-hardening",
+  "skill": "static-demo-hardening",
   "skill_file_read": true,
-  "output_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/eac-demo-hardening.output.md",
+  "output_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/static-demo-hardening.output.md",
   "output_sha256": "abb4d0dabfd372ec0a1effe8d50c0406d7149a4e8fe1b455a8aad347cd078b9a",
   "exit_code": 0,
   "commands": [
     {
-      "command": "/bin/zsh -lc \"sed -n '1,240p' skills/eac-demo-hardening/SKILL.md && sed -n '1,240p' RTK.md\"",
+      "command": "/bin/zsh -lc \"sed -n '1,240p' skills/static-demo-hardening/SKILL.md && sed -n '1,240p' RTK.md\"",
       "exit_code": null,
       "status": "in_progress"
     },
     {
-      "command": "/bin/zsh -lc \"sed -n '1,240p' skills/eac-demo-hardening/SKILL.md && sed -n '1,240p' RTK.md\"",
+      "command": "/bin/zsh -lc \"sed -n '1,240p' skills/static-demo-hardening/SKILL.md && sed -n '1,240p' RTK.md\"",
       "exit_code": 0,
       "status": "completed"
     },
     {
-      "command": "/bin/zsh -lc \"git status --short --branch; rg --files | rg '(\"'^|/)(Demo/index'\"\\\\.html|README\\\\.md|SKILL\\\\.md|.*PRD.*|.*[Tt]est.*|.*[Ss]moke.*|package\\\\.json)\"'$'\"' | sed -n '1,240p'; rg -n \\\"eac-demo-hardening|EAC B2B|Demo/index.html|export|PDF|tutorial\\\" SKILL.md skills_manifest.json README.md docs examples 2>/dev/null | sed -n '1,240p'\"",
+      "command": "/bin/zsh -lc \"git status --short --branch; rg --files | rg '(\"'^|/)(Demo/index'\"\\\\.html|README\\\\.md|SKILL\\\\.md|.*PRD.*|.*[Tt]est.*|.*[Ss]moke.*|package\\\\.json)\"'$'\"' | sed -n '1,240p'; rg -n \\\"static-demo-hardening|Static Demo B2B|Demo/index.html|export|PDF|tutorial\\\" SKILL.md skills_manifest.json README.md docs examples 2>/dev/null | sed -n '1,240p'\"",
       "exit_code": null,
       "status": "in_progress"
     },
     {
-      "command": "/bin/zsh -lc \"git status --short --branch; rg --files | rg '(\"'^|/)(Demo/index'\"\\\\.html|README\\\\.md|SKILL\\\\.md|.*PRD.*|.*[Tt]est.*|.*[Ss]moke.*|package\\\\.json)\"'$'\"' | sed -n '1,240p'; rg -n \\\"eac-demo-hardening|EAC B2B|Demo/index.html|export|PDF|tutorial\\\" SKILL.md skills_manifest.json README.md docs examples 2>/dev/null | sed -n '1,240p'\"",
+      "command": "/bin/zsh -lc \"git status --short --branch; rg --files | rg '(\"'^|/)(Demo/index'\"\\\\.html|README\\\\.md|SKILL\\\\.md|.*PRD.*|.*[Tt]est.*|.*[Ss]moke.*|package\\\\.json)\"'$'\"' | sed -n '1,240p'; rg -n \\\"static-demo-hardening|Static Demo B2B|Demo/index.html|export|PDF|tutorial\\\" SKILL.md skills_manifest.json README.md docs examples 2>/dev/null | sed -n '1,240p'\"",
       "exit_code": 0,
       "status": "completed"
     },
     {
-      "command": "/bin/zsh -lc \"sed -n '1,220p' SKILL.md; sed -n '760,805p' skills_manifest.json; rg -n -C 8 \\\"离线演示|教程回退|伪装导出成功|EAC B2B Site Auditor|EAC tutorial fallback|export hardening\\\" evals test-prompts.json docs examples scripts 2>/dev/null | sed -n '1,320p'\"",
+      "command": "/bin/zsh -lc \"sed -n '1,220p' SKILL.md; sed -n '760,805p' skills_manifest.json; rg -n -C 8 \\\"离线演示|教程回退|伪装导出成功|static demo surface|static demo tutorial fallback|export hardening\\\" evals test-prompts.json docs examples scripts 2>/dev/null | sed -n '1,320p'\"",
       "exit_code": null,
       "status": "in_progress"
     },
     {
-      "command": "/bin/zsh -lc \"sed -n '1,220p' SKILL.md; sed -n '760,805p' skills_manifest.json; rg -n -C 8 \\\"离线演示|教程回退|伪装导出成功|EAC B2B Site Auditor|EAC tutorial fallback|export hardening\\\" evals test-prompts.json docs examples scripts 2>/dev/null | sed -n '1,320p'\"",
+      "command": "/bin/zsh -lc \"sed -n '1,220p' SKILL.md; sed -n '760,805p' skills_manifest.json; rg -n -C 8 \\\"离线演示|教程回退|伪装导出成功|static demo surface|static demo tutorial fallback|export hardening\\\" evals test-prompts.json docs examples scripts 2>/dev/null | sed -n '1,320p'\"",
       "exit_code": 0,
       "status": "completed"
     },

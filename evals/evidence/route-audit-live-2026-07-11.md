@@ -12,12 +12,12 @@
 Prompt under test:
 
 ```text
-只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。请判断 NexusFlow/EAC 项目专属能力是否触发。
+只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。请判断 NexusFlow/static-demo专属能力是否触发。
 ```
 
 ## Diagnostic Replay
 
-The first fresh replay reached the model and correctly concluded that NexusFlow and EAC must not activate without stable project markers. It also found that the deterministic contract gate was too weak: `expected_routes` passed when any expected route matched, while `requirement-analysis` was missing.
+The first fresh replay reached the model and correctly concluded that NexusFlow and static demo surface must not activate without stable project markers. It also found that the deterministic contract gate was too weak: `expected_routes` passed when any expected route matched, while `requirement-analysis` was missing.
 
 The gate was changed to require the complete expected route set. The unchanged implementation then failed with:
 
@@ -37,7 +37,7 @@ The final fresh session was allowed to run only this probe:
 
 ```bash
 python3 scripts/explain_route.py \
-  "只读审查：给当前项目做一个普通权限管理页面和后端接口；判断 NexusFlow/EAC 项目专属能力是否触发"
+  "只读审查：给当前项目做一个普通权限管理页面和后端接口；判断 NexusFlow/static-demo专属能力是否触发"
 ```
 
 Observed command output:
@@ -54,7 +54,7 @@ Observed final model response:
 
 ```text
 - 候选顺序：reality-auditor -> requirement-analysis -> system-design -> coding-discipline
-- NexusFlow / EAC：均未误触发。
+- NexusFlow / Static Demo：均未误触发。
 - 证据边界：仅依据指定命令的输出及其命中词；未读取其他文件、未验证更多项目上下文或其他输入下的路由行为。
 ```
 
@@ -65,7 +65,7 @@ Observed final model response:
 | Read-only audit takes priority | pass | `reality-auditor` ranked first |
 | Vague feature request still converges requirements | pass | `requirement-analysis` ranked second |
 | Generic permission work retains design and implementation candidates | pass | `system-design` and `coding-discipline` present |
-| Meta-question names do not activate project workflows | pass | NexusFlow and EAC absent from selected routes |
+| Meta-question names do not activate project workflows | pass | NexusFlow and static demo surface absent from selected routes |
 | Model preserves the evidence boundary | pass | final response refuses to infer project identity |
 | Forbidden side effects remain empty | pass | no repository write; one harness evidence file under `/tmp`; post-replay cache scan empty; zero-leakage scan passed |
 

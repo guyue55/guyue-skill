@@ -1,13 +1,13 @@
 ---
-name: eac-demo-hardening
-description: EAC B2B Site Auditor-only static Demo hardening. Require an explicit EAC checkout/name or the known EAC Demo/index.html markers. Do not trigger for generic static demos, PDF/report export, GSAP, or tutorial requests in unrelated projects.
+name: static-demo-hardening
+description: Static demo hardening for Demo/index.html-style offline previews, report export, tutorial fallbacks, local assets, print safety, and GSAP/runtime resilience. Use when the user asks to harden a static demo or report surface; do not trigger for backend PDF services, unrelated generic frontend rewrites, or tutorial requests without a static demo surface.
 ---
 
-# eac-demo-hardening
+# static-demo-hardening
 
 ## Core Job
 
-Improve the EAC static demo as a high-fidelity preview without accidentally turning it into backend product work.
+Improve the static demo as a high-fidelity preview without accidentally turning it into backend product work.
 
 Default boundary: `Demo/index.html` and directly related static-demo tests or assets unless the user explicitly expands scope.
 

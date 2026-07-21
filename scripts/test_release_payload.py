@@ -66,6 +66,14 @@ def main() -> int:
         if not any("forbidden payload path" in error for error in errors):
             raise AssertionError("private legacy state must be rejected from payload")
 
+        forbidden.unlink()
+        local_worktree_file = root / ".worktrees" / "scratch" / "SKILL.md"
+        local_worktree_file.parent.mkdir(parents=True)
+        local_worktree_file.write_text("local only\n", encoding="utf-8")
+        errors = verify_payload(root, profile="install", runtime="generic")
+        if errors:
+            raise AssertionError("local .worktrees content must be ignored")
+
     print("Guyue release payload tests passed.")
     return 0
 

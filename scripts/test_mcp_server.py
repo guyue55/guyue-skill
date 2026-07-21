@@ -54,7 +54,7 @@ def main() -> int:
     generic_names = {item["name"] for item in generic_route["selected"]}
     require(
         "nexusflow-governance-workflow" not in generic_names,
-        "generic requests must not select project-specific workflows",
+        "generic requests must not select context-gated workflows",
     )
     nexus_route = json.loads(
         mcp_server.guyue_explain_route(
@@ -64,7 +64,7 @@ def main() -> int:
     )
     require(
         nexus_route["selected"][0]["name"] == "nexusflow-governance-workflow",
-        "MCP route explanations must honor explicit project markers",
+        "MCP route explanations must honor explicit context markers",
     )
     require(
         "must contain" in mcp_server.guyue_explain_route("   "),

@@ -11,9 +11,9 @@
             theme: {
                 extend: {
                     colors: {
-                        'eac-dark': '#0f172a',
-                        'eac-accent': '#3b82f6',
-                        'eac-danger': '#ef4444' // Using blue/red for clear business signals
+                        'audit-dark': '#0f172a',
+                        'audit-accent': '#3b82f6',
+                        'audit-danger': '#ef4444' // Using blue/red for clear business signals
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -26,12 +26,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-eac-dark text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-eac-accent selection:text-white">
+<body class="bg-audit-dark text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-audit-accent selection:text-white">
 
     <!-- Header -->
     <header class="fixed top-0 w-full z-50 glass-header px-6 py-4 flex justify-between items-center border-b border-white/10">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded bg-eac-accent flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">SaaS</div>
+            <div class="w-8 h-8 rounded bg-audit-accent flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">SaaS</div>
             <span class="font-semibold text-white tracking-wide">Conversion Analyzer</span>
         </div>
         <button class="px-4 py-2 rounded-full text-sm font-medium border border-white/20 hover:bg-white/5 transition-colors">历史报告</button>
@@ -42,10 +42,10 @@
         
         <!-- Hero Section: Diagnostic Entry -->
         <section class="min-h-[70vh] flex flex-col items-center justify-center text-center hero-section">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-eac-accent/10 border border-eac-accent/20 text-eac-accent text-sm font-medium mb-6 hero-badge">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-audit-accent/10 border border-audit-accent/20 text-audit-accent text-sm font-medium mb-6 hero-badge">
                 <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-eac-accent opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-eac-accent"></span>
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-audit-accent opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-audit-accent"></span>
                 </span>
                 引擎就绪: Guyue Analysis Core
             </div>
@@ -67,7 +67,7 @@
                         <svg class="w-5 h-5 text-slate-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                         <input type="text" id="targetUrl" placeholder="https://your-saas-site.com" class="w-full bg-transparent border-none outline-none text-white placeholder-slate-500 focus:ring-0 text-lg" value="https://example-saas.com/">
                     </div>
-                    <button id="startAuditBtn" class="px-8 py-4 bg-eac-accent hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] flex items-center justify-center gap-2 whitespace-nowrap">
+                    <button id="startAuditBtn" class="px-8 py-4 bg-audit-accent hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] flex items-center justify-center gap-2 whitespace-nowrap">
                         <span id="btnText">启动极限诊断</span>
                         <svg class="w-4 h-4 btn-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
@@ -81,7 +81,7 @@
                     <span id="scanPercentage">0%</span>
                 </div>
                 <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                    <div id="scanBar" class="h-full bg-eac-accent w-0 transition-all duration-300 ease-out relative">
+                    <div id="scanBar" class="h-full bg-audit-accent w-0 transition-all duration-300 ease-out relative">
                         <div class="absolute inset-0 bg-white/30 w-full animate-[shimmer_1.5s_infinite]"></div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
                 <!-- Card 1 -->
                 <div class="result-card glass-card p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-eac-danger">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-audit-danger">
                         <svg class="w-24 h-24 -mt-6 -mr-6" fill="currentColor" viewBox="0 0 20 20"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
                     <h3 class="text-sm font-medium text-slate-400 mb-1">预估流失商机</h3>
@@ -109,11 +109,11 @@
                     <div class="space-y-3 mt-6 border-t border-white/5 pt-4">
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-slate-300">表单无防护 (reCAPTCHA缺失)</span>
-                            <span class="text-eac-danger font-medium">-15% 意向率</span>
+                            <span class="text-audit-danger font-medium">-15% 意向率</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-slate-300">关键资质/认证说明缺失</span>
-                            <span class="text-eac-danger font-medium">-22% 信任度</span>
+                            <span class="text-audit-danger font-medium">-22% 信任度</span>
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="result-card glass-card p-6 rounded-2xl border border-eac-accent/30 bg-eac-accent/5 relative overflow-hidden flex flex-col justify-between">
+                <div class="result-card glass-card p-6 rounded-2xl border border-audit-accent/30 bg-audit-accent/5 relative overflow-hidden flex flex-col justify-between">
                     <div>
                         <h3 class="text-sm font-medium text-blue-300 mb-1">AI 修复建议</h3>
                         <div class="text-2xl font-bold text-white mb-2">3 项关键修复动作</div>

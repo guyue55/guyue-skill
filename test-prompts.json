@@ -225,9 +225,9 @@
     "expected_behavior": "Should trigger `nexusflow-governance-workflow`. Agent must read `AGENTS.md`, `RTK.md`, `docs/plans/README.md`, inspect `git status`, keep backend authorization as the truth source, use frontend permission state only for UX, run targeted backend/frontend validation, and stage only task-related files before any Chinese conventional commit."
   },
   {
-    "name": "Trigger EAC Demo Hardening",
-    "prompt": "EAC 的 Demo/index.html 完整报告导出和教程视频 fallback 再加固一下，只做静态 Demo，不开发后端。",
-    "expected_behavior": "Should trigger `eac-demo-hardening`. Agent must preserve the static demo boundary, inspect `Demo/index.html`, prefer browser-native HTML/PDF export, handle blocked tutorial embeds with official docs or stable fallbacks, centralize GSAP/runtime helpers, and verify report/export behavior rather than adding backend services."
+    "name": "Trigger Static Demo Hardening",
+    "prompt": "静态 Demo 演示面的 Demo/index.html 完整报告导出和教程视频 fallback 再加固一下，只做静态 Demo，不开发后端。",
+    "expected_behavior": "Should trigger `static-demo-hardening`. Agent must preserve the static demo boundary, inspect `Demo/index.html`, prefer browser-native HTML/PDF export, handle blocked tutorial embeds with official docs or stable fallbacks, centralize GSAP/runtime helpers, and verify report/export behavior rather than adding backend services."
   },
   {
     "name": "Trigger AI Cost Grounding Measurement",
@@ -265,9 +265,9 @@
     "expected_behavior": "Should trigger `reality-auditor`, not `debugging-mindset`. Agent must stay read-only by default, trace claims to implementation evidence, list findings first, and avoid patching code unless a later user command authorizes fixes."
   },
   {
-    "name": "Route Boundary - EAC Project Workflow Before Generic Frontend",
-    "prompt": "EAC 的 Demo/index.html 导出不稳定，只改静态 Demo 边界，不要做通用前端重构。",
-    "expected_behavior": "Should trigger `eac-demo-hardening`, not generic `frontend-expert`. Agent must preserve the static-demo boundary, inspect the existing demo file, verify export behavior, and avoid adding backend services or broad UI rewrites."
+    "name": "Route Boundary - Static Demo Workflow Before Generic Frontend",
+    "prompt": "静态 Demo 演示面的 Demo/index.html 导出不稳定，只改静态 Demo 边界，不要做通用前端重构。",
+    "expected_behavior": "Should trigger `static-demo-hardening`, not generic `frontend-expert`. Agent must preserve the static-demo boundary, inspect the existing demo file, verify export behavior, and avoid adding backend services or broad UI rewrites."
   },
   {
     "name": "Trigger Cognitive Expansion",

@@ -103,6 +103,6 @@ Use the project's existing test suite when available. Add or update small tests 
 ## Cross-Skill Invocation
 
 - Need official pricing or API docs -> `research-and-sourcing`.
-- Need EAC static report/demo changes -> `eac-demo-hardening`.
+- Need static demo report/demo changes -> `static-demo-hardening`.
 - Need concise result doc -> `documentation`.
 - Need repeated measurement SOP after success -> `sop-maker`.

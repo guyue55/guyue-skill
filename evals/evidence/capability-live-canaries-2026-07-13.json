@@ -7,7 +7,7 @@
   "source_commit": "54a99ea0791f058da56108495961e9451d76044d",
   "worktree_state": "dirty",
   "manifest_sha256": "a79cbd4804c7f3f9280f419e48509ce3b4816d8b139afcf7e1e7dee76e6f47d5",
-  "routing_sha256": "1628e446c55d6ae3dbe1190d23cd20471905305ca63921a0970c630e1ca54950",
+  "routing_sha256": "bd8850d2a4da51b03dbe711921d8c26125c2aef41b921bb9eb895eac19c3e027",
   "passed": 26,
   "total": 26,
   "results": [
@@ -259,7 +259,7 @@
       },
       "raw_event_sha256": "913379e5dec38116b762424ff29df4f3eca3b378c6876d342c5f929afb46972a",
       "audit_artifact": "evals/evidence/artifacts/capability-live-canaries-2026-07-13/memory-bank.json",
-      "audit_artifact_sha256": "40ca540888cffb867bf45f2eec95f2d3ca678fe921bba4961333ac8c39049f78",
+      "audit_artifact_sha256": "a95572afe8e507c54d20c96562f1f6acc6bfe6df6bf55bbcdb2ef7e5ee235fb6",
       "skills_context_budget_warning": true,
       "boundary": "Proves one Codex routing/activation canary, not output quality."
     },
@@ -516,11 +516,11 @@
       "boundary": "Proves one Codex routing/activation canary, not output quality."
     },
     {
-      "skill": "eac-demo-hardening",
-      "prompt_name": "Trigger EAC Demo Hardening",
+      "skill": "static-demo-hardening",
+      "prompt_name": "Trigger Static Demo Hardening",
       "status": "pass",
-      "expected_final": "ACTIVATED:eac-demo-hardening",
-      "observed_final": "ACTIVATED:eac-demo-hardening",
+      "expected_final": "ACTIVATED:static-demo-hardening",
+      "observed_final": "ACTIVATED:static-demo-hardening",
       "target_skill_file_read": true,
       "command_count": 6,
       "exit_code": 0,
@@ -531,8 +531,8 @@
         "reasoning_output_tokens": 213
       },
       "raw_event_sha256": "b238d78b467275bf6513a69d99cda0b66a935f291992bd5fba12d963e8340e19",
-      "audit_artifact": "evals/evidence/artifacts/capability-live-canaries-2026-07-13/eac-demo-hardening.json",
-      "audit_artifact_sha256": "b7fb686f718a5da18d136f626232ff8c59d45bb7e1b1add5e43c7c41cf2cf4da",
+      "audit_artifact": "evals/evidence/artifacts/capability-live-canaries-2026-07-13/static-demo-hardening.json",
+      "audit_artifact_sha256": "27990990ea57dd97ed9939b3d3ffd27bb6a6c7471772162d26f5341d57ee0634",
       "skills_context_budget_warning": true,
       "boundary": "Proves one Codex routing/activation canary, not output quality."
     },
@@ -553,7 +553,7 @@
       },
       "raw_event_sha256": "36b62e18a6c1d991115c28dff7460ef198a7c5c546fab5b3ae0ecc98735fc1fd",
       "audit_artifact": "evals/evidence/artifacts/capability-live-canaries-2026-07-13/ai-cost-grounding-measurement.json",
-      "audit_artifact_sha256": "175f5f33dde6afa6b89e49875ee81ea65160b66ddd416a1f282f6cac05b3ca60",
+      "audit_artifact_sha256": "8f63c1a6787617da540b0fee04ae0f04dd4e0ad4ca63530077f7d3d0f42badcf",
       "skills_context_budget_warning": true,
       "boundary": "Proves one Codex routing/activation canary, not output quality."
     }

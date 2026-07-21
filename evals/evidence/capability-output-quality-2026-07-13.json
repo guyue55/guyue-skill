@@ -729,15 +729,15 @@
       "boundary": "One synthetic read-only task and one independent review for this Skill."
     },
     {
-      "skill": "eac-demo-hardening",
+      "skill": "static-demo-hardening",
       "status": "pass",
       "criteria_count": 3,
-      "producer_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/eac-demo-hardening.producer.json",
-      "producer_artifact_sha256": "8554b12958f60895efc3a16f63c91e0d7c2a0db58b0b7f2294275c0d579bfcb3",
-      "output_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/eac-demo-hardening.output.md",
-      "output_sha256": "abb4d0dabfd372ec0a1effe8d50c0406d7149a4e8fe1b455a8aad347cd078b9a",
-      "review_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/eac-demo-hardening.review.json",
-      "review_artifact_sha256": "a744ced986519cb6895082f053beda9e219757f12f1b302fbbbe9f33b2537e27",
+      "producer_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/static-demo-hardening.producer.json",
+      "producer_artifact_sha256": "fab8fd317d070231252126a2c3d77e63cb34c17aadaa3d42d42d96d259b14764",
+      "output_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/static-demo-hardening.output.md",
+      "output_sha256": "d0879f50eaa00ba44d1debc4f991a414efe43d03f4c6fa68df0e66710c47f85e",
+      "review_artifact": "evals/evidence/artifacts/capability-output-quality-2026-07-13/static-demo-hardening.review.json",
+      "review_artifact_sha256": "b035de0766321d4c886cc83c748dd5869aebde01dad8a2afb4c0b5cd7dc779ab",
       "producer_usage": {
         "input_tokens": 168769,
         "cached_input_tokens": 138752,
@@ -752,8 +752,8 @@
       },
       "findings": [
         "输出实质给出了与任务对应的静态 Demo 加固方案、状态模型、回退机制和验收矩阵。",
-        "未声称代码已经实现或验证；反而明确披露缺少实际 EAC checkout，因此无法确认选择器、依赖名称、辅助函数和教程地址。",
-        "仓库文件核验未发现 EAC Demo/index.html；发现的 index.html 属于 examples/saas-conversion-demo，与输出的缺失声明不冲突。",
+        "未声称代码已经实现或验证；反而明确披露缺少实际 static demo surface files，因此无法确认选择器、依赖名称、辅助函数和教程地址。",
+        "仓库文件核验未发现 Demo/index.html；发现的 index.html 属于 examples/saas-conversion-demo，与输出的缺失声明不冲突。",
         "未发现编造导出成功、虚构官方链接、越权修改后端或突破证据边界等重大真实性问题。"
       ],
       "boundary": "One synthetic read-only task and one independent review for this Skill."

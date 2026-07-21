@@ -72,7 +72,7 @@ If the long-goal decision gate is still open, the first read must be exactly `se
 
 ### 总原则
 
-1. **项目专用优先于通用技能**：只有用户明确提到项目名，或当前仓库存在该项目的稳定标记时，才让 `NexusFlow`、`EAC Demo`、真实 AI 成本实测等项目技能优先；“权限管理”“静态 demo”“报告导出”等泛词不能单独触发项目专用技能。
+1. **窄上下文优先于泛词**：只有用户明确提到项目名，或当前仓库存在该项目的稳定标记时，才让 `NexusFlow`、真实 AI 成本实测等项目工作流优先；静态演示页必须出现 `static demo`、`静态 Demo`、`Demo/index.html` 或等价演示面标记才进入 `static-demo-hardening`；“权限管理”“报告导出”等泛词不能单独触发专用技能。
 2. **验证动词优先于实现动词**：用户说“审查、确认真实、避免异常、是不是假数据”时，优先 `reality-auditor`，默认只读；不要直接切到 `coding-discipline` 或 `debugging-mindset`。
 3. **安全边界优先于便利路由**：第三方技能、未知仓库、安装、下载、执行脚本、外部写入先过 `security-gate` 或 `ecosystem-scout`，不得为了省事直接执行。
 4. **上游判断早于下游实施**：价值未清先 `product-sense`；边界未清先 `requirement-analysis`；架构未批先 `system-design`；代码只有在方案和授权清楚后才进入 `coding-discipline`。

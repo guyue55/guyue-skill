@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-from security_patterns import find_secret_matches  # noqa: E402
+from security_patterns import find_project_fingerprint_matches, find_secret_matches  # noqa: E402
 
 def print_status(msg, is_error=False):
     if is_error:
@@ -94,8 +94,9 @@ def run_security_scan():
     if not has_error:
         print_status("No bloat files detected.")
 
-    print("\n[2/2] Scanning file contents for secrets and personal paths...")
+    print("\n[2/2] Scanning file contents for secrets, project fingerprints, and personal paths...")
     secret_errors = 0
+    fingerprint_errors = 0
     for path_obj in release_files:
         f_path = path_obj.as_posix()
         if not path_obj.is_file():
@@ -112,6 +113,11 @@ def run_security_scan():
                         print(f"   -> {line.strip()[:100]}...")
                         secret_errors += 1
                         has_error = True
+                    for desc in find_project_fingerprint_matches(line):
+                        print_status(f"Project Fingerprint [{desc}] found in {f_path} (line {line_idx + 1})", is_error=True)
+                        print(f"   -> {line.strip()[:100]}...")
+                        fingerprint_errors += 1
+                        has_error = True
         except UnicodeDecodeError:
             print_status(f"Undeclared binary or undecodable release file: {f_path}", is_error=True)
             has_error = True
@@ -119,8 +125,8 @@ def run_security_scan():
             print_status(f"Could not read release file {f_path}: {exc}", is_error=True)
             has_error = True
 
-    if secret_errors == 0:
-        print_status("No secrets or personal paths detected in contents.")
+    if secret_errors == 0 and fingerprint_errors == 0:
+        print_status("No secrets, project fingerprints, or personal paths detected in contents.")
 
     if has_error:
         print("\n> [!CAUTION]")

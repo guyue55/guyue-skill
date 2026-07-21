@@ -58,7 +58,7 @@ def main() -> int:
     )
     require(
         nexus_rejection["reason"] == "missing_required_context",
-        "project-specific skills must explain missing context markers",
+        "context-gated skills must explain missing context markers",
     )
 
     nexus = resolve_routes(
@@ -69,7 +69,7 @@ def main() -> int:
     )
     require(
         nexus["selected"][0]["name"] == "nexusflow-governance-workflow",
-        "explicit project markers must select the project workflow first",
+        "explicit context markers must select the matching workflow first",
     )
     require(
         nexus["selected"][0]["matched_context"],
@@ -81,7 +81,7 @@ def main() -> int:
             manifest,
             (
                 "只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。"
-                f"请判断 NexusFlow/EAC 项目专属能力{meta_phrase}；不要修改文件。"
+                f"请判断 NexusFlow/static-demo专属能力{meta_phrase}；不要修改文件。"
             ),
             limit=8,
         )
@@ -93,7 +93,7 @@ def main() -> int:
         require(
             {
                 "nexusflow-governance-workflow",
-                "eac-demo-hardening",
+                "static-demo-hardening",
             }.isdisjoint(audit_selected),
             f"route-audit meta text must not activate project skills: {audit_selected}",
         )

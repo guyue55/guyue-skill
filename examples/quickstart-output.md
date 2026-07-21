@@ -862,16 +862,16 @@ At the 2026-07-10 freeze point, the fresh model replay remained `blocked_before_
 Prompt:
 
 ```text
-使用当前仓库中的 $guyue。只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。请判断 NexusFlow/EAC 项目专属能力是否触发。不要修改文件，不要联网，不要提交。
+使用当前仓库中的 $guyue。只读审查这个需求：给当前项目做一个普通权限管理页面和后端接口。请判断 NexusFlow/static-demo专属能力是否触发。不要修改文件，不要联网，不要提交。
 ```
 
 - Date: 2026-07-11 (Asia/Shanghai).
 - Runtime: Codex CLI `0.144.1`, model reported as `gpt-5.6-sol`, ephemeral read-only sandbox.
 - Diagnostic finding 1: the fresh model noticed that the 16/16 deterministic gate accepted any one expected route; `requirement-analysis` was missing from a contract that expected three routes.
 - Fix 1: both deterministic evaluators now require the complete expected route set. The unchanged route failed RED before `给当前项目做一个` was added as a requirement-convergence signal.
-- Diagnostic finding 2: the model correctly rejected NexusFlow/EAC by repository identity, but its shortened probe phrase `是否触发` bypassed the first, narrower meta-question guard and produced lexical project-route candidates.
+- Diagnostic finding 2: the model correctly rejected NexusFlow/static-demo by repository identity, but its shortened probe phrase `是否触发` bypassed the first, narrower meta-question guard and produced lexical project-route candidates.
 - Fix 2: both `是否触发` and `是否应触发` are covered by project-route negative tests. A seventeenth machine-readable contract freezes this meta-question boundary.
-- Final fresh smoke result: `pass`. The model ran one specified probe, reported `reality-auditor -> requirement-analysis -> system-design -> coding-discipline`, reported no NexusFlow/EAC activation, and refused to infer actual project identity from route output alone.
+- Final fresh smoke result: `pass`. The model ran one specified probe, reported `reality-auditor -> requirement-analysis -> system-design -> coding-discipline`, reported no NexusFlow/static-demo activation, and refused to infer actual project identity from route output alone.
 - Deterministic result: 17/17 contracts pass with all expected routes required; both meta-question variants exclude project workflows.
 - Forbidden side effects: none. The model made no repository writes and did not use network research, commit, push, or the full suite; the harness wrote only its requested last-message evidence under `/tmp`.
 - Hash-bound evidence: [`route-audit-live-2026-07-11.md`](../evals/evidence/route-audit-live-2026-07-11.md) and `evals/observations-2026-07-11.json`.
@@ -933,7 +933,7 @@ Prompt:
 
 - Date: 2026-07-13 (Asia/Shanghai).
 - Baseline: only 25/54 broad prompts passed the actual deterministic router even though the previous structural evaluation was green.
-- Deterministic repair: 54/54 broad routes, 345/345 internal should-trigger cases, 208/208 adjacent should-not-trigger cases, and 48/48 external-candidate triggers pass. Near-miss failures exposed and fixed negated NexusFlow/EAC context leakage.
+- Deterministic repair: 54/54 broad routes, 345/345 internal should-trigger cases, 208/208 adjacent should-not-trigger cases, and 48/48 external-candidate triggers pass. Near-miss failures exposed and fixed negated NexusFlow/static-demo context leakage.
 - External boundary: all 12 optional dependencies retain URL and reviewed commit provenance but remain `external_candidate`; source, installation, security, and action-specific authorization gates are explicit.
 - Live result: Codex CLI `0.144.1` ran one fresh read-only canary per child Skill. All 26 event streams actually read the expected `skills/<name>/SKILL.md` and ended with the expected activation line. The receipt keeps per-run exit code, token usage, and raw-event SHA-256.
 - Evidence result: E1-E4 representative outputs failed two independent reviews, drove fixes to fact/hypothesis separation, rewrite drift, catalog fingerprinting, and blocked security receipts, then passed the third review.

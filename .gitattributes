@@ -17,6 +17,7 @@ references/research/** export-ignore
 references/research/14-permacomputing-lindy.md -export-ignore
 references/research/15-zero-leakage-security.md -export-ignore
 references/research/16-ecosystem-study-2026-q2.md -export-ignore
+.worktrees/** export-ignore
 
 # Common generated or bulky artifacts.
 .DS_Store export-ignore

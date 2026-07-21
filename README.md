@@ -6,10 +6,10 @@
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Release-v1.5.1-brightgreen)
+![Status](https://img.shields.io/badge/Release-v1.60-brightgreen)
 
 > [!WARNING]
-> `v1.5.1` 修复了 v1.5.0 在 GitHub 自动生成的无 `.git` 源码归档中被 Ruff `.ruff_cache` 污染的问题。正式载荷已通过失败优先回归、本地严格套件、提交对象无 Git 归档和候选 `dev` 双跑 CI；最终 `main`、tag、公开归档与 Release 收据在冻结对象之外记录，不把历史绿灯借给新对象。
+> `v1.60` 是匿名化与发布卫生版本：旧项目绑定的静态 Demo 加固能力已改为通用 `static-demo-hardening`，当前发布载荷不再包含旧发布说明文件或旧项目技能入口。正式载荷已通过完整本地套件、零泄漏扫描、安装载荷校验和包含本地 worktree 副本的残留扫描。
 
 > [!IMPORTANT]
 > 古月不是“完整的人”或万能自动化系统。它会主动完成边界明确、仓库内可逆的工作；公开发布、付费、凭证、权限扩大、不可逆迁移等高影响动作仍需绑定具体版本的授权。它不会把 AI 参与伪装成人工来源，也不会为了好听删除证据缺口或风险。
@@ -26,19 +26,18 @@ cd guyue-skill
 python3 scripts/try_guyue.py
 ```
 
-下面保留 `v1.5.1` 的历史验货样例：
+下面是当前 `v1.60` 的本地验货样例：
 
 ```text
-[PASS] 包体 complete | 26 Skills
-1. requirement-analysis | 证据: 给当前项目做一个
-2. system-design | 证据: 权限管理
-3. coding-discipline | 证据: 后端接口
-项目边界: EAC、NexusFlow 专属能力未误触
+[PASS] 包体 complete | v1.60 | 27 Skills
+1. static-demo-hardening | 证据: 静态 demo
+2. coding-discipline | 证据: PDF 导出
+项目边界: 静态 Demo 演示面、NexusFlow 专属能力未误触
 上下文: 0 个高相似路由碰撞
 [PASS] 本地验货通过
 ```
 
-这个入口复用真实的包体收据、路由解释器和上下文预算器，只读、不写文件。上面的 26 Skill 输出是 `v1.5.1` 历史证据；当前开发分支会按当前 manifest 重算。两者都不能证明目标运行时已经激活或模型行为回放通过。入口源码见 [scripts/try_guyue.py](scripts/try_guyue.py)，完整场景见 [examples/showcase.md](examples/showcase.md)，历史活体回放见 [examples/quickstart-output.md](examples/quickstart-output.md)。
+这个入口复用真实的包体收据、路由解释器和上下文预算器，只读、不写文件。它证明当前载荷、确定性路由和上下文预算，不证明目标运行时已经激活或模型行为回放通过。入口源码见 [scripts/try_guyue.py](scripts/try_guyue.py)，完整场景见 [examples/showcase.md](examples/showcase.md)，活体回放见 [examples/quickstart-output.md](examples/quickstart-output.md)。
 
 ### 证明口径
 
@@ -46,11 +45,11 @@ python3 scripts/try_guyue.py
 |---|---|---|
 | `scripts/try_guyue.py` | 当前载荷、确定性路由、项目边界和上下文预算 | 目标运行时已激活，或模型一定遵守合同 |
 | 哈希绑定的只读回放 | 指定提示词在指定运行时中的真实行为 | 其余行为合同、其他运行时或长期结果 |
-| `v1.5.1` 的 26 项历史输出质量收据 | 每个已发布 Skill 的一个合成任务已读取正文、产生产物并通过独立准则审查 | 当前开发分支新增 Skill、任意输入质量、真实用户价值或其他运行时表现 |
+| `v1.60` 的本地发布套件 | 当前 27 个 Skill 的结构、路由、协作、安装载荷、安全和上下文预算 | 其他运行时激活、任意输入质量、真实用户价值或长期效果 |
 | 当前发布套件与发布清单 | 精确载荷的本地结构、安全、远程 CI 和公开源安装完整性 | 其他运行时、GitHub Release 或长期用户价值 |
 
 > [!NOTE]
-> 当前开发分支已定义 27 个子 Skill、56 个路由用例、26 个行为合同、12 个协作用例、217 个近邻负例和 10 个工作流。这是当前确定性合同，不是 27 项活体激活或输出质量证明；这两类新收据尚未刷新，现有历史证据仍只覆盖 `v1.5.1` 的 26 个 Skill。
+> 当前发布已定义 27 个子 Skill、56 个路由用例、26 个行为合同、12 个协作用例、217 个近邻负例和 10 个工作流。这是当前确定性合同，不是 27 项活体激活或输出质量证明。
 
 普通开发门会把“活体收据陈旧/不完整”保留为可见警告，并维持相应能力声明为 `false`，避免额度阻断诱发无价值的全量重跑；正式发布仍必须用 `check_capability_chain.py --strict --json` 或 `GUYUE_RELEASE_STRICT=1` 将这些警告恢复为阻断门。
 
@@ -106,18 +105,18 @@ python3 scripts/try_guyue.py
 |---|---|---|
 | 临时提示 | 一次性回答和局部执行 | 没有版本化路由、恢复账本、证据合同和回归门 |
 | 单一任务 Skill | 固化一个领域的稳定步骤 | 通常不负责跨任务仲裁、长线控制修订和终局封账 |
-| Guyue（当前开发清单） | 用 27 个窄能力组织认知建图、需求、实现、恢复、审查和沉淀；`v1.5.1` 发布版为 26 个 | 仍依赖目标运行时执行；新增能力尚无 27 项活体与输出质量收据，也不替代用户价值判断或时间型结果 |
+| Guyue（当前发布清单） | 用 27 个窄能力组织认知建图、需求、实现、恢复、审查和沉淀 | 仍依赖目标运行时执行；本地发布套件不替代用户价值判断或时间型结果 |
 
 ## 安装到 Agent
 
-### v1.5.1：GitHub 源与 Claude Code Marketplace 元数据
+### v1.60：GitHub 源与 Claude Code Marketplace 元数据
 
 ```bash
 claude plugin marketplace add guyue55/guyue-skill
 claude plugin install guyue@guyue
 ```
 
-安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。公开 tag `v1.5.1` 固定本次热修载荷，Marketplace 元数据与版本一致。Claude 模型激活和 Marketplace 提交仍是独立证据面，不能由结构校验、GitHub Release 或历史安装证据替代。
+安装后可用 `claude plugin details guyue@guyue` 核对版本和组件清单。公开 tag `v1.60` 固定本次匿名化发布载荷，Marketplace 元数据与版本一致。Claude 模型激活和 Marketplace 提交仍是独立证据面，不能由结构校验、GitHub Release 或本地安装证据替代。
 
 **Codex 完整安装：**
 
@@ -150,14 +149,14 @@ bash scripts/test_suite.sh
 
 更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
 
-运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前证据见 [v1.5.1 热修说明](docs/release-v1.5.1.md) 和 [发布清单](docs/release-checklist.md#v151-release-evidence-lineage)；[v1.5.0 发布说明](docs/release-v1.5.0.md) 与[鲁班审查](docs/luban-report-v1.5.0.md)保留为历史证据，但不替代当前版本复验。
+运行时边界见 [docs/runtime-adapters.md](docs/runtime-adapters.md)，长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前证据见 [v1.60 发布说明](docs/release-v1.60.md) 和 [发布清单](docs/release-checklist.md#v160-release-evidence)。
 
 ## 核心心智矩阵：1 个核心分身 + 14 个基础能力 + 13 个扩展能力
 
 本系统采用类似操作系统的技能路由架构（Digital Twin Orchestrator）。当运行时加载根 `SKILL.md` 后，主干根据意图选择最窄的内部能力模块：
 
 > [!NOTE]
-> 这里描述当前开发分支的 27 个子 Skill 和确定性合同。`v1.5.1` 的 26 项活体激活与输出质量收据仍是历史发布证据，不能升格为 27 项证明。
+> 这里描述当前发布分支的 27 个子 Skill 和确定性合同。活体激活和输出质量收据必须按当前版本单独刷新，不能从旧版本继承。
 
 - 🚦 **核心分身 (guyue)**：接管意图，强制注入模块化解耦、全局规划、规范化纪律的底层思维 SOP。
 - 🗺️ **认知拓界 (cognitive-expansion)**：日常以微量模式补少数高价值遗漏，陌生或高风险领域才建立可被新证据修订的正式认知地图；把“等/等等/之类”视为种子而非闭集，模型知识优先，时效或证据门命中后才定向联网，不替代事实检索、需求拆解或架构设计。
@@ -174,7 +173,7 @@ bash scripts/test_suite.sh
 - 📒 **长线目标铸造与长程自治**：Long Goal v4 在 v3 的稳定 ID、委派收束和哈希证据上，增加三层时间尺度、事实/决定/假设/实验台账、可追溯控制修订、先纵切后扩张和 A/B/C Git 封账。检查器可通过 `--repo-root` 验证任意目标仓库；连续模拟覆盖三次失败、设计复核、批准恢复、封账、重启与篡改拒绝。承诺与 `FINAL/ATTEMPT` 证据双向对账，检查器通过仍只证明控制结构完整。v2/v3 仅保留历史解析兼容。
 - 🧠 **证据型双轨记忆 (memory-bank)**：公共精选索引与本地私有运行记忆分离；每条教训记录来源、证据、作用域、置信度、替代关系和复查日期，避免把过期经验当成当前事实。
 - 🛠️ **技能制作 (skill-crafting)**：先验证重复价值、稳定输入、可复用步骤和验证标准，再选择 Skill、Custom subagent、SOP、脚本、Hook、Automation 或 CI gate；用无 Skill 基线、留出样本、重复回放和安装验真取代评分表自嗨。
-- 📡 **能力链验真**：当前开发 manifest 的 27 个子 Skill、56 个路由用例、26 个行为合同、12 个协作用例、217 个近邻负例和 10 个工作流证明确定性发现与选择合同；`v1.5.1` 的 26 项 Codex 活体激活与输出质量收据只证明历史发布集合。12 个外部增强只能进入候选态，未完成来源、安装、安检和动作授权前不能冒充已激活能力。
+- 📡 **能力链验真**：当前 manifest 的 27 个子 Skill、56 个路由用例、26 个行为合同、12 个协作用例、217 个近邻负例和 10 个工作流证明确定性发现与选择合同。12 个外部增强只能进入候选态，未完成来源、安装、安检和动作授权前不能冒充已激活能力。
 - 🧭 **生态寻猎 (ecosystem-scout)**：调研外部技能/工具，按 Two-Phase Loading 轻量注册；确实适合第三方工具时，先给安装计划和安全边界，获明确授权后再快速接入。
 
 扩展能力用于处理更细分的高风险工作流，默认仍受安全、授权和验证门约束：
@@ -190,7 +189,7 @@ bash scripts/test_suite.sh
 - 🗜️ **上下文预算 (context-compressor)**：先判断 token 浪费来自文件、工具、文档、长会话还是动态工作流，再用最小上下文、子任务预算和可追溯证据完成任务。
 - 🔎 **真实性审查 (reality-auditor)**：实现后独立验收，专查假数据、前端假过滤、权限边界、部署配置是否真实生效、动态工作流是否有停止条件和验证盲点。
 - 🏢 **NexusFlow 治理流 (nexusflow-governance-workflow)**：沉淀 NexusFlow 权限/治理/平台/仪表盘/GCP 导入工作的固定入口、验证门和中文提交纪律。
-- 🧾 **EAC Demo 加固 (eac-demo-hardening)**：约束 `Demo/index.html` 静态演示、报告导出、教程 fallback 和 GSAP 运行时加固。
+- 🧾 **静态 Demo 加固 (static-demo-hardening)**：约束 `Demo/index.html` 静态演示、报告导出、教程 fallback 和 GSAP 运行时加固。
 - 💸 **AI 成本实测 (ai-cost-grounding-measurement)**：用真实 token、Grounding 元数据、计费搜索 Query 和中文 CSV 输出证明成本口径。
 
 ## 能力路由：相邻能力怎么选
@@ -203,7 +202,7 @@ bash scripts/test_suite.sh
 | `cognitive-expansion` / `research-and-sourcing` / `requirement-analysis` / `system-design` | 普通任务只做微量遗漏扫描；尚不知道该看什么时才建正式问题与领域地图；地图指出需核验的当前事实后再调研；要做产品或业务交付时收敛需求；需求有界后才设计架构。各阶段按需进入，不固定全串。 |
 | `product-sense` / `requirement-analysis` / `system-design` | 先判断值不值得做，再拆需求边界，最后才做架构方案。 |
 | `research-and-sourcing` / `ecosystem-scout` / `software-advisor` | 最新文档走调研；外部 Skill/插件接入走生态寻猎；本地软件推荐走软件顾问。 |
-| `frontend-expert` / `taste-aesthetics` / `eac-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；EAC 静态 Demo 问题走项目专用技能。 |
+| `frontend-expert` / `taste-aesthetics` / `static-demo-hardening` | 写前端走前端专家；审美诊断走审美约束；静态 Demo 导出、教程回退和演示面加固走静态 Demo 加固。 |
 | `frontend-expert` / `taste-aesthetics` / `ai-website-cloner` | `DESIGN.md`、Refero、Figma、Impeccable 等参考资料先走审美约束判断产品类型和可借鉴边界；写代码走前端专家；自有或授权页面迁移才走网页重建。 |
 | `coding-discipline` / `code-minimalism` | 写代码、拆模块、提交走开发纪律；削减过度设计和依赖走极简代码。 |
 | `debugging-mindset` / `reality-auditor` | 活跃故障排查走排障心法；实现后确认真假、权限、后端接线和部署生效证据走真实性审查。 |
@@ -349,7 +348,7 @@ guyue/
 │   ├── check_context_budget.py # 发现面、根入口与碰撞预算
 │   ├── check_behavior_replay.py # 回放观察与证据哈希检查
 │   ├── check_capability_chain.py # 发现、路由、证据档位与活体激活门
-│   ├── run_capability_live_canaries.py # Codex 只读激活探针；v1.5.1 历史收据覆盖 26 Skill
+│   ├── run_capability_live_canaries.py # Codex 只读激活探针
 │   ├── check_long_goal_pack.py  # Long Goal v2/v3/v4 控制包门禁
 │   ├── test_long_goal_pack.py   # Long Goal 兼容、反例与真实 Git 封账测试
 │   ├── simulate_long_goal_lifecycle.py # 外部项目失败、恢复、封账与重启模拟
@@ -375,7 +374,7 @@ guyue/
     ├── coding-discipline/
     ├── debugging-mindset/
     ├── documentation/
-    ├── eac-demo-hardening/
+    ├── static-demo-hardening/
     ├── ecosystem-scout/
     ├── frontend-expert/
     ├── human-voice/
@@ -395,16 +394,16 @@ guyue/
     └── video-extractor/
 ```
 
-## v1.5.1 热修证书
+## v1.60 发布证书
 
 ```text
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.5.1)                │
+│  作品：guyue (古月数字分身 v1.60)                 │
 │  状态：Released Payload，发布对象由 tag 固定          │
 │  打磨前：单项能力可验，但跨能力协作主要靠文字约定   │
-│  打磨后：26 项能力可路由、可协作、可安装态验收      │
+│  打磨后：27 项能力可路由、可协作、可安装态验收      │
 │  定位：Personal Agent Operating Layer            │
 │  绝活：协作合同 + 数据分层 + 活体对账              │
 │                                               │

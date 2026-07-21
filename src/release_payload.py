@@ -119,7 +119,8 @@ def verify_payload(root: Path, *, profile: str, runtime: str) -> list[str]:
         if not path.is_file():
             continue
         rel_path = path.relative_to(root).as_posix()
-        if ".git" in path.relative_to(root).parts:
+        rel_parts = path.relative_to(root).parts
+        if ".git" in rel_parts or ".worktrees" in rel_parts:
             continue
         if rel_path in expected_paths or is_export_ignored(root, rel_path):
             continue

@@ -18,6 +18,7 @@ ALLOWED_SKILL_FRONTMATTER_FIELDS = {
     'allowed-tools',
 }
 SKILL_NAME_PATTERN = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+LOCAL_ONLY_DIRS = {'.git', '.worktrees', '__pycache__'}
 
 def check_json(file_path):
     try:
@@ -304,11 +305,11 @@ def check_project_config(repo_root):
             print(f"❌ [CONFIG ERROR] {name}.live_canary_required must be true", file=sys.stderr)
             passed = False
 
-    for project_skill in ('nexusflow-governance-workflow', 'eac-demo-hardening'):
-        item = next((skill for skill in manifest_skills if skill.get('name') == project_skill), None)
+    for context_gated_skill in ('nexusflow-governance-workflow', 'static-demo-hardening'):
+        item = next((skill for skill in manifest_skills if skill.get('name') == context_gated_skill), None)
         if not item or not item.get('required_any_context') or not item.get('negative_intent'):
             print(
-                f"❌ [CONFIG ERROR] project skill {project_skill} requires positive project markers and negative routes",
+                f"❌ [CONFIG ERROR] context-gated skill {context_gated_skill} requires positive context signals and negative routes",
                 file=sys.stderr,
             )
             passed = False
@@ -599,11 +600,15 @@ def list_release_files(repo_root):
             for line in attr_output.splitlines()
             if line.endswith(': export-ignore: set')
         }
-        return [os.path.join(repo_root, line) for line in candidate_files if line not in ignored]
+        return [
+            os.path.join(repo_root, line)
+            for line in candidate_files
+            if line not in ignored and os.path.exists(os.path.join(repo_root, line))
+        ]
     except (FileNotFoundError, subprocess.CalledProcessError):
         release_files = []
         for root, dirs, files in os.walk(repo_root):
-            dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
+            dirs[:] = [d for d in dirs if d not in LOCAL_ONLY_DIRS]
             for file in files:
                 release_files.append(os.path.join(root, file))
         return release_files
@@ -817,7 +822,7 @@ def check_skill_resource_references(repo_root):
     }
 
     for root, dirs, files in os.walk(repo_root):
-        dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
+        dirs[:] = [d for d in dirs if d not in LOCAL_ONLY_DIRS]
         if 'SKILL.md' not in files:
             continue
 
@@ -2431,7 +2436,7 @@ def main():
                 
     # 2. Check all SKILL.md files
     for root, dirs, files in os.walk(repo_root):
-        dirs[:] = [d for d in dirs if d not in {'.git', '__pycache__'}]
+        dirs[:] = [d for d in dirs if d not in LOCAL_ONLY_DIRS]
         if 'references' in root:
             continue
         for file in files:
