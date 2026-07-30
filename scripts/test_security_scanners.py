@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import contextlib
+import io
 import subprocess
 import tempfile
 import sys
@@ -11,6 +13,7 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 
 import run_security_scan  # noqa: E402
+import security_scanner  # noqa: E402
 from security_patterns import find_project_fingerprint_matches, find_secret_matches  # noqa: E402
 
 
@@ -24,9 +27,44 @@ def require(condition: bool, message: str) -> None:
 
 def main() -> int:
     suite = (ROOT / "test_suite.sh").read_text(encoding="utf-8")
+    root_skill = (ROOT.parent / "SKILL.md").read_text(encoding="utf-8")
+    security_doc = (ROOT.parent / "docs" / "security.md").read_text(encoding="utf-8")
     require(
         "ruff check --no-cache scripts src" in suite,
         "the release gate must not create a Ruff cache inside source archives",
+    )
+    require(
+        "仅用于 Guyue 仓库自身发布检查" in root_skill,
+        "the public Skill must keep the Guyue-only scanner boundary",
+    )
+    require(
+        "not a generic\n  scanner" in security_doc,
+        "the security guide must reject cross-project scanner use",
+    )
+
+    help_result = subprocess.run(
+        [sys.executable, str(ROOT / "security_scanner.py"), "--help"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    require(help_result.returncode == 0, "--help must exit successfully")
+    require("usage:" in help_result.stdout, "--help must print CLI usage")
+    require(
+        "Running Zero-Leakage Security Scanner" not in help_result.stdout,
+        "--help must not run the release scan",
+    )
+
+    unknown_result = subprocess.run(
+        [sys.executable, str(ROOT / "security_scanner.py"), "--unknown-option"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    require(unknown_result.returncode == 2, "unknown CLI options must fail closed")
+    require(
+        "Running Zero-Leakage Security Scanner" not in unknown_result.stdout,
+        "unknown CLI options must not run the release scan",
     )
 
     with tempfile.TemporaryDirectory(prefix="guyue-zero-leakage-test-") as temp_dir:
@@ -34,17 +72,41 @@ def main() -> int:
         cache_dir = root / ".ruff_cache"
         cache_dir.mkdir()
         (cache_dir / "CACHEDIR.TAG").write_text("generated cache\n", encoding="utf-8")
-        scanner = subprocess.run(
+        secret_value = "gh" + "p_" + "b" * 24
+        (root / "private.txt").write_text(secret_value + "\n", encoding="utf-8")
+        scanner_output = io.StringIO()
+        with contextlib.redirect_stdout(scanner_output):
+            scanner_status = security_scanner._scan_repository(root)
+        scanner_stdout = scanner_output.getvalue()
+        require(scanner_status != 0, ".ruff_cache must fail Zero-Leakage")
+        require(
+            "Generated cache present" in scanner_stdout,
+            "Zero-Leakage must explain the Ruff cache failure",
+        )
+        require(
+            "Security Leak" in scanner_stdout,
+            "Zero-Leakage must report the secret finding",
+        )
+        require(
+            secret_value not in scanner_stdout,
+            "Zero-Leakage must not echo detected secret material",
+        )
+
+        caller_scope = subprocess.run(
             [sys.executable, str(ROOT / "security_scanner.py")],
             cwd=root,
             text=True,
             capture_output=True,
             check=False,
         )
-        require(scanner.returncode != 0, ".ruff_cache must fail Zero-Leakage")
         require(
-            "Generated cache present" in scanner.stdout,
-            "Zero-Leakage must explain the Ruff cache failure",
+            "Scope: Guyue repository release payload" in caller_scope.stdout,
+            "CLI must identify its repository-local release scope",
+        )
+        require(
+            "private.txt" not in caller_scope.stdout
+            and "Generated cache present" not in caller_scope.stdout,
+            "CLI must not scan files or caches from the caller's repository",
         )
 
     with tempfile.TemporaryDirectory(prefix="guyue-security-test-") as temp_dir:

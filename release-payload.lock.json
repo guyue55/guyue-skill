@@ -15,7 +15,7 @@
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
-      "sha256": "471a9e2de7092e92067c04396974a3f0e8b87a64af8c317f14ebffdef9709ca6"
+      "sha256": "6d11a1ce3cd29a33307fa24689af2bc0315c4b8e00006f4266effae031b0cf7b"
     },
     {
       "path": "LICENSE",
@@ -27,7 +27,7 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "f7831a6bb36100e91da19b424b97460b07c933f737bac29cf48950c4a8010c55"
+      "sha256": "b1b259f47077860c7bffda51fa88eedddd89e63181cbec39d0c3ec272853de3b"
     },
     {
       "path": "assets/demo.gif",
@@ -107,7 +107,7 @@
     },
     {
       "path": "docs/security.md",
-      "sha256": "dd67f8616d43a3ffd7c5e2889fb708ad56001261fef4623e53965f417ad488ee"
+      "sha256": "587c8f2b5d2822b338607863970335e8ac3435ed88e849c425912803f7d94d33"
     },
     {
       "path": "docs/superpowers/plans/2026-07-17-cognitive-expansion.md",
@@ -779,7 +779,7 @@
     },
     {
       "path": "scripts/security_scanner.py",
-      "sha256": "d34dd2c9c646fdf0ffb99c83163524a1a8d38400aac2f7531d83ce92d99b9dcb"
+      "sha256": "2a0e5bf62c16941697668cbc965b56eaa186d9761f44b9d5ad34b7c4792c1bea"
     },
     {
       "path": "scripts/simulate_install_journey.py",
@@ -839,7 +839,7 @@
     },
     {
       "path": "scripts/test_security_scanners.py",
-      "sha256": "1f3b306da9a5d91cad3a05c5b119dab7cbaf273632412e2fa632e6e99b3c4b81"
+      "sha256": "7972545c6ec71ca752043f2aaade91d2b37f529d3349f918cc8390795453ad69"
     },
     {
       "path": "scripts/test_single_entrypoint_contract.py",

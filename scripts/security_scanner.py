@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import sys
 import subprocess
 import re
@@ -8,6 +9,10 @@ sys.dont_write_bytecode = True
 
 from security_patterns import find_project_fingerprint_matches, find_secret_matches  # noqa: E402
 
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
 def print_status(msg, is_error=False):
     if is_error:
         print(f"❌ {msg}")
@@ -15,12 +20,14 @@ def print_status(msg, is_error=False):
         print(f"✅ {msg}")
 
 
-def list_release_files():
+def list_release_files(repo_root=REPO_ROOT):
+    repo_root = Path(repo_root).resolve()
     try:
         candidate_files_output = subprocess.check_output(
             ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
             text=True,
             stderr=subprocess.STDOUT,
+            cwd=repo_root,
         )
         candidate_files = [f for f in candidate_files_output.splitlines() if f.strip()]
         if not candidate_files:
@@ -31,6 +38,7 @@ def list_release_files():
             input="\n".join(candidate_files) + "\n",
             text=True,
             stderr=subprocess.STDOUT,
+            cwd=repo_root,
         )
         ignored = {
             line.split(": ", 2)[0]
@@ -40,21 +48,24 @@ def list_release_files():
         return [Path(f) for f in candidate_files if f not in ignored]
     except (FileNotFoundError, subprocess.CalledProcessError):
         files = []
-        for path in Path(".").rglob("*"):
+        for path in repo_root.rglob("*"):
             if not path.is_file():
                 continue
-            if ".git" in path.parts:
+            relative_path = path.relative_to(repo_root)
+            if ".git" in relative_path.parts:
                 continue
-            files.append(path)
+            files.append(relative_path)
         return files
 
 
-def run_security_scan():
+def _scan_repository(repo_root):
+    repo_root = Path(repo_root).resolve()
     print("==========================================")
     print("🔒 Running Zero-Leakage Security Scanner...")
+    print("🔒 Scope: Guyue repository release payload")
     print("==========================================")
 
-    release_files = list_release_files()
+    release_files = list_release_files(repo_root)
 
     # Release-only patterns and whole-worktree generated cache rules.
     bloat_patterns = [
@@ -71,14 +82,15 @@ def run_security_scan():
 
     print("[1/2] Scanning for bloat and cache files...")
     generated_bloat = []
-    for path_obj in Path('.').rglob('*'):
-        if workspace_exclusions.intersection(path_obj.parts):
+    for path_obj in repo_root.rglob("*"):
+        relative_path = path_obj.relative_to(repo_root)
+        if workspace_exclusions.intersection(relative_path.parts):
             continue
         if (
             path_obj.name in {'__pycache__', '.ruff_cache', '.DS_Store'}
             or path_obj.suffix == '.pyc'
         ):
-            generated_bloat.append(path_obj)
+            generated_bloat.append(relative_path)
     for path_obj in sorted(generated_bloat):
         print_status(f"Generated cache present in worktree: {path_obj.as_posix()}", is_error=True)
         has_error = True
@@ -99,23 +111,30 @@ def run_security_scan():
     fingerprint_errors = 0
     for path_obj in release_files:
         f_path = path_obj.as_posix()
-        if not path_obj.is_file():
+        absolute_path = repo_root / path_obj
+        if not absolute_path.is_file():
             continue
-            
+
         if path_obj.suffix.lower() in ignore_content_extensions:
             continue
-            
+
         try:
-            with open(f_path, 'r', encoding='utf-8') as f:
+            with absolute_path.open('r', encoding='utf-8') as f:
                 for line_idx, line in enumerate(f):
                     for desc in find_secret_matches(line):
-                        print_status(f"Security Leak [{desc}] found in {f_path} (line {line_idx + 1})", is_error=True)
-                        print(f"   -> {line.strip()[:100]}...")
+                        print_status(
+                            f"Security Leak [{desc}] found in {f_path} "
+                            f"(line {line_idx + 1}; content redacted)",
+                            is_error=True,
+                        )
                         secret_errors += 1
                         has_error = True
                     for desc in find_project_fingerprint_matches(line):
-                        print_status(f"Project Fingerprint [{desc}] found in {f_path} (line {line_idx + 1})", is_error=True)
-                        print(f"   -> {line.strip()[:100]}...")
+                        print_status(
+                            f"Project Fingerprint [{desc}] found in {f_path} "
+                            f"(line {line_idx + 1}; content redacted)",
+                            is_error=True,
+                        )
                         fingerprint_errors += 1
                         has_error = True
         except UnicodeDecodeError:
@@ -132,10 +151,29 @@ def run_security_scan():
         print("\n> [!CAUTION]")
         print("> 🚨 Zero-Leakage scanner found violations! Commit blocked.")
         print("> Please clean up caches or remove sensitive secrets/paths before proceeding.")
-        sys.exit(1)
+        return 1
     else:
         print("\n✅ Zero-Leakage check passed! Clean as a whistle.")
-        sys.exit(0)
+        return 0
+
+
+def run_security_scan():
+    return _scan_repository(REPO_ROOT)
+
+
+def build_parser():
+    return argparse.ArgumentParser(
+        description=(
+            "Run Guyue's repository-local Zero-Leakage release gate. "
+            "This command does not scan the caller's project."
+        )
+    )
+
+
+def main(argv=None):
+    build_parser().parse_args(argv)
+    return run_security_scan()
+
 
 if __name__ == "__main__":
-    run_security_scan()
+    raise SystemExit(main())

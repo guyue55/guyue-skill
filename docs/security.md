@@ -44,10 +44,21 @@ MCP servers and scripts can expose local files, shell commands, credentials, and
 - Prefer read-only tools unless write access is required.
 - Review every new script before adding it to `scripts/`.
 - Keep script dependencies explicit and minimal.
-- Run `python3 scripts/security_scanner.py` before every commit.
+- When changing the Guyue repository, run `python3 scripts/security_scanner.py`
+  before every commit. This is a repository-specific release gate, not a generic
+  scanner for whichever project happens to be the caller's current directory.
+- The CLI is anchored to the Guyue repository that contains the script.
+  `--help` prints usage without scanning, and unknown options fail before any
+  scan starts.
+- Other repositories must prefer their own security gate. If none exists,
+  inspect only the current task files or staged candidate and state that this
+  targeted result does not prove whole-repository safety. Pre-existing
+  repository findings must not be attributed to the current change.
 - `scripts/run_security_scan.py` scans every eligible text file and reports `scanned/total`; a truncated or unreadable target cannot receive Green. Green means only that the built-in local heuristics found no match, not that the dependency is supply-chain safe.
 - Optional external dependencies are fetched at the reviewed commit recorded in `skills_manifest.json`; a missing or mismatched ref blocks linking until it is reviewed again.
 - The scanner covers tracked files plus unignored untracked files, so newly generated control packs and release assets are checked before staging. Git-ignored local material remains outside the release scan.
+- Findings report the rule, repository-relative path, and line number without
+  echoing the matching source line or detected secret material.
 - `guyue_read_memory` rejects empty queries and scopes, caps routine results at 5 summaries, and does not read Markdown details unless `include_detail=true`. The default scope is `user`; a project query ranks its exact scope before `user`, while `include_user=false` suppresses global enrichment. `cross_project=true` is required before other project scopes participate. `needs_review` results are disclosed as stale evidence.
 - `guyue_write_memory` refuses missing or negative `user_intent`. Unqualified writes default to `user`; explicitly project-only writes require `project:<stable-project-id>` rather than a shared `project` bucket. It also rejects common API keys, bearer tokens, provider credentials, and personal absolute paths before creating storage files. Valid writes require provenance, scope, evidence, confidence, lifecycle status, prevention, and review timing, and go to user-owned private storage. This is a narrow local guard, not a complete secret detector; callers must still redact logs and account data before writing memory.
 - Memory index mutations use a recoverable exclusive lock, temporary files, `fsync`, and atomic replacement. A corrupt index, lock timeout, or conflicting migration blocks the write instead of resetting or overwriting data.
