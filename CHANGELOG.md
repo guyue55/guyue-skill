@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.8.0 - 2026-07-30
+
+Status: Candidate
+
+### Changed
+
+- Extend the existing `product-delivery` workflow so a simple reference-driven product goal can enter research, product-contract shaping, bounded implementation and independent verification without adding a new mega-Skill.
+- Add a reusable reference-driven product contract covering problem, sources, scope, domain states, backend permission enforcement, acceptance evidence, loop budgets, maturity stage and reference-to-acceptance traceability.
+- Add a deterministic contract checker with positive and negative self-tests. Its visible claim boundary states that structural validity does not prove implementation, product maturity or runtime behavior.
+- Require the verifier to audit frozen contracts, anti-copying boundaries, executable acceptance evidence, independent checker ownership, loop stops and stage-specific maturity claims.
+
+### Verification
+
+- Pending final release-candidate evidence refresh and full-suite replay.
+
+### Boundaries
+
+- This candidate does not claim that one sentence, a strong model, multi-Agent execution or a passing structural checker can by itself produce a mature, stable or production-ready product.
+- Push, tag, public release and Marketplace submission remain separately authorized actions.
+
 ## v1.7.2 - 2026-07-30
 
 Status: Released

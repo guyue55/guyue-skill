@@ -46,6 +46,19 @@ Use this mode when the claim is "the workflow is automated", "the agent loop can
 - Inspect whether subagent outputs are summarized with evidence paths instead of flooding the main context.
 - Treat missing stop conditions, unbounded background tasks, silent external writes, or unverifiable "all checked" claims as findings.
 
+## Reference-Driven Product Contract Audit
+
+Use this mode when the claim is that a simple product goal was converted into a researched, multi-Agent, independently verified delivery.
+
+- Require one frozen JSON contract that follows `skills/requirement-analysis/references/reference-driven-product-contract.md`.
+- Run `python3 scripts/check_reference_product_contract.py <contract.json>` and retain its result, but treat a pass as structural evidence only.
+- Trace every acceptance item back to a declared reference and forward to an executable checker, owner, failure condition and current artifact.
+- Verify reference mechanisms were adapted rather than copied, and that brand, text, assets and proprietary layouts were not imported.
+- Verify permissions name a backend enforcement point and a negative test; client visibility alone is not authorization.
+- Verify the executor cannot silently edit the contract, checker, threshold or reference mapping during repair.
+- Enforce the declared maximum rounds, minutes and subtasks. A failed stop or escalation condition blocks further autonomous looping.
+- Keep maturity claims stage-specific: contract-ready, vertical slice, MVP, release candidate and production-ready are distinct. Structural validation cannot promote a delivery between them.
+
 ## Standard Workflow
 
 1. Read the repo entry instructions, then `git status --short`.

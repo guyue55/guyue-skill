@@ -89,6 +89,17 @@ description: Use when a product idea, feature, business rule, or long-running go
    ```
    - 将这份契约作为后续 `writing-plans` 或执行阶段的绝对准则。
 
+### 参考驱动产品工程模式
+
+当用户以一句复合目标要求主动寻找参考、必要澄清、多 Agent 分工、独立验收或“成熟/可用/稳定”产品时，使用 [参考驱动产品契约](references/reference-driven-product-contract.md)：
+
+1. 只研究会改变产品机制、范围或验收的参考对象，并记录来源、访问日期、采用机制、具体适配和权利边界。
+2. 把不能从现场推断且会改变范围、权限、成本或完成口径的问题逐个交给用户决定；其余内容使用显式默认值，不把专业编排重新转嫁给用户。
+3. 生成与 [中性示例](references/reference-driven-product-contract.example.json) 同结构的 JSON 契约，至少覆盖用户、核心场景、成功指标、参考、范围、角色、对象、状态机、权限、验收、循环预算、非目标和完成定义。
+4. 运行 `python3 scripts/check_reference_product_contract.py <contract.json>`。结构失败不得进入实现；检查通过只表示契约可追踪，不表示产品已经成熟、稳定或生产可用。
+5. 主控冻结契约后再分配任务。共享状态机、权限、审计、完成定义和检查器不能被多个实现 Agent 各自改写。
+6. “成熟/可用/稳定”默认降解为可验证目标阶段：先交付纵向切片或 MVP；只有部署、监控、恢复、安全、真实用户和长期运行证据齐全时，才允许进入生产就绪裁决。
+
 ## Long Goal Forge Mode（长线目标铸造模式）
 
 当用户只给出大概愿景、要求准备长期 Goal、希望“全部规划好后只给一行提示词”，或目标包含多个阶段且可能跨会话时，需求分析进入目标铸造模式。这个模式只准备执行契约，不开始实现。

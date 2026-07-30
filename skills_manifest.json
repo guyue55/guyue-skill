@@ -1,6 +1,6 @@
 {
     "name": "guyue-digital-twin",
-    "version": "1.7.2",
+    "version": "1.8.0",
     "description": "Dynamic skill manifest for guyue digital twin orchestrator.",
     "routing_contract": {
         "version": 2,
@@ -196,7 +196,7 @@
                     {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
                     {"id": "communicate", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
                 ],
-                "completion_gate": "The approved requirement or product contract is sourced when needed, implemented only within authorization, current evidence passes, independent review is retained, and known limits remain visible."
+                "completion_gate": "The approved requirement or product contract is sourced when needed, structurally validated with the reference-driven contract checker, implemented only within authorization, mapped to executable acceptance evidence, independently reviewed without changing the frozen checker, stopped within budget, and reported with known limits and an honest maturity stage."
             },
             {
                 "id": "incident-to-learning",

@@ -36,6 +36,7 @@ python3 scripts/test_context_budget.py
 python3 scripts/check_context_budget.py
 python3 scripts/test_try_guyue.py
 python3 scripts/try_guyue.py >/dev/null
+python3 scripts/check_reference_product_contract.py --self-test
 
 echo ""
 echo "[5/15] Running Behavior Replay Checker Tests..."

@@ -15,6 +15,12 @@
       "forbidden_workflows": []
     },
     {
+      "id": "reference-driven-product-delivery-contract-gate",
+      "prompt": "按参考驱动产品工程做一个可验证纵向切片：主动寻找合适参考，只补问会改变范围或权限的必要信息，先冻结参考映射、状态机、后端权限、验收检查器和停止预算，再组织多 Agent 实现与独立复核；结构检查通过不能冒充生产可用。",
+      "expected_workflow": "product-delivery",
+      "forbidden_workflows": []
+    },
+    {
       "id": "incident-to-learning",
       "prompt": "排障修复并复盘：找出根因、修好问题、复验并沉淀可复用经验。",
       "expected_workflow": "incident-to-learning",

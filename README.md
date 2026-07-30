@@ -6,10 +6,10 @@
 
 ![Skill Badge](https://img.shields.io/badge/Agent_Skill-guyue-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Digital_Twin_Core_%2B_Specialties-success)
-![Status](https://img.shields.io/badge/Release-v1.7.2-brightgreen)
+![Status](https://img.shields.io/badge/Candidate-v1.8.0-orange)
 
 > [!NOTE]
-> 当前正式版本为 `v1.7.2`：公司或单一仓库能力已移回项目边界，通用权限治理原则保留在系统设计、编码纪律和真实性审查中。公开版本链已校正为 `v1.6.0 → v1.7.0 → v1.7.1 → v1.7.2`。
+> 当前正式版本为 `v1.7.2`；开发分支正在验证 `v1.8.0` 候选。候选版把简单复合产品目标接入参考研究、产品契约、受控多 Agent 分工、独立验收和成熟度边界，但不把结构检查或强模型产出冒充成熟产品。
 
 > [!IMPORTANT]
 > 古月不是“完整的人”或万能自动化系统。它会主动完成边界明确、仓库内可逆的工作；公开发布、付费、凭证、权限扩大、不可逆迁移等高影响动作仍需绑定具体版本的授权。它不会把 AI 参与伪装成人工来源，也不会为了好听删除证据缺口或风险。
@@ -26,10 +26,10 @@ cd guyue-skill
 python3 scripts/try_guyue.py
 ```
 
-下面是当前 `v1.7.2` 的本地验货样例：
+下面是当前 `v1.8.0` 候选的本地验货样例：
 
 ```text
-[PASS] 包体 complete | v1.7.2 | 26 Skills
+[PASS] 包体 complete | v1.8.0 | 26 Skills
 1. static-demo-hardening | 证据: 静态 demo
 2. coding-discipline | 证据: PDF 导出
 项目边界: 静态 Demo 演示面未误触
@@ -149,7 +149,7 @@ bash scripts/test_suite.sh
 
 更完整的运行时安装路径见 [docs/installation.md](docs/installation.md)。安全边界见 [docs/security.md](docs/security.md)。评测方式见 [docs/evaluation.md](docs/evaluation.md)。
 
-长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前证据见 [v1.7.2 发布说明](docs/release-v1.7.2.md) 和 [发布清单](docs/release-checklist.md#v172-release-evidence)。
+长任务协议见 [docs/long-goal-protocol.md](docs/long-goal-protocol.md)，控制包字段见 [docs/templates/long-goal-control-pack.md](docs/templates/long-goal-control-pack.md)。当前候选证据见 [v1.8.0 候选说明](docs/release-v1.8.0.md) 和 [发布清单](docs/release-checklist.md#v180-candidate-evidence)；正式版本证据仍保留在 [v1.7.2 发布说明](docs/release-v1.7.2.md)。
 
 ## 核心心智矩阵：1 个核心分身 + 26 个窄能力
 
@@ -390,16 +390,16 @@ guyue/
     └── video-extractor/
 ```
 
-## v1.7.2 候选证书
+## v1.8.0 候选证书
 
 ```text
 ┌───────────────────────────────────────────────┐
 │  出师证书 · 鲁班工坊                            │
 │                                               │
-│  作品：guyue (古月数字分身 v1.7.2)                │
-│  状态：Released Payload，发布对象由 tag 固定          │
-│  打磨前：公开载荷混入单一公司项目能力              │
-│  打磨后：项目身份清零，26 项能力激活与输出可验      │
+│  作品：guyue (古月数字分身 v1.8.0)                │
+│  状态：Candidate Payload，尚未打 tag 或公开发布       │
+│  打磨前：复合产品目标需要用户手工拼装协作链          │
+│  打磨后：参考、契约、检查器和成熟度边界形成闭环      │
 │  定位：Personal Agent Operating Layer            │
 │  绝活：方向防火墙 + 精简证据脊柱 + 活体对账        │
 │                                               │

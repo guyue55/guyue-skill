@@ -2,6 +2,20 @@
 
 Release only when installation, verification, safety, and examples are understandable to a new user.
 
+## v1.8.0 Candidate Evidence
+
+Date: 2026-07-30
+Candidate version: `1.8.0`
+Base tag: `v1.7.2`
+
+- [ ] Both reference-driven product prompts select the existing `product-delivery` workflow.
+- [ ] The reference-driven product contract example and negative self-tests pass.
+- [ ] The changed requirement and audit Skills have current independent output-quality evidence.
+- [ ] Live activation evidence is current for the candidate routing semantics.
+- [ ] The exact payload lock is rebuilt after final candidate evidence and documentation changes.
+- [ ] The complete local suite, Zero-Leakage scan, Ruff, full-install proof and source-archive proof pass on the committed candidate snapshot.
+- [ ] The Goal control pack records the implementation, evidence and control commits with current hashes.
+
 ## v1.7.2 Release Evidence
 
 Date: 2026-07-30

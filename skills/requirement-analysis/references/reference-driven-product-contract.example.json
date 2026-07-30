@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "metadata": {
+    "id": "PRODUCT-SERVICE-REQUEST-001",
+    "title": "服务请求协作纵向切片",
+    "status": "approved",
+    "owner": "产品主控",
+    "decision_owner": "业务负责人"
+  },
+  "problem": {
+    "users": [
+      "提出请求的客户",
+      "处理请求的服务人员",
+      "负责升级与审计的管理员"
+    ],
+    "core_scenario": "客户提交请求后，需要看到真实进度；服务人员需要在明确权限和时限内处理。",
+    "current_workaround": "通过聊天和表格人工转发，状态、责任人和处理时限不可追踪。",
+    "desired_outcome": "用一个可验证纵向切片闭环创建、分派、处理、客户可见进度和审计。",
+    "no_change_consequence": "请求持续遗漏，客户无法判断处理状态，管理者无法复盘责任和时限。",
+    "success_metrics": [
+      {
+        "id": "METRIC-001",
+        "metric": "请求状态可追踪率",
+        "target": "测试样本中的全部合法状态变化均有当前状态和审计事件",
+        "evidence": "状态机集成测试与审计查询结果"
+      }
+    ]
+  },
+  "references": [
+    {
+      "id": "REF-001",
+      "source": "公开服务请求产品文档",
+      "accessed_at": "2026-07-30",
+      "mechanism": "把客户可见回复与内部备注分开，并记录状态变化。",
+      "adopted_as": "抽象为通用可见性与审计约束，不复制品牌、文字或界面。",
+      "rights_boundary": "只学习机制；不复制品牌名、专有资产、文案或页面布局。"
+    }
+  ],
+  "scope": {
+    "must": [
+      "创建并分派服务请求",
+      "后端校验状态变化和客户可见性",
+      "记录关键操作审计事件"
+    ],
+    "should": [
+      "在临近时限时显示风险提示"
+    ],
+    "non_goals": [
+      "本切片不承诺完整客服平台",
+      "本切片不接入真实付费或消息渠道"
+    ]
+  },
+  "domain": {
+    "actors": [
+      "客户",
+      "服务人员",
+      "管理员"
+    ],
+    "objects": [
+      "服务请求",
+      "回复",
+      "内部备注",
+      "审计事件"
+    ],
+    "states": [
+      "new",
+      "assigned",
+      "in_progress",
+      "resolved"
+    ],
+    "transitions": [
+      {
+        "from": "new",
+        "to": "assigned",
+        "actor": "管理员",
+        "guard": "操作者拥有分派权限且被分派人属于当前组织",
+        "audit_event": "request.assigned"
+      },
+      {
+        "from": "assigned",
+        "to": "in_progress",
+        "actor": "服务人员",
+        "guard": "操作者是当前处理人或拥有管理权限",
+        "audit_event": "request.started"
+      },
+      {
+        "from": "in_progress",
+        "to": "resolved",
+        "actor": "服务人员",
+        "guard": "解决说明非空且操作者拥有处理权限",
+        "audit_event": "request.resolved"
+      }
+    ]
+  },
+  "permissions": [
+    {
+      "actor": "客户",
+      "action": "读取",
+      "resource": "服务请求",
+      "scope": "仅自己所属组织且对客户可见的字段",
+      "backend_enforcement": "服务端按组织、请求归属和字段可见性过滤",
+      "ui_representation": "前端不展示内部备注入口，并解释无权限状态",
+      "negative_test": "其他组织客户无法读取请求或通过接口取得内部备注"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "ACCEPT-001",
+      "promise": "合法状态变化被保存并产生同一请求的审计事件。",
+      "evidence_level": "L3",
+      "checker": "状态机集成测试加审计记录查询",
+      "owner": "独立验证者",
+      "source_refs": [
+        "REF-001"
+      ],
+      "failure_condition": "状态变化成功但缺少审计，或非法变化被接受。"
+    },
+    {
+      "id": "ACCEPT-002",
+      "promise": "客户只能看到自己组织内且允许客户可见的信息。",
+      "evidence_level": "L3",
+      "checker": "跨组织与内部备注越权反例测试",
+      "owner": "独立验证者",
+      "source_refs": [
+        "REF-001"
+      ],
+      "failure_condition": "客户端隐藏但接口仍返回内部或跨组织数据。"
+    }
+  ],
+  "loop": {
+    "max_rounds": 3,
+    "max_minutes": 120,
+    "max_subtasks": 4,
+    "checker_independent": true,
+    "stop_conditions": [
+      "全部冻结验收项通过且没有未解释的高风险失败",
+      "达到目标阶段的完成定义"
+    ],
+    "escalation_conditions": [
+      "同一验收项三次差异化修复仍失败",
+      "需要扩大权限、持久化、依赖或外部写入范围"
+    ],
+    "rollback": "回退本轮实现，保留失败证据，并回到产品契约或方向门重新裁决。"
+  },
+  "delivery": {
+    "implementation_authorized": false,
+    "target_stage": "vertical_slice",
+    "completion_definition": "冻结范围内的核心流程、后端权限、状态机、审计和独立验收全部通过。",
+    "known_limits": [
+      "结构检查通过不等于实现完成",
+      "纵向切片不等于成熟、稳定或生产可用产品"
+    ]
+  },
+  "traceability": {
+    "reference_to_acceptance": [
+      {
+        "reference_id": "REF-001",
+        "acceptance_id": "ACCEPT-001",
+        "adaptation": "把参考产品的状态历史机制抽象为状态变化与审计原子一致性。"
+      },
+      {
+        "reference_id": "REF-001",
+        "acceptance_id": "ACCEPT-002",
+        "adaptation": "把客户可见回复与内部备注分离抽象为后端字段可见性和越权反例。"
+      }
+    ]
+  }
+}
