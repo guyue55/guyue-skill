@@ -9,6 +9,12 @@
       "forbidden_workflows": []
     },
     {
+      "id": "reference-driven-product-delivery",
+      "prompt": "做一个成熟可用稳定的 B2B 工单协作产品。请主动寻找合适参考，补问必要信息，形成产品契约，组织多 Agent 分工，由主控集成，并用独立评委和可执行检查器验收。首版必须覆盖工单创建、分派、状态机、客户可见性、评论与内部备注、SLA 风险、审计和列表真实筛选；不要复制品牌资产，不要宣称完整成熟 SaaS。",
+      "expected_workflow": "product-delivery",
+      "forbidden_workflows": []
+    },
+    {
       "id": "incident-to-learning",
       "prompt": "排障修复并复盘：找出根因、修好问题、复验并沉淀可复用经验。",
       "expected_workflow": "incident-to-learning",

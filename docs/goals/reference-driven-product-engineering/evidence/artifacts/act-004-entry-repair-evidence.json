@@ -1,0 +1,74 @@
+{
+  "evidence_id": "EVID-015",
+  "role": "FINAL",
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "run_id": "RUN-0004",
+  "generated_at": "2026-07-30T20:05:00+08:00",
+  "authorization": "ACT-004 approved by user; ACT-005 was not approved when this evidence was generated",
+  "scope": {
+    "modified_by_act_004": [
+      {
+        "path": "skills_manifest.json",
+        "change": "extended existing product-delivery collaboration workflow with reference-driven product triggers, research-and-sourcing entry, source stage, and stronger completion gate"
+      },
+      {
+        "path": "evals/capability-collaboration.json",
+        "change": "added reference-driven B2B ticket product collaboration regression case"
+      },
+      {
+        "path": "docs/goals/reference-driven-product-engineering/reports/act-004-entry-repair.md",
+        "change": "recorded the ACT-004 entry repair design boundary"
+      }
+    ],
+    "not_modified_by_act_004": [
+      "no new universal Skill",
+      "no routing algorithm change",
+      "no install",
+      "no deployment",
+      "no git staging or commit during ACT-004 execution"
+    ],
+    "pre_existing_dirty_worktree_note": "Other dirty changes existed before ACT-004, including project-share-pack and unrelated eval updates; this evidence does not attribute them to ACT-004."
+  },
+  "probe": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/explain_route.py --json --limit 8 reference-driven-b2b-ticket-product-prompt",
+    "exit_code": 0,
+    "previous_result_before_act_004": {
+      "selected": [],
+      "collaboration_candidates": [],
+      "semantic_result": "failed"
+    },
+    "result_after_act_004": {
+      "lifecycle_state": "collaboration_candidate",
+      "selected": [],
+      "top_collaboration_candidate": "product-delivery",
+      "score": 200.0,
+      "matched_triggers": [
+        "成熟可用稳定的 B2B 工单协作产品",
+        "主动寻找合适参考",
+        "形成产品契约",
+        "组织多 Agent 分工",
+        "独立评委和可执行检查器验收"
+      ],
+      "stages": [
+        "source: research-and-sourcing",
+        "shape: product-sense, requirement-analysis",
+        "design: system-design",
+        "implement: coding-discipline, code-minimalism, frontend-expert, taste-aesthetics",
+        "verify: reality-auditor",
+        "communicate: documentation, human-voice"
+      ],
+      "semantic_result": "passed at collaboration-candidate layer"
+    }
+  },
+  "claim_boundary": {
+    "proves": [
+      "The previously failed compound product prompt now routes into the existing product-delivery collaboration workflow.",
+      "The entry path now explicitly includes reference sourcing, product contract shaping, implementation, independent verification, and communication stages."
+    ],
+    "does_not_prove": [
+      "It does not prove Guyue can autonomously build a mature, stable, production SaaS from one vague sentence.",
+      "It does not prove all listed stages will execute correctly in every host environment.",
+      "It does not prove release readiness."
+    ]
+  }
+}

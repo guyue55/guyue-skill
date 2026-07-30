@@ -171,24 +171,32 @@
         "workflows": [
             {
                 "id": "product-delivery",
-                "description": "Turn a vague or valuable product request into a bounded, implemented, independently verified, and readable delivery.",
+                "description": "Turn a vague, valuable, or reference-driven product request into a bounded, researched, contracted, implemented, independently verified, and readable delivery.",
                 "trigger_intent": [
                     "从需求到交付",
                     "产品规划并开发",
-                    "模糊需求完整落地"
+                    "模糊需求完整落地",
+                    "参考驱动产品工程",
+                    "成熟可用稳定的 B2B 工单协作产品",
+                    "主动寻找合适参考",
+                    "形成产品契约",
+                    "组织多 Agent 分工",
+                    "独立评委和可执行检查器验收"
                 ],
                 "entry_skills": [
                     "product-sense",
-                    "requirement-analysis"
+                    "requirement-analysis",
+                    "research-and-sourcing"
                 ],
                 "stages": [
+                    {"id": "source", "mode": "as-needed", "skills": ["research-and-sourcing"]},
                     {"id": "shape", "mode": "sequence", "skills": ["product-sense", "requirement-analysis"]},
                     {"id": "design", "mode": "as-needed", "skills": ["system-design"]},
                     {"id": "implement", "mode": "primary-plus-conditional", "skills": ["coding-discipline", "code-minimalism", "frontend-expert", "taste-aesthetics"]},
                     {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
                     {"id": "communicate", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
                 ],
-                "completion_gate": "The approved requirement is implemented, current evidence passes, and known limits remain visible."
+                "completion_gate": "The approved requirement or product contract is sourced when needed, implemented only within authorization, current evidence passes, independent review is retained, and known limits remain visible."
             },
             {
                 "id": "incident-to-learning",
