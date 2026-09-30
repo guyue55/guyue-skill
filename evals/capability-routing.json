@@ -113,6 +113,13 @@
     {"id":"multi-turn-native-export","prompt_name":"Multi Turn - Native Export Defeats Self Built Route","expected_primary":"system-design","expected_routes":["system-design"],"forbidden_routes":["coding-discipline"]},
     {"id":"open-frontend-role-no-server-validation","prompt_name":"Open Intent - Frontend Role Check Without Server Validation","expected_primary":"system-design","expected_routes":["system-design"],"forbidden_routes":["coding-discipline"]},
     {"id":"open-tenant-records-client-hidden","prompt_name":"Open Intent - Tenant Records Sent Then Hidden","expected_primary":"system-design","expected_routes":["system-design"],"forbidden_routes":["coding-discipline"]},
-    {"id":"near-miss-repeated-database-design","prompt_name":"Open Intent Near Miss - Repeated Database Design Compound","expected_routes":[],"forbidden_routes":["system-design","coding-discipline"]}
+    {"id":"near-miss-repeated-database-design","prompt_name":"Open Intent Near Miss - Repeated Database Design Compound","expected_routes":[],"forbidden_routes":["system-design","coding-discipline"]},
+    {"id":"skill-ownership-guyue-method","prompt_name":"Skill Ownership - Guyue Is Method Not Owner","expected_primary":"skill-crafting","expected_routes":["skill-crafting"],"forbidden_routes":[]},
+    {"id":"skill-ownership-standalone","prompt_name":"Skill Ownership - Standalone Skill","expected_primary":"skill-crafting","expected_routes":["skill-crafting"],"forbidden_routes":[]},
+    {"id":"skill-ownership-explicit-guyue","prompt_name":"Skill Ownership - Explicit Guyue Subskill","expected_primary":"skill-crafting","expected_routes":["skill-crafting"],"forbidden_routes":[]},
+    {"id":"skill-ownership-no-rtk","prompt_name":"Skill Ownership - Missing RTK Is Not A Blocker","expected_primary":"skill-crafting","expected_routes":["skill-crafting"],"forbidden_routes":[]},
+    {"id":"project-share-pack-trigger","prompt_name":"Trigger Project Share Pack","expected_primary":"project-share-pack","expected_routes":["project-share-pack"],"forbidden_routes":[]},
+    {"id":"work-pulse-distiller-trigger","prompt_name":"Trigger Work Pulse Distiller","expected_primary":"work-pulse-distiller","expected_routes":["work-pulse-distiller"],"forbidden_routes":[]},
+    {"id":"work-pulse-distiller-direct-record","prompt_name":"Trigger Work Pulse Distiller Direct Record","expected_primary":"work-pulse-distiller","expected_routes":["work-pulse-distiller"],"forbidden_routes":[]}
   ]
 }

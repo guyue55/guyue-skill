@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "package": "guyue-digital-twin",
-  "version": "1.7.2",
-  "release_state": "released",
-  "base_tag": "v1.7.1",
+  "version": "1.8.0",
+  "release_state": "candidate",
+  "base_tag": "v1.7.2",
   "files": [
     {
       "path": ".claude-plugin/marketplace.json",
-      "sha256": "620797b62890124a721797d4acfcd9005f424eaf1b574460f0f7ddef42233d53"
+      "sha256": "b81380818a6b80badb1129e73295efaaf4c985b0097993addf81cddb93d0e193"
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "67daac4703bd7dd4894c6e243b11dd76fead0d58874d52b6e9fc081536aa96cf"
+      "sha256": "347779908bdcfe388657a0d2fd36e09a193e7def5fbcfd6a1f0235d305d2e213"
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
@@ -23,11 +23,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "28d57158482e51ae7ad6edad966a28d0274bfd24d55cb80fc0f6887047514a21"
+      "sha256": "5b2257e0f7843844e017d55e9f5ddd75b10b9a76ff7d7b6ad65fcaf9ffbd7ad8"
     },
     {
       "path": "SKILL.md",
-      "sha256": "b1b259f47077860c7bffda51fa88eedddd89e63181cbec39d0c3ec272853de3b"
+      "sha256": "5da445b71d307171d88850df0bb7fa25e44c01947b25bb06c5a51346853cfe5d"
     },
     {
       "path": "assets/demo.gif",
@@ -40,6 +40,146 @@
     {
       "path": "docs/evaluation.md",
       "sha256": "88858adfcecf9e587476d56d35f31f8a1cc08d9ba8345830b7cf8702365a1fc2"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/act-004-entry-repair-evidence.json",
+      "sha256": "bdd2c35c9688d4d1f7d31a56bd0a54790f9cfcb1cd7cea444b9b2163e5d37cb7"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/budget-and-loop-audit.json",
+      "sha256": "75ebb25f717467a6f4abcac924f91985435ba1d2bce102eeec623eb3c4b564ad"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/decision-boundary.md",
+      "sha256": "54f840ffd75c078a589efa4bae1e93e59d8e8b1db4bcce86c1713fd4ddefa71c"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/delegation-simulation-risk.json",
+      "sha256": "b71db77a84010e51e3c5f3ffff265bc7ca2541aad335e78e4399f93549a780d7"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/evidence-level-boundary.json",
+      "sha256": "c694b23c2dc45a04b0cf960b2b56fee81f1ff82eeee365470ca590c7a8484b2e"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/external-side-effect-audit.json",
+      "sha256": "65e1c0e2a57081610d212898bfd612e3422433907e061a1f0f4dfa01063a6e95"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/guyue-capability-decision-evidence.json",
+      "sha256": "19e8bb5bf771f22c2dd156eca317ccc539c32763591cd4350b1f5361f998b548"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/maturity-claim-boundary.json",
+      "sha256": "7b1a48a3f30bdc9fe21c8be4a3239299787d0c46317312e955cc4fc927c1c8d5"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/minimal-live-probe-audit.json",
+      "sha256": "e332edc04dd807dcb3980f2b53e3373d49671c7dec7be83d81763f0926af04c0"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/minimal-live-probe-result.json",
+      "sha256": "cee11305b6c2955ce1d410cb78f3089bd0ff35eee98e6af86ab5e76d2ac8c60c"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/multi-agent-simulation-evidence.json",
+      "sha256": "8d8b79cd6b20e5aa3d75f5c462dc52c88cf5023eec419ae258b1097dbba9c1b1"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/phase-01-baseline-evidence.json",
+      "sha256": "f576a10e729250fe80b259eff396e022957352cc34bb02635d504f17e60cfea8"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/product-snapshot-simulation-evidence.json",
+      "sha256": "93c0eac3c7efd2ea2624404e08caa8320852304d00b45a777c209d53ec6699aa"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/reference-research-evidence.json",
+      "sha256": "ce8cc31343695f6b1ebeccc81de06d8c75fb0ab1c5ebb2da165e1cde4acca798"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/reference-rights-boundary.json",
+      "sha256": "966c63baaf7b14bd7a1b312299fcec858f3034f870f75f3aea8d4a8086f83220"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/root-control-non-change.json",
+      "sha256": "cf263be11e6ca0f943f9bcbfc2976b692cce5ebc2d3efa646ec89c364828328c"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/evidence/index.md",
+      "sha256": "5c31c59c2a020c80cb9567597dbde8cc43af85fe6dcde0023291860d64b03f4b"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/execution-ledger.md",
+      "sha256": "32c2d88565787bcec383737900953c440f03ed23c7c69e0053f25123d3e0bc42"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/fixtures/product-seed-v1.json",
+      "sha256": "db1273ce4acd03b89b20c53b6182aa29f905dff7c49ad9a2de4ced42c90a4b28"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/goal-master.md",
+      "sha256": "c4cb5ccec4cd0b9dd5cdff86ef819fae7b98d097e1f016519e9637a607cd10ce"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/phases/phase-01-baseline-and-experiment-contract.md",
+      "sha256": "933c24b7b7714e5a924071fa2b459e16999f64ceece3f13dc587435ccea29147"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/phases/phase-02-reference-research-and-product-contract.md",
+      "sha256": "6b979956ea7aa25a695e2664602e9729be6606ab97e7b49fd8c32818f8732871"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/phases/phase-03-simulation-and-live-probe.md",
+      "sha256": "46a6b9958a3d464e3aac3d8c02e70c7c03a39c632a786f49c99e7b25838b6725"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/phases/phase-04-guyue-capability-decision.md",
+      "sha256": "9a190d0596826524f69763ed42f6bfd320ba544f907514d7c38c356d666deb47"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/act-004-entry-repair.md",
+      "sha256": "6f652f933c3211a1bba4ef399be61b9639f5d940488fcb524920e3d5cead0c31"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/engineering-simulation-302.md",
+      "sha256": "04adae90747ca02e5076631ff4ef459aeb320737e51366ba2e9e088ef20a09cc"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/guyue-capability-decision.md",
+      "sha256": "07aafd7d9da948918b30ab0d2431851e2070f10d1f913f422d5527397139c99a"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/phase-01-baseline-contract.md",
+      "sha256": "ff40e975e4ef8a00070aa224689e828b760202b8d04455ba0d271467e7c96bc9"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/product-contract-v1.md",
+      "sha256": "27f1fe11174852899674ce19d3733c53959f8a9ef929ace45b4e4fe8ea812e18"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/product-simulation-301.md",
+      "sha256": "47fd4d5bd87dd2c62616d666d339cb4623fb0f92247254f7e0e1257d3d7d18d0"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reports/reference-report-201.md",
+      "sha256": "3c5b84a3d8caf20189097c23aed3a3a4e2067240cc74b788a9a4101e2a2f15dc"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reviews/capability-decision-review-404.md",
+      "sha256": "198ef71eb006b521d2317633c7222e0bcf30652bbecb5423c8b7651cac499fc3"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reviews/independent-review-303.md",
+      "sha256": "5e097b5b202050a6fd5e3ed03e73ae331a63856bab6cc96d34607419eed16af0"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reviews/ready-review-001.md",
+      "sha256": "fb8324fece40a7a980c757ae5861aab9609b483fea326887d0ce895d39348377"
+    },
+    {
+      "path": "docs/goals/reference-driven-product-engineering/reviews/ready-review-002.md",
+      "sha256": "339e6295865311ce9885abab4c7754f046c876b747d118ce3d5a1e7446faa6ca"
     },
     {
       "path": "docs/guyue-capability-discovery-evidence-audit-plan-2026-07-12.md",
@@ -87,7 +227,7 @@
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "efa2a97102c0eb6cd4604d1f6b2afa4992199ec4ca68384e953ffa7fd3747603"
+      "sha256": "ca393868463c92accc8f0c7128e5ff442064da11cb028bb268f28e76e55fb44c"
     },
     {
       "path": "docs/release-v1.6.0.md",
@@ -104,6 +244,10 @@
     {
       "path": "docs/release-v1.7.2.md",
       "sha256": "21aa23d9e18e3bbc1e2c946f0f43e1da633e856261ce9263601853288c672d76"
+    },
+    {
+      "path": "docs/release-v1.8.0.md",
+      "sha256": "40d519403b2ec493f158e614c74a6628d604b8e9c420222e8a79cf9dab27cbd0"
     },
     {
       "path": "docs/security.md",
@@ -123,27 +267,27 @@
     },
     {
       "path": "evals/behavior-contracts.json",
-      "sha256": "539a827ba6f11a9821652981b2e5fe2c8afb68b1e37fd18ab8e7c03c4d8337a6"
+      "sha256": "077448c451475e7ac299eab1b87bc6223c79755fe2f9af2487201b085016b90a"
     },
     {
       "path": "evals/capability-collaboration.json",
-      "sha256": "db36a4dbb76fb4b9d447627022022335a2df6493a80d295a7d61f891f85ae995"
+      "sha256": "e1b9627dbebc6b0896f3cc64a603a66707d913d8c12691e4d31d62c44b05ecfa"
     },
     {
       "path": "evals/capability-live-canaries.json",
-      "sha256": "f96171036cdfa2fa0e73b276d4c0285b08d62cb2bcbee33c7ded707c4f2d5dad"
+      "sha256": "d12225cf4335f776ce853c4a44f46fff3222398701bcd7bdad9fddb1c7026b7e"
     },
     {
       "path": "evals/capability-near-misses.json",
-      "sha256": "61f534c26df3b87b455d6ad5397f5de992209a9431e2060f03493556b933c49c"
+      "sha256": "e9850037cfc70d7aaa6dd8cf0e011577e752933557632df93d13f99fdb53f4b6"
     },
     {
       "path": "evals/capability-output-quality.json",
-      "sha256": "444984582352c00a4672c3288812a6a810a5479f1c0e6cf8ca644189d5d21725"
+      "sha256": "2d93e1d350ece07283a00891cf60e51ba428291185a262a820efe3268133e1aa"
     },
     {
       "path": "evals/capability-routing.json",
-      "sha256": "8081ea0ef41cf53a8667c6a7919e9774153bf489e135394589402c6ad2ff5ebe"
+      "sha256": "649625ba95bb1da7e4d23e11e7dadbf42cdb185be27199ff1a68fe3f72082c6f"
     },
     {
       "path": "evals/evidence/aesthetic-review-2026-07-02.md",
@@ -239,7 +383,7 @@
     },
     {
       "path": "evals/evidence/artifacts/capability-live-canaries-2026-07-30/sop-maker.json",
-      "sha256": "dae457b697d3ba1e933afa4b56b3ea9f35f51d11173644c3c3c6fa3d05e0ed2c"
+      "sha256": "7789f8b6809da863bc1474acb01463eea05434ece9eab2aa5f5be7cf37fa52fe"
     },
     {
       "path": "evals/evidence/artifacts/capability-live-canaries-2026-07-30/static-demo-hardening.json",
@@ -579,7 +723,7 @@
     },
     {
       "path": "evals/evidence/capability-live-canaries-2026-07-30.json",
-      "sha256": "e1abaaa83b4758e32e070092ad07dc8d57275fa89e332e4d6a117a1f8a15b22c"
+      "sha256": "22cc9c66c0a617344fd6fb1beb6455e98c9fb4f7dc67c77de79286a973778f8c"
     },
     {
       "path": "evals/evidence/capability-output-quality-2026-07-30.json",
@@ -659,7 +803,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "cd6a1763824e1aecb1bf63c364ffc9fbd563b37d6f735a1c4bbbbe824c3a1c6f"
+      "sha256": "825fa3efaff108e76c66181121d21dc71eb310abcb3df23e3a1bfcbee7f612d7"
     },
     {
       "path": "requirements.txt",
@@ -679,7 +823,7 @@
     },
     {
       "path": "scripts/build_release_lock.py",
-      "sha256": "541d00b2d4f086c088a7ea0b286933d02d213b1ac576185b0615255a4d511656"
+      "sha256": "891c4ac2f5b51252ae99f2a2f54a35d7545f366daaa254c7873a971ba71546ca"
     },
     {
       "path": "scripts/check_behavior_replay.py",
@@ -691,7 +835,7 @@
     },
     {
       "path": "scripts/check_capability_chain.py",
-      "sha256": "ce175d610114af786da15005cd84a090348abcdf43c68779fb3588b2a7d1785d"
+      "sha256": "f8581f370b86a93edff6f41e49d50d3e05138103c502a410a7c1fb8782fd419f"
     },
     {
       "path": "scripts/check_context_budget.py",
@@ -706,8 +850,12 @@
       "sha256": "faf8c615855900be399542c78d546f7460cafa3b8bc9b42e25b56b71354bd865"
     },
     {
+      "path": "scripts/check_reference_product_contract.py",
+      "sha256": "dc715055657421a9adc5c92f95b8200d68d7bdf65b038dd59eddc214829b5626"
+    },
+    {
       "path": "scripts/ci_validate_skills.py",
-      "sha256": "b40f601b82da56ab74f0ba0243b5e048b5a8c3d17f020d2c7eefe764a877fef1"
+      "sha256": "6338b381a25b559a931dec058abff192f9c2e9cb0850bbc71a341cb798dcf527"
     },
     {
       "path": "scripts/claude_extractor.py",
@@ -835,7 +983,7 @@
     },
     {
       "path": "scripts/test_release_payload.py",
-      "sha256": "eca60a65160d4751b20a2eeeee29a3b4d1f718744d74f2a566473814fb848b8e"
+      "sha256": "97246e76316f24aea2d216e53983cfcd58408ba24442c9b1be6a74756c395569"
     },
     {
       "path": "scripts/test_security_scanners.py",
@@ -851,11 +999,11 @@
     },
     {
       "path": "scripts/test_suite.sh",
-      "sha256": "c5f5d4bcfd3d0b25c38ec5039109939a997935b0f6200f8c32d036426b35f091"
+      "sha256": "8fac929c345e7e56f94144cac14ce43eff9ee2ea6388180e27a8c0768ebbde80"
     },
     {
       "path": "scripts/test_try_guyue.py",
-      "sha256": "eea952c1eebd83097358626507ef69ebdd446f14fc5951bb1dd4e6b0fca1c51e"
+      "sha256": "c2c08d076f92974382afb7e141f2dab20029d6e0b3566fe7b3e8f6e682a5fe26"
     },
     {
       "path": "scripts/try_guyue.py",
@@ -946,12 +1094,60 @@
       "sha256": "c5d6c45de2b07788ce2f8f864720b436f8beae13db270422020813013d37e896"
     },
     {
+      "path": "skills/project-share-pack/SKILL.md",
+      "sha256": "678dd6a586158c6701c25a5e84fb7642f5af732d6b266db6c84350906149b7fc"
+    },
+    {
+      "path": "skills/project-share-pack/agents/openai.yaml",
+      "sha256": "0c076e363683d1e7c18887bfd9b07e19839bee2b36b87ec73336a27f85131e08"
+    },
+    {
+      "path": "skills/project-share-pack/references/content-contract.md",
+      "sha256": "27c6128be7e59bbb280b443ebf6eff1097385a7a8ce811d3d1a2a5ac76a60124"
+    },
+    {
+      "path": "skills/project-share-pack/references/feishu-publishing.md",
+      "sha256": "c58900552a7e88895247b43ff99bf2e5177aca8fbf12d7b864f5f1496271394a"
+    },
+    {
+      "path": "skills/project-share-pack/references/privacy-boundary.md",
+      "sha256": "a45e698cd35565373ce2a88e5f4edfb0198bd387ce75a0d4d73bb702906b421a"
+    },
+    {
+      "path": "skills/project-share-pack/references/share-brief-template.md",
+      "sha256": "76f45e9a41271278e512a67ec032c201229490354bb5ef8b05b42a325a43ef35"
+    },
+    {
+      "path": "skills/project-share-pack/scripts/prepare_feishu_publish.py",
+      "sha256": "02a63822e9a18938e27da26d36aeaffbd6d03065f1f96cb2630fe9fbdf56ade2"
+    },
+    {
+      "path": "skills/project-share-pack/scripts/test_prepare_feishu_publish.py",
+      "sha256": "0827883c163f15148f1dd0fab47416b33da404440969a0159332dc84487a984a"
+    },
+    {
+      "path": "skills/project-share-pack/scripts/test_validate_share_pack.py",
+      "sha256": "9d5faa03e4df8bbc04eb0dba0539531294a7e45891d0ffc5922b617ea9642c22"
+    },
+    {
+      "path": "skills/project-share-pack/scripts/validate_share_pack.py",
+      "sha256": "e0537fb94983e7b1f30f993b44773882ace9df8c1d8971701d843725d5a0f458"
+    },
+    {
       "path": "skills/reality-auditor/SKILL.md",
-      "sha256": "008ae59b60ed4a065c381624a313bb4647498de24eb9e24a679b0a2bd4eb6fcc"
+      "sha256": "96797e36499abddaeb465fcc0179704b9c80d5b82c21e425d9e893e1001a0b64"
     },
     {
       "path": "skills/requirement-analysis/SKILL.md",
-      "sha256": "f371376f7a9dc96d286c74eecc2eeed4ab77a7aaf49ceb1bfc16995f4ee8aa18"
+      "sha256": "85599687e66c682e128220abe8b60910869e84a859a82e017f7f54570045b18f"
+    },
+    {
+      "path": "skills/requirement-analysis/references/reference-driven-product-contract.example.json",
+      "sha256": "318fd69b261c8cb658c2f2b2313fa4064a47223749af5a1c48406f6e6e48ac9d"
+    },
+    {
+      "path": "skills/requirement-analysis/references/reference-driven-product-contract.md",
+      "sha256": "f1f3357abecf51463743379e8f0adb83c04fd01994e19cd5131601fb9dd2e945"
     },
     {
       "path": "skills/research-and-sourcing/SKILL.md",
@@ -963,7 +1159,7 @@
     },
     {
       "path": "skills/skill-crafting/SKILL.md",
-      "sha256": "e47f4d6fc108caaa7d5f00e9f52e6e0425414de4f100bbeda0f74bd4f438d9ba"
+      "sha256": "84485df671c2119bd2f560e4df4f173bea716b8e40596e73e84b47503b413ba7"
     },
     {
       "path": "skills/software-advisor/SKILL.md",
@@ -1014,8 +1210,24 @@
       "sha256": "c6d604bd0d966ad45bc6d24e2c9b198be9a8cef8f9ad68992239ea912a4ac0c6"
     },
     {
+      "path": "skills/work-pulse-distiller/SKILL.md",
+      "sha256": "a9f8363ae36709dbd163d3e5ea4ac28f7e69a0fb52ab62b5ec95e1e6aa95dd1e"
+    },
+    {
+      "path": "skills/work-pulse-distiller/references/classification-and-heuristics.md",
+      "sha256": "3a3c53d5c65b803fd55f020d3132a34337ff4777426b1d1d801aac9bc9cf0397"
+    },
+    {
+      "path": "skills/work-pulse-distiller/references/templates-and-examples.md",
+      "sha256": "6a01c0657117b4e0f09c56fbe51a07c9360e9b5d9114255e74228601e0270374"
+    },
+    {
+      "path": "skills/work-pulse-distiller/scripts/test_work_pulse_distiller.py",
+      "sha256": "0576a5d054cc2c68898aa84ea66d630a1c7beca83195702e84652b74a43780c1"
+    },
+    {
       "path": "skills_manifest.json",
-      "sha256": "1d3aec3f3da8a6799b518788e56a081317db4a0a14bfc32a240efd9bcdb53e34"
+      "sha256": "57822b79bb2fce70452704cf71a5bda1d6223f51abbb10d8939e96bc6b42c96a"
     },
     {
       "path": "src/context_budget.py",
@@ -1051,7 +1263,7 @@
     },
     {
       "path": "test-prompts.json",
-      "sha256": "0d9d010691f6ba79a4dc7f7ec3dd39cd8f85080759aa59e807d95660b43cc4a6"
+      "sha256": "238c17e14176d7073a35cb371ae76ed7d17eefed9c4092947c5458ad1a0ada65"
     }
   ]
 }

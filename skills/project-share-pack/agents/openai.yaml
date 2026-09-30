@@ -1,0 +1,4 @@
+interface:
+  display_name: "项目分享包"
+  short_description: "从项目事实生成业务可读的网页 PPT、方案文档和飞书发布包"
+  default_prompt: "使用 $project-share-pack 为当前项目生成可分享的网页 PPT 和独立方案文档，并按需发布到指定飞书文件夹。"

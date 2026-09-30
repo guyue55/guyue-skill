@@ -1,0 +1,11 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "REQ-004",
+  "phase_id": "PHASE-03",
+  "generated_at": "2026-07-30T19:12:00+08:00",
+  "role": "FINAL",
+  "result": "PASS",
+  "audit_statement": "唯一最小活体探针已按 TASK-303 指定执行一次，未安装、未联网、未修改核心、未重试；真实探针结果以 EVID-014 的 ATTEMPT 记录，且判定为失败。",
+  "probe_attempt_artifact": "docs/goals/reference-driven-product-engineering/evidence/artifacts/minimal-live-probe-result.json",
+  "meaning": "本 FINAL 只证明探针执行与降级边界合规，不证明复合产品工程入口通过"
+}

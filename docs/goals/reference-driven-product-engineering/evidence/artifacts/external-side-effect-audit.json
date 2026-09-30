@@ -1,0 +1,25 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "NREQ-004",
+  "generated_at": "2026-07-30T19:25:00+08:00",
+  "result": "PASS",
+  "performed": [
+    "本 Goal 文件写入",
+    "只读联网",
+    "本地只读或检查命令",
+    "多 Agent 报告模拟",
+    "一次本地路由探针"
+  ],
+  "not_performed": [
+    "安装",
+    "下载外部代码或资产",
+    "凭证使用",
+    "付费",
+    "部署",
+    "外部写入",
+    "Git 暂存",
+    "Git 提交",
+    "Git 推送",
+    "发布"
+  ]
+}

@@ -2912,6 +2912,125 @@ def check_public_skill_single_entrypoint_contract(repo_root):
     return passed
 
 
+def check_skill_ownership_gate_contract(repo_root):
+    """确保使用古月制作 Skill 不会被误解为把 Skill 纳入古月。"""
+    files = {
+        'root_skill': Path(repo_root, 'SKILL.md'),
+        'skill_crafting': Path(repo_root, 'skills', 'skill-crafting', 'SKILL.md'),
+        'behavior_contracts': Path(repo_root, 'evals', 'behavior-contracts.json'),
+        'prompts': Path(repo_root, 'test-prompts.json'),
+    }
+    try:
+        root_skill = files['root_skill'].read_text(encoding='utf-8')
+        skill_crafting = files['skill_crafting'].read_text(encoding='utf-8')
+        behavior_contracts = json.loads(
+            files['behavior_contracts'].read_text(encoding='utf-8')
+        )
+        prompts = json.loads(files['prompts'].read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError) as e:
+        print(
+            f"❌ [SKILL OWNERSHIP ERROR] Failed to load ownership contract: {e}",
+            file=sys.stderr,
+        )
+        return False
+
+    passed = True
+    required_needles = {
+        'root_skill': [
+            '“使用古月”只选择制作方法，不代表该 Skill 归古月所有',
+            '所有者、目标宿主、写入目录、安装范围和发布范围',
+            '只有用户明确要求“加入古月”或“作为古月能力/子技能”时',
+            '不得依赖 `AGENTS.md`、`RTK.md` 或其他宿主专用指令文件',
+        ],
+        'skill_crafting': [
+            '## 零、归属与落位门',
+            '“使用古月制作 Skill”只指定制作方法，不授予古月对产物的所有权',
+            '所有者',
+            '目标宿主',
+            '写入目录',
+            '安装范围',
+            '发布范围',
+            '回滚路径',
+            '缺少这些文件不是异常',
+        ],
+    }
+    text_map = {
+        'root_skill': root_skill,
+        'skill_crafting': skill_crafting,
+    }
+    for label, needles in required_needles.items():
+        for needle in needles:
+            if needle not in text_map[label]:
+                print(
+                    f"❌ [SKILL OWNERSHIP ERROR] Missing `{needle}` in "
+                    f"{files[label].relative_to(repo_root)}",
+                    file=sys.stderr,
+                )
+                passed = False
+
+    behavior_map = {
+        case.get('id'): case
+        for case in behavior_contracts
+        if isinstance(case, dict)
+    }
+    prompt_map = {
+        case.get('name'): case
+        for case in prompts
+        if isinstance(case, dict)
+    }
+    required_cases = {
+        'using-guyue-does-not-transfer-skill-ownership':
+            'Skill Ownership - Guyue Is Method Not Owner',
+        'standalone-skill-does-not-enter-guyue':
+            'Skill Ownership - Standalone Skill',
+        'explicit-guyue-subskill-enters-admission-gate':
+            'Skill Ownership - Explicit Guyue Subskill',
+        'missing-rtk-does-not-block-guyue-skill-crafting':
+            'Skill Ownership - Missing RTK Is Not A Blocker',
+    }
+    for behavior_id, prompt_name in required_cases.items():
+        behavior = behavior_map.get(behavior_id)
+        if not behavior:
+            print(
+                f"❌ [SKILL OWNERSHIP ERROR] Missing behavior contract: {behavior_id}",
+                file=sys.stderr,
+            )
+            passed = False
+            continue
+        if set(behavior.get('expected_routes', [])) != {'skill-crafting'}:
+            print(
+                f"❌ [SKILL OWNERSHIP ERROR] Wrong route for {behavior_id}",
+                file=sys.stderr,
+            )
+            passed = False
+        if prompt_name not in prompt_map:
+            print(
+                f"❌ [SKILL OWNERSHIP ERROR] Missing prompt: {prompt_name}",
+                file=sys.stderr,
+            )
+            passed = False
+
+    no_rtk_case = behavior_map.get(
+        'missing-rtk-does-not-block-guyue-skill-crafting', {}
+    )
+    required_no_rtk_effects = {
+        'warn about missing RTK.md',
+        'block or downgrade because RTK.md is absent',
+        'create RTK.md or another host adapter',
+        'write the new Skill into Guyue',
+    }
+    if not required_no_rtk_effects.issubset(
+        set(no_rtk_case.get('forbidden_side_effects', []))
+    ):
+        print(
+            "❌ [SKILL OWNERSHIP ERROR] Missing no-RTK side-effect guards",
+            file=sys.stderr,
+        )
+        passed = False
+
+    return passed
+
+
 def check_long_goal_forge_contract(repo_root):
     files = {
         'principles': os.path.join(repo_root, 'GUYUE_PRINCIPLES.md'),
@@ -3501,6 +3620,11 @@ def main():
 
     if check_public_skill_single_entrypoint_contract(repo_root):
         print("✅ public Skill single-entrypoint contract valid.")
+    else:
+        all_passed = False
+
+    if check_skill_ownership_gate_contract(repo_root):
+        print("✅ Skill ownership and placement gate valid.")
     else:
         all_passed = False
 

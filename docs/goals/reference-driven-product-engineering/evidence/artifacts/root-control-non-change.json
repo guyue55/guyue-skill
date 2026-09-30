@@ -1,0 +1,8 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "NREQ-001",
+  "generated_at": "2026-07-30T19:25:00+08:00",
+  "result": "PASS",
+  "statement": "本轮未修改 Guyue 根 SKILL.md、skills_manifest.json、公共行为合同或运行时控制面；候选修复只写入 Goal 报告。",
+  "known_worktree_context": "工作树存在本 Goal 外的既有修改，但本轮未处理或归因这些文件。"
+}

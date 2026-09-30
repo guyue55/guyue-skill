@@ -808,6 +808,10 @@
                 "新的 Agent 技能",
                 "可复用的 Skill",
                 "Skill 升级流程",
+                "使用 Guyue 制作",
+                "使用古月制作",
+                "在本项目制作一个 Skill",
+                "独立可安装的 Skill",
                 "动态工作流",
                 "外部方法晋级",
                 "方法晋级与退役",
@@ -1341,6 +1345,72 @@
             "description": "Ambient micro-expansion for multi-angle, open-ended, first-use, and omitted-perspective cues plus formal unfamiliar-domain maps, source ecology, adversarial reframing, cognitive revision, professional research preparation, and defensible stopping; micro mode does not browse or steal a bounded primary route.",
             "root_exposure": "explicit",
             "evidence_profile": "E3-lineage",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
+        },
+        {
+            "name": "work-pulse-distiller",
+            "path": "skills/work-pulse-distiller/SKILL.md",
+            "routing_priority": 38,
+            "trigger_intent": [
+                "生成周报 + 记录",
+                "生成周报+记录",
+                "工作记录生成周报",
+                "记录生成周报",
+                "日报生成周报",
+                "生成周报",
+                "整理周报",
+                "梳理每周工作",
+                "本周日报",
+                "本周工作记录",
+                "日报汇总",
+                "周报整理",
+                "周报总结",
+                "整理日报",
+                "项目精简进度",
+                "精简周报",
+                "下周计划",
+                "工作周报",
+                "本周工作总结",
+                "项目周进度",
+                "项目进度看板",
+                "周进展",
+                "工作脉搏",
+                "weekly report",
+                "work pulse",
+                "work-pulse"
+            ],
+            "negative_intent": [
+                "仅做单个架构设计",
+                "仅排查当前报错日志",
+                "仅做代码组件切分",
+                "仅写SOP操作教程"
+            ],
+            "description": "Distill fragmented daily logs, multi-project updates, and meeting traces into structured, executive-readable weekly digests (📊 本周工作周报) and traffic-light project pulse summaries (📈 项目精简进度汇报) with actionable next-week plans and incremental update support.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
+        },
+        {
+            "name": "project-share-pack",
+            "path": "skills/project-share-pack/SKILL.md",
+            "routing_priority": 36,
+            "trigger_intent": [
+                "项目分享包",
+                "对外分享包",
+                "可分享的 PPT 和方案文档",
+                "分享材料并上传飞书",
+                "项目介绍 PPT 和文档",
+                "project share pack"
+            ],
+            "negative_intent": [
+                "仅需单一README或PRD",
+                "仅需修改PPT样式"
+            ],
+            "description": "Create or refresh an evidence-based, business-readable project or requirement sharing pack: a web PPT, an independent Markdown solution document, verified screenshots, and optional Feishu Drive publishing.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
             "activation_policy": "model-or-explicit",
             "live_canary_required": true
         }

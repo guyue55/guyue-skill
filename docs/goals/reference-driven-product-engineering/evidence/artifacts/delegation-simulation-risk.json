@@ -1,0 +1,22 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "RISK-002",
+  "phase_id": "PHASE-03",
+  "generated_at": "2026-07-30T19:10:00+08:00",
+  "result": "PASS",
+  "agent_turns_used": {
+    "production": 2,
+    "independent_review": 1
+  },
+  "budget_limit": {
+    "production_agents": 3,
+    "independent_review_turns": 1
+  },
+  "controls": [
+    "TASK-301 与 TASK-302 输入隔离",
+    "TASK-303 未参与生产",
+    "所有 Agent 只写指定报告",
+    "未安装、未联网、未修改核心"
+  ],
+  "remaining_risk": "报告级协作不能证明实现级协作质量"
+}

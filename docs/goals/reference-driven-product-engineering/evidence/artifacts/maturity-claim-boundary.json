@@ -1,0 +1,13 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "NREQ-003",
+  "generated_at": "2026-07-30T19:25:00+08:00",
+  "result": "PASS",
+  "forbidden_claims": [
+    "已构建成熟、可用、稳定产品",
+    "古月已具备文章案例同等级自动产品构建能力",
+    "简单提示词可稳定替代产品、工程、测试、部署和运维",
+    "探针通过或模拟通过等于真实用户价值"
+  ],
+  "allowed_claim": "古月具备部分能力骨架，但当前复合路由入口被活体探针证伪，建议修复现有入口后再进入完整产品验证。"
+}

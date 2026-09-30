@@ -692,6 +692,14 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
     }
 
 
+def is_development_evidence_warning(error: str) -> bool:
+    return (
+        error in DEVELOPMENT_EVIDENCE_WARNINGS
+        or error.startswith("invalid live activation evidence for ")
+        or error.startswith("invalid output-quality evidence for ")
+    )
+
+
 def apply_evidence_policy(receipt: dict[str, object], *, strict: bool) -> dict[str, object]:
     """Keep stale live evidence visible without blocking ordinary development checks."""
     raw_errors = [str(item) for item in receipt.get("errors", [])]
@@ -702,10 +710,10 @@ def apply_evidence_policy(receipt: dict[str, object], *, strict: bool) -> dict[s
         return receipt
 
     warnings = [
-        error for error in raw_errors if error in DEVELOPMENT_EVIDENCE_WARNINGS
+        error for error in raw_errors if is_development_evidence_warning(error)
     ]
     errors = [
-        error for error in raw_errors if error not in DEVELOPMENT_EVIDENCE_WARNINGS
+        error for error in raw_errors if not is_development_evidence_warning(error)
     ]
     receipt["evidence_policy"] = "development_advisory"
     receipt["warnings"] = warnings

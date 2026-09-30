@@ -1,6 +1,6 @@
 # Guyue v1.8.0 Release Candidate
 
-Date: 2026-07-30
+Date: 2026-07-31
 Base tag: `v1.7.2`
 State: `candidate`
 
@@ -10,6 +10,8 @@ Guyue already had research, requirements, system design, implementation discipli
 
 This candidate repairs that bridge and adds a reusable contract/checker pair. It does not add a universal autonomous-development Skill.
 
+The candidate also closes a placement ambiguity found during real project use: asking Guyue to create a Skill selects the crafting method, not Guyue as the owner. Project-local and standalone Skills remain outside Guyue unless the user explicitly requests Guyue capability admission.
+
 ## What Changed
 
 - Extended the existing `product-delivery` workflow with reference-driven triggers, a research entry stage and a stricter completion gate.
@@ -17,6 +19,8 @@ This candidate repairs that bridge and adds a reusable contract/checker pair. It
 - Added `scripts/check_reference_product_contract.py` with a passing neutral example and failing boundary cases.
 - Updated `requirement-analysis` to ask only necessary direction-changing questions and freeze shared product invariants before delegation.
 - Updated `reality-auditor` to distinguish contract structure, implementation evidence, release-candidate evidence and production readiness.
+- Added an ownership and placement gate to `skill-crafting`: owner, target host, destination, install scope, publication scope and rollback are frozen before the first write.
+- Kept `SKILL.md` as the only public behavior entrypoint. Missing `AGENTS.md`, `RTK.md` or another host adapter does not warn, degrade, block or create a replacement file.
 
 ## Verification Target
 
@@ -25,6 +29,8 @@ Before candidate approval:
 - deterministic routing selects `product-delivery` for both the original B2B prompt and a held-out reference-driven vertical-slice prompt;
 - the product-contract checker accepts the neutral example and rejects missing backend enforcement, unknown references, unbounded loops and incomplete traceability;
 - context budgets and route-collision checks remain within limits;
+- current-project, standalone, explicit-Guyue and no-`RTK.md` ownership cases route to `skill-crafting` with the correct forbidden side effects;
+- no unapproved project-specific Skill is registered in the public Manifest, routing, collaboration or evaluation payload;
 - live activation and output-quality evidence are refreshed for the candidate semantics;
 - the exact payload lock, full install proof, source-archive proof, Zero-Leakage scan and complete local suite pass on a clean committed snapshot.
 

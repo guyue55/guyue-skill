@@ -1,0 +1,55 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "phase_id": "PHASE-01",
+  "generated_at": "2026-07-30T18:20:00+08:00",
+  "result": "DONE_WITH_CONCERNS",
+  "baseline_commit": "eeb417359d8b53b12b95db9b3d48bf100c56cf86",
+  "current_worktree": "dirty@eeb417359d8b53b12b95db9b3d48bf100c56cf86",
+  "scope": {
+    "allowed": [
+      "本 Goal 文件写入",
+      "只读联网",
+      "现有本地检查",
+      "一次 35 分钟内的最小活体探针",
+      "最多 3 个生产 Agent 与 1 个独立审查 turn"
+    ],
+    "forbidden": [
+      "完整产品实现",
+      "安装或下载外部代码/资产",
+      "凭证、付费、部署或外部写入",
+      "修改 Guyue 根控制面",
+      "Git 暂存、提交、合并、推送或发布"
+    ]
+  },
+  "checks": [
+    {
+      "name": "long_goal_ready",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/check_long_goal_pack.py --repo-root repo-root --mode ready docs/goals/reference-driven-product-engineering/goal-master.md",
+      "exit_code": 0,
+      "meaning": "控制包结构通过，不证明能力实验完成"
+    },
+    {
+      "name": "security_scanner",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/security_scanner.py",
+      "exit_code": 0,
+      "meaning": "本仓库安全扫描未发现阻断"
+    },
+    {
+      "name": "try_guyue",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/try_guyue.py",
+      "exit_code": 1,
+      "meaning": "dirty 工作树导致包体检查失败，不能继承 Forge 初始 clean 口径"
+    },
+    {
+      "name": "compound_route_probe",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/explain_route.py B2B-product-agent-loop",
+      "exit_code": 0,
+      "meaning": "复合目标没有直接 Skill 命中，后续需验证编排层"
+    }
+  ],
+  "artifacts": [
+    "docs/goals/reference-driven-product-engineering/reports/phase-01-baseline-contract.md",
+    "docs/goals/reference-driven-product-engineering/fixtures/product-seed-v1.json"
+  ],
+  "next_entry": "PHASE-02"
+}

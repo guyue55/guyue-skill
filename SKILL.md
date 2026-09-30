@@ -8,6 +8,8 @@ description: Guyue's evidence-first router for vague product work, complex devel
 > [!NOTE]
 > Root routing hub. Enforces strict modularity, anti-bloat, and context discipline.
 
+`SKILL.md` 是古月公共能力的唯一行为入口。古月不得依赖 `AGENTS.md`、`RTK.md` 或其他宿主专用指令文件才能运行；这些文件缺失时不警告、不降级、不阻塞，也不得把宿主注入内容提升为古月的第二事实源。
+
 ## Long Goal Forge Fast Gate
 
 If the long-goal decision gate is still open, the first read must be exactly `sed -n '1,120p' SKILL.md` and counts as the first targeted read; do not fetch later lines in this round. After it, the remaining budget is at most 3 targeted reads/searches plus 1 lightweight status probe; each read is capped at 120 lines and total returned tool text at 16000 characters. Use those reads only for project identity and existing goal paths. Do not pre-read `docs/long-goal-protocol.md`, the control-pack template, full principles, full manifest, tests, or release archives. Ask the single highest-impact question as soon as it is supported.
@@ -125,13 +127,16 @@ When the candidate comes from an external project, popular concept, or previous 
 | 把回答、报告、技术解释改得像人能看懂，去官话、AI 味和不必要中英文混排 | `human-voice` | 不是 UI 审美，也不是从零写长文档或营销转化文案 |
 | 写 README、报告、ADR、代码背书的项目摸底文档 | `documentation` | 不是成功工作流 SOP，也不是 Skill 制作 |
 | 成功闭环后提炼团队可复用 SOP | `sop-maker` | 没有成功经验不得脑补 SOP |
-| 制作、升级、打磨 Agent Skill | `skill-crafting` | 不是普通文档，也不是任务 SOP |
+| 制作、升级、打磨 Agent Skill | `skill-crafting` | “使用古月”只选择制作方法，不代表该 Skill 归古月所有；写入前先确定归属和落位 |
 | 从书、长文、方法论提炼技能结构 | `book-distiller` | 不是摘要写作，也不是直接创建项目文档 |
+| 整理零散多天日报/记录、生成工程周报与红绿灯项目脉搏看板、增量补充 | `work-pulse-distiller` | 不是普通文档撰写，也不是单一排障；专门用于研发与业务周报萃取与管理层红绿灯看板 |
+| 制作可分享的对外演示 PPT、方案文档与飞书发布包 | `project-share-pack` | 不是单一 README 或 PRD，而是包含可交互演示与独立方案的对外分享包 |
 
 ### 合并与升级纪律
 
 - 只有当真实回放或 `test-prompts.json` 连续证明两个技能反复误触发、且步骤高度重复时，才考虑合并。
 - 项目专用技能不得硬塞进通用技能；它们保留稳定入口，避免把私有项目经验污染通用路由。
+- 制作 Skill 前必须冻结所有者、目标宿主、写入目录、安装范围和发布范围。默认归当前明确目标项目；独立可安装能力放独立目录；只有用户明确要求“加入古月”或“作为古月能力/子技能”时，才允许写入古月 `skills/`、Manifest、根路由和评测。
 - 新增能力前先问：是否已有技能能通过更清晰的 description、触发词或边界表解决；能解决就打磨旧技能，不新建。
 - 上下文预算、节省 token、MCP 工具太多、工具输出太长统一进入 `context-compressor`；不得临场臆造 `context-budget-manager` 等未注册技能名。
 - 第三方工具快速接入先由 `context-compressor` 判断是否值得，再由 `ecosystem-scout` 推荐候选并走 `security-gate`；没有明确授权前只给安装计划，不执行安装、下载、配置或外部代码。

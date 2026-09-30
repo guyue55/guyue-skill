@@ -1,0 +1,15 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "REQ-005",
+  "phase_id": "PHASE-04",
+  "generated_at": "2026-07-30T19:25:00+08:00",
+  "result": "PASS_WITH_NEGATIVE_PROBE",
+  "decision": "修复现有入口优先；不保持现状；暂不新增万能 Skill",
+  "basis": [
+    "PHASE-02 参考研究证明方法有现实参照",
+    "TASK-301/TASK-302/TASK-303 证明结构链路可模拟",
+    "唯一活体探针证伪当前复合目标路由入口",
+    "README 证据边界禁止外推为真实用户价值或成熟产品能力"
+  ],
+  "next_authorization_needed": "ACT-004：修改 Guyue 根 Skill、Manifest、公共合同或运行时控制面"
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -15,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 sys.dont_write_bytecode = True
 
 from src.release_payload import verify_payload  # noqa: E402
+from scripts.build_release_lock import candidate_paths  # noqa: E402
 
 
 def write_json(path: Path, data: object) -> None:
@@ -73,6 +75,46 @@ def main() -> int:
         errors = verify_payload(root, profile="install", runtime="generic")
         if errors:
             raise AssertionError("local .worktrees content must be ignored")
+
+        release_source = root / "release-source"
+        release_source.mkdir()
+        subprocess.run(
+            ["git", "init", "--quiet", str(release_source)],
+            check=True,
+        )
+        (release_source / ".gitattributes").write_text(
+            "ignored.txt export-ignore\n",
+            encoding="utf-8",
+        )
+        (release_source / "tracked.txt").write_text("tracked\n", encoding="utf-8")
+        (release_source / "ignored.txt").write_text("ignored\n", encoding="utf-8")
+        (release_source / "untracked.txt").write_text(
+            "untracked\n",
+            encoding="utf-8",
+        )
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(release_source),
+                "add",
+                ".gitattributes",
+                "tracked.txt",
+                "ignored.txt",
+            ],
+            check=True,
+        )
+        locked_paths = candidate_paths(
+            release_source,
+            "release-payload.lock.json",
+            [],
+        )
+        if "tracked.txt" not in locked_paths:
+            raise AssertionError("tracked release file must be locked")
+        if "untracked.txt" in locked_paths:
+            raise AssertionError("untracked working files must not enter release lock")
+        if "ignored.txt" in locked_paths:
+            raise AssertionError("export-ignored files must not enter release lock")
 
     print("Guyue release payload tests passed.")
     return 0

@@ -1,0 +1,37 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "REQ-004",
+  "phase_id": "PHASE-03",
+  "generated_at": "2026-07-30T19:12:00+08:00",
+  "role": "ATTEMPT",
+  "probe_id": "P1-compound-route",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/explain_route.py --json --limit 8 compound-b2b-product-engineering-goal",
+  "exit_code": 0,
+  "result": "FAIL",
+  "observed": {
+    "selected_count": 0,
+    "collaboration_candidates_count": 0,
+    "local_candidates": [
+      "understand",
+      "discovering-gcp-data-assets",
+      "gsap-core",
+      "gsap-performance",
+      "gsap-plugins",
+      "notebook-guidance",
+      "pdb-database",
+      "workshop-facilitation"
+    ],
+    "core_rejected_as_insufficient_signal": [
+      "research-and-sourcing",
+      "requirement-analysis",
+      "system-design",
+      "coding-discipline",
+      "reality-auditor",
+      "product-sense",
+      "context-compressor"
+    ]
+  },
+  "failure_reason": "没有 selected 路由或 collaboration_candidates，无法覆盖参考研究、需求澄清、产品契约、多 Agent、主控和独立验收链路",
+  "evidence_grade": "LIVE_ATTEMPT_HIGH_NEGATIVE",
+  "retry": "not_allowed"
+}

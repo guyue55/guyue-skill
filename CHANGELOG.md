@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.8.0 - 2026-07-30
+## v1.8.0 - 2026-07-31
 
 Status: Candidate
 
@@ -10,6 +10,8 @@ Status: Candidate
 - Add a reusable reference-driven product contract covering problem, sources, scope, domain states, backend permission enforcement, acceptance evidence, loop budgets, maturity stage and reference-to-acceptance traceability.
 - Add a deterministic contract checker with positive and negative self-tests. Its visible claim boundary states that structural validity does not prove implementation, product maturity or runtime behavior.
 - Require the verifier to audit frozen contracts, anti-copying boundaries, executable acceptance evidence, independent checker ownership, loop stops and stage-specific maturity claims.
+- Treat “use Guyue to create a Skill” as a method choice rather than ownership transfer; require explicit owner, host, destination, install, publication and rollback decisions before writing.
+- Keep Guyue self-contained through the root `SKILL.md`; missing `AGENTS.md` or `RTK.md` is not a warning or blocker and must not create a host adapter.
 
 ### Verification
 
@@ -18,6 +20,7 @@ Status: Candidate
 ### Boundaries
 
 - This candidate does not claim that one sentence, a strong model, multi-Agent execution or a passing structural checker can by itself produce a mature, stable or production-ready product.
+- Project-local and standalone Skills do not enter Guyue unless the user explicitly requests Guyue capability admission and the direction gate passes.
 - Push, tag, public release and Marketplace submission remain separately authorized actions.
 
 ## v1.7.2 - 2026-07-30

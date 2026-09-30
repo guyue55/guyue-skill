@@ -21,7 +21,7 @@ from src.release_payload import load_manifest  # noqa: E402
 
 def candidate_paths(root: Path, lock_file: str, forbidden: list[str]) -> list[str]:
     result = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"],
+        ["git", "-C", str(root), "ls-files", "--cached"],
         text=True,
         capture_output=True,
         check=True,

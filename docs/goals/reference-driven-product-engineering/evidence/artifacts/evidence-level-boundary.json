@@ -1,0 +1,12 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "RISK-001",
+  "generated_at": "2026-07-30T19:25:00+08:00",
+  "result": "PASS",
+  "boundaries": [
+    "模拟报告不代表成熟产品能力",
+    "同模型或同宿主评审只提供过程独立性，不提供市场或真实用户独立性",
+    "唯一探针只验证复合路由入口，不验证真实产品构建",
+    "探针失败是高价值负证据，不能被正文模拟覆盖"
+  ]
+}

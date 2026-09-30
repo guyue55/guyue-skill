@@ -300,6 +300,26 @@
     "expected_behavior": "Should trigger `skill-crafting`. Agent should treat the request as Agent Skill creation or upgrade methodology, not as `documentation` or `sop-maker`, and should preserve validation and release-boundary steps."
   },
   {
+    "name": "Skill Ownership - Guyue Is Method Not Owner",
+    "prompt": "在当前项目里使用 Guyue 制作一个发布检查 Skill。",
+    "expected_behavior": "Should trigger `skill-crafting`. Agent must treat Guyue as the crafting method rather than the owner, freeze owner, target host, destination, install scope, publication scope, and rollback before writing, then follow the current project's established Skill conventions. It must not write into Guyue or register the new Skill in Guyue routing, Manifest, collaboration, or eval files."
+  },
+  {
+    "name": "Skill Ownership - Standalone Skill",
+    "prompt": "使用 Guyue 把这套流程做成独立可安装的 Skill，不要加入古月。",
+    "expected_behavior": "Should trigger `skill-crafting` and create the Skill in an independent directory or repository. It must keep installation and publication independent from Guyue and must not write into Guyue skills, routing, Manifest, collaboration, or eval files."
+  },
+  {
+    "name": "Skill Ownership - Explicit Guyue Subskill",
+    "prompt": "使用 Guyue 制作这个能力，并明确作为古月子技能加入。",
+    "expected_behavior": "Should trigger `skill-crafting`. Explicit Guyue ownership allows the proposal to enter Guyue capability admission, but persistent integration still requires the direction firewall and separate authorization for installation, publication, release, or other external effects."
+  },
+  {
+    "name": "Skill Ownership - Missing RTK Is Not A Blocker",
+    "prompt": "当前项目没有 RTK.md。请使用 Guyue 在本项目制作一个 Skill。",
+    "expected_behavior": "Should trigger `skill-crafting` and continue from Guyue's root `SKILL.md` plus the selected child Skill. Missing `RTK.md` must not cause a warning, confirmation request, degradation, stop, or adapter creation; the new Skill remains owned by the current project and must not be written into Guyue."
+  },
+  {
     "name": "Route Boundary - Reality Audit Before Debugging",
     "prompt": "功能已经改完，帮我确认没有假数据、前端假过滤和权限漏检，不要修 bug。",
     "expected_behavior": "Should trigger `reality-auditor`, not `debugging-mindset`. Agent must stay read-only by default, trace claims to implementation evidence, list findings first, and avoid patching code unless a later user command authorizes fixes."
@@ -563,5 +583,20 @@
     "name": "Open Intent Near Miss - Repeated Database Design Compound",
     "prompt": "数据库设计课程包含两个数据库设计案例。",
     "expected_behavior": "Must not route system-design. Repeating a compound noun cannot turn the nested word `设计` into independent technical-planning action evidence."
+  },
+  {
+    "name": "Trigger Project Share Pack",
+    "prompt": "为当前业务制作一个项目分享包，包含可分享的 PPT 和方案文档，整理体验地址与价值点并准备分享材料并上传飞书。",
+    "expected_behavior": "Should trigger `project-share-pack`. The agent must assemble clean credentials, live demo URLs, executive value proposition, user guidance, and format a standardized Feishu post card."
+  },
+  {
+    "name": "Trigger Work Pulse Distiller",
+    "prompt": "先基于本周日报 生成周报，然后再精简总结每个项目的周进度、精简周报、下周计划。",
+    "expected_behavior": "Should trigger `work-pulse-distiller`. The agent must ingest multi-project daily updates, remove conversational noise, produce structured weekly reports with 7 dimension tracks, executive traffic-light status dashboard (🟢/🟡/🔴), and inferred next week plans."
+  },
+  {
+    "name": "Trigger Work Pulse Distiller Direct Record",
+    "prompt": "生成周报 + 记录：\n1. AI 视频平台Demo：完成模型配置重构与视觉优化\n2. FlowOps工单流转系统：打通飞书机器人问答并优化RAG参数\n3. 自动化创建GCP项目：支持根据账单名定义项目id",
+    "expected_behavior": "Should trigger `work-pulse-distiller`. The agent must instantly process raw daily records, extract project entities, synthesize weekly progress and next week plan, and render executive pulse status board."
   }
 ]

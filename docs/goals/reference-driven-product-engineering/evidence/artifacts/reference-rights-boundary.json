@@ -1,0 +1,18 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "covers": "NREQ-002",
+  "generated_at": "2026-07-30T18:35:00+08:00",
+  "result": "PASS",
+  "allowed_learning": [
+    "通用工单状态类别",
+    "列表、详情、评论、权限、审计、SLA 风险等通用机制",
+    "Agent 任务隔离、主控集成、独立评审和停止条件"
+  ],
+  "forbidden_copying": [
+    "品牌名作为产品身份",
+    "图标、截图、配色、宣传语和专有视觉资产",
+    "非公开交互或外部产品代码",
+    "将参考产品功能完整复刻为目标"
+  ],
+  "enforcement": "PHASE-03 模拟和 PHASE-04 裁决只使用通用业务命名与抽象机制"
+}

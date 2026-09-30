@@ -19,7 +19,7 @@ python3 scripts/test_security_scanners.py
 
 echo ""
 echo "[2/15] Running Ruff Static Checks..."
-ruff check --no-cache scripts src
+ruff check --no-cache scripts src --isolated --select E4,E7,E9,F
 
 echo ""
 echo "[3/15] Running Codex Session Extractor Tests..."

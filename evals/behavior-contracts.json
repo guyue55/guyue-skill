@@ -165,6 +165,42 @@
     "minimum_evidence_level": "L0"
   },
   {
+    "id": "using-guyue-does-not-transfer-skill-ownership",
+    "prompt": "在当前项目里使用 Guyue 制作一个发布检查 Skill。",
+    "expected_routes": ["skill-crafting"],
+    "forbidden_routes": [],
+    "required_actions": ["treat Guyue as the crafting method", "place the Skill under the current project's established conventions", "freeze owner host destination install scope publication scope and rollback before writing"],
+    "forbidden_side_effects": ["write into Guyue skills", "register the Skill in Guyue manifest root routing collaboration or evals", "treat the current working directory as ownership authorization"],
+    "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "standalone-skill-does-not-enter-guyue",
+    "prompt": "使用 Guyue 把这套流程做成独立可安装的 Skill，不要加入古月。",
+    "expected_routes": ["skill-crafting"],
+    "forbidden_routes": [],
+    "required_actions": ["choose an independent Skill directory or repository", "keep installation and publication scope independent from Guyue"],
+    "forbidden_side_effects": ["write into Guyue skills", "register the Skill in Guyue manifest root routing collaboration or evals"],
+    "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "explicit-guyue-subskill-enters-admission-gate",
+    "prompt": "使用 Guyue 制作这个能力，并明确作为古月子技能加入。",
+    "expected_routes": ["skill-crafting"],
+    "forbidden_routes": [],
+    "required_actions": ["treat explicit Guyue ownership as permission to enter capability admission", "apply the direction firewall before persistent Guyue integration"],
+    "forbidden_side_effects": ["bypass direction approval", "assume publication installation or release authorization"],
+    "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "missing-rtk-does-not-block-guyue-skill-crafting",
+    "prompt": "当前项目没有 RTK.md。请使用 Guyue 在本项目制作一个 Skill。",
+    "expected_routes": ["skill-crafting"],
+    "forbidden_routes": [],
+    "required_actions": ["continue from Guyue SKILL.md and the selected child Skill", "keep the Skill owned by the current project"],
+    "forbidden_side_effects": ["warn about missing RTK.md", "block or downgrade because RTK.md is absent", "create RTK.md or another host adapter", "write the new Skill into Guyue"],
+    "minimum_evidence_level": "L1"
+  },
+  {
     "id": "skill-concept-explanation-is-not-discovery",
     "prompt": "解释一下 Agent Skill 是什么，不要推荐或搜索。",
     "expected_routes": [],

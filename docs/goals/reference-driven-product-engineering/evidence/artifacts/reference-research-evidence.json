@@ -1,0 +1,54 @@
+{
+  "goal_id": "GOAL-REFERENCE-DRIVEN-PRODUCT-ENGINEERING",
+  "phase_id": "PHASE-02",
+  "generated_at": "2026-07-30T18:35:00+08:00",
+  "result": "PASS",
+  "material_count": 6,
+  "materials": [
+    {
+      "id": "M1",
+      "url": "https://github.com/mshumer/Claude-of-Duty/blob/main/prompt.md",
+      "accessed_at": "2026-07-30",
+      "use": "挑战循环原始 prompt 与边界"
+    },
+    {
+      "id": "M2",
+      "url": "https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more",
+      "accessed_at": "2026-07-30",
+      "use": "指令层级、上下文成本、subagent 适用边界"
+    },
+    {
+      "id": "M3",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "accessed_at": "2026-07-30",
+      "use": "subagent 隔离、权限、模型和并行机制"
+    },
+    {
+      "id": "M4",
+      "url": "https://linear.app/docs/configuring-workflows",
+      "accessed_at": "2026-07-30",
+      "use": "Issue 状态与团队工作流"
+    },
+    {
+      "id": "M5",
+      "url": "https://www.atlassian.com/software/jira/service-management/product-guide/getting-started/service-request-management",
+      "accessed_at": "2026-07-30",
+      "use": "服务请求入口、生命周期、门户和表单"
+    },
+    {
+      "id": "M6",
+      "url": "https://www.intercom.com/help/en/articles/9730130-how-ticket-states-work",
+      "accessed_at": "2026-07-30",
+      "use": "客户可见工单状态类别"
+    }
+  ],
+  "artifacts": [
+    "docs/goals/reference-driven-product-engineering/reports/reference-report-201.md",
+    "docs/goals/reference-driven-product-engineering/reports/product-contract-v1.md"
+  ],
+  "limitations": [
+    "只读公开材料，不登录产品后台",
+    "不复制品牌、文字、图片、专有资产或代码",
+    "材料用于模拟验收基线，不证明 Guyue 已可构建成熟产品"
+  ]
+}
