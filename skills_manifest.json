@@ -38,10 +38,52 @@
             "score": 60,
             "match_scope": "sentence",
             "all_any": [
-                ["帮我找", "找一个", "查找", "搜索", "寻找", "有没有", "有无", "推荐"],
-                ["Agent Skill", "Agent 技能", "Skill", "技能"]
+                [
+                    "帮我找",
+                    "找一个",
+                    "查找",
+                    "搜索",
+                    "寻找",
+                    "有没有",
+                    "有无",
+                    "推荐"
+                ],
+                [
+                    "Agent Skill",
+                    "Agent 技能",
+                    "Skill",
+                    "技能"
+                ]
             ],
-            "exclude_any": ["不要搜索", "不搜索", "无需搜索", "不要查找", "不查找", "无需查找", "不要推荐", "不推荐", "使用现有", "调用现有", "直接调用", "解释一下", "是什么", "本地精选库", "制作成", "创建", "新建", "游戏技能", "沟通技能", "职业技能", "生活技能", "运动技能", "社交技能", "语言技能", "孩子学习", "课程", "培训"]
+            "exclude_any": [
+                "不要搜索",
+                "不搜索",
+                "无需搜索",
+                "不要查找",
+                "不查找",
+                "无需查找",
+                "不要推荐",
+                "不推荐",
+                "使用现有",
+                "调用现有",
+                "直接调用",
+                "解释一下",
+                "是什么",
+                "本地精选库",
+                "制作成",
+                "创建",
+                "新建",
+                "游戏技能",
+                "沟通技能",
+                "职业技能",
+                "生活技能",
+                "运动技能",
+                "社交技能",
+                "语言技能",
+                "孩子学习",
+                "课程",
+                "培训"
+            ]
         },
         {
             "id": "external-skill-fallback",
@@ -50,12 +92,46 @@
             "score": 64,
             "match_scope": "document",
             "all_any": [
-                ["本地精选库", "使用现有 Skill", "使用现有技能", "调用现有 Skill", "调用现有技能", "先查本地", "先用现有"],
-                ["如果没有", "如果不够", "若没有", "若不够", "不足再", "不够再", "没有再", "找不到再"],
-                ["外部技能", "外部 Skill", "外部候选", "headroom"]
+                [
+                    "本地精选库",
+                    "使用现有 Skill",
+                    "使用现有技能",
+                    "调用现有 Skill",
+                    "调用现有技能",
+                    "先查本地",
+                    "先用现有"
+                ],
+                [
+                    "如果没有",
+                    "如果不够",
+                    "若没有",
+                    "若不够",
+                    "不足再",
+                    "不够再",
+                    "没有再",
+                    "找不到再"
+                ],
+                [
+                    "外部技能",
+                    "外部 Skill",
+                    "外部候选",
+                    "headroom"
+                ]
             ],
-            "exclude_any": ["不要搜索外部技能", "不要查找外部 Skill", "不搜索外部技能", "不查找外部 Skill", "不要搜索外部候选"],
-            "overrides_negative_intent": ["本地精选库", "使用现有 Skill", "调用现有 Skill", "使用现有技能", "调用现有技能"]
+            "exclude_any": [
+                "不要搜索外部技能",
+                "不要查找外部 Skill",
+                "不搜索外部技能",
+                "不查找外部 Skill",
+                "不要搜索外部候选"
+            ],
+            "overrides_negative_intent": [
+                "本地精选库",
+                "使用现有 Skill",
+                "调用现有 Skill",
+                "使用现有技能",
+                "调用现有技能"
+            ]
         },
         {
             "id": "continuous-learning-budget",
@@ -64,11 +140,35 @@
             "score": 68,
             "match_scope": "sentence",
             "all_any": [
-                ["古月", "guyue", "agent", "技能系统", "能力体系"],
-                ["长期", "持续", "不断", "自动", "常驻", "周期性"],
-                ["学习", "汲取", "发现问题", "自我提升", "能力演化"]
+                [
+                    "古月",
+                    "guyue",
+                    "agent",
+                    "技能系统",
+                    "能力体系"
+                ],
+                [
+                    "长期",
+                    "持续",
+                    "不断",
+                    "自动",
+                    "常驻",
+                    "周期性"
+                ],
+                [
+                    "学习",
+                    "汲取",
+                    "发现问题",
+                    "自我提升",
+                    "能力演化"
+                ]
             ],
-            "exclude_any": ["学习英语", "学习编程", "学习课程", "个人学习"]
+            "exclude_any": [
+                "学习英语",
+                "学习编程",
+                "学习课程",
+                "个人学习"
+            ]
         },
         {
             "id": "stale-approval-after-change",
@@ -76,11 +176,79 @@
             "canonical_trigger": "方案连续改形",
             "score": 64,
             "all_any": [
-                ["之前批准", "此前批准", "旧批准", "第一轮批准", "第一版已经批准", "上一轮认可", "上一轮推荐", "上一轮模型推荐", "之前同意", "最初同意", "连续三轮都同意", "已经反复确认", "原方案已经批准", "上次你说可以做", "前面确认", "此前结论", "前几轮已经达成一致", "原先同意", "旧方案", "早已通过", "此前定的是", "已连续确认", "之前结论"],
-                ["扩大", "增加", "改成", "改为", "换成", "替换", "新增", "扩展", "变化", "调整", "变为", "迁到", "迁移到", "持久化", "数据库持久化", "写权限", "依赖", "可写生产数据", "跨租户", "写入正式数据库", "正式数据库", "云数据库", "存储"],
-                ["继续", "直接", "沿用", "按原来决定", "照旧", "照原计划", "原计划", "开发", "实现", "实施", "写代码", "开工", "动工", "做吧", "不用重审", "别再核对", "别再审查"]
+                [
+                    "之前批准",
+                    "此前批准",
+                    "旧批准",
+                    "第一轮批准",
+                    "第一版已经批准",
+                    "上一轮认可",
+                    "上一轮推荐",
+                    "上一轮模型推荐",
+                    "之前同意",
+                    "最初同意",
+                    "连续三轮都同意",
+                    "已经反复确认",
+                    "原方案已经批准",
+                    "上次你说可以做",
+                    "前面确认",
+                    "此前结论",
+                    "前几轮已经达成一致",
+                    "原先同意",
+                    "旧方案",
+                    "早已通过",
+                    "此前定的是",
+                    "已连续确认",
+                    "之前结论"
+                ],
+                [
+                    "扩大",
+                    "增加",
+                    "改成",
+                    "改为",
+                    "换成",
+                    "替换",
+                    "新增",
+                    "扩展",
+                    "变化",
+                    "调整",
+                    "变为",
+                    "迁到",
+                    "迁移到",
+                    "持久化",
+                    "数据库持久化",
+                    "写权限",
+                    "依赖",
+                    "可写生产数据",
+                    "跨租户",
+                    "写入正式数据库",
+                    "正式数据库",
+                    "云数据库",
+                    "存储"
+                ],
+                [
+                    "继续",
+                    "直接",
+                    "沿用",
+                    "按原来决定",
+                    "照旧",
+                    "照原计划",
+                    "原计划",
+                    "开发",
+                    "实现",
+                    "实施",
+                    "写代码",
+                    "开工",
+                    "动工",
+                    "做吧",
+                    "不用重审",
+                    "别再核对",
+                    "别再审查"
+                ]
             ],
-            "blocks_routes": ["coding-discipline"]
+            "blocks_routes": [
+                "coding-discipline"
+            ]
         },
         {
             "id": "native-evidence-defeats-candidate",
@@ -88,11 +256,54 @@
             "canonical_trigger": "阻止错误方向进入实现",
             "score": 66,
             "all_any": [
-                ["原生能力", "现有能力", "当前入口", "已有能力", "系统原生", "平台自带", "系统自带", "系统内置", "内置能力", "内置检索", "现有平台"],
-                ["已经解决", "完整解决", "无需新增", "不需要新增", "没有缺口", "前提不成立", "已覆盖需求", "已经覆盖", "可以直接满足", "能满足需求", "满足需求", "已经具备", "已具备"],
-                ["旧批准", "之前批准", "先前批准", "之前结论", "旧结论", "继续", "仍然", "仍想", "还是", "照原计划", "原计划", "自建", "自研", "候选"]
+                [
+                    "原生能力",
+                    "现有能力",
+                    "当前入口",
+                    "已有能力",
+                    "系统原生",
+                    "平台自带",
+                    "系统自带",
+                    "系统内置",
+                    "内置能力",
+                    "内置检索",
+                    "现有平台"
+                ],
+                [
+                    "已经解决",
+                    "完整解决",
+                    "无需新增",
+                    "不需要新增",
+                    "没有缺口",
+                    "前提不成立",
+                    "已覆盖需求",
+                    "已经覆盖",
+                    "可以直接满足",
+                    "能满足需求",
+                    "满足需求",
+                    "已经具备",
+                    "已具备"
+                ],
+                [
+                    "旧批准",
+                    "之前批准",
+                    "先前批准",
+                    "之前结论",
+                    "旧结论",
+                    "继续",
+                    "仍然",
+                    "仍想",
+                    "还是",
+                    "照原计划",
+                    "原计划",
+                    "自建",
+                    "自研",
+                    "候选"
+                ]
             ],
-            "blocks_routes": ["coding-discipline"]
+            "blocks_routes": [
+                "coding-discipline"
+            ]
         },
         {
             "id": "technical-design",
@@ -102,11 +313,57 @@
             "match_scope": "sentence",
             "reject_nested_evidence": true,
             "all_any": [
-                ["技术方案", "系统架构", "架构设计", "模块边界", "服务边界", "领域边界", "模块职责", "服务拆分", "调用链", "数据流", "数据走向", "事实源", "持久化", "权限模型", "权限判断", "数据库设计", "数据库表结构", "表结构", "依赖边界", "自动化控制", "后台常驻", "外部配置中心", "多服务写权限", "前端权限", "后端不校验"],
-                ["设计", "规划", "制定", "评估", "可行", "比较", "选型", "重构", "替换", "改造", "实现", "实施"]
+                [
+                    "技术方案",
+                    "系统架构",
+                    "架构设计",
+                    "模块边界",
+                    "服务边界",
+                    "领域边界",
+                    "模块职责",
+                    "服务拆分",
+                    "调用链",
+                    "数据流",
+                    "数据走向",
+                    "事实源",
+                    "持久化",
+                    "权限模型",
+                    "权限判断",
+                    "数据库设计",
+                    "数据库表结构",
+                    "表结构",
+                    "依赖边界",
+                    "自动化控制",
+                    "后台常驻",
+                    "外部配置中心",
+                    "多服务写权限",
+                    "前端权限",
+                    "后端不校验"
+                ],
+                [
+                    "设计",
+                    "规划",
+                    "制定",
+                    "评估",
+                    "可行",
+                    "比较",
+                    "选型",
+                    "重构",
+                    "替换",
+                    "改造",
+                    "实现",
+                    "实施"
+                ]
             ],
-            "exclude_any": ["按现有架构", "架构和验收已确定", "准确实现范围都已确认", "明确批准 v4 实施"],
-            "blocks_routes": ["coding-discipline"]
+            "exclude_any": [
+                "按现有架构",
+                "架构和验收已确定",
+                "准确实现范围都已确认",
+                "明确批准 v4 实施"
+            ],
+            "blocks_routes": [
+                "coding-discipline"
+            ]
         },
         {
             "id": "approved-bounded-implementation",
@@ -116,10 +373,48 @@
             "match_scope": "sentence",
             "exclude_scope": "document",
             "all_any": [
-                ["已确认", "已经确认", "已批准", "已经批准", "明确批准", "已冻结", "已经冻结", "已定稿", "定版", "已定版", "已经审完", "已审完", "明确授权", "授权开发", "授权实施", "边界明确", "准确版本", "准确实现范围"],
-                ["实现", "开发", "修改", "落地", "编码", "提交", "修复", "完成这处"]
+                [
+                    "已确认",
+                    "已经确认",
+                    "已批准",
+                    "已经批准",
+                    "明确批准",
+                    "已冻结",
+                    "已经冻结",
+                    "已定稿",
+                    "定版",
+                    "已定版",
+                    "已经审完",
+                    "已审完",
+                    "明确授权",
+                    "授权开发",
+                    "授权实施",
+                    "边界明确",
+                    "准确版本",
+                    "准确实现范围"
+                ],
+                [
+                    "实现",
+                    "开发",
+                    "修改",
+                    "落地",
+                    "编码",
+                    "提交",
+                    "修复",
+                    "完成这处"
+                ]
             ],
-            "exclude_any": ["不要实现", "不实施", "暂不实施", "暂不编码", "先分析", "先设计", "只读", "审计", "不要修改"]
+            "exclude_any": [
+                "不要实现",
+                "不实施",
+                "暂不实施",
+                "暂不编码",
+                "先分析",
+                "先设计",
+                "只读",
+                "审计",
+                "不要修改"
+            ]
         },
         {
             "id": "value-feasibility",
@@ -128,8 +423,32 @@
             "score": 44,
             "match_scope": "sentence",
             "all_any": [
-                ["想法", "产品", "功能", "能力", "需求", "改动"],
-                ["值不值得", "是否值得", "值得投入", "要不要投入", "有没有必要", "是否必要", "可不可行", "是否可行", "可行吗", "可行性", "投入产出", "业务价值", "用户价值", "对用户有价值", "收益", "回报"]
+                [
+                    "想法",
+                    "产品",
+                    "功能",
+                    "能力",
+                    "需求",
+                    "改动"
+                ],
+                [
+                    "值不值得",
+                    "是否值得",
+                    "值得投入",
+                    "要不要投入",
+                    "有没有必要",
+                    "是否必要",
+                    "可不可行",
+                    "是否可行",
+                    "可行吗",
+                    "可行性",
+                    "投入产出",
+                    "业务价值",
+                    "用户价值",
+                    "对用户有价值",
+                    "收益",
+                    "回报"
+                ]
             ]
         },
         {
@@ -139,10 +458,39 @@
             "score": 42,
             "match_scope": "sentence",
             "all_any": [
-                ["功能", "能力", "需求", "业务逻辑", "业务流程"],
-                ["边界", "范围", "业务规则", "规则", "验收", "异常流", "异常场景", "使用场景", "需求拆解", "设计"]
+                [
+                    "功能",
+                    "能力",
+                    "需求",
+                    "业务逻辑",
+                    "业务流程"
+                ],
+                [
+                    "边界",
+                    "范围",
+                    "业务规则",
+                    "规则",
+                    "验收",
+                    "异常流",
+                    "异常场景",
+                    "使用场景",
+                    "需求拆解",
+                    "设计"
+                ]
             ],
-            "exclude_any": ["已确认", "已经确认", "已确定", "已经确定", "已批准", "已经批准", "已定", "已冻结", "已经冻结", "已审完", "已经审完"]
+            "exclude_any": [
+                "已确认",
+                "已经确认",
+                "已确定",
+                "已经确定",
+                "已批准",
+                "已经批准",
+                "已定",
+                "已冻结",
+                "已经冻结",
+                "已审完",
+                "已经审完"
+            ]
         },
         {
             "id": "client-only-security-boundary",
@@ -151,12 +499,61 @@
             "score": 62,
             "match_scope": "sentence",
             "all_any": [
-                ["权限校验", "权限", "鉴权", "访问控制", "api", "角色", "租户身份", "租户记录", "用户数据", "敏感数据", "敏感字段", "租户数据", "角色数据"],
-                ["浏览器", "前端", "客户端", "ui"],
-                ["只在浏览器", "只在前端", "服务端全部放行", "服务端不验证", "后端不校验", "不做鉴权", "默认信任", "先发到客户端", "传给浏览器", "全部发到客户端", "全量下发前端", "再根据角色隐藏", "按角色不显示", "再隐藏", "不显示"],
-                ["设计", "可行", "做法", "方案", "实现", "架构", "结构", "能用", "安全", "合理", "风险"]
+                [
+                    "权限校验",
+                    "权限",
+                    "鉴权",
+                    "访问控制",
+                    "api",
+                    "角色",
+                    "租户身份",
+                    "租户记录",
+                    "用户数据",
+                    "敏感数据",
+                    "敏感字段",
+                    "租户数据",
+                    "角色数据"
+                ],
+                [
+                    "浏览器",
+                    "前端",
+                    "客户端",
+                    "ui"
+                ],
+                [
+                    "只在浏览器",
+                    "只在前端",
+                    "服务端全部放行",
+                    "服务端不验证",
+                    "后端不校验",
+                    "不做鉴权",
+                    "默认信任",
+                    "先发到客户端",
+                    "传给浏览器",
+                    "全部发到客户端",
+                    "全量下发前端",
+                    "再根据角色隐藏",
+                    "按角色不显示",
+                    "再隐藏",
+                    "不显示"
+                ],
+                [
+                    "设计",
+                    "可行",
+                    "做法",
+                    "方案",
+                    "实现",
+                    "架构",
+                    "结构",
+                    "能用",
+                    "安全",
+                    "合理",
+                    "风险"
+                ]
             ],
-            "blocks_routes": ["coding-discipline"]
+            "blocks_routes": [
+                "coding-discipline"
+            ]
         }
     ],
     "collaboration_contract": {
@@ -189,12 +586,53 @@
                     "research-and-sourcing"
                 ],
                 "stages": [
-                    {"id": "source", "mode": "as-needed", "skills": ["research-and-sourcing"]},
-                    {"id": "shape", "mode": "sequence", "skills": ["product-sense", "requirement-analysis"]},
-                    {"id": "design", "mode": "as-needed", "skills": ["system-design"]},
-                    {"id": "implement", "mode": "primary-plus-conditional", "skills": ["coding-discipline", "code-minimalism", "frontend-expert", "taste-aesthetics"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "communicate", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
+                    {
+                        "id": "source",
+                        "mode": "as-needed",
+                        "skills": [
+                            "research-and-sourcing"
+                        ]
+                    },
+                    {
+                        "id": "shape",
+                        "mode": "sequence",
+                        "skills": [
+                            "product-sense",
+                            "requirement-analysis"
+                        ]
+                    },
+                    {
+                        "id": "design",
+                        "mode": "as-needed",
+                        "skills": [
+                            "system-design"
+                        ]
+                    },
+                    {
+                        "id": "implement",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "coding-discipline",
+                            "code-minimalism",
+                            "frontend-expert",
+                            "taste-aesthetics"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "communicate",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation",
+                            "human-voice"
+                        ]
+                    }
                 ],
                 "completion_gate": "The approved requirement or product contract is sourced when needed, structurally validated with the reference-driven contract checker, implemented only within authorization, mapped to executable acceptance evidence, independently reviewed without changing the frozen checker, stopped within budget, and reported with known limits and an honest maturity stage."
             },
@@ -210,10 +648,37 @@
                     "debugging-mindset"
                 ],
                 "stages": [
-                    {"id": "diagnose", "mode": "sequence", "skills": ["debugging-mindset"]},
-                    {"id": "repair", "mode": "as-needed", "skills": ["coding-discipline", "code-minimalism"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "retain", "mode": "as-needed", "skills": ["memory-bank", "sop-maker", "documentation"]}
+                    {
+                        "id": "diagnose",
+                        "mode": "sequence",
+                        "skills": [
+                            "debugging-mindset"
+                        ]
+                    },
+                    {
+                        "id": "repair",
+                        "mode": "as-needed",
+                        "skills": [
+                            "coding-discipline",
+                            "code-minimalism"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "retain",
+                        "mode": "as-needed",
+                        "skills": [
+                            "memory-bank",
+                            "sop-maker",
+                            "documentation"
+                        ]
+                    }
                 ],
                 "completion_gate": "The root cause is supported by evidence, the repair is replayed, and prevention is retained only when reusable."
             },
@@ -231,10 +696,41 @@
                     "requirement-analysis"
                 ],
                 "stages": [
-                    {"id": "forge", "mode": "primary-plus-conditional", "skills": ["context-compressor", "product-sense", "requirement-analysis", "research-and-sourcing", "system-design"]},
-                    {"id": "execute", "mode": "sequence", "skills": ["coding-discipline", "code-minimalism"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "seal", "mode": "as-needed", "skills": ["documentation", "sop-maker", "memory-bank"]}
+                    {
+                        "id": "forge",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "context-compressor",
+                            "product-sense",
+                            "requirement-analysis",
+                            "research-and-sourcing",
+                            "system-design"
+                        ]
+                    },
+                    {
+                        "id": "execute",
+                        "mode": "sequence",
+                        "skills": [
+                            "coding-discipline",
+                            "code-minimalism"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "seal",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation",
+                            "sop-maker",
+                            "memory-bank"
+                        ]
+                    }
                 ],
                 "completion_gate": "The control pack, ledger, stop conditions, FINAL evidence, and A/B/C seal all agree on completion."
             },
@@ -258,12 +754,50 @@
                     "system-design"
                 ],
                 "stages": [
-                    {"id": "bound", "mode": "sequence", "skills": ["context-compressor"]},
-                    {"id": "discover", "mode": "as-needed", "skills": ["ecosystem-scout", "research-and-sourcing"]},
-                    {"id": "direction", "mode": "primary-plus-conditional", "skills": ["system-design", "product-sense"]},
-                    {"id": "test-and-place", "mode": "as-needed", "skills": ["skill-crafting"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "retain", "mode": "as-needed", "skills": ["documentation"]}
+                    {
+                        "id": "bound",
+                        "mode": "sequence",
+                        "skills": [
+                            "context-compressor"
+                        ]
+                    },
+                    {
+                        "id": "discover",
+                        "mode": "as-needed",
+                        "skills": [
+                            "ecosystem-scout",
+                            "research-and-sourcing"
+                        ]
+                    },
+                    {
+                        "id": "direction",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "system-design",
+                            "product-sense"
+                        ]
+                    },
+                    {
+                        "id": "test-and-place",
+                        "mode": "as-needed",
+                        "skills": [
+                            "skill-crafting"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "retain",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation"
+                        ]
+                    }
                 ],
                 "completion_gate": "The problem, observed failure, current/native baseline, no-change path, lightest fix, candidate mechanism, disconfirming evidence, blast radius, rollback, exact approval boundary, and consumed direction-evidence budget are explicit before admission level, maturity, minimal placement, critical non-regressions, review date, and retirement; discovery or conversational agreement never authorizes promotion or persistent implementation."
             },
@@ -279,11 +813,42 @@
                     "ecosystem-scout"
                 ],
                 "stages": [
-                    {"id": "need", "mode": "sequence", "skills": ["context-compressor"]},
-                    {"id": "source", "mode": "primary-plus-conditional", "skills": ["ecosystem-scout", "research-and-sourcing"]},
-                    {"id": "trust", "mode": "sequence", "skills": ["security-gate"]},
-                    {"id": "package", "mode": "as-needed", "skills": ["skill-crafting"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                    {
+                        "id": "need",
+                        "mode": "sequence",
+                        "skills": [
+                            "context-compressor"
+                        ]
+                    },
+                    {
+                        "id": "source",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "ecosystem-scout",
+                            "research-and-sourcing"
+                        ]
+                    },
+                    {
+                        "id": "trust",
+                        "mode": "sequence",
+                        "skills": [
+                            "security-gate"
+                        ]
+                    },
+                    {
+                        "id": "package",
+                        "mode": "as-needed",
+                        "skills": [
+                            "skill-crafting"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    }
                 ],
                 "completion_gate": "Source, version, permissions, installation state, safety limits, and action-specific authorization are explicit."
             },
@@ -301,10 +866,35 @@
                     "reality-auditor"
                 ],
                 "stages": [
-                    {"id": "craft", "mode": "sequence", "skills": ["skill-crafting"]},
-                    {"id": "secure", "mode": "sequence", "skills": ["security-gate"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "publishable", "mode": "as-needed", "skills": ["documentation", "human-voice"]}
+                    {
+                        "id": "craft",
+                        "mode": "sequence",
+                        "skills": [
+                            "skill-crafting"
+                        ]
+                    },
+                    {
+                        "id": "secure",
+                        "mode": "sequence",
+                        "skills": [
+                            "security-gate"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "publishable",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation",
+                            "human-voice"
+                        ]
+                    }
                 ],
                 "completion_gate": "The exact payload, live install, public claims, rollback path, and release authorization boundary are verified."
             },
@@ -322,11 +912,44 @@
                     "video-creation-sop"
                 ],
                 "stages": [
-                    {"id": "source", "mode": "primary-plus-conditional", "skills": ["book-distiller", "video-extractor", "research-and-sourcing"]},
-                    {"id": "produce", "mode": "sequence", "skills": ["video-creation-sop"]},
-                    {"id": "measure", "mode": "as-needed", "skills": ["ai-cost-grounding-measurement", "frontend-expert"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "document", "mode": "as-needed", "skills": ["documentation"]}
+                    {
+                        "id": "source",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "book-distiller",
+                            "video-extractor",
+                            "research-and-sourcing"
+                        ]
+                    },
+                    {
+                        "id": "produce",
+                        "mode": "sequence",
+                        "skills": [
+                            "video-creation-sop"
+                        ]
+                    },
+                    {
+                        "id": "measure",
+                        "mode": "as-needed",
+                        "skills": [
+                            "ai-cost-grounding-measurement",
+                            "frontend-expert"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "document",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation"
+                        ]
+                    }
                 ],
                 "completion_gate": "Every source, permission, generated asset, cost claim, render result, and publication state is traceable."
             },
@@ -343,11 +966,45 @@
                     "frontend-expert"
                 ],
                 "stages": [
-                    {"id": "scope", "mode": "primary-plus-conditional", "skills": ["product-sense", "ai-website-cloner"]},
-                    {"id": "design", "mode": "as-needed", "skills": ["system-design"]},
-                    {"id": "implement", "mode": "primary-plus-conditional", "skills": ["frontend-expert", "static-demo-hardening", "coding-discipline", "code-minimalism"]},
-                    {"id": "taste", "mode": "independent", "skills": ["taste-aesthetics"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                    {
+                        "id": "scope",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "product-sense",
+                            "ai-website-cloner"
+                        ]
+                    },
+                    {
+                        "id": "design",
+                        "mode": "as-needed",
+                        "skills": [
+                            "system-design"
+                        ]
+                    },
+                    {
+                        "id": "implement",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "frontend-expert",
+                            "static-demo-hardening",
+                            "coding-discipline",
+                            "code-minimalism"
+                        ]
+                    },
+                    {
+                        "id": "taste",
+                        "mode": "independent",
+                        "skills": [
+                            "taste-aesthetics"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    }
                 ],
                 "completion_gate": "The approved source scope, responsive rendering, interaction, content fidelity, and non-infringement boundaries pass live review."
             },
@@ -364,10 +1021,36 @@
                     "ecosystem-scout"
                 ],
                 "stages": [
-                    {"id": "shortlist", "mode": "primary-plus-conditional", "skills": ["software-advisor", "research-and-sourcing", "ecosystem-scout"]},
-                    {"id": "trust", "mode": "as-needed", "skills": ["security-gate"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]},
-                    {"id": "communicate", "mode": "as-needed", "skills": ["documentation"]}
+                    {
+                        "id": "shortlist",
+                        "mode": "primary-plus-conditional",
+                        "skills": [
+                            "software-advisor",
+                            "research-and-sourcing",
+                            "ecosystem-scout"
+                        ]
+                    },
+                    {
+                        "id": "trust",
+                        "mode": "as-needed",
+                        "skills": [
+                            "security-gate"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    },
+                    {
+                        "id": "communicate",
+                        "mode": "as-needed",
+                        "skills": [
+                            "documentation"
+                        ]
+                    }
                 ],
                 "completion_gate": "Recommendation evidence is current, tradeoffs are explicit, and installation is separately authorized and verified."
             },
@@ -388,11 +1071,42 @@
                     "cognitive-expansion"
                 ],
                 "stages": [
-                    {"id": "map", "mode": "sequence", "skills": ["cognitive-expansion"]},
-                    {"id": "source", "mode": "as-needed", "skills": ["research-and-sourcing"]},
-                    {"id": "budget", "mode": "as-needed", "skills": ["context-compressor"]},
-                    {"id": "apply", "mode": "as-needed", "skills": ["requirement-analysis", "system-design"]},
-                    {"id": "verify", "mode": "independent", "skills": ["reality-auditor"]}
+                    {
+                        "id": "map",
+                        "mode": "sequence",
+                        "skills": [
+                            "cognitive-expansion"
+                        ]
+                    },
+                    {
+                        "id": "source",
+                        "mode": "as-needed",
+                        "skills": [
+                            "research-and-sourcing"
+                        ]
+                    },
+                    {
+                        "id": "budget",
+                        "mode": "as-needed",
+                        "skills": [
+                            "context-compressor"
+                        ]
+                    },
+                    {
+                        "id": "apply",
+                        "mode": "as-needed",
+                        "skills": [
+                            "requirement-analysis",
+                            "system-design"
+                        ]
+                    },
+                    {
+                        "id": "verify",
+                        "mode": "independent",
+                        "skills": [
+                            "reality-auditor"
+                        ]
+                    }
                 ],
                 "completion_gate": "The map, evidence states, contradiction/unknown ledger, downstream handoff, and stop reason agree."
             }
@@ -1409,6 +2123,27 @@
                 "仅需修改PPT样式"
             ],
             "description": "Create or refresh an evidence-based, business-readable project or requirement sharing pack: a web PPT, an independent Markdown solution document, verified screenshots, and optional Feishu Drive publishing.",
+            "root_exposure": "explicit",
+            "evidence_profile": "E2-change",
+            "activation_policy": "model-or-explicit",
+            "live_canary_required": true
+        },
+        {
+            "name": "follow-up-report",
+            "path": "skills/follow-up-report/SKILL.md",
+            "routing_priority": 39,
+            "trigger_intent": [
+                "生成跟进汇报",
+                "跟进汇报",
+                "跟进记录",
+                "客户跟进汇报",
+                "整理跟进信息"
+            ],
+            "negative_intent": [
+                "仅写SOP操作教程",
+                "仅生成周报"
+            ],
+            "description": "Transform scattered client communication logs and information into a standard follow-up report with explicit format, and actively ask for missing key info.",
             "root_exposure": "explicit",
             "evidence_profile": "E2-change",
             "activation_policy": "model-or-explicit",
