@@ -126,6 +126,8 @@ Frontmatter description 要短而有区分度，因为运行时通常在启动�
 
 ## 七、学习型升级晋级门
 
+写作风格蒸馏实验可按明确意图查阅 [候选参考](references/writing-style-distillation.md)；尚未证明净增益，不作为默认制作或写作流程。
+
 学习型升级必须同时给出“准入级别、成熟度、最小落位”，并遵守：
 
 1. **根和原则极少晋级**：只有跨领域、长期稳定、经 L4 独立复核的方法才进入根或 `GUYUE_PRINCIPLES.md`；领域方法留在领域 Skill，重型知识留在 `references/`。

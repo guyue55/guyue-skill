@@ -718,6 +718,10 @@
       "sha256": "8412b7be217ac5a2629820a63df9f8a585c1bf0efedd04a32bc83c581396388a"
     },
     {
+      "path": "evals/evidence/artifacts/writing-style-pilot-2026-10-10.json",
+      "sha256": "49a2830cb8ad7746f663a1793bd3e80c1e6ca4bedb26c6b8bfca12fa1f2d9204"
+    },
+    {
       "path": "evals/evidence/capability-evidence-profile-replay-2026-07-13.json",
       "sha256": "53f810a8b311a575c4fdaf32af741b39c9e40a7a42f734a0291703eef5c97754"
     },
@@ -756,6 +760,10 @@
     {
       "path": "evals/evidence/new-user-six-question-audit-2026-07-12.md",
       "sha256": "bbaaf7aef39f1bd9e4002ea036f18dec20fdd2039ba9e18e375e15adc70b9d02"
+    },
+    {
+      "path": "evals/evidence/writing-style-pilot-2026-10-10.md",
+      "sha256": "a8cfa2de7fe4b2d782162941208f9671324c2df6a0af22e7a37afd39a30203dd"
     },
     {
       "path": "evals/observations-2026-07-10.json",
@@ -1074,6 +1082,10 @@
       "sha256": "6725498da0c4b89b11cf2bbcaf3522289c76da43f1792292016b16eefec20718"
     },
     {
+      "path": "skills/follow-up-report/SKILL.md",
+      "sha256": "87955ff6236f28cc92b24bf29a153f94cd67b1df07f258731ecc4990d33df94d"
+    },
+    {
       "path": "skills/frontend-expert/SKILL.md",
       "sha256": "42ec190bc7aa369fdbac7ea3dfac3bef71e527fed17768ebfa4fe18ee4fb36d6"
     },
@@ -1159,7 +1171,11 @@
     },
     {
       "path": "skills/skill-crafting/SKILL.md",
-      "sha256": "84485df671c2119bd2f560e4df4f173bea716b8e40596e73e84b47503b413ba7"
+      "sha256": "eff5e2a7c4f44b0dcc891d8132186c5ee62054429d665f94e344f6b2ef9b0253"
+    },
+    {
+      "path": "skills/skill-crafting/references/writing-style-distillation.md",
+      "sha256": "1bdedea927d7b697440b658511b49fd8bb51b66081c400ebdc33718c7bb6344c"
     },
     {
       "path": "skills/software-advisor/SKILL.md",
@@ -1227,7 +1243,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "57822b79bb2fce70452704cf71a5bda1d6223f51abbb10d8939e96bc6b42c96a"
+      "sha256": "2f6045238919c9b397ea5c1b60566ecddee9519896edc70efb7fd22ffb73116d"
     },
     {
       "path": "src/context_budget.py",
