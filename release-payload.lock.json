@@ -23,7 +23,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "5b2257e0f7843844e017d55e9f5ddd75b10b9a76ff7d7b6ad65fcaf9ffbd7ad8"
+      "sha256": "8d17b080b4b429a48d6e2c6e5c63b72432a046fc9da2fce6403fad062789a985"
     },
     {
       "path": "SKILL.md",
@@ -207,7 +207,7 @@
     },
     {
       "path": "docs/installation.md",
-      "sha256": "09001eb84dadca82f9af659e93d248e2318967d9bdae6b5e51fd64ab70365004"
+      "sha256": "6c9dfba1c623cd6720b4d899b3e2eb47a2dae2a9b497bae24d2d48eb8790fb86"
     },
     {
       "path": "docs/last30days-skill-intake-2026-07-28.md",
@@ -227,7 +227,7 @@
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "ca393868463c92accc8f0c7128e5ff442064da11cb028bb268f28e76e55fb44c"
+      "sha256": "48f6bcdbe77ae42a343fcec54c7be6636c3ab01501ba6dbc77fb111fa74f27d4"
     },
     {
       "path": "docs/release-v1.6.0.md",
@@ -279,7 +279,7 @@
     },
     {
       "path": "evals/capability-near-misses.json",
-      "sha256": "e9850037cfc70d7aaa6dd8cf0e011577e752933557632df93d13f99fdb53f4b6"
+      "sha256": "5dd1068f18be3ac485560dfac349c89e8d3bef42bc27811f287c085e91c63c85"
     },
     {
       "path": "evals/capability-output-quality.json",
@@ -287,7 +287,7 @@
     },
     {
       "path": "evals/capability-routing.json",
-      "sha256": "649625ba95bb1da7e4d23e11e7dadbf42cdb185be27199ff1a68fe3f72082c6f"
+      "sha256": "24ed6f1271a7734926e9a236cdc85641a183c59f4908626cc5bf0b5a2b7e240a"
     },
     {
       "path": "evals/evidence/aesthetic-review-2026-07-02.md",
@@ -863,7 +863,7 @@
     },
     {
       "path": "scripts/ci_validate_skills.py",
-      "sha256": "6338b381a25b559a931dec058abff192f9c2e9cb0850bbc71a341cb798dcf527"
+      "sha256": "ada5616bc55116ef5ed31b281f7ecf6d9df565813e53cb17b9bda8e2b25ef724"
     },
     {
       "path": "scripts/claude_extractor.py",
@@ -991,7 +991,7 @@
     },
     {
       "path": "scripts/test_release_payload.py",
-      "sha256": "97246e76316f24aea2d216e53983cfcd58408ba24442c9b1be6a74756c395569"
+      "sha256": "e6dc5cd174a2696a55a0f309bd68c9dbfd0caaabe5cec96b3d2c0926d6d847ea"
     },
     {
       "path": "scripts/test_security_scanners.py",
@@ -1083,7 +1083,7 @@
     },
     {
       "path": "skills/follow-up-report/SKILL.md",
-      "sha256": "87955ff6236f28cc92b24bf29a153f94cd67b1df07f258731ecc4990d33df94d"
+      "sha256": "391036a973de86d95c36d299b1b206110da1beb607e86893cc1785cc4df0d707"
     },
     {
       "path": "skills/frontend-expert/SKILL.md",
@@ -1271,7 +1271,7 @@
     },
     {
       "path": "src/release_payload.py",
-      "sha256": "8f4e81a8196e19c97385e52ffba923312b21e58bc090c3c3263459d43c4154b1"
+      "sha256": "8da54a70ad8a0bc523d435d08e010842d2931fd5b9345c18e4c92d6515554cca"
     },
     {
       "path": "src/skill_router.py",
@@ -1279,7 +1279,7 @@
     },
     {
       "path": "test-prompts.json",
-      "sha256": "238c17e14176d7073a35cb371ae76ed7d17eefed9c4092947c5458ad1a0ada65"
+      "sha256": "bc2424ec3da5290dce88aede723b126fadae56d6f47dc09cfc838fd7756039a4"
     }
   ]
 }

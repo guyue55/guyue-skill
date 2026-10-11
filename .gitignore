@@ -6,6 +6,7 @@ references/research/*
 !references/research/16-ecosystem-study-2026-q2.md
 
 # Python
+.venv/
 __pycache__/
 *.py[cod]
 *$py.class

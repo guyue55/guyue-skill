@@ -3,6 +3,19 @@
   "minimum_per_skill": 8,
   "cases": [
     {
+      "skill": "follow-up-report",
+      "prompts": [
+        "仅生成周报，不是客户跟进汇报",
+        "仅写SOP操作教程，不整理跟进记录",
+        "给订单模块写一份 README",
+        "把这段技术说明改得更自然",
+        "排查回调接口的 500 错误",
+        "设计客户管理系统的权限模型",
+        "评估新功能是否值得投入开发",
+        "扫描第三方 Skill 的安全风险"
+      ]
+    },
+    {
       "skill": "sop-maker",
       "prompts": [
         "给订单模块写一份 README",

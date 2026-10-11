@@ -9,13 +9,14 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.dont_write_bytecode = True
 
-from src.release_payload import verify_payload  # noqa: E402
+from src.release_payload import is_export_ignored, verify_payload  # noqa: E402
 from scripts.build_release_lock import candidate_paths  # noqa: E402
 
 
@@ -55,6 +56,12 @@ def main() -> int:
         if verify_payload(root, profile="install", runtime="generic"):
             raise AssertionError("matching payload must pass")
 
+        git_pointer = root / ".git"
+        git_pointer.write_text("gitdir: unavailable-worktree-metadata\n", encoding="utf-8")
+        if verify_payload(root, profile="install", runtime="generic"):
+            raise AssertionError("worktree Git pointer must remain outside payload checks")
+        git_pointer.unlink()
+
         payload.write_text("tampered\n", encoding="utf-8")
         errors = verify_payload(root, profile="install", runtime="generic")
         if "payload.txt (sha256 mismatch)" not in errors:
@@ -75,6 +82,30 @@ def main() -> int:
         errors = verify_payload(root, profile="install", runtime="generic")
         if errors:
             raise AssertionError("local .worktrees content must be ignored")
+
+        environment_file = root / ".venv" / "lib" / "dependency.py"
+        environment_file.parent.mkdir(parents=True)
+        environment_file.write_text("local environment\n", encoding="utf-8")
+        errors = verify_payload(root, profile="install", runtime="generic")
+        if ".venv/lib/dependency.py (not declared in payload lock)" not in errors:
+            raise AssertionError("undeclared environment in an installed package must fail")
+
+        subprocess.run(["git", "init", "--quiet", str(root)], check=True)
+        (root / ".gitattributes").write_text(
+            ".gitattributes export-ignore\n.venv export-ignore\n.venv/** export-ignore\n",
+            encoding="utf-8",
+        )
+        with patch("src.release_payload.is_export_ignored", wraps=is_export_ignored) as export_check:
+            if verify_payload(root, profile="install", runtime="generic"):
+                raise AssertionError("explicitly export-ignored development environment must pass")
+            if any(call.args[1].startswith(".venv/") for call in export_check.call_args_list):
+                raise AssertionError("excluded environment must not incur per-file Git probes")
+        payload.write_text("tampered\n", encoding="utf-8")
+        if "payload.txt (sha256 mismatch)" not in verify_payload(
+            root, profile="install", runtime="generic"
+        ):
+            raise AssertionError("environment exclusion must not hide payload tampering")
+        payload.write_text("verified\n", encoding="utf-8")
 
         release_source = root / "release-source"
         release_source.mkdir()

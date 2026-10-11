@@ -1,5 +1,20 @@
 [
   {
+    "name": "Trigger Follow-Up Report",
+    "prompt": "整理客户跟进汇报：示例客户，2026年10月10日；回调接口联调通过，真实业务数据测试还没开始。客户负责确认测试时间，我方负责提供接口文档。只在会话中输出。",
+    "expected_behavior": "Should trigger `follow-up-report`. Preserve the supplied client, date, callback integration result, pending real-data testing and both owners. Use the bold title and the three required sections: 一、主要沟通内容; 二、当前阶段; 三、待办. Do not upgrade integration success to full acceptance, invent dates or commitments, save files, write memory or send the report."
+  },
+  {
+    "name": "Follow-Up Report Missing Evidence Boundary",
+    "prompt": "生成跟进汇报：对方说还要再试一次。客户名称、汇报日期和负责人都没有提供，请不要猜。",
+    "expected_behavior": "Should trigger `follow-up-report` and ask for missing client identity, report date and essential progress context before producing a complete report. Keep unspecified owners unknown or ask for clarification. Do not infer that testing passed, assign an arbitrary owner, use the current date as a supplied date or persist the conversation."
+  },
+  {
+    "name": "Follow-Up Report Weekly Report Near Miss",
+    "prompt": "仅生成周报，不是客户跟进汇报。汇总本周个人完成的三项工作，不整理客户沟通。",
+    "expected_behavior": "Must not select `follow-up-report` merely because the user mentioned 客户跟进汇报 while explicitly excluding it. Follow the requested weekly report scope without imposing the client-report template or inventing a client."
+  },
+  {
     "name": "Trigger Root Orchestrator (Implicit)",
     "prompt": "我们要新加一个积分商城功能，你直接帮我把前后端代码写好。",
     "expected_behavior": "Should trigger guyue root skill, which intercepts the naive request. The root should realize this is a vague new feature request and route it to `requirement-analysis`; it should use `research-and-sourcing` only if an unstable, unfamiliar, high-stakes, explicitly requested, or decision-critical external fact remains. It must clarify boundaries before code generation."

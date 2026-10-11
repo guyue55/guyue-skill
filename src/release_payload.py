@@ -5,6 +5,7 @@ from __future__ import annotations
 import fnmatch
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -115,22 +116,28 @@ def verify_payload(root: Path, *, profile: str, runtime: str) -> list[str]:
         elif file_sha256(path) != item["sha256"]:
             errors.append(f"{rel_path} (sha256 mismatch)")
 
-    for path in root.rglob("*"):
-        if not path.is_file():
-            continue
-        rel_path = path.relative_to(root).as_posix()
-        rel_parts = path.relative_to(root).parts
-        if ".git" in rel_parts or ".worktrees" in rel_parts:
-            continue
-        if rel_path in expected_paths or is_export_ignored(root, rel_path):
-            continue
-        if any(
-            fnmatch.fnmatch(rel_path, pattern)
-            for pattern in manifest.get("forbidden_patterns", [])
-        ):
-            errors.append(f"{rel_path} (forbidden payload path)")
-        else:
-            errors.append(f"{rel_path} (not declared in payload lock)")
+    # 只剪枝明确排除的开发环境，避免逐个第三方文件启动 Git；安装包仍执行精确校验。
+    skip_environment = is_export_ignored(root, ".venv")
+    for directory, dirs, files in os.walk(root):
+        dirs[:] = [name for name in dirs if name not in {".git", ".worktrees"}]
+        if Path(directory) == root and skip_environment:
+            dirs[:] = [name for name in dirs if name != ".venv"]
+        for filename in files:
+            if filename in {".git", ".worktrees"}:
+                continue
+            path = Path(directory) / filename
+            if not path.is_file():
+                continue
+            rel_path = path.relative_to(root).as_posix()
+            if rel_path in expected_paths or is_export_ignored(root, rel_path):
+                continue
+            if any(
+                fnmatch.fnmatch(rel_path, pattern)
+                for pattern in manifest.get("forbidden_patterns", [])
+            ):
+                errors.append(f"{rel_path} (forbidden payload path)")
+            else:
+                errors.append(f"{rel_path} (not declared in payload lock)")
     return sorted(set(errors))
 
 

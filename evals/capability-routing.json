@@ -1,6 +1,9 @@
 {
   "schema_version": 1,
   "cases": [
+    {"id":"follow-up-report-positive","prompt_name":"Trigger Follow-Up Report","expected_routes":["follow-up-report"],"forbidden_routes":[],"expected_primary":"follow-up-report"},
+    {"id":"follow-up-report-missing-evidence","prompt_name":"Follow-Up Report Missing Evidence Boundary","expected_routes":["follow-up-report"],"forbidden_routes":[]},
+    {"id":"follow-up-report-weekly-near-miss","prompt_name":"Follow-Up Report Weekly Report Near Miss","expected_routes":[],"forbidden_routes":["follow-up-report"]},
     {"id":"root-orchestrator-implicit","prompt_name":"Trigger Root Orchestrator (Implicit)","expected_routes":["requirement-analysis"],"forbidden_routes":["coding-discipline"]},
     {"id":"root-persona-dna","prompt_name":"Trigger Guyue Persona DNA","expected_routes":[],"forbidden_routes":[]},
     {"id":"debugging-active-500","prompt_name":"Trigger Debugging Mindset","expected_routes":["debugging-mindset"],"forbidden_routes":["coding-discipline"]},

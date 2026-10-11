@@ -18,9 +18,13 @@ The command reads the full-package receipt, route manifest, project-context gate
 From the repository root:
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
 python3 scripts/install_guyue.py
 bash scripts/test_suite.sh
 ```
+
+The local `.venv` is excluded from Git, source archives, and development source checks. Activate it again in each new terminal before running verification. The installed dependency versions are governed by `requirements.txt`; do not replace the pinned Ruff version with an arbitrary global installation.
 
 This installs the small validation/runtime dependency set, prints a dry-run plan for optional enhancement skills from `skills_manifest.json`, runs the dependency doctor, then runs the zero-leakage scanner, SKILL.md validator, MCP tests, and test prompt evaluator. The default command does not download or link third-party skills.
 

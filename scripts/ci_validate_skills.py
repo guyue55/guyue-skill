@@ -22,7 +22,7 @@ ALLOWED_SKILL_FRONTMATTER_FIELDS = {
     'allowed-tools',
 }
 SKILL_NAME_PATTERN = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
-LOCAL_ONLY_DIRS = {'.git', '.worktrees', '__pycache__'}
+LOCAL_ONLY_DIRS = {'.git', '.worktrees', '.venv', '__pycache__'}
 
 def check_json(file_path):
     try:
