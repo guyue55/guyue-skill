@@ -59,6 +59,14 @@ Use this mode when the claim is that a simple product goal was converted into a 
 - Enforce the declared maximum rounds, minutes and subtasks. A failed stop or escalation condition blocks further autonomous looping.
 - Keep maturity claims stage-specific: contract-ready, vertical slice, MVP, release candidate and production-ready are distinct. Structural validation cannot promote a delivery between them.
 
+## Duration Estimates
+
+- Estimate only the remaining wall-clock work for the stated scope, and choose the lowest band the evidence supports. Do not reserve time for hypothetical retries.
+- `1-3 min`: local read-only tracing or review in one checkout, with no full build, full test suite, install, authenticated workflow, or fresh live probe.
+- `3-10 min`: a few focused commands or tests, or one bounded live read-only probe across a limited set of services; no full rebuild or broad multi-service verification.
+- `10+ min`: name the concrete long pole, such as a clean build, full install/test cycle, multiple authenticated services, external calls likely to wait, or repeated reruns. If none apply, do not default to `10-20 min`.
+- Update the estimate once only when scope or a blocker materially changes. After work ends, report measured elapsed time separately and identify its timestamp source.
+
 ## Standard Workflow
 
 1. Read the repo entry instructions, then `git status --short`.
