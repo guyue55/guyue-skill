@@ -2134,16 +2134,20 @@
             "routing_priority": 39,
             "trigger_intent": [
                 "生成跟进汇报",
+                "制作跟进记录",
                 "跟进汇报",
                 "跟进记录",
                 "客户跟进汇报",
-                "整理跟进信息"
+                "整理跟进信息",
+                "客户跟进记录",
+                "CRM跟进记录",
+                "整理客户跟进汇报"
             ],
             "negative_intent": [
                 "仅写SOP操作教程",
                 "仅生成周报"
             ],
-            "description": "Transform scattered client communication logs and information into a standard follow-up report with explicit format, and actively ask for missing key info.",
+            "description": "Distill scattered client logs, meeting transcripts, or project directory docs into a 15-30s scannable, business-oriented follow-up record (progress/bottleneck/next steps) with strategic reflection plus-factors (FDE reuse value, ROI lessons, compliance warnings, resource coordination).",
             "root_exposure": "explicit",
             "evidence_profile": "E2-change",
             "activation_policy": "model-or-explicit",

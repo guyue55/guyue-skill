@@ -131,6 +131,7 @@ When the candidate comes from an external project, popular concept, or previous 
 | 从书、长文、方法论提炼技能结构 | `book-distiller` | 不是摘要写作，也不是直接创建项目文档 |
 | 整理零散多天日报/记录、生成工程周报与红绿灯项目脉搏看板、增量补充 | `work-pulse-distiller` | 不是普通文档撰写，也不是单一排障；专门用于研发与业务周报萃取与管理层红绿灯看板 |
 | 制作可分享的对外演示 PPT、方案文档与飞书发布包 | `project-share-pack` | 不是单一 README 或 PRD，而是包含可交互演示与独立方案的对外分享包 |
+| 将零散客户沟通、会议纪要或项目目录材料提炼为 15-30 秒极速扫读、去技术堆砌、含项目视角（当前进度/卡点/下一步）与反思加分项（价值/教训/收获/警示）的跟进记录或客户汇报 | `follow-up-report` | 不是个人周报（用 `work-pulse-distiller`），也不是操作 SOP；聚焦业务与商务边界、痛点收敛、FDE 复用价值/ROI 止损思考与三元下一步闭环 |
 
 ### 合并与升级纪律
 
