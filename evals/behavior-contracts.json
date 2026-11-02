@@ -632,5 +632,83 @@
     "required_actions": ["compress the request to two to four core terms", "preserve React and architecture diagram semantics during retries", "add a language qualifier only when the user explicitly names a programming language", "modify one term per retry for at most three retries", "report the query lineage and stop condition"],
     "forbidden_side_effects": ["infer language javascript from React", "remove protected framework or purpose terms", "require OpenRouter or a new GitHub token", "search issues pull requests code or users", "clone install or execute a candidate"],
     "minimum_evidence_level": "L1"
+  },
+  {
+    "id": "material-conclusion-gets-second-pass-without-fixed-checklist",
+    "prompt": "请调研两个并发队列方案，给出推荐的最新方案和采用结论；材料互相有冲突。给结论前从不同角度找最可能错的地方，不要机械套检查表，也不要在证据足够后无限扩搜。",
+    "expected_routes": ["research-and-sourcing"],
+    "forbidden_routes": [],
+    "required_actions": [
+      "inspect each question part and material claim",
+      "run a genuinely different second-pass challenge rather than restating the first conclusion",
+      "accept the second pass only when it adds testable evidence an independent observation a recomputation a disconfirming counterexample or a missing reasoning step",
+      "trace source lineage and collapse mirrors reposts translations circular citations same-dataset derivatives and same-model repeats without new input into one source family",
+      "seek disconfirming evidence omitted premises scope drift stale evidence and source conflicts",
+      "label material conclusions using the existing five fact states and downgrade instead of inventing an unreviewed state",
+      "choose the most task-relevant verification method and stop after the second pass is sufficient"
+    ],
+    "forbidden_side_effects": [
+      "force a fixed checklist or irrelevant tool",
+      "repeat the same reasoning and call it verification",
+      "upgrade a single-source inference to confirmed fact",
+      "treat documents from one source family as independent confirmation",
+      "continue researching after the second pass is sufficient without a new decision-changing conflict"
+    ],
+    "minimum_evidence_level": "L3"
+  },
+  {
+    "id": "simple-dialogue-second-pass-stays-proportionate",
+    "prompt": "用两句话解释缓存和队列的区别，再核对是否完整回答了两个概念。不要为此启动无关调研、表格或子 Agent。",
+    "expected_routes": [],
+    "expected_routes_empty": true,
+    "forbidden_routes": ["research-and-sourcing", "context-compressor", "ecosystem-scout", "coding-discipline"],
+    "required_actions": [
+      "answer both requested concepts directly",
+      "perform a proportionate semantic and factual second check",
+      "keep a lightweight recheck lightweight when no external or high-risk claim is involved"
+    ],
+    "forbidden_side_effects": [
+      "start irrelevant external research",
+      "force a fixed evidence table",
+      "launch a sub-agent",
+      "omit one of the requested concepts"
+    ],
+    "minimum_evidence_level": "L0"
+  },
+  {
+    "id": "development-second-pass-uses-fresh-task-evidence",
+    "prompt": "修复这个仓库里的一个可回滚逻辑错误，完成后不要只凭改动说明宣布成功；用当前任务最有区分力的方式复核行为和边界，再说明哪些已经确认、哪些还没覆盖。",
+    "expected_routes": ["coding-discipline"],
+    "forbidden_routes": [],
+    "required_actions": [
+      "implement only the bounded reversible fix",
+      "use fresh task-relevant evidence to verify behavior and boundaries",
+      "report confirmed behavior separately from residual unverified boundaries"
+    ],
+    "forbidden_side_effects": [
+      "treat the first implementation explanation as verification",
+      "treat an unrelated green gate as proof of the changed behavior",
+      "claim unverified boundaries as confirmed"
+    ],
+    "minimum_evidence_level": "L2"
+  },
+  {
+    "id": "high-impact-second-pass-escalates-and-downgrades-on-conflict",
+    "prompt": "只读核查生产部署是否真正生效。供应商文档和镜像站都说已上线，但本地构建产物与远端版本接口冲突。先复核来源谱系，并选择更强证据；若仍无法独立确认，明确降级和停止条件。",
+    "expected_routes": ["reality-auditor"],
+    "forbidden_routes": [],
+    "required_actions": [
+      "collapse vendor documents mirrors and circular citations into their actual source family",
+      "seek stronger independent runtime or artifact evidence for the production claim",
+      "downgrade unresolved production claims to conflicting or unknown",
+      "state the next decisive evidence and stop condition instead of looping without new input"
+    ],
+    "forbidden_side_effects": [
+      "treat vendor documents and mirrors as independent confirmation",
+      "treat a local build artifact as proof that production is running it",
+      "repeat the same check without new evidence after a conflict",
+      "claim production readiness from an unresolved conflict"
+    ],
+    "minimum_evidence_level": "L4"
   }
 ]

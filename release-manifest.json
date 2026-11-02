@@ -50,6 +50,7 @@
         "evals/capability-near-misses.json",
         "evals/capability-live-canaries.json",
         "evals/capability-output-quality.json",
+        "evals/second-pass-guidance-snapshot.json",
         "evals/evidence/capability-live-canaries-2026-07-30.json",
         "evals/evidence/capability-evidence-profile-replay-2026-07-13.json",
         "evals/evidence/capability-output-quality-2026-07-30.json",
@@ -63,6 +64,7 @@
         "scripts/test_local_skill_discovery.py",
         "scripts/test_memory_concurrency.py",
         "scripts/test_memory_migration.py",
+        "scripts/test_claim_verification_guidance.py",
         "scripts/test_release_payload.py",
         "scripts/test_single_entrypoint_contract.py",
         "scripts/test_mcp_server.py"

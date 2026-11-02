@@ -123,6 +123,10 @@
     {"id":"skill-ownership-no-rtk","prompt_name":"Skill Ownership - Missing RTK Is Not A Blocker","expected_primary":"skill-crafting","expected_routes":["skill-crafting"],"forbidden_routes":[]},
     {"id":"project-share-pack-trigger","prompt_name":"Trigger Project Share Pack","expected_primary":"project-share-pack","expected_routes":["project-share-pack"],"forbidden_routes":[]},
     {"id":"work-pulse-distiller-trigger","prompt_name":"Trigger Work Pulse Distiller","expected_primary":"work-pulse-distiller","expected_routes":["work-pulse-distiller"],"forbidden_routes":[]},
-    {"id":"work-pulse-distiller-direct-record","prompt_name":"Trigger Work Pulse Distiller Direct Record","expected_primary":"work-pulse-distiller","expected_routes":["work-pulse-distiller"],"forbidden_routes":[]}
+    {"id":"work-pulse-distiller-direct-record","prompt_name":"Trigger Work Pulse Distiller Direct Record","expected_primary":"work-pulse-distiller","expected_routes":["work-pulse-distiller"],"forbidden_routes":[]},
+    {"id":"second-pass-conflicting-research","prompt_name":"Second-Pass Review Challenges Conflicting Research","expected_primary":"research-and-sourcing","expected_routes":["research-and-sourcing"],"forbidden_routes":[]},
+    {"id":"second-pass-simple-dialogue","prompt_name":"Second-Pass Review Stays Proportionate In Simple Dialogue","expected_routes":[],"expected_routes_empty":true,"forbidden_routes":["research-and-sourcing","context-compressor","ecosystem-scout","coding-discipline"]},
+    {"id":"second-pass-development","prompt_name":"Second-Pass Review In Development Uses Fresh Evidence","expected_primary":"coding-discipline","expected_routes":["coding-discipline"],"forbidden_routes":[]},
+    {"id":"second-pass-high-risk-conflict","prompt_name":"Second-Pass Review Escalates High-Risk Conflict","expected_primary":"reality-auditor","expected_routes":["reality-auditor"],"forbidden_routes":[]}
   ]
 }

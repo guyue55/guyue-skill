@@ -62,7 +62,8 @@ Base tag: `v1.7.1`
 
 ## Verification
 
-- [ ] Current deterministic contract contains 123 structural prompts; update this count whenever `test-prompts.json` changes.
+- [ ] Current deterministic contract contains 127 structural prompts; update this count whenever `test-prompts.json` changes.
+- [ ] Any change to the core-doctrine digest in `evals/second-pass-guidance-snapshot.json` was reviewed by someone other than the author before `--update`.
 - [ ] `python3 scripts/security_scanner.py` passes.
 - [ ] `python3 scripts/doctor.py` passes.
 - [ ] `python3 scripts/ci_validate_skills.py` passes.

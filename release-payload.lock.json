@@ -15,7 +15,7 @@
     },
     {
       "path": "GUYUE_PRINCIPLES.md",
-      "sha256": "6d11a1ce3cd29a33307fa24689af2bc0315c4b8e00006f4266effae031b0cf7b"
+      "sha256": "702e1906a54102ee3fd68175c2b16648e184ccc09bbfc57acdbc108aadffbd2c"
     },
     {
       "path": "LICENSE",
@@ -23,11 +23,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "8d17b080b4b429a48d6e2c6e5c63b72432a046fc9da2fce6403fad062789a985"
+      "sha256": "2441d6538aa81fa447064a2e8dc41517955fcd600f6bf2e053cf04ef859f4393"
     },
     {
       "path": "SKILL.md",
-      "sha256": "5da445b71d307171d88850df0bb7fa25e44c01947b25bb06c5a51346853cfe5d"
+      "sha256": "2952be5479f6647a01a78a632b52f71dbbdf74e2fbe331507a970eaec830e2b9"
     },
     {
       "path": "assets/demo.gif",
@@ -39,7 +39,7 @@
     },
     {
       "path": "docs/evaluation.md",
-      "sha256": "88858adfcecf9e587476d56d35f31f8a1cc08d9ba8345830b7cf8702365a1fc2"
+      "sha256": "3a3c2426f4f75069136bcc2189fe4914a0f17c33821858d38ae27d03071d62c0"
     },
     {
       "path": "docs/goals/reference-driven-product-engineering/evidence/artifacts/act-004-entry-repair-evidence.json",
@@ -227,7 +227,7 @@
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "48f6bcdbe77ae42a343fcec54c7be6636c3ab01501ba6dbc77fb111fa74f27d4"
+      "sha256": "b36243a6d5f33d55ece9c54a275f7851d8ec58952061222c370ab48cff4f602a"
     },
     {
       "path": "docs/release-v1.6.0.md",
@@ -267,7 +267,7 @@
     },
     {
       "path": "evals/behavior-contracts.json",
-      "sha256": "077448c451475e7ac299eab1b87bc6223c79755fe2f9af2487201b085016b90a"
+      "sha256": "4330d504320fe2cdc724aacee8e3e4c25921e99ae7d8ff7891d4b22cff026000"
     },
     {
       "path": "evals/capability-collaboration.json",
@@ -287,7 +287,7 @@
     },
     {
       "path": "evals/capability-routing.json",
-      "sha256": "24ed6f1271a7734926e9a236cdc85641a183c59f4908626cc5bf0b5a2b7e240a"
+      "sha256": "38b446d78a8669220505cfedb06aadab3b60dbcea68ac67220f169da0b07c1b8"
     },
     {
       "path": "evals/evidence/aesthetic-review-2026-07-02.md",
@@ -774,6 +774,10 @@
       "sha256": "67f0081c426736139f572150990342622a4a8670f565af984106b64e28107681"
     },
     {
+      "path": "evals/second-pass-guidance-snapshot.json",
+      "sha256": "01180139047000a4224f2d6ee53a4831ca345f084b34b6973a97c739d8a4980a"
+    },
+    {
       "path": "examples/quickstart-output.md",
       "sha256": "42d5fdf8a755b3d6075fac078f412fa3680bbad011aca6dfce4505b716bd55a4"
     },
@@ -811,7 +815,7 @@
     },
     {
       "path": "release-manifest.json",
-      "sha256": "825fa3efaff108e76c66181121d21dc71eb310abcb3df23e3a1bfcbee7f612d7"
+      "sha256": "2982a75b984a88f5ec87c3aaeb1d85f6fabb5cf9c3e10f6096c1d3c12a15d8de"
     },
     {
       "path": "requirements.txt",
@@ -835,7 +839,7 @@
     },
     {
       "path": "scripts/check_behavior_replay.py",
-      "sha256": "b83d05812eb5444dca5a4f841bb31e84ab77a71413f7c943f9a4c5fb28a1104f"
+      "sha256": "6c3fb6b9210034515d6b2824bea033a7d15dda54378737d28946b07830f5ff04"
     },
     {
       "path": "scripts/check_birth_certificate.py",
@@ -843,7 +847,7 @@
     },
     {
       "path": "scripts/check_capability_chain.py",
-      "sha256": "f8581f370b86a93edff6f41e49d50d3e05138103c502a410a7c1fb8782fd419f"
+      "sha256": "17acec4625da92468b0487e900417abb3e2a25bd3037a374859e7b119632517b"
     },
     {
       "path": "scripts/check_context_budget.py",
@@ -923,7 +927,7 @@
     },
     {
       "path": "scripts/run_eval.py",
-      "sha256": "255f65ed38e17c1c43370ff4b50c840449dd1ae3c9f8ce578ee8c59e274484a3"
+      "sha256": "cbd97ce6d19253a6d3397cd4d2951ea730f9823b50cb8aa68e700012834bf295"
     },
     {
       "path": "scripts/run_security_scan.py",
@@ -948,6 +952,10 @@
     {
       "path": "scripts/test_capability_runner_paths.py",
       "sha256": "a131c64d69e160800e198b165892a00e74b1c54dd6e9ad96877fc43c5d1c14bd"
+    },
+    {
+      "path": "scripts/test_claim_verification_guidance.py",
+      "sha256": "e51b94552b555bc638c9d06d0d272b46137a73033e6a4fc73c68762c8b3b4443"
     },
     {
       "path": "scripts/test_codex_extractor.py",
@@ -1003,11 +1011,11 @@
     },
     {
       "path": "scripts/test_skill_router.py",
-      "sha256": "78166dac47162c3ac6a91353da042f74e4aa80462ea7e7f92a3ee4685b9b7624"
+      "sha256": "d2f04c2483bc9db07dcd603df9d84d6d53e83f4768998cc03dba68154cd37c6a"
     },
     {
       "path": "scripts/test_suite.sh",
-      "sha256": "8fac929c345e7e56f94144cac14ce43eff9ee2ea6388180e27a8c0768ebbde80"
+      "sha256": "0a3edc229ed76cfee431a8ab810faf5d00fc51ec3de3826c957a6bd30875d675"
     },
     {
       "path": "scripts/test_try_guyue.py",
@@ -1083,7 +1091,11 @@
     },
     {
       "path": "skills/follow-up-report/SKILL.md",
-      "sha256": "391036a973de86d95c36d299b1b206110da1beb607e86893cc1785cc4df0d707"
+      "sha256": "aa5f6198370ca535764dced45a1243af380f09cede01b930ef147629efeaa8ac"
+    },
+    {
+      "path": "skills/follow-up-report/scripts/test_follow_up_report.py",
+      "sha256": "820a284b80fc65ad549e81c1423adcf18aa500f02f18931076a259db16a5c890"
     },
     {
       "path": "skills/frontend-expert/SKILL.md",
@@ -1243,7 +1255,7 @@
     },
     {
       "path": "skills_manifest.json",
-      "sha256": "2f6045238919c9b397ea5c1b60566ecddee9519896edc70efb7fd22ffb73116d"
+      "sha256": "a39664235f272d20fc53f21705c550a6bda06972b74585d72cbca9d65f434c6c"
     },
     {
       "path": "src/context_budget.py",
@@ -1279,7 +1291,7 @@
     },
     {
       "path": "test-prompts.json",
-      "sha256": "bc2424ec3da5290dce88aede723b126fadae56d6f47dc09cfc838fd7756039a4"
+      "sha256": "a0a26f2722537d066e2ea2eb491b44797a6e009a36d7be4935bbd58be855cf98"
     }
   ]
 }

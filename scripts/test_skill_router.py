@@ -51,6 +51,11 @@ def main() -> int:
             forbidden.isdisjoint(selected),
             f"{contract['id']} selected a forbidden route: {selected}",
         )
+        if contract.get("expected_routes_empty"):
+            require(
+                not selected,
+                f"{contract['id']} expected no selected route: {selected}",
+            )
         expected_external = set(contract.get("expected_external_candidates", []))
         external_candidates = {
             item["name"] for item in result["external_candidates"]

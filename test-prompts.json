@@ -613,5 +613,25 @@
     "name": "Trigger Work Pulse Distiller Direct Record",
     "prompt": "生成周报 + 记录：\n1. AI 视频平台Demo：完成模型配置重构与视觉优化\n2. FlowOps工单流转系统：打通飞书机器人问答并优化RAG参数\n3. 自动化创建GCP项目：支持根据账单名定义项目id",
     "expected_behavior": "Should trigger `work-pulse-distiller`. The agent must instantly process raw daily records, extract project entities, synthesize weekly progress and next week plan, and render executive pulse status board."
+  },
+  {
+    "name": "Second-Pass Review Challenges Conflicting Research",
+    "prompt": "请调研两个并发队列方案，给出推荐的最新方案和采用结论；材料互相有冲突。给结论前从不同角度找最可能错的地方，不要机械套检查表，也不要在证据足够后无限扩搜。",
+    "expected_behavior": "Should trigger `research-and-sourcing` and complete a genuine second-pass challenge rather than restating the first answer. The second pass must add a discriminating basis such as testable evidence, an independent observation, a recomputation, a disconfirming counterexample, or a missing reasoning step; merely changing wording or viewpoint is insufficient. It must trace source lineage and treat mirrors, reposts, translations, circular citations, same-dataset derivatives and same-model repeats without new input as one source family rather than independent confirmation. It should actively look for source conflicts, omitted premises, scope drift and stale evidence; use whatever verification method is most discriminative for the task; preserve the existing five fact states; and stop once the second pass is sufficient unless new evidence changes the decision."
+  },
+  {
+    "name": "Second-Pass Review Stays Proportionate In Simple Dialogue",
+    "prompt": "用两句话解释缓存和队列的区别，再核对是否完整回答了两个概念。不要为此启动无关调研、表格或子 Agent。",
+    "expected_behavior": "Should answer both concepts directly, then perform a quick semantic and factual second check that every requested part is covered and no material claim drifted. It must keep the review proportionate and must not force external research, a fixed evidence table or a sub-agent when a lightweight recheck is sufficient."
+  },
+  {
+    "name": "Second-Pass Review In Development Uses Fresh Evidence",
+    "prompt": "修复这个仓库里的一个可回滚逻辑错误，完成后不要只凭改动说明宣布成功；用当前任务最有区分力的方式复核行为和边界，再说明哪些已经确认、哪些还没覆盖。",
+    "expected_behavior": "Should route through `coding-discipline`, implement the bounded fix, and verify it with fresh task-relevant evidence rather than treating the first explanation or an unrelated green check as confirmation. The agent may choose targeted tests, runtime execution, diff inspection, reproduction or another stronger check appropriate to the change; it should report confirmed behavior and residual unverified boundaries without overclaiming."
+  },
+  {
+    "name": "Second-Pass Review Escalates High-Risk Conflict",
+    "prompt": "只读核查生产部署是否真正生效。供应商文档和镜像站都说已上线，但本地构建产物与远端版本接口冲突。先复核来源谱系，并选择更强证据；若仍无法独立确认，明确降级和停止条件。",
+    "expected_behavior": "Should route through `reality-auditor` and treat vendor documents, mirrors and circular citations as one source family rather than independent confirmation. It should seek stronger runtime or artifact evidence for the production claim, preserve the local-build versus remote-runtime conflict, downgrade unresolved claims to conflicting or unknown, and name the next decisive evidence and stop condition instead of repeating the same check without new input."
   }
 ]

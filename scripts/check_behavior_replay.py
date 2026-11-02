@@ -102,6 +102,11 @@ def validate_observations(
             errors.append(
                 f"{contract_id}: observed forbidden routes: {', '.join(sorted(forbidden))}"
             )
+        if contract.get("expected_routes_empty") and observed_routes:
+            errors.append(
+                f"{contract_id}: expected no observed routes: "
+                + ", ".join(sorted(observed_routes))
+            )
         if missing := required_actions - observed_actions:
             errors.append(
                 f"{contract_id}: missing required actions: {', '.join(sorted(missing))}"

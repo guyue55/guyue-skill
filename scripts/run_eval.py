@@ -154,12 +154,24 @@ def main() -> int:
                     + ", ".join(sorted(unknown))
                 )
             route_sets[field] = normalized
+        expected_routes_empty = raw_contract.get("expected_routes_empty", False)
+        if not isinstance(expected_routes_empty, bool):
+            errors.append(
+                f"behavior contract '{contract_id or index}' field "
+                "'expected_routes_empty' must be boolean"
+            )
+            expected_routes_empty = False
 
         overlap = route_sets.get("expected_routes", set()) & route_sets.get("forbidden_routes", set())
         if overlap:
             errors.append(
                 f"behavior contract '{contract_id or index}' expects and forbids: "
                 + ", ".join(sorted(overlap))
+            )
+        if expected_routes_empty and route_sets["expected_routes"]:
+            errors.append(
+                f"behavior contract '{contract_id or index}' expected_routes_empty "
+                "requires an empty expected_routes list"
             )
 
         for field in ("required_actions", "forbidden_side_effects"):
@@ -231,6 +243,7 @@ def main() -> int:
                 forbidden = route_sets.get("forbidden_routes", set())
                 missing_expected = expected - selected
                 selected_forbidden = forbidden & selected
+                unexpected_selection = expected_routes_empty and selected
                 actual_external = {
                     normalize_skill_name(str(item.get("name", "")))
                     for item in decision["external_candidates"]
@@ -262,11 +275,18 @@ def main() -> int:
                         f"lifecycle {expected_lifecycle}, got "
                         f"{decision['lifecycle_state']}"
                     )
+                if unexpected_selection:
+                    errors.append(
+                        f"behavior contract '{contract_id or index}' expected no "
+                        "selected route: "
+                        + ", ".join(sorted(selected))
+                    )
                 if (
                     not missing_expected
                     and not selected_forbidden
                     and not missing_external
                     and not lifecycle_mismatch
+                    and not unexpected_selection
                 ):
                     deterministic_routes_passed += 1
 
@@ -336,11 +356,23 @@ def main() -> int:
                     + ", ".join(sorted(unknown))
                 )
             route_sets[field] = normalized
+        expected_routes_empty = raw_case.get("expected_routes_empty", False)
+        if not isinstance(expected_routes_empty, bool):
+            errors.append(
+                f"capability route case '{case_label}' field "
+                "'expected_routes_empty' must be boolean"
+            )
+            expected_routes_empty = False
         overlap = route_sets["expected_routes"] & route_sets["forbidden_routes"]
         if overlap:
             errors.append(
                 f"capability route case '{case_label}' expects and forbids: "
                 + ", ".join(sorted(overlap))
+            )
+        if expected_routes_empty and route_sets["expected_routes"]:
+            errors.append(
+                f"capability route case '{case_label}' expected_routes_empty "
+                "requires an empty expected_routes list"
             )
         expected_primary = normalize_skill_name(
             str(raw_case.get("expected_primary", "")).strip()
@@ -376,6 +408,7 @@ def main() -> int:
             expected_primary
             and (not selected_order or selected_order[0] != expected_primary)
         )
+        unexpected_selection = expected_routes_empty and selected
         if missing_expected:
             errors.append(
                 f"capability route case '{case_label}' missed expected routes: "
@@ -392,7 +425,17 @@ def main() -> int:
                 f"capability route case '{case_label}' expected primary "
                 f"{expected_primary}, got {actual_primary}"
             )
-        if not missing_expected and not selected_forbidden and not primary_mismatch:
+        if unexpected_selection:
+            errors.append(
+                f"capability route case '{case_label}' expected no selected route: "
+                + ", ".join(sorted(selected))
+            )
+        if (
+            not missing_expected
+            and not selected_forbidden
+            and not primary_mismatch
+            and not unexpected_selection
+        ):
             capability_routes_passed += 1
 
     unbound_prompts = set(prompts_by_name) - capability_prompt_names

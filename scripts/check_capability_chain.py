@@ -228,6 +228,7 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
             continue
         expected = set(case.get("expected_routes", []))
         forbidden = set(case.get("forbidden_routes", []))
+        expected_routes_empty = case.get("expected_routes_empty", False)
         expected_primary = str(case.get("expected_primary", "")).strip()
         unknown = (expected | forbidden | ({expected_primary} if expected_primary else set())) - skill_names
         if unknown:
@@ -238,6 +239,12 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
             continue
         if expected_primary and expected_primary not in expected:
             errors.append(f"{case_id} expected_primary must also be expected")
+            continue
+        if not isinstance(expected_routes_empty, bool):
+            errors.append(f"{case_id} expected_routes_empty must be boolean")
+            continue
+        if expected_routes_empty and (expected or expected_primary):
+            errors.append(f"{case_id} expected_routes_empty excludes expected routes")
             continue
         decision = resolve_routes(manifest, str(prompt.get("prompt", "")), limit=8)
         selected_order = [
@@ -250,6 +257,7 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
             expected_primary
             and (not selected_order or selected_order[0] != expected_primary)
         )
+        unexpected_selection = expected_routes_empty and selected
         if missing:
             errors.append(f"{case_id} missed expected routes: {sorted(missing)}")
         if leaked:
@@ -259,7 +267,9 @@ def build_receipt(root: Path = ROOT) -> dict[str, object]:
             errors.append(
                 f"{case_id} expected primary {expected_primary}, got {actual_primary}"
             )
-        if not missing and not leaked and not primary_mismatch:
+        if unexpected_selection:
+            errors.append(f"{case_id} expected no selected route: {sorted(selected)}")
+        if not missing and not leaked and not primary_mismatch and not unexpected_selection:
             route_passed += 1
 
     unbound = set(prompts_by_name) - bound_prompt_names
