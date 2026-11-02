@@ -43,3 +43,6 @@ node_modules/** export-ignore
 
 # Preserve byte-exact model outputs, including Markdown hard-break spaces.
 evals/evidence/artifacts/**/*.output.md whitespace=-blank-at-eol
+
+# Agent workspace metadata (repo-local, not shipped).
+.workbuddy/** export-ignore
