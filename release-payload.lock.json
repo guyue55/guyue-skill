@@ -202,6 +202,10 @@
       "sha256": "d11f0533f00893c3bb110a3bbb63d4fbc72f71e2336ce86f1c86af90c6ae4189"
     },
     {
+      "path": "docs/guyue-second-pass-gate-decision-2026-11-02.md",
+      "sha256": "4a90673f76a476249eb232fcb0fbfac055bf6ed60ca24fa4ccfb4a4a43983033"
+    },
+    {
       "path": "docs/guyue-upgrade-audit-2026-07-10.md",
       "sha256": "8090cfd487b337fe54d742f1884eb398a9aaac205fb5e3976d60fa8a9683246d"
     },
@@ -227,7 +231,7 @@
     },
     {
       "path": "docs/release-checklist.md",
-      "sha256": "b36243a6d5f33d55ece9c54a275f7851d8ec58952061222c370ab48cff4f602a"
+      "sha256": "6e723fe9d5dea02760fce7122d7782a44c895feee2a4b173c1cb2d339384483b"
     },
     {
       "path": "docs/release-v1.6.0.md",
